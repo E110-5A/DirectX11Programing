@@ -16,6 +16,21 @@
     <ClInclude Include="jsGraphicDevice_DX11.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="jsTime.h">
+      <Filter>Time</Filter>
+    </ClInclude>
+    <ClInclude Include="jsInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="jsResource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="jsResources.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="jsEntity.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -26,6 +41,21 @@
     </ClCompile>
     <ClCompile Include="jsGraphicDevice_DX11.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTime.cpp">
+      <Filter>Time</Filter>
+    </ClCompile>
+    <ClCompile Include="jsInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="jsResource.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="jsResources.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="jsEntity.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

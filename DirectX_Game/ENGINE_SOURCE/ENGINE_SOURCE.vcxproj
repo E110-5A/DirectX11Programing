@@ -22,13 +22,23 @@
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsEngine.h" />
+    <ClInclude Include="jsEntity.h" />
     <ClInclude Include="jsGraphicDevice_DX11.h" />
+    <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsMath.h" />
+    <ClInclude Include="jsResource.h" />
+    <ClInclude Include="jsResources.h" />
+    <ClInclude Include="jsTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp" />
+    <ClCompile Include="jsEntity.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
+    <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsMath.cpp" />
+    <ClCompile Include="jsResource.cpp" />
+    <ClCompile Include="jsResources.cpp" />
+    <ClCompile Include="jsTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl" />

@@ -1,5 +1,9 @@
 #pragma once
-class Application
-{
-};
 
+
+namespace js
+{
+	class Application
+	{
+	};
+}
