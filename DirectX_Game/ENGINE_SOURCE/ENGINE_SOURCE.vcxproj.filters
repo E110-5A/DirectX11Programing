@@ -1,18 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="jsApplication.h" />
-    <ClInclude Include="jsGraphicDevice_DX11.h" />
-    <ClInclude Include="jsMath.h" />
-    <ClInclude Include="CommonInclude.h" />
-    <ClInclude Include="jsEngine.h" />
+    <ClInclude Include="jsMath.h">
+      <Filter>Common\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="jsApplication.h">
+      <Filter>High Level Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonInclude.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="jsEngine.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="jsGraphicDevice_DX11.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jsApplication.cpp" />
-    <ClCompile Include="jsGraphicDevice_DX11.cpp" />
-    <ClCompile Include="jsMath.cpp" />
+    <ClCompile Include="jsMath.cpp">
+      <Filter>Common\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="jsApplication.cpp">
+      <Filter>High Level Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="jsGraphicDevice_DX11.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="jsMath.inl" />
+    <Filter Include="Time">
+      <UniqueIdentifier>{d88fa733-715c-4f29-8338-075b66d6aaca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{e4353c70-1998-494c-aa6e-5c53af930680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{9371c302-ab61-4287-a334-a47e5fd0740b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{311dc0f4-efcd-4b36-99e3-dcb36df53965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{3358abd3-1ef1-4310-8107-b74d360359bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Math">
+      <UniqueIdentifier>{1203bb86-70cc-440d-9028-2dc346be954b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="High Level Interface">
+      <UniqueIdentifier>{96051da7-b678-47fa-bcea-d382b093f33e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jsMath.inl">
+      <Filter>Common\Math</Filter>
+    </None>
   </ItemGroup>
 </Project>
