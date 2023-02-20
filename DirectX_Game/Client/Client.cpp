@@ -1,14 +1,19 @@
 ﻿#include "framework.h"
 #include "Client.h"
+#include "jsApplication.h"
+
+#ifdef _DEBUG
+#pragma comment(lib, "..\\x64\\Debug\\Lib\\ENGINE_SOURCE.lib")
+#else
+#pragma comment(lib, "..\\x64\\Release\\Lib\\ENGINE_SOURCE.lib")
+#endif
 
 #define MAX_LOADSTRING 100
 
-#include "ENGINE_SOURCE/jsApplication.h"
-
-// 전역 변수:
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
+js::Application application;
 
 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -24,9 +29,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_CLIENT, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
-
-
-
 
 
 
@@ -57,6 +59,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             // 게임 로직
+            application.Run();
         }
     }
 
@@ -92,19 +95,24 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 
 
 
-
+#define Width 1600
+#define Height 900
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance;
 
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+      CW_USEDEFAULT, 0, Width, Height, nullptr, nullptr, hInstance, nullptr);
+
 
    if (!hWnd)
    {
       return FALSE;
    }
+
+   application.SetWindow(hWnd, Width, Height);
+   application.Initialize();
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);

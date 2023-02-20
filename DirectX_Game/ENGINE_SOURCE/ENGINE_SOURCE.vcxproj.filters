@@ -31,6 +31,9 @@
     <ClInclude Include="jsEntity.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="jsGraphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
