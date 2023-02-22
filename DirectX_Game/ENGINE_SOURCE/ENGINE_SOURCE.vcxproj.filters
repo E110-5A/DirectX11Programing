@@ -34,6 +34,9 @@
     <ClInclude Include="jsGraphics.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="jsRenderer.h">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -60,6 +63,9 @@
     <ClCompile Include="jsEntity.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="jsRenderer.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -82,6 +88,9 @@
     </Filter>
     <Filter Include="High Level Interface">
       <UniqueIdentifier>{96051da7-b678-47fa-bcea-d382b093f33e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{2de9c5e6-0bd7-4e85-ade2-91301aab7164}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

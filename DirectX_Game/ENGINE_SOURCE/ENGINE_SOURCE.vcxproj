@@ -27,6 +27,7 @@
     <ClInclude Include="jsGraphics.h" />
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsMath.h" />
+    <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
     <ClInclude Include="jsTime.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsMath.cpp" />
+    <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />
     <ClCompile Include="jsTime.cpp" />
@@ -49,7 +51,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{c953108a-d4c3-4545-91f2-4961f0cb1926}</ProjectGuid>
     <RootNamespace>ENGINESOURCE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

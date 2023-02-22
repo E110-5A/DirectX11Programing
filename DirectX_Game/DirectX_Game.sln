@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ENGINE_SOURCE", "ENGINE_SOURCE\ENGINE_SOURCE.vcxproj", "{C953108A-D4C3-4545-91F2-4961F0CB1926}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SHADER_SOURCE", "SHADER_SOURCE\SHADER_SOURCE.vcxitems", "{CD6F63AA-460A-498F-A00A-31E4F2B38C02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
