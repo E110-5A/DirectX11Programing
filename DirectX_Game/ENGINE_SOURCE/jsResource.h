@@ -11,14 +11,14 @@ namespace js
 
 		virtual HRESULT Load(const std::wstring& strPath) = 0;
 
-		const std::wstring& GetKey() { return mStrKey; }
-		const std::wstring& GetPath() { return mStrPath; }
+		const std::wstring& GetKey() { return mKey; }
+		const std::wstring& GetPath() { return mPath; }
 
-		void SetKey(const std::wstring& strKey) { mStrKey = strKey; }
-		void SetPath(const std::wstring& strPath) { mStrPath = strPath; }
+		void SetKey(const std::wstring& strKey) { mKey = strKey; }
+		void SetPath(const std::wstring& strPath) { mPath = strPath; }
 
 	private:
-		std::wstring mStrKey;
-		std::wstring mStrPath;
+		std::wstring mKey;
+		std::wstring mPath;
 	};
 }

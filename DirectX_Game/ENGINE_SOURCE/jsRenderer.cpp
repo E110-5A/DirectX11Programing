@@ -1,23 +1,22 @@
 #include "jsRenderer.h"
+#include "jsResources.h"
 
 namespace js::renderer
 {	
 	Vertex vertexes[Rect_Vertex] = {};
-		
-	ID3DBlob* errorBlob = nullptr;
-	ID3D11Buffer* triangleBuffer = nullptr;
-	ID3D11Buffer* triangleIndexBuffer = nullptr;
-	ID3D11Buffer* triangleConstantBuffer = nullptr;
+	
+	Mesh* mesh = nullptr;
 
-
-
-	ID3DBlob* triangleVSBlob = nullptr;
-	ID3D11VertexShader* triangleVS = nullptr;
-		
-	ID3DBlob* trianglePSBlob = nullptr;
-	ID3D11PixelShader* trianglePS = nullptr;
-		
-	ID3D11InputLayout* triangleLayout = nullptr;
+	Microsoft::WRL::ComPtr<ID3DBlob>			errorBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Buffer>		triangleConstantBuffer = nullptr;
+	
+	Microsoft::WRL::ComPtr<ID3DBlob>			triangleVSBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11VertexShader>	triangleVS = nullptr;
+	
+	Microsoft::WRL::ComPtr<ID3DBlob>			trianglePSBlob = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11PixelShader>	trianglePS = nullptr;
+	
+	Microsoft::WRL::ComPtr<ID3D11InputLayout>	triangleLayout = nullptr;
 
 	void SetUpState()
 	{
@@ -46,19 +45,10 @@ namespace js::renderer
 
 	void LoadBuffer()
 	{
-		D3D11_BUFFER_DESC triangleDesc = {};
-		triangleDesc.ByteWidth = sizeof(Vertex) * Rect_Vertex;
-		triangleDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-		triangleDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+		mesh = new Mesh();
+		Resources::Insert<Mesh>(L"RectMesh", mesh);
 
-		D3D11_SUBRESOURCE_DATA triangleData = {};
-		triangleData.pSysMem = vertexes;
-
-		GetDevice()->CreateBuffer(&triangleDesc, &triangleData, &triangleBuffer);
-
-
-
+		mesh->CreateVertexBuffer(vertexes, 4);
 
 
 		std::vector<UINT> indexes;
@@ -70,17 +60,7 @@ namespace js::renderer
 		indexes.push_back(2);
 		indexes.push_back(3);
 
-		D3D11_BUFFER_DESC indexDesc = {};
-		indexDesc.ByteWidth = indexes.size() * sizeof(UINT);
-		indexDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-		indexDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
-		indexDesc.CPUAccessFlags = 0;
-
-		D3D11_SUBRESOURCE_DATA indexData = {};
-		indexData.pSysMem = indexes.data();
-
-		GetDevice()->CreateBuffer(&indexDesc, &indexData, &triangleIndexBuffer);
-
+		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 
 
@@ -91,10 +71,10 @@ namespace js::renderer
 		constantDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
 		constantDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 				
-		GetDevice()->CreateBuffer(&constantDesc, nullptr, &triangleConstantBuffer);
+		GetDevice()->CreateBuffer(&constantDesc, nullptr, triangleConstantBuffer.GetAddressOf());
 
 		Vector4 testConstant(0.2f, 0.2f, 0.f, 0.f);
-		GetDevice()->BindConstantBuffer(triangleConstantBuffer, &testConstant, sizeof(Vector4));
+		GetDevice()->BindConstantBuffer(triangleConstantBuffer.Get(), &testConstant, sizeof(Vector4));
 	}
 
 	void LoadShader()
@@ -122,18 +102,8 @@ namespace js::renderer
 	}
 
 	void Release()
-	{
-		triangleBuffer->Release();
-
-		triangleIndexBuffer->Release();
-		triangleConstantBuffer->Release();
-
-		triangleVSBlob->Release();
-		triangleVS->Release();
-
-		trianglePSBlob->Release();
-		trianglePS->Release();
-
-		triangleLayout->Release();
+	{		
+		delete mesh;
+		mesh = nullptr;
 	}
 }

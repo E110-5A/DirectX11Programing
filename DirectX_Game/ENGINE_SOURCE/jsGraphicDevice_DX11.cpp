@@ -1,6 +1,7 @@
 #include "jsGraphicDevice_DX11.h"
 #include "jsApplication.h"
 #include "jsRenderer.h"
+#include "jsMesh.h"
 
 extern js::Application application;
 
@@ -132,7 +133,7 @@ namespace js::graphics
 		std::wstring vsPath(shaderPath.c_str());
 		vsPath += L"TriangleVS.hlsl";
 		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "Triangle_VS", "vs_5_0", 0, 0, &renderer::triangleVSBlob, &errorBlob);
+			, "Triangle_VS", "vs_5_0", 0, 0, renderer::triangleVSBlob.GetAddressOf(), &errorBlob);
 		
 		if (errorBlob)
 		{
@@ -143,7 +144,7 @@ namespace js::graphics
 
 		mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
 			, renderer::triangleVSBlob->GetBufferSize()
-			, nullptr, &renderer::triangleVS);
+			, nullptr, renderer::triangleVS.GetAddressOf());
 
 		if (errorBlob)
 		{
@@ -155,7 +156,7 @@ namespace js::graphics
 		std::wstring psPath(shaderPath.c_str());
 		psPath += L"TrianglePS.hlsl";
 		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "Triangle_PS", "ps_5_0", 0, 0, &renderer::trianglePSBlob, &errorBlob);
+			, "Triangle_PS", "ps_5_0", 0, 0, renderer::trianglePSBlob.GetAddressOf(), &errorBlob);
 
 		if (errorBlob)
 		{
@@ -166,7 +167,7 @@ namespace js::graphics
 
 		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
 			, renderer::trianglePSBlob->GetBufferSize()
-			, nullptr, &renderer::trianglePS);
+			, nullptr, renderer::trianglePS.GetAddressOf());
 
 		if (errorBlob)
 		{
@@ -176,6 +177,16 @@ namespace js::graphics
 		}
 
 		return true;
+	}
+
+	void GraphicDevice_DX11::BindVertexBuffer(UINT startSlot, UINT numBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets)
+	{
+		mContext->IASetVertexBuffers(startSlot, numBuffers, ppVertexBuffers, pStrides, pOffsets);
+	}
+
+	void GraphicDevice_DX11::BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT format, UINT offset)
+	{
+		mContext->IASetIndexBuffer(pIndexBuffer, format, offset);
 	}
 
 	void GraphicDevice_DX11::BindViewports(D3D11_VIEWPORT* viewPort)
@@ -218,44 +229,54 @@ namespace js::graphics
 		}
 	}
 
-	void GraphicDevice_DX11::Draw()
+	void GraphicDevice_DX11::Clear()
 	{
-		// Binds
-		D3D11_MAPPED_SUBRESOURCE sub = {};
-		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
-		memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * Rect_Vertex);
-		mContext->Unmap(renderer::triangleBuffer, 0);
-
-
-		// Clear
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	}
 
-
-		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer);
-
-		// Viewports, RenderTarget
+	void GraphicDevice_DX11::AdjustViewPorts()
+	{
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.0f, 0.0f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.0f, 1.0f };
 		BindViewports(&mViewPort);
 		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+	}
+
+	void GraphicDevice_DX11::Draw()
+	{
+		mContext->Draw(0, 0);		
+	}
+	void GraphicDevice_DX11::DrawIndexed(UINT indexCount, UINT startIndexLocation, UINT baseVertexLocation)
+	{
+		mContext->DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
+
+	}
+	void GraphicDevice_DX11::Present()
+	{
+		mSwapChain->Present(0, 0);
+	}
+	void GraphicDevice_DX11::Render()
+	{
+		Clear();
+
+		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
+
+		AdjustViewPorts();
+
+		renderer::mesh->BindBuffer();
 
 		// Input Assembeler
-		UINT vertexSize = sizeof(renderer::Vertex);
-		UINT offset = 0;
-		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
-		mContext->IASetIndexBuffer(renderer::triangleIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		mContext->IASetInputLayout(renderer::triangleLayout);
+		mContext->IASetInputLayout(renderer::triangleLayout.Get());
 		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// Shader
-		mContext->VSSetShader(renderer::triangleVS, 0, 0);
-		mContext->PSSetShader(renderer::trianglePS, 0, 0);
+		mContext->VSSetShader(renderer::triangleVS.Get(), 0, 0);
+		mContext->PSSetShader(renderer::trianglePS.Get(), 0, 0);
 
-
-		mContext->DrawIndexed(6, 0, 0);				
-		mSwapChain->Present(0, 0);
+		renderer::mesh->Render();
+		Present();
 	}
 }

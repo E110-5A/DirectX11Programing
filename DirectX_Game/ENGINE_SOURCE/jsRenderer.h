@@ -3,6 +3,8 @@
 #include "jsMath.h"
 #include "jsGraphicDevice_DX11.h"
 
+#include "jsMesh.h"
+
 using namespace js::math;
 using namespace js::graphics;
 
@@ -22,24 +24,20 @@ namespace js::renderer
 	extern Vertex vertexes[Rect_Vertex];
 
 	
-	//버텍스 버퍼
-	extern ID3D11Buffer* triangleBuffer;
-	extern ID3DBlob* errorBlob;
-	extern ID3D11Buffer* triangleIndexBuffer;
-	extern ID3D11Buffer* triangleConstantBuffer;
+	// mesh
+	extern Mesh* mesh;
 
-
-
-	// 버텍스 셰이더
-	extern ID3DBlob* triangleVSBlob;
-	extern ID3D11VertexShader* triangleVS;
-
-	// 픽셀 셰이더
-	extern ID3DBlob* trianglePSBlob;
-	extern ID3D11PixelShader* trianglePS;
+	extern Microsoft::WRL::ComPtr<ID3DBlob>				errorBlob;
+	extern Microsoft::WRL::ComPtr<ID3D11Buffer>			triangleConstantBuffer;
+	
+	// shader
+	extern Microsoft::WRL::ComPtr<ID3DBlob>				triangleVSBlob;
+	extern Microsoft::WRL::ComPtr<ID3D11VertexShader>	triangleVS;
+	extern Microsoft::WRL::ComPtr<ID3DBlob>				trianglePSBlob;
+	extern Microsoft::WRL::ComPtr<ID3D11PixelShader>	trianglePS;
 
 	// input layout
-	extern ID3D11InputLayout* triangleLayout;
+	extern Microsoft::WRL::ComPtr<ID3D11InputLayout>	triangleLayout;
 
 	void Initialize();
 	void Release();

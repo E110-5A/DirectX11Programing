@@ -22,12 +22,6 @@
     <ClInclude Include="jsInput.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="jsResource.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="jsResources.h">
-      <Filter>Resource</Filter>
-    </ClInclude>
     <ClInclude Include="jsEntity.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -55,6 +49,15 @@
     <ClInclude Include="jsSceneManager.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="jsResources.h">
+      <Filter>Resource\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsResource.h">
+      <Filter>Resource\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsMesh.h">
+      <Filter>Resource\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -71,12 +74,6 @@
     </ClCompile>
     <ClCompile Include="jsInput.cpp">
       <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="jsResource.cpp">
-      <Filter>Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="jsResources.cpp">
-      <Filter>Resource</Filter>
     </ClCompile>
     <ClCompile Include="jsEntity.cpp">
       <Filter>Common</Filter>
@@ -98,6 +95,15 @@
     </ClCompile>
     <ClCompile Include="jsSceneManager.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jsResource.cpp">
+      <Filter>Resource\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsResources.cpp">
+      <Filter>Resource\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsMesh.cpp">
+      <Filter>Resource\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +139,18 @@
     </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{652f766b-757b-4696-8125-bef0c85594d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Base">
+      <UniqueIdentifier>{d7b3570d-6b81-49b9-8ee3-b5a14442b107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Mesh">
+      <UniqueIdentifier>{05e2d287-ff93-47a5-9d03-cd8885632213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Shader">
+      <UniqueIdentifier>{839f9732-377f-413e-ae99-0449dc1253ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Material">
+      <UniqueIdentifier>{ab08308e-021b-4adc-9a70-c6b873d53a3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

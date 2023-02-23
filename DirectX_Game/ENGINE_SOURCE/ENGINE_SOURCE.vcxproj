@@ -31,6 +31,7 @@
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
     <ClInclude Include="jsMath.h" />
+    <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
@@ -47,6 +48,7 @@
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
     <ClCompile Include="jsMath.cpp" />
+    <ClCompile Include="jsMesh.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />
