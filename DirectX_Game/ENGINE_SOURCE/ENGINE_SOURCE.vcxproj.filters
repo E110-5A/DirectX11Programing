@@ -67,6 +67,7 @@
     <ClInclude Include="jsTransform.h">
       <Filter>Component\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="jsMeshRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -123,6 +124,7 @@
     <ClCompile Include="jsConstantBuffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="jsMeshRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">

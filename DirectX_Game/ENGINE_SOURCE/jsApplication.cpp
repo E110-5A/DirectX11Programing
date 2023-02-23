@@ -14,6 +14,8 @@ namespace js
 	Application::~Application()
 	{
 	}
+
+
 	void Application::Initialize()
 	{
 		Time::Initialize();
@@ -21,6 +23,8 @@ namespace js
 		renderer::Initialize();
 		SceneManager::Initialize();
 	}
+
+
 	void Application::Update()
 	{
 		Time::Update();
@@ -34,8 +38,13 @@ namespace js
 	void Application::Render()
 	{
 		Time::Render(mHdc);
+
+		graphicDevice->Clear();
+		graphicDevice->AdjustViewPorts();
+
 		SceneManager::Render();
-		graphicDevice->Render();
+
+		graphicDevice->Present();
 	}
 	void Application::Run()
 	{
