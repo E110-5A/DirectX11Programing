@@ -17,6 +17,14 @@ namespace js::graphics
 		GPU,
 	};
 
+	enum class eCBType
+	{
+		None,
+		Transform,
+		Material,
+		End,
+	};
+	
 	enum class eShaderStage
 	{
 		VS,		// Vertex Shader
@@ -26,5 +34,5 @@ namespace js::graphics
 		PS,		// Pixel Shader
 		CS,		// Compute shader
 		Count,
-	};
+	};	
 }

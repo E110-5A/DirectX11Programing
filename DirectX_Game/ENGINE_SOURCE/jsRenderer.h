@@ -6,7 +6,9 @@
 using namespace js::math;
 using namespace js::graphics;
 
-#define NumOfVertex 3
+#define Triangle_Vertex 3
+#define Rect_Vertex 4
+
 #define NumOfInputLayout 2
 
 namespace js::renderer
@@ -17,12 +19,16 @@ namespace js::renderer
 		Vector4 color;
 	};
 	// 정점 데이터
-	extern Vertex vertexes[NumOfVertex];
+	extern Vertex vertexes[Rect_Vertex];
 
 	
 	//버텍스 버퍼
 	extern ID3D11Buffer* triangleBuffer;
 	extern ID3DBlob* errorBlob;
+	extern ID3D11Buffer* triangleIndexBuffer;
+	extern ID3D11Buffer* triangleConstantBuffer;
+
+
 
 	// 버텍스 셰이더
 	extern ID3DBlob* triangleVSBlob;

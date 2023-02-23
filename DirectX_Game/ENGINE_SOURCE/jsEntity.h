@@ -2,6 +2,8 @@
 #include "jsEngine.h"
 #include "jsEnums.h"
 
+using namespace js::enums;
+
 namespace js
 {
 	class Entity

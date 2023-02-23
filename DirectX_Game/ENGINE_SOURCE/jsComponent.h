@@ -8,7 +8,7 @@ namespace js
 	class Component : public Entity
 	{
 	public:
-		Component(enums::eComponentType type);
+		Component(eComponentType type);
 		virtual ~Component();
 
 		virtual void Initialize() = 0;
@@ -22,7 +22,7 @@ namespace js
 		void SetOwner(GameObject* object) { mOwner = object; }
 
 	private:
-		const enums::eComponentType mType;
-		GameObject*					mOwner;
+		const eComponentType mType;
+		GameObject*			 mOwner;
 	};
 }

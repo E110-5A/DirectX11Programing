@@ -74,7 +74,7 @@ namespace js::graphics
 
 	GraphicDevice_DX11::~GraphicDevice_DX11()
 	{
-
+		renderer::Release();
 	}
 
 	bool GraphicDevice_DX11::CreateSwapChain(DXGI_SWAP_CHAIN_DESC* desc)
@@ -183,12 +183,47 @@ namespace js::graphics
 		mContext->RSSetViewports(1, viewPort);
 	}
 
+	void GraphicDevice_DX11::BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+		memcpy(sub.pData, data, size);
+		mContext->Unmap(buffer, 0);
+	}
+
+	void GraphicDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
+	{
+		switch (stage)
+		{
+		case eShaderStage::VS:
+			mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		case eShaderStage::HS:
+			mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		case eShaderStage::DS:
+			mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		case eShaderStage::GS:
+			mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		case eShaderStage::PS:
+			mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		case eShaderStage::CS:
+			mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
+			break;
+		default:
+			break;
+		}
+	}
+
 	void GraphicDevice_DX11::Draw()
 	{
 		// Binds
 		D3D11_MAPPED_SUBRESOURCE sub = {};
 		mContext->Map(renderer::triangleBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
-		memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * NumOfVertex);
+		memcpy(sub.pData, renderer::vertexes, sizeof(renderer::Vertex) * Rect_Vertex);
 		mContext->Unmap(renderer::triangleBuffer, 0);
 
 
@@ -197,6 +232,8 @@ namespace js::graphics
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 
+
+		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer);
 
 		// Viewports, RenderTarget
 		RECT winRect;
@@ -209,6 +246,7 @@ namespace js::graphics
 		UINT vertexSize = sizeof(renderer::Vertex);
 		UINT offset = 0;
 		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexSize, &offset);
+		mContext->IASetIndexBuffer(renderer::triangleIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 		mContext->IASetInputLayout(renderer::triangleLayout);
 		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -217,7 +255,7 @@ namespace js::graphics
 		mContext->PSSetShader(renderer::trianglePS, 0, 0);
 
 
-		mContext->Draw(3, 0);				
+		mContext->DrawIndexed(6, 0, 0);				
 		mSwapChain->Present(0, 0);
 	}
 }
