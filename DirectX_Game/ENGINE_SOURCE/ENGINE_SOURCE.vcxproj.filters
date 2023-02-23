@@ -61,6 +61,12 @@
     <ClInclude Include="jsShader.h">
       <Filter>Resource\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="jsConstantBuffer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="jsTransform.h">
+      <Filter>Component\Transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -110,6 +116,12 @@
     </ClCompile>
     <ClCompile Include="jsShader.cpp">
       <Filter>Resource\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTransform.cpp">
+      <Filter>Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="jsConstantBuffer.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #include "jsApplication.h"
 #include "jsRenderer.h"
+#include "jsSceneManager.h"
 #include "jsTime.h"
 #include "jsInput.h"
 
@@ -18,18 +19,22 @@ namespace js
 		Time::Initialize();
 		Input::Initialize();
 		renderer::Initialize();
+		SceneManager::Initialize();
 	}
 	void Application::Update()
 	{
 		Time::Update();
 		Input::Update();
+		SceneManager::Update();
 	}
 	void Application::FixedUpdate()
 	{
+		SceneManager::FixedUpdate();
 	}
 	void Application::Render()
 	{
 		Time::Render(mHdc);
+		SceneManager::Render();
 		graphicDevice->Render();
 	}
 	void Application::Run()

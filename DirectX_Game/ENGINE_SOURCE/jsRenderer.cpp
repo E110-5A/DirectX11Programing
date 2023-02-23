@@ -3,10 +3,10 @@
 
 namespace js::renderer
 {	
-	Vertex vertexes[Rect_Vertex] = {};	
+	Vertex vertexes[Rect_Vertex] = {};
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11Buffer>		triangleConstantBuffer = nullptr;
+	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
 	
 	void SetUpState()
 	{
@@ -53,16 +53,10 @@ namespace js::renderer
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 
-		D3D11_BUFFER_DESC constantDesc = {};
-		constantDesc.ByteWidth = sizeof(Vector4);
-		constantDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
-		constantDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		constantDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-				
-		GetDevice()->CreateBuffer(&constantDesc, nullptr, triangleConstantBuffer.GetAddressOf());
-
 		Vector4 testConstant(0.2f, 0.2f, 0.f, 0.f);
-		GetDevice()->BindConstantBuffer(triangleConstantBuffer.Get(), &testConstant, sizeof(Vector4));
+		constantBuffers[(UINT)eCBType::Transform] = new ConstantBuffer();
+		constantBuffers[(UINT)eCBType::Transform]->Create(sizeof(Vector4));
+		constantBuffers[(UINT)eCBType::Transform]->Bind(&testConstant);
 	}
 
 	void LoadShader()
@@ -98,5 +92,11 @@ namespace js::renderer
 
 		delete shader;
 		shader = nullptr;
+
+		for (size_t buffers = 0; buffers < (UINT)eCBType::End; ++buffers)
+		{
+			delete constantBuffers[buffers];
+			constantBuffers[buffers] = nullptr;
+		}
 	}
 }

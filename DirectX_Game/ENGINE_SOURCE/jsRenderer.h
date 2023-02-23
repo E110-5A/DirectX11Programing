@@ -5,6 +5,7 @@
 
 #include "jsMesh.h"
 #include "jsShader.h"
+#include "jsConstantBuffer.h"
 
 using namespace js::math;
 using namespace js::graphics;
@@ -25,8 +26,8 @@ namespace js::renderer
 	extern Vertex vertexes[Rect_Vertex];		
 	extern Mesh* mesh;
 	extern Shader* shader;
-	extern Microsoft::WRL::ComPtr<ID3D11Buffer>			triangleConstantBuffer;
-	
+	extern ConstantBuffer* constantBuffers[];
+		
 	void Initialize();
 	void Release();
 }

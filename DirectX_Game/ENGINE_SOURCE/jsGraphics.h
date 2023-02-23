@@ -34,5 +34,21 @@ namespace js::graphics
 		PS,		// Pixel Shader
 		CS,		// Compute shader
 		Count,
-	};	
+	};
+
+	struct GPUBuffer
+	{
+		enum class eType
+		{
+			Buffer,
+			Texture,
+			UnknownType,
+		} type = eType::UnknownType;
+
+		D3D11_BUFFER_DESC desc;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
+
+		GPUBuffer() = default;
+		virtual ~GPUBuffer() = default;
+	};
 }

@@ -22,6 +22,7 @@
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsComponent.h" />
+    <ClInclude Include="jsConstantBuffer.h" />
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
     <ClInclude Include="jsEnums.h" />
@@ -39,10 +40,12 @@
     <ClInclude Include="jsSceneManager.h" />
     <ClInclude Include="jsShader.h" />
     <ClInclude Include="jsTime.h" />
+    <ClInclude Include="jsTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp" />
     <ClCompile Include="jsComponent.cpp" />
+    <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsEntity.cpp" />
     <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
@@ -57,6 +60,7 @@
     <ClCompile Include="jsSceneManager.cpp" />
     <ClCompile Include="jsShader.cpp" />
     <ClCompile Include="jsTime.cpp" />
+    <ClCompile Include="jsTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl" />

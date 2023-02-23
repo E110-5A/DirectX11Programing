@@ -12,7 +12,7 @@ struct VTX_OUT
 
 cbuffer Transform : register(b0)
 {
-    float4 cbPos;
+    float3 cbPos;
 }
 
 VTX_OUT Triangle_VS(VTX_IN In)

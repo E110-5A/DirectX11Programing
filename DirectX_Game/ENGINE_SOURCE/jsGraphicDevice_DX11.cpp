@@ -1,6 +1,7 @@
 #include "jsGraphicDevice_DX11.h"
 #include "jsApplication.h"
 #include "jsRenderer.h"
+#include "jsConstantBuffer.h"
 #include "jsMesh.h"
 
 extern js::Application application;
@@ -238,8 +239,7 @@ namespace js::graphics
 	}
 	void GraphicDevice_DX11::Render()
 	{
-		Clear();
-		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
+		Clear();		
 		AdjustViewPorts();
 
 		renderer::mesh->BindBuffer();				
