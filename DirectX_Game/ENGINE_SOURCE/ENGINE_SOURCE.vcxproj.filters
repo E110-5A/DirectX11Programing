@@ -37,9 +37,6 @@
     <ClInclude Include="jsEnums.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="jsComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="jsGameObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
@@ -57,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="jsMesh.h">
       <Filter>Resource\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="jsComponent.h">
+      <Filter>Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsShader.h">
+      <Filter>Resource\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +87,6 @@
     <ClCompile Include="jsScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="jsComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="jsGameObject.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
@@ -104,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="jsMesh.cpp">
       <Filter>Resource\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="jsComponent.cpp">
+      <Filter>Component\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsShader.cpp">
+      <Filter>Resource\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,12 @@
     </Filter>
     <Filter Include="Resource\Material">
       <UniqueIdentifier>{ab08308e-021b-4adc-9a70-c6b873d53a3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Base">
+      <UniqueIdentifier>{80044235-e754-44ca-a731-1d11629ed179}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Transform">
+      <UniqueIdentifier>{2b9e01d0-7427-4b0a-bf5f-d5634211d274}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -3,21 +3,11 @@
 
 namespace js::renderer
 {	
-	Vertex vertexes[Rect_Vertex] = {};
-	
+	Vertex vertexes[Rect_Vertex] = {};	
 	Mesh* mesh = nullptr;
-
-	Microsoft::WRL::ComPtr<ID3DBlob>			errorBlob = nullptr;
+	Shader* shader = nullptr;
 	Microsoft::WRL::ComPtr<ID3D11Buffer>		triangleConstantBuffer = nullptr;
 	
-	Microsoft::WRL::ComPtr<ID3DBlob>			triangleVSBlob = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11VertexShader>	triangleVS = nullptr;
-	
-	Microsoft::WRL::ComPtr<ID3DBlob>			trianglePSBlob = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11PixelShader>	trianglePS = nullptr;
-	
-	Microsoft::WRL::ComPtr<ID3D11InputLayout>	triangleLayout = nullptr;
-
 	void SetUpState()
 	{
 		// Input Layout
@@ -38,9 +28,9 @@ namespace js::renderer
 		arrLayoutDesc[1].SemanticIndex = 0;
 
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 2
-			, triangleVSBlob->GetBufferPointer()
-			, triangleVSBlob->GetBufferSize()
-			, &triangleLayout);
+			, shader->GetVSBlobBufferPointer()
+			, shader->GetVSBlobBufferSize()
+			, shader->GetInputLayoutAddressOf());
 	}
 
 	void LoadBuffer()
@@ -63,8 +53,6 @@ namespace js::renderer
 		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 
-
-
 		D3D11_BUFFER_DESC constantDesc = {};
 		constantDesc.ByteWidth = sizeof(Vector4);
 		constantDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
@@ -79,7 +67,9 @@ namespace js::renderer
 
 	void LoadShader()
 	{
-		GetDevice()->CreateShader();
+		shader = new Shader();
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "Triangle_VS");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "Triangle_PS");
 	}
 
 	void Initialize()
@@ -105,5 +95,8 @@ namespace js::renderer
 	{		
 		delete mesh;
 		mesh = nullptr;
+
+		delete shader;
+		shader = nullptr;
 	}
 }

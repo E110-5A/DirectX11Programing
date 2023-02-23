@@ -4,6 +4,7 @@
 #include "jsGraphicDevice_DX11.h"
 
 #include "jsMesh.h"
+#include "jsShader.h"
 
 using namespace js::math;
 using namespace js::graphics;
@@ -20,25 +21,12 @@ namespace js::renderer
 		Vector3 pos;
 		Vector4 color;
 	};
-	// 정점 데이터
-	extern Vertex vertexes[Rect_Vertex];
 
-	
-	// mesh
+	extern Vertex vertexes[Rect_Vertex];		
 	extern Mesh* mesh;
-
-	extern Microsoft::WRL::ComPtr<ID3DBlob>				errorBlob;
+	extern Shader* shader;
 	extern Microsoft::WRL::ComPtr<ID3D11Buffer>			triangleConstantBuffer;
 	
-	// shader
-	extern Microsoft::WRL::ComPtr<ID3DBlob>				triangleVSBlob;
-	extern Microsoft::WRL::ComPtr<ID3D11VertexShader>	triangleVS;
-	extern Microsoft::WRL::ComPtr<ID3DBlob>				trianglePSBlob;
-	extern Microsoft::WRL::ComPtr<ID3D11PixelShader>	trianglePS;
-
-	// input layout
-	extern Microsoft::WRL::ComPtr<ID3D11InputLayout>	triangleLayout;
-
 	void Initialize();
 	void Release();
 }

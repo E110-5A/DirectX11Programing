@@ -123,60 +123,32 @@ namespace js::graphics
 		return true;
 	}
 
-	bool GraphicDevice_DX11::CreateShader()
+	bool GraphicDevice_DX11::CreateVertexShader(const void* pShaderBytecode, SIZE_T bytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader)
 	{
-		ID3DBlob* errorBlob = nullptr;
-				
-		std::filesystem::path shaderPath = std::filesystem::current_path().parent_path();
-		shaderPath += "\\SHADER_SOURCE\\";
-
-		std::wstring vsPath(shaderPath.c_str());
-		vsPath += L"TriangleVS.hlsl";
-		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "Triangle_VS", "vs_5_0", 0, 0, renderer::triangleVSBlob.GetAddressOf(), &errorBlob);
-		
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
-
-		mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer()
-			, renderer::triangleVSBlob->GetBufferSize()
-			, nullptr, renderer::triangleVS.GetAddressOf());
-
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
-
-		std::wstring psPath(shaderPath.c_str());
-		psPath += L"TrianglePS.hlsl";
-		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-			, "Triangle_PS", "ps_5_0", 0, 0, renderer::trianglePSBlob.GetAddressOf(), &errorBlob);
-
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
-
-		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer()
-			, renderer::trianglePSBlob->GetBufferSize()
-			, nullptr, renderer::trianglePS.GetAddressOf());
-
-		if (errorBlob)
-		{
-			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
-			errorBlob->Release();
-			errorBlob = nullptr;
-		}
+		if (FAILED(mDevice->CreateVertexShader(pShaderBytecode, bytecodeLength, pClassLinkage, ppVertexShader)))
+			return false;
 
 		return true;
+	}
+
+	bool GraphicDevice_DX11::CreatePixelShader(const void* pShaderBytecode, SIZE_T bytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader)
+	{
+		if (FAILED(mDevice->CreatePixelShader(pShaderBytecode, bytecodeLength, pClassLinkage, ppPixelShader)))
+			return false;
+
+		return true;
+	}
+
+	
+
+	void GraphicDevice_DX11::BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
+	{
+		mContext->IASetPrimitiveTopology(topology);
+	}
+
+	void GraphicDevice_DX11::BindInputLayout(ID3D11InputLayout* pInputLayout)
+	{
+		mContext->IASetInputLayout(pInputLayout);
 	}
 
 	void GraphicDevice_DX11::BindVertexBuffer(UINT startSlot, UINT numBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets)
@@ -187,6 +159,16 @@ namespace js::graphics
 	void GraphicDevice_DX11::BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT format, UINT offset)
 	{
 		mContext->IASetIndexBuffer(pIndexBuffer, format, offset);
+	}
+
+	void GraphicDevice_DX11::BindVertexShader(ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->VSSetShader(pVertexShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::BindPixelShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
 	}
 
 	void GraphicDevice_DX11::BindViewports(D3D11_VIEWPORT* viewPort)
@@ -245,10 +227,6 @@ namespace js::graphics
 		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
 	}
 
-	void GraphicDevice_DX11::Draw()
-	{
-		mContext->Draw(0, 0);		
-	}
 	void GraphicDevice_DX11::DrawIndexed(UINT indexCount, UINT startIndexLocation, UINT baseVertexLocation)
 	{
 		mContext->DrawIndexed(indexCount, startIndexLocation, baseVertexLocation);
@@ -261,22 +239,13 @@ namespace js::graphics
 	void GraphicDevice_DX11::Render()
 	{
 		Clear();
-
 		SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
-
 		AdjustViewPorts();
 
-		renderer::mesh->BindBuffer();
-
-		// Input Assembeler
-		mContext->IASetInputLayout(renderer::triangleLayout.Get());
-		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		// Shader
-		mContext->VSSetShader(renderer::triangleVS.Get(), 0, 0);
-		mContext->PSSetShader(renderer::trianglePS.Get(), 0, 0);
-
+		renderer::mesh->BindBuffer();				
+		renderer::shader->Binds();
 		renderer::mesh->Render();
+
 		Present();
 	}
 }

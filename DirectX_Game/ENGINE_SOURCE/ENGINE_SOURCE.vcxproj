@@ -37,6 +37,7 @@
     <ClInclude Include="jsResources.h" />
     <ClInclude Include="jsScene.h" />
     <ClInclude Include="jsSceneManager.h" />
+    <ClInclude Include="jsShader.h" />
     <ClInclude Include="jsTime.h" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
     <ClCompile Include="jsResources.cpp" />
     <ClCompile Include="jsScene.cpp" />
     <ClCompile Include="jsSceneManager.cpp" />
+    <ClCompile Include="jsShader.cpp" />
     <ClCompile Include="jsTime.cpp" />
   </ItemGroup>
   <ItemGroup>

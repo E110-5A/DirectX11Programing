@@ -14,10 +14,16 @@ namespace js::graphics
 
 		bool CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* desc, UINT NumElements, const void* byteCode, SIZE_T bytecodeLength, ID3D11InputLayout** ppInputLayout);
 		bool CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data, ID3D11Buffer** buffer);
-		bool CreateShader();
+		bool CreateVertexShader(const void* pShaderBytecode, SIZE_T bytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader);
+		bool CreatePixelShader(const void* pShaderBytecode, SIZE_T bytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader);
 
+
+		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY topology);
+		void BindInputLayout(ID3D11InputLayout* pInputLayout);
 		void BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets);
 		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset);
+		void BindVertexShader(ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances);
+		void BindPixelShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances);
 
 		void BindViewports(D3D11_VIEWPORT* viewPort);
 		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
@@ -25,12 +31,10 @@ namespace js::graphics
 		void SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
 		
 		void Clear();
-		void AdjustViewPorts();
-
-		void Draw();
+		void AdjustViewPorts();		
 		void DrawIndexed(UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation);
-
 		void Present();
+
 		void Render();
 
 	private:
