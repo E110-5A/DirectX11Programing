@@ -37,6 +37,24 @@
     <ClInclude Include="jsRenderer.h">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="jsScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jsEnums.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="jsComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="jsGameObject.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="jsLayer.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jsSceneManager.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -66,6 +84,21 @@
     <ClCompile Include="jsRenderer.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="jsScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jsComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="jsGameObject.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="jsLayer.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jsSceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -91,6 +124,15 @@
     </Filter>
     <Filter Include="Renderer">
       <UniqueIdentifier>{2de9c5e6-0bd7-4e85-ade2-91301aab7164}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{b1d5ff0c-62a2-4ec4-b6bd-4b775520ed44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component">
+      <UniqueIdentifier>{3deed0b5-b8cb-4730-b5c1-c6a18dced072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{652f766b-757b-4696-8125-bef0c85594d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

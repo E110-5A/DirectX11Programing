@@ -1,5 +1,6 @@
 #pragma once
 #include "jsEngine.h"
+#include "jsEnums.h"
 
 namespace js
 {

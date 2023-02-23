@@ -21,26 +21,37 @@
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="jsApplication.h" />
+    <ClInclude Include="jsComponent.h" />
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
+    <ClInclude Include="jsEnums.h" />
+    <ClInclude Include="jsGameObject.h" />
     <ClInclude Include="jsGraphicDevice_DX11.h" />
     <ClInclude Include="jsGraphics.h" />
     <ClInclude Include="jsInput.h" />
+    <ClInclude Include="jsLayer.h" />
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
+    <ClInclude Include="jsScene.h" />
+    <ClInclude Include="jsSceneManager.h" />
     <ClInclude Include="jsTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp" />
+    <ClCompile Include="jsComponent.cpp" />
     <ClCompile Include="jsEntity.cpp" />
+    <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="jsInput.cpp" />
+    <ClCompile Include="jsLayer.cpp" />
     <ClCompile Include="jsMath.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />
+    <ClCompile Include="jsScene.cpp" />
+    <ClCompile Include="jsSceneManager.cpp" />
     <ClCompile Include="jsTime.cpp" />
   </ItemGroup>
   <ItemGroup>
