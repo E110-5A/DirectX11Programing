@@ -55,8 +55,7 @@ namespace js
 		Render();
 	}
 	void Application::Release()
-	{
-		
+	{		
 	}
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)
 	{

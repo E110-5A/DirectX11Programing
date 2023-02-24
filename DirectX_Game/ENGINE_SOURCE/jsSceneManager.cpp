@@ -6,6 +6,7 @@
 // component
 #include "jsTransform.h"
 #include "jsMeshRenderer.h"
+#include "jsCamera.h"
 
 // resource
 #include "jsResources.h"
@@ -21,23 +22,41 @@ namespace js
 		mPlayScene = new Scene();
 		mPlayScene->Initialize();
 
-		GameObject* testObj= new GameObject();
-		Transform* testTransform = new Transform();
-		MeshRenderer* testRenderer = new MeshRenderer();
+
+		// camera
+		GameObject* cameraObj = new GameObject();
+		Transform* cameraTr = new Transform();
+		cameraTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		cameraObj->AddComponent(cameraTr);
+		Camera* cameraComp = new Camera();
+		cameraObj->AddComponent(cameraComp);
+
+		mPlayScene->AddGameObject(cameraObj, eLayerType::Camera);
+
+
+
+		// test Rect
+		GameObject* obj = new GameObject();
+		Transform* tr = new Transform();
+		tr->SetPosition(Vector3(0.0f, 0.0f, 20.0f));
+		obj->AddComponent(tr);
+
+		MeshRenderer* mr = new MeshRenderer();
+		obj->AddComponent(mr);
+
 		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		std::shared_ptr<Material> material = Resources::Find<Material>(L"RectMaterial");
+		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
 
-		testObj->AddComponent(testTransform);
-		testObj->AddComponent(testRenderer);
-		testTransform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		testRenderer->SetMesh(mesh.get());
-		testRenderer->SetMaterial(material.get());
+		Vector2 vec2(1.0f, 1.0f);
+		mateiral->SetData(eGPUParam::Vector2, &vec2);
 
-		mPlayScene->AddGameObject(testObj, eLayerType::Player);
+		mr->SetMaterial(mateiral.get());
+		mr->SetMesh(mesh.get());
 
+		std::shared_ptr <Texture> texture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
+		texture->BindShader(eShaderStage::PS, 0);
 
-		std::shared_ptr<Texture> testTexture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
-		testTexture->BindShader(eShaderStage::PS, 0);
+		mPlayScene->AddGameObject(obj, eLayerType::Player);
 		
 	}
 	void SceneManager::Update()
