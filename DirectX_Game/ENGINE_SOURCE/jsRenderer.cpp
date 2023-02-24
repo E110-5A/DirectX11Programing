@@ -5,9 +5,6 @@ namespace js::renderer
 {	
 	Vertex vertexes[Rect_Vertex] = {};
 	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
-
-	Mesh* mesh = nullptr;
-	Shader* shader = nullptr;
 	
 	void SetUpState()
 	{
@@ -35,6 +32,7 @@ namespace js::renderer
 		arrLayoutDesc[2].SemanticName = "TEXCOORD";
 		arrLayoutDesc[2].SemanticIndex = 0;
 
+		Shader* shader = Resources::Find<Shader>(L"RectShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, NumOfInputLayout
 			, shader->GetVSBlobBufferPointer()
 			, shader->GetVSBlobBufferSize()
@@ -43,7 +41,7 @@ namespace js::renderer
 
 	void LoadBuffer()
 	{
-		mesh = new Mesh();
+		Mesh* mesh = new Mesh();
 		Resources::Insert<Mesh>(L"RectMesh", mesh);
 
 		mesh->CreateVertexBuffer(vertexes, 4);
@@ -69,7 +67,9 @@ namespace js::renderer
 
 	void LoadShader()
 	{
-		shader = new Shader();
+		Shader* shader = new Shader();
+		Resources::Insert<Shader>(L"RectShader", shader);
+
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "Triangle_VS");
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "Triangle_PS");
 	}
@@ -98,13 +98,7 @@ namespace js::renderer
 	}
 
 	void Release()
-	{		
-		delete mesh;
-		mesh = nullptr;
-
-		delete shader;
-		shader = nullptr;
-
+	{
 		for (size_t buffers = 0; buffers < (UINT)eCBType::End; ++buffers)
 		{
 			delete constantBuffers[buffers];

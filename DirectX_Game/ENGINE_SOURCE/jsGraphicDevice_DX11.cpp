@@ -264,15 +264,4 @@ namespace js::graphics
 	{
 		mSwapChain->Present(0, 0);
 	}
-	void GraphicDevice_DX11::Render()
-	{
-		Clear();		
-		AdjustViewPorts();
-
-		renderer::mesh->BindBuffer();				
-		renderer::shader->Binds();
-		renderer::mesh->Render();
-
-		Present();
-	}
 }

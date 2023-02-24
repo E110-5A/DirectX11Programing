@@ -24,12 +24,14 @@ namespace js
 		GameObject* testObj= new GameObject();
 		Transform* testTransform = new Transform();
 		MeshRenderer* testRenderer = new MeshRenderer();
+		Mesh* mesh = Resources::Find<Mesh>(L"RectMesh");
+		Shader* shader = Resources::Find<Shader>(L"RectShader");
 
 		testObj->AddComponent(testTransform);
 		testObj->AddComponent(testRenderer);
 		testTransform->SetPosition(Vector3(0.2f, 0.2f, 0.0f));
-		testRenderer->SetMesh(renderer::mesh);
-		testRenderer->SetShader(renderer::shader);
+		testRenderer->SetMesh(mesh);
+		testRenderer->SetShader(shader);
 
 		mPlayScene->AddGameObject(testObj, eLayerType::Player);
 

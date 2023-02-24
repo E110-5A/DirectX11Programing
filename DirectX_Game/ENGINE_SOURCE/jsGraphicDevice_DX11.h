@@ -36,7 +36,6 @@ namespace js::graphics
 		void DrawIndexed(UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation);
 		void Present();
 
-		void Render();
 
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
 

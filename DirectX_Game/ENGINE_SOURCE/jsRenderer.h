@@ -24,9 +24,7 @@ namespace js::renderer
 		Vector2 uv;
 	};
 
-	extern Vertex vertexes[Rect_Vertex];		
-	extern Mesh* mesh;
-	extern Shader* shader;
+	extern Vertex vertexes[Rect_Vertex];
 	extern ConstantBuffer* constantBuffers[];
 		
 	void Initialize();

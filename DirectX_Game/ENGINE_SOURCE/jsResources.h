@@ -53,7 +53,15 @@ namespace js
 
 			mResources.insert(std::make_pair(key, dynamic_cast<Resource*>(resource)));
 		}
-		static void Release();
+		static void Release()
+		{
+			ResourceIter iter = mResources.begin();
+			for (; iter != mResources.end(); ++iter)
+			{
+				delete iter->second;
+				iter->second = nullptr;
+			}
+		}
 
 	private:
 		Resources() = delete;

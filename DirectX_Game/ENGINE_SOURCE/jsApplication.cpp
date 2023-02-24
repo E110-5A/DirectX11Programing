@@ -4,6 +4,8 @@
 #include "jsTime.h"
 #include "jsInput.h"
 
+#include "jsResources.h"
+
 using namespace js::graphics;
 
 namespace js
@@ -54,6 +56,7 @@ namespace js
 	}
 	void Application::Release()
 	{
+		Resources::Release();
 	}
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)
 	{
