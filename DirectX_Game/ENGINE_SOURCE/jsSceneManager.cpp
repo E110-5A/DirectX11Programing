@@ -24,19 +24,19 @@ namespace js
 		GameObject* testObj= new GameObject();
 		Transform* testTransform = new Transform();
 		MeshRenderer* testRenderer = new MeshRenderer();
-		Mesh* mesh = Resources::Find<Mesh>(L"RectMesh");
-		Material* material = Resources::Find<Material>(L"RectMaterial");
+		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> material = Resources::Find<Material>(L"RectMaterial");
 
 		testObj->AddComponent(testTransform);
 		testObj->AddComponent(testRenderer);
 		testTransform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		testRenderer->SetMesh(mesh);
-		testRenderer->SetMaterial(material);
+		testRenderer->SetMesh(mesh.get());
+		testRenderer->SetMaterial(material.get());
 
 		mPlayScene->AddGameObject(testObj, eLayerType::Player);
 
 
-		Texture* testTexture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
+		std::shared_ptr<Texture> testTexture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		testTexture->BindShader(eShaderStage::PS, 0);
 		
 	}

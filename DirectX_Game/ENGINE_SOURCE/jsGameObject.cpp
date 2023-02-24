@@ -17,6 +17,12 @@ namespace js
 				continue;
 			component->Initialize();
 		}
+		for (Component* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
+		}
 	}
 	void GameObject::Update()
 	{
@@ -25,6 +31,12 @@ namespace js
 			if (nullptr == component)
 				continue;
 			component->Update();
+		}
+		for (Component* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
 		}
 	}
 	void GameObject::FixedUpdate()
@@ -35,6 +47,12 @@ namespace js
 				continue;
 			component->FixedUpdate();
 		}
+		for (Component* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
+		}
 	}
 	void GameObject::Render()
 	{
@@ -44,11 +62,27 @@ namespace js
 				continue;
 			component->Render();
 		}
+		for (Component* script : mScripts)
+		{
+			if (nullptr == script)
+				continue;
+			script->Initialize();
+		}
 	}
 	void GameObject::AddComponent(Component* component)
 	{
-		int order = component->GetOrder();
-		mComponents[order] = component;
-		mComponents[order]->SetOwner(this);
+		eComponentType order = component->GetOrder();
+	
+		if (eComponentType::Script != order)
+		{
+			mComponents[(UINT)order] = component;
+			mComponents[(UINT)order]->SetOwner(this);
+		}
+		else
+		{
+			mScripts.push_back(component);
+			component->SetOwner(this);
+		}
+		
 	}
 }

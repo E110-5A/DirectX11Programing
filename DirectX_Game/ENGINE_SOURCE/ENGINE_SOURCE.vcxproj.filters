@@ -76,6 +76,9 @@
     <ClInclude Include="jsMaterial.h">
       <Filter>Resource\Material</Filter>
     </ClInclude>
+    <ClInclude Include="jsScript.h">
+      <Filter>Component\Script</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -141,6 +144,9 @@
     <ClCompile Include="jsMaterial.cpp">
       <Filter>Resource\Material</Filter>
     </ClCompile>
+    <ClCompile Include="jsScript.cpp">
+      <Filter>Component\Script</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -199,6 +205,9 @@
     </Filter>
     <Filter Include="Resource\Texture">
       <UniqueIdentifier>{c4c0f36f-0b0b-413b-af55-eb6a57c5cc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Script">
+      <UniqueIdentifier>{94d3ab0e-00ed-4cdf-919b-614ae00181b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

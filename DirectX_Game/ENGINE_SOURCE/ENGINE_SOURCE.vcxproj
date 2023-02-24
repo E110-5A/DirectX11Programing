@@ -40,6 +40,7 @@
     <ClInclude Include="jsResources.h" />
     <ClInclude Include="jsScene.h" />
     <ClInclude Include="jsSceneManager.h" />
+    <ClInclude Include="jsScript.h" />
     <ClInclude Include="jsShader.h" />
     <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTime.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="jsResources.cpp" />
     <ClCompile Include="jsScene.cpp" />
     <ClCompile Include="jsSceneManager.cpp" />
+    <ClCompile Include="jsScript.cpp" />
     <ClCompile Include="jsShader.cpp" />
     <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTime.cpp" />
