@@ -40,6 +40,7 @@
     <ClInclude Include="jsScene.h" />
     <ClInclude Include="jsSceneManager.h" />
     <ClInclude Include="jsShader.h" />
+    <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTime.h" />
     <ClInclude Include="jsTransform.h" />
   </ItemGroup>
@@ -61,6 +62,7 @@
     <ClCompile Include="jsScene.cpp" />
     <ClCompile Include="jsSceneManager.cpp" />
     <ClCompile Include="jsShader.cpp" />
+    <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTime.cpp" />
     <ClCompile Include="jsTransform.cpp" />
   </ItemGroup>
@@ -169,6 +171,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -188,6 +191,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

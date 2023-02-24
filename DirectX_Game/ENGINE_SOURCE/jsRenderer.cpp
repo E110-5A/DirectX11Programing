@@ -4,9 +4,10 @@
 namespace js::renderer
 {	
 	Vertex vertexes[Rect_Vertex] = {};
+	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
+
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
-	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
 	
 	void SetUpState()
 	{
@@ -27,7 +28,14 @@ namespace js::renderer
 		arrLayoutDesc[1].SemanticName = "COLOR";
 		arrLayoutDesc[1].SemanticIndex = 0;
 
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 2
+		arrLayoutDesc[2].AlignedByteOffset = 28;
+		arrLayoutDesc[2].Format = DXGI_FORMAT_R32G32_FLOAT;
+		arrLayoutDesc[2].InputSlot = 0;
+		arrLayoutDesc[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrLayoutDesc[2].SemanticName = "TEXCOORD";
+		arrLayoutDesc[2].SemanticIndex = 0;
+
+		GetDevice()->CreateInputLayout(arrLayoutDesc, NumOfInputLayout
 			, shader->GetVSBlobBufferPointer()
 			, shader->GetVSBlobBufferSize()
 			, shader->GetInputLayoutAddressOf());
@@ -70,15 +78,19 @@ namespace js::renderer
 	{
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.5f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		vertexes[0].uv = Vector2(0.f, 0.f);
 
 		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.5f);
 		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
 		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.5f);
 		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
 
 		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.5f);
 		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
 		LoadShader();
 		SetUpState();

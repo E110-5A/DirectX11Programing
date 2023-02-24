@@ -13,3 +13,4 @@
 #include <filesystem>
 
 #include "CommonInclude.h"
+#include "jsEnums.h"

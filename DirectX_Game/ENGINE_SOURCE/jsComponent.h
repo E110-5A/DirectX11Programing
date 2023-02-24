@@ -2,6 +2,7 @@
 #include "jsEntity.h"
 #include "jsMath.h"
 
+using namespace js::enums;
 namespace js
 {
 	class GameObject;

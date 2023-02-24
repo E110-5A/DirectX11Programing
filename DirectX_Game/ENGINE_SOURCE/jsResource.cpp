@@ -2,7 +2,8 @@
 
 namespace js
 {
-	Resource::Resource()
+	Resource::Resource(eResourceType type)
+		: mType(type)
 	{}
 	Resource::~Resource()
 	{}

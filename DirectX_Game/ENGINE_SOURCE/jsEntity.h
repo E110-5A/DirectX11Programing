@@ -1,8 +1,6 @@
 #pragma once
 #include "jsEngine.h"
-#include "jsEnums.h"
 
-using namespace js::enums;
 
 namespace js
 {

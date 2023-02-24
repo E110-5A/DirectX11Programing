@@ -29,13 +29,16 @@ namespace js::graphics
 		void BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 
 		void SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
-		
+		void SetShaderResource(eShaderStage stage, UINT slot, ID3D11ShaderResourceView* const* ppShaderResourceViews);
+
 		void Clear();
 		void AdjustViewPorts();		
 		void DrawIndexed(UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation);
 		void Present();
 
 		void Render();
+
+		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> mDevice;

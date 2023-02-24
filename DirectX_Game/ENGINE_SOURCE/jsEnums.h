@@ -22,4 +22,18 @@ namespace js::enums
 		Script,
 		End = 15,
 	};
+
+	enum class eResourceType
+	{
+		Mesh,
+		Texture,
+		Material,
+		Sound,
+		Prefab,
+		MeshData,
+		GraphicShader,
+		ComputeShader,
+		Script,
+		End,
+	};
 }

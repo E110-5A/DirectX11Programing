@@ -5,6 +5,10 @@
 namespace js
 {
 	Mesh::Mesh()
+		: Resource(eResourceType::Mesh)
+		, mVBDesc{}
+		, mIBDesc{}
+		, mIndexCount(0)
 	{
 	}
 	Mesh::~Mesh()

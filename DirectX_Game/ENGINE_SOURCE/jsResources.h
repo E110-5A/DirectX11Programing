@@ -16,7 +16,7 @@ namespace js
 			ResourceIter iter = mResources.find(key);
 
 			if (iter != mResources.end())
-				return dynamic_cast<T>(iter->second);
+				return dynamic_cast<T*>(iter->second);
 
 			return nullptr;
 		}
@@ -53,16 +53,7 @@ namespace js
 
 			mResources.insert(std::make_pair(key, dynamic_cast<Resource*>(resource)));
 		}
-
-		void Release()
-		{
-			std::map<std::wstring, Resource*>::iterator iter = mResources.begin();
-			for (; iter != mResources.end(); ++iter)
-			{
-				delete iter->second;
-				iter->second = nullptr;
-			}
-		}
+		static void Release();
 
 	private:
 		Resources() = delete;

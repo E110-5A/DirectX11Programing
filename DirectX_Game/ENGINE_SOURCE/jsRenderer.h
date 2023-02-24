@@ -13,7 +13,7 @@ using namespace js::graphics;
 #define Triangle_Vertex 3
 #define Rect_Vertex 4
 
-#define NumOfInputLayout 2
+#define NumOfInputLayout 3
 
 namespace js::renderer
 {
@@ -21,6 +21,7 @@ namespace js::renderer
 	{
 		Vector3 pos;
 		Vector4 color;
+		Vector2 uv;
 	};
 
 	extern Vertex vertexes[Rect_Vertex];		

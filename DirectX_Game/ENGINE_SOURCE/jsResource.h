@@ -1,12 +1,14 @@
 #pragma once
 #include "jsEntity.h"
 
+using namespace js::enums;
+
 namespace js
 {
 	class Resource : public Entity
 	{
 	public:
-		Resource();
+		Resource(eResourceType type);
 		virtual ~Resource();
 
 		virtual HRESULT Load(const std::wstring& strPath) = 0;
@@ -20,5 +22,6 @@ namespace js
 	private:
 		std::wstring mKey;
 		std::wstring mPath;
+		eResourceType mType;
 	};
 }

@@ -67,7 +67,12 @@
     <ClInclude Include="jsTransform.h">
       <Filter>Component\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="jsMeshRenderer.h" />
+    <ClInclude Include="jsMeshRenderer.h">
+      <Filter>Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="jsTexture.h">
+      <Filter>Resource\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -124,7 +129,12 @@
     <ClCompile Include="jsConstantBuffer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="jsMeshRenderer.cpp" />
+    <ClCompile Include="jsMeshRenderer.cpp">
+      <Filter>Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTexture.cpp">
+      <Filter>Resource\Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Time">
@@ -177,6 +187,12 @@
     </Filter>
     <Filter Include="Component\Transform">
       <UniqueIdentifier>{2b9e01d0-7427-4b0a-bf5f-d5634211d274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Renderer">
+      <UniqueIdentifier>{a7711595-ac47-4b1e-a804-a120f1bc2d3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\Texture">
+      <UniqueIdentifier>{c4c0f36f-0b0b-413b-af55-eb6a57c5cc9e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

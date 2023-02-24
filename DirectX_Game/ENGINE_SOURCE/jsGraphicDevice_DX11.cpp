@@ -212,6 +212,33 @@ namespace js::graphics
 		}
 	}
 
+	void GraphicDevice_DX11::SetShaderResource(eShaderStage stage, UINT slot, ID3D11ShaderResourceView* const* ppShaderResourceViews)
+	{
+		switch (stage)
+		{
+		case eShaderStage::VS:
+			mContext->VSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		case eShaderStage::HS:
+			mContext->HSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		case eShaderStage::DS:
+			mContext->DSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		case eShaderStage::GS:
+			mContext->GSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		case eShaderStage::PS:
+			mContext->PSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		case eShaderStage::CS:
+			mContext->CSSetShaderResources(slot, 1, ppShaderResourceViews);
+			break;
+		default:
+			break;
+		}
+	}
+
 	void GraphicDevice_DX11::Clear()
 	{
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
