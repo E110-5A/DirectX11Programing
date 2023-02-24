@@ -1,6 +1,6 @@
 struct VTX_IN
 {
-    float3 vPos : POSITION;
+    float4 vPos : POSITION;
     float4 vColor : COLOR;
     float2 vUV : TEXCOORD;
 };
@@ -14,13 +14,17 @@ struct VTX_OUT
 
 cbuffer Transform : register(b0)
 {
-    float3 cbPos;
+    float4 cbPos;
 }
+
+SamplerState pointSampler : register(s0);
+SamplerState linearSampler : register(s1);
+SamplerState anisotropicSampler : register(s2);
 
 VTX_OUT Triangle_VS(VTX_IN In)
 {
     VTX_OUT output = (VTX_OUT) 0.0f;
-    output.vPos = float4(In.vPos + cbPos.xyz, 1.f);
+    output.vPos = float4(In.vPos + cbPos);
     output.vColor = In.vColor;
     output.vUV = In.vUV;
     

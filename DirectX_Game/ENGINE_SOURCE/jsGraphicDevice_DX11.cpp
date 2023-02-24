@@ -140,6 +140,14 @@ namespace js::graphics
 		return true;
 	}
 
+	bool GraphicDevice_DX11::CreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
+	{
+		if (FAILED(mDevice->CreateSamplerState(pSamplerDesc, ppSamplerState)))
+			return false;
+
+		return true;
+	}
+
 	
 
 	void GraphicDevice_DX11::BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY topology)
@@ -183,6 +191,42 @@ namespace js::graphics
 		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
 		memcpy(sub.pData, data, size);
 		mContext->Unmap(buffer, 0);
+	}
+
+	void GraphicDevice_DX11::BindSamplers(eShaderStage stage, UINT slot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)
+	{
+		switch (stage)
+		{
+		case eShaderStage::VS:
+			mContext->VSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		case eShaderStage::HS:
+			mContext->HSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		case eShaderStage::DS:
+			mContext->DSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		case eShaderStage::GS:
+			mContext->GSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		case eShaderStage::PS:
+			mContext->PSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		case eShaderStage::CS:
+			mContext->CSSetSamplers(slot, NumSamplers, ppSamplers);
+			break;
+		default:
+			break;
+		}
+	}
+
+	void GraphicDevice_DX11::BindsSamplers(UINT slot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)
+	{
+		mContext->VSSetSamplers(slot, NumSamplers, ppSamplers);
+		mContext->HSSetSamplers(slot, NumSamplers, ppSamplers);
+		mContext->DSSetSamplers(slot, NumSamplers, ppSamplers);
+		mContext->GSSetSamplers(slot, NumSamplers, ppSamplers);
+		mContext->PSSetSamplers(slot, NumSamplers, ppSamplers);
 	}
 
 	void GraphicDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)

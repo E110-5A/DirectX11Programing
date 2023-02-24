@@ -8,6 +8,13 @@
 
 #include "jsMath.h"
 
+
+#define CB_GETBINDSLOT(name) __CBUFFERBINDSLOT__##name##__
+#define CBUFFER(name, slot) static const int CB_GETBINDSLOT(name) = slot; struct alignas(16) name
+
+#define CBSLOT_TRANSFORM 0
+#define CBSLOT_MATERIAL 1
+
 namespace js::graphics
 {
 	enum class ValidationMode
@@ -35,7 +42,7 @@ namespace js::graphics
 		CS,		// Compute shader
 		Count,
 	};
-
+	
 	struct GPUBuffer
 	{
 		enum class eType
@@ -50,5 +57,23 @@ namespace js::graphics
 
 		GPUBuffer() = default;
 		virtual ~GPUBuffer() = default;
+	};
+
+	enum class eGPUParam
+	{
+		Int,
+		Float,
+		Vector2,
+		Vector3,
+		Vector4,
+		Matrix,
+	};
+
+	enum class eSamplerType
+	{
+		Point,
+		Linear,
+		Anisotropic,
+		End,
 	};
 }

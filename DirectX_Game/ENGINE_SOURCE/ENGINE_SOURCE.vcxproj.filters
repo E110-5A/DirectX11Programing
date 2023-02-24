@@ -73,6 +73,9 @@
     <ClInclude Include="jsTexture.h">
       <Filter>Resource\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="jsMaterial.h">
+      <Filter>Resource\Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsMath.cpp">
@@ -134,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="jsTexture.cpp">
       <Filter>Resource\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="jsMaterial.cpp">
+      <Filter>Resource\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

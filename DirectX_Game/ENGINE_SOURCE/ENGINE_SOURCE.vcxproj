@@ -31,6 +31,7 @@
     <ClInclude Include="jsGraphics.h" />
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
+    <ClInclude Include="jsMaterial.h" />
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsMeshRenderer.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
+    <ClCompile Include="jsMaterial.cpp" />
     <ClCompile Include="jsMath.cpp" />
     <ClCompile Include="jsMesh.cpp" />
     <ClCompile Include="jsMeshRenderer.cpp" />

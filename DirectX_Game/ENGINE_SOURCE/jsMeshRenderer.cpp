@@ -7,7 +7,7 @@ namespace js
 	MeshRenderer::MeshRenderer()
 		: Component(eComponentType::Mesh)
 		, mMesh(nullptr)
-		, mShader(nullptr)
+		, mMaterial(nullptr)
 	{
 	}
 	MeshRenderer::~MeshRenderer()
@@ -26,7 +26,7 @@ namespace js
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mShader->Binds();
+		mMaterial->Bind();
 		mMesh->BindBuffer();
 		mMesh->Render();
 	}

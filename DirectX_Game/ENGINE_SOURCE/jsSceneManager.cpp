@@ -10,7 +10,7 @@
 // resource
 #include "jsResources.h"
 #include "jsTexture.h"
-
+#include "jsMaterial.h"
 
 namespace js
 {
@@ -25,13 +25,13 @@ namespace js
 		Transform* testTransform = new Transform();
 		MeshRenderer* testRenderer = new MeshRenderer();
 		Mesh* mesh = Resources::Find<Mesh>(L"RectMesh");
-		Shader* shader = Resources::Find<Shader>(L"RectShader");
+		Material* material = Resources::Find<Material>(L"RectMaterial");
 
 		testObj->AddComponent(testTransform);
 		testObj->AddComponent(testRenderer);
-		testTransform->SetPosition(Vector3(0.2f, 0.2f, 0.0f));
+		testTransform->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		testRenderer->SetMesh(mesh);
-		testRenderer->SetShader(shader);
+		testRenderer->SetMaterial(material);
 
 		mPlayScene->AddGameObject(testObj, eLayerType::Player);
 
