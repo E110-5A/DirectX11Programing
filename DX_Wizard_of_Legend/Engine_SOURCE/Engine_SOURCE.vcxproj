@@ -179,6 +179,7 @@
     <ClInclude Include="jsSceneManager.h" />
     <ClInclude Include="jsScript.h" />
     <ClInclude Include="jsShader.h" />
+    <ClInclude Include="jsSpriteRenderer.h" />
     <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTime.h" />
     <ClInclude Include="jsTransform.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="jsSceneManager.cpp" />
     <ClCompile Include="jsScript.cpp" />
     <ClCompile Include="jsShader.cpp" />
+    <ClCompile Include="jsSpriteRenderer.cpp" />
     <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTime.cpp" />
     <ClCompile Include="jsTransform.cpp" />

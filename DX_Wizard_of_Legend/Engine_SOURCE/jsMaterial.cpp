@@ -25,22 +25,22 @@ namespace js::graphics
     {
         switch (param)
         {
-        case js::graphics::eGPUParam::Int:
+        case eGPUParam::Int:
             mCB.iData = *static_cast<int*>(data);
             break;
-        case js::graphics::eGPUParam::Float:
+        case eGPUParam::Float:
             mCB.fData = *static_cast<float*>(data);
             break;
-        case js::graphics::eGPUParam::Vector2:
+        case eGPUParam::Vector2:
             mCB.xy = *static_cast<Vector2*>(data);
             break;
-        case js::graphics::eGPUParam::Vector3:
+        case eGPUParam::Vector3:
             mCB.xyz = *static_cast<Vector3*>(data);
             break;
-        case js::graphics::eGPUParam::Vector4:
+        case eGPUParam::Vector4:
             mCB.xyzw = *static_cast<Vector4*>(data);
             break;
-        case js::graphics::eGPUParam::Matrix:
+        case eGPUParam::Matrix:
             mCB.matrix = *static_cast<Matrix*>(data);
             break;
         default:
@@ -51,11 +51,17 @@ namespace js::graphics
 
     void Material::Bind()
     {
+        mTexture->BindShader(eShaderStage::PS, 0);
+
         ConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
         pCB->Bind(&mCB);
         pCB->SetPipline(eShaderStage::VS);
         pCB->SetPipline(eShaderStage::PS);
 
         mShader->Binds();
+    }
+    void Material::Clear()
+    {
+        mTexture->Clear();
     }
 }

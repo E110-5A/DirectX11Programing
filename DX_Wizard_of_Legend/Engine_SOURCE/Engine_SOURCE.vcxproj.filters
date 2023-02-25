@@ -141,6 +141,7 @@
     <ClCompile Include="jsCameraScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="jsSpriteRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -230,6 +231,7 @@
     <ClInclude Include="jsCameraScript.h">
       <Filter>Component\Script\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="jsSpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl">

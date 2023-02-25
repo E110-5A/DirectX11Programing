@@ -16,7 +16,7 @@ namespace js
 
 	Application::~Application()
 	{
-
+		SceneManager::Release();
 	}
 
 	void Application::Initalize()
@@ -28,8 +28,6 @@ namespace js
 		SceneManager::Initalize();
 	}
 
-	// 게임 로직 캐릭터 이동 등등 
-	// CPU UPDATE
 	void Application::Update()
 	{
 		Time::Update();
@@ -38,7 +36,6 @@ namespace js
 		SceneManager::Update();
 	}
 
-	// GPU update
 	void Application::FixedUpdate()
 	{
 		SceneManager::FixedUpdate();
@@ -53,7 +50,6 @@ namespace js
 
 		SceneManager::Render();
 
-		//graphicDevice->Render();
 		graphicDevice->Present();
 	}
 
@@ -67,7 +63,6 @@ namespace js
 
 	void Application::Release()
 	{
-		//Resources::Release();
 	}
 
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)

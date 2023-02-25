@@ -1,7 +1,7 @@
 #include "globals.hlsli"
 
 
-VSOut Triangle_VS(VSIn In)
+VSOut Sprite_VS(VSIn In)
 {
     VSOut output = (VSOut) 0.f;
     

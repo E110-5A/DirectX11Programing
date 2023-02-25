@@ -2,7 +2,6 @@
 #include "jsResources.h"
 #include "jsMaterial.h"
 
-
 namespace js::renderer
 {
 	Vertex vertexes[4] = {};
@@ -11,7 +10,8 @@ namespace js::renderer
 	
 	void SetUpState()
 	{
-		// Input Layout
+#pragma region Input Layout
+
 		D3D11_INPUT_ELEMENT_DESC arrLayoutDesc[3] = {};
 
 		arrLayoutDesc[0].AlignedByteOffset = 0;
@@ -41,7 +41,10 @@ namespace js::renderer
 			, shader->GetVSBlobBufferSize()
 			, shader->GetInputLayoutAddressOf());
 
-		// Sampler State
+#pragma endregion
+
+#pragma region Sampler State
+
 		D3D11_SAMPLER_DESC samplerDesc = {};
 		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
@@ -78,6 +81,9 @@ namespace js::renderer
 
 		GetDevice()->BindsSamplers((UINT)eSamplerType::Anisotropic
 			, 1, samplerStates[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+#pragma endregion
+
+
 	}
 
 	void LoadBuffer()
@@ -107,21 +113,48 @@ namespace js::renderer
 
 	void LoadShader()
 	{
+
+		// Default
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "Triangle_VS");
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "Triangle_PS");
 
 		Resources::Insert<Shader>(L"RectShader", shader);
+		
+		// Sprite
+		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
+		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "Sprite_VS");
+		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "Sprite_PS");
+		
+		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
+
 	}
 
 	void LoadMaterial()
 	{
-		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
+		std::shared_ptr <Texture> rectTexture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
+		// rect
 
-		std::shared_ptr<Material> material = std::make_shared<Material>(); 
-		material->SetShader(shader.get());
+		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
+		std::shared_ptr<Material> rectMaterial = std::make_shared<Material>();
 
-		Resources::Insert<Material>(L"RectMaterial", material);
+		rectMaterial->SetShader(rectShader);
+		rectMaterial->SetTexture(rectTexture);
+		Resources::Insert<Material>(L"RectMaterial", rectMaterial);
+
+
+
+
+		std::shared_ptr<Texture> spriteTexture = Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
+		// Sprite
+		
+		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"RectShader");
+		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
+
+		spriteMaterial->SetShader(spriteShader);
+		spriteMaterial->SetTexture(spriteTexture);
+		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
+		
 	}
 
 	void Initialize()

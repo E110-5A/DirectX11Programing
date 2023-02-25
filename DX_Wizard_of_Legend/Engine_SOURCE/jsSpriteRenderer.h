@@ -6,11 +6,11 @@
 using namespace js::graphics;
 namespace js
 {
-	class MeshRenderer : public Component
+	class SpriteRenderer : public Component
 	{
 	public:
-		MeshRenderer();
-		virtual ~MeshRenderer();
+		SpriteRenderer();
+		virtual ~SpriteRenderer();
 
 		virtual void Initalize() override;
 		virtual void Update() override;
@@ -18,10 +18,10 @@ namespace js
 		virtual void Render() override;
 
 		void SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; }
-		void SetMaterial(std::shared_ptr<Material> shader) { mMaterial = shader; }
+		void SetMaterial(std::shared_ptr <Material> shader) { mMaterial = shader; }
 
 	private:
-		std::shared_ptr<Mesh> mMesh;
-		std::shared_ptr<Material> mMaterial;
+		std::shared_ptr <Mesh> mMesh;
+		std::shared_ptr <Material> mMaterial;
 	};
 }

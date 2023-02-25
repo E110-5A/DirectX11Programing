@@ -5,7 +5,7 @@
 namespace js
 {
 	MeshRenderer::MeshRenderer()
-		: Component(eComponentType::Mesh)
+		: Component(eComponentType::MeshRenderer)
 	{
 	}
 
@@ -31,7 +31,8 @@ namespace js
 
 		mMaterial->Bind();
 		mMesh->BindBuffer();
-
 		mMesh->Render();
+
+		mMaterial->Clear();
 	}
 }
