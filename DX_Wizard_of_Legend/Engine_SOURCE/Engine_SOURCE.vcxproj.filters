@@ -61,6 +61,9 @@
     <Filter Include="Component\Script\Contents">
       <UniqueIdentifier>{0c9e0d2f-bd3f-44cc-a073-834f8bdf9d93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Camera">
+      <UniqueIdentifier>{758e11c9-06ac-43fe-8937-422a8d9da814}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -131,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="jsConstantBuffer.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="jsCamera.cpp">
+      <Filter>Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -214,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="jsConstantBuffer.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="jsCamera.h">
+      <Filter>Component\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

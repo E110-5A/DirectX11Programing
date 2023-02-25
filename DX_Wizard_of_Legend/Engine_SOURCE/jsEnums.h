@@ -7,6 +7,7 @@ namespace js::enums
 	enum class eLayerType
 	{
 		None = 0,
+		Camera,
 		Monster,
 		Player,
 		End = 16,
@@ -15,11 +16,10 @@ namespace js::enums
 	enum class eComponentType
 	{
 		None,
-		Transform, // 위치 데이터 수정하는 컴포넌트
+		Transform,
 		Camera,
 		Mesh,
 		Collider,
-		//Collider2,
 		UI,
 		Script,
 		End,

@@ -35,7 +35,6 @@ namespace js::renderer
 		arrLayoutDesc[2].SemanticName = "TEXCOORD";
 		arrLayoutDesc[2].SemanticIndex = 0;
 
-
 		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
 			, shader->GetVSBlobBufferPointer()
@@ -43,7 +42,6 @@ namespace js::renderer
 			, shader->GetInputLayoutAddressOf());
 
 		// Sampler State
-
 		D3D11_SAMPLER_DESC samplerDesc = {};
 		samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
 		samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
@@ -110,8 +108,8 @@ namespace js::renderer
 	void LoadShader()
 	{
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
-		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "VS_Test");
-		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "PS_Test");
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "Triangle_VS");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "Triangle_PS");
 
 		Resources::Insert<Shader>(L"RectShader", shader);
 	}

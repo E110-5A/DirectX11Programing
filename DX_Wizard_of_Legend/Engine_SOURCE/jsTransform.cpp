@@ -1,10 +1,17 @@
 #include "jsTransform.h"
 #include "jsRenderer.h"
+#include "jsCamera.h"
 
 namespace js
 {
 	Transform::Transform()
 		: Component(eComponentType::Transform)
+		, mFoward(Vector3::Forward)
+		, mRight(Vector3::Right)
+		, mUp(Vector3::Up)
+		, mScale(Vector3::One)
+		, mRotation(Vector3::Zero)
+		, mPosition(Vector3::One)
 	{
 	}
 
@@ -22,7 +29,21 @@ namespace js
 
 	void Transform::FixedUpdate()
 	{
-		SetConstantBuffer();
+		Matrix scale = Matrix::CreateScale(mScale);
+				
+		Matrix rotation;
+		rotation = Matrix::CreateRotationX(mRotation.x);
+		rotation *= Matrix::CreateRotationY(mRotation.y);
+		rotation *= Matrix::CreateRotationZ(mRotation.z);
+				
+		Matrix position;
+		position.Translation(mPosition);
+
+		mWorld = scale * rotation * position;
+
+		mFoward = Vector3::TransformNormal(Vector3::Forward, rotation);
+		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
+		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
 	}
 
 	void Transform::Render()
@@ -31,13 +52,14 @@ namespace js
 
 	void Transform::SetConstantBuffer()
 	{
-		// 상수버퍼를 가져와서 해당 상수버퍼에 
-		//SetConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer.Get());
-		// 예시처럼 값을 세팅해주어야 한다.	
+		renderer::TransformCB trCb = {};
+		trCb.world = mWorld;
+		trCb.view = Camera::GetViewMatrix();
+		trCb.projection = Camera::GetProjectionMatrix();
+
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
 		
-		Vector4 pos(mPosition.x, mPosition.y, mPosition.z, 0.0f);
-		cb->Bind(&pos);
+		cb->Bind(&trCb);
 		cb->SetPipline(eShaderStage::VS);
 	}
 }
