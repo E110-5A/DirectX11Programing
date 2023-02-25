@@ -69,4 +69,9 @@ namespace js
 	{
 		mPlayScene->Render();
 	}
+	void SceneManager::Release()
+	{
+		delete mPlayScene;
+		mPlayScene = nullptr;
+	}
 }

@@ -4,11 +4,10 @@
 #include "jsGraphicDevice_DX11.h"
 
 #ifdef _DEBUG
-#pragma comment(lib, "..\\External\\DirectXTex\\lib\\Debug\\DirectXTex.lib") 
+#pragma comment(lib, "..\\External\\DirectXTex\\Lib\\Debug\\DirectXTex.lib") 
 #else 
-#pragma comment(lib, "..\\External\\DirectXTex\\lib\\Release\\DirectXTex.lib") 
+#pragma comment(lib, "..\\External\\DirectXTex\\Lib\\Release\\DirectXTex.lib") 
 #endif
-
 
 using namespace js::enums;
 namespace js::graphics
@@ -21,6 +20,7 @@ namespace js::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 		void BindShader(eShaderStage stage, UINT slot);
+		void Clear();
 
 	private:
 		ScratchImage mImage;

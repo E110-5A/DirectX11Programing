@@ -13,8 +13,8 @@ namespace js
 			Orthographic,
 		};
 
-		__forceinline static Matrix& GetViewMatrix() { return mView; }
-		__forceinline static Matrix& GetProjectionMatrix() { return mProjection; }
+		__forceinline static Matrix& GetViewMatrix() { return View; }
+		__forceinline static Matrix& GetProjectionMatrix() { return Projection; }
 
 		Camera();
 		virtual ~Camera();
@@ -28,9 +28,12 @@ namespace js
 		void CreateProjectionMatrix();
 
 	private:
-		static Matrix mView;
-		static Matrix mProjection;
+		static Matrix View;
+		static Matrix Projection;
 
+		Matrix mView;
+		Matrix mProjection;
+		
 		eProjectionType mType;
 		float mAspectRatio;
 

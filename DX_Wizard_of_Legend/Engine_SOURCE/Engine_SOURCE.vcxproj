@@ -156,6 +156,7 @@
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsCamera.h" />
+    <ClInclude Include="jsCameraScript.h" />
     <ClInclude Include="jsComponent.h" />
     <ClInclude Include="jsConstantBuffer.h" />
     <ClInclude Include="jsEngine.h" />
@@ -185,6 +186,7 @@
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp" />
     <ClCompile Include="jsCamera.cpp" />
+    <ClCompile Include="jsCameraScript.cpp" />
     <ClCompile Include="jsComponent.cpp" />
     <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsEntity.cpp" />

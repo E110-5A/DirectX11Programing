@@ -20,6 +20,10 @@ namespace js::enums
 		Camera,
 		Mesh,
 		Collider,
+		
+		MeshRenderer,
+		SpriteRenderer,
+
 		UI,
 		Script,
 		End,
