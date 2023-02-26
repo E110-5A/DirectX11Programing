@@ -20,15 +20,20 @@ namespace js
 		mPlayScene = new Scene();
 		mPlayScene->Initalize();
 
+
+
 		// Camera Obj
 		GameObject* camObj = new GameObject();
+
 		Transform* camTr = new Transform();
 		Camera* camComp = new Camera();
 		CameraScript* camScript = new CameraScript();
 
-		camTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		camObj->AddComponent(camTr);
+		camTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+
 		camObj->AddComponent(camComp);
+		
 		camObj->AddComponent(camScript);
 
 		mPlayScene->AddGameObject(camObj, eLayerType::Camera);
@@ -36,44 +41,60 @@ namespace js
 
 
 
+
+
 		// Rect Obj
-		GameObject* rectObj = new GameObject();
+		GameObject* smileObj = new GameObject();
+
 		Transform* rectTr = new Transform();
 		MeshRenderer* rectMr = new MeshRenderer();
-		PlayerScript* rectScript = new PlayerScript();
-
-		rectObj->AddComponent(rectTr);
-		rectObj->AddComponent(rectMr);
-		rectObj->AddComponent(rectScript);
-		
-		rectTr->SetPosition(Vector3 (0.0f, 0.0f, 10.0f));
+		smileObj->AddComponent(rectTr);
+		rectTr->SetPosition(Vector3 (0.0f, 0.0f, 11.0f));
 		rectTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		
+		smileObj->AddComponent(rectMr);
+		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> rectmaterial = Resources::Find<Material>(L"RectMaterial");
+		rectMr->SetMesh(rectMesh);
+		rectMr->SetMaterial(rectmaterial);
+				
+		mPlayScene->AddGameObject(smileObj, eLayerType::Player);
 
-		std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-		rectMr->SetMesh(mesh);
-		rectMr->SetMaterial(mateiral);
 
-		std::shared_ptr <Texture> texture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
-		texture->BindShader(eShaderStage::PS, 0);
 
-		mPlayScene->AddGameObject(rectObj, eLayerType::Player);
 
 		// Sprite Obj
-		GameObject* SpriteObj = new GameObject();
+		GameObject* lightObj = new GameObject();
 		Transform* SpriteTr = new Transform();
-		SpriteRenderer* SpriteSr = new SpriteRenderer();
+		SpriteRenderer* lightSr = new SpriteRenderer();
 
-		SpriteObj->AddComponent(SpriteTr);
-		SpriteObj->AddComponent(SpriteSr);
+		lightObj->AddComponent(SpriteTr);
+		SpriteTr->SetPosition(Vector3(0.0f, 3.0f, 9.0f));
+		SpriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		
+		lightObj->AddComponent(lightSr);
+		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"lightMaterial");
+		lightSr->SetMesh(rectMesh);
+		lightSr->SetMaterial(lightMateiral);
 
-		SpriteTr->SetPosition(Vector3(5.0f, 0.0f, 10.0f));
+		mPlayScene->AddGameObject(lightObj, eLayerType::Player);
 
-		std::shared_ptr<Material> Spritemateiral = Resources::Find<Material>(L"RectMaterial");
-		SpriteSr->SetMesh(mesh);
-		SpriteSr->SetMaterial(Spritemateiral);
 
-		mPlayScene->AddGameObject(SpriteObj, eLayerType::Player);
+		// Sprite Obj
+		GameObject* subObj = new GameObject();
+		Transform* subTr = new Transform();
+		SpriteRenderer* subSr = new SpriteRenderer();
+
+		subObj->AddComponent(subTr);
+		subTr->SetPosition(Vector3(3.0f, 0.0f, 10.0f));
+		subTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+
+		subObj->AddComponent(subSr);
+		std::shared_ptr<Material> subMateiral = Resources::Find<Material>(L"SpriteMaterial");
+		subSr->SetMesh(rectMesh);
+		subSr->SetMaterial(subMateiral);
+
+		mPlayScene->AddGameObject(subObj, eLayerType::Player);
 	}
 
 	void SceneManager::Update()

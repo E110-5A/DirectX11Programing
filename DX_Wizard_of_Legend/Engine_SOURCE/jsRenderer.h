@@ -7,11 +7,11 @@
 #include "jsShader.h"
 #include "jsConstantBuffer.h"
 
-using namespace js::math;
-using namespace js::graphics;
-
 namespace js::renderer
 {
+	using namespace math;
+	using namespace graphics;
+
 	struct Vertex
 	{
 		Vector4 pos;
@@ -25,7 +25,6 @@ namespace js::renderer
 		Matrix view;
 		Matrix projection;
 	};
-
 	CBUFFER(MaterialCB, CBSLOT_MATERIAL)
 	{
 		int iData;
@@ -39,8 +38,13 @@ namespace js::renderer
 
 	extern Vertex vertexes[4];
 	extern ConstantBuffer* constantBuffers[];
-	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 
+	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[];
+	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
+	
+	
 	void Initialize();
 	void Release();
 }
