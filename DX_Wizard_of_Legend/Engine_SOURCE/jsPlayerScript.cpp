@@ -7,7 +7,6 @@
 namespace js
 {
 	PlayerScript::PlayerScript()
-		: Script()
 	{
 	}
 

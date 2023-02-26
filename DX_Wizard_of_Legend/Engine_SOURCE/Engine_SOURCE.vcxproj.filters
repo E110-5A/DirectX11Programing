@@ -153,6 +153,7 @@
     <ClCompile Include="jsGridScript.cpp">
       <Filter>Component\Script\Contents</Filter>
     </ClCompile>
+    <ClCompile Include="jsFadeEffectScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -254,6 +255,7 @@
     <ClInclude Include="jsObject.h">
       <Filter>GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="jsFadeEffectScript.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl">

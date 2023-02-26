@@ -8,6 +8,7 @@ namespace js::enums
 	{
 		None = 0,
 		Camera,
+		Effect,
 		Grid,
 		Monster,
 		Player,

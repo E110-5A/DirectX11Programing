@@ -22,6 +22,14 @@ cbuffer Grid : register(b2)
     float2 resolution;
 }
 
+cbuffer FadeEffect : register(b3)
+{
+    float addTime;      // 누적시간
+    float duration;   // 효과 시간
+    bool  fadeIn;        // In, Out 구분
+}
+
+
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);

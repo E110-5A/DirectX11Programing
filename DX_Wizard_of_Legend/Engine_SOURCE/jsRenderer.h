@@ -43,6 +43,13 @@ namespace js::renderer
 		Vector2 resolution;
 	};
 
+	CBUFFER(FadeEffectCB, CBSLOT_FADE)
+	{
+		float	addTime;		// 누적시간
+		float	duration;		// 효과 시간
+		bool	fadeIn;			// In, Out 구분
+	};
+
 	extern Vertex vertexes[4];
 	extern ConstantBuffer* constantBuffers[];
 

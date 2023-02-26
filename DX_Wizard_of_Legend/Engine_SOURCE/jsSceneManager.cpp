@@ -12,6 +12,7 @@
 #include "jsCameraScript.h"
 #include "jsPlayerScript.h"
 #include "jsGridScript.h"
+#include "jsFadeEffectScript.h"
 
 #include "jsObject.h"
 
@@ -96,6 +97,16 @@ namespace js
 		std::shared_ptr<Material> uiMaterial = Resources::Find<Material>(L"UIMaterial");
 		UISr->SetMesh(uiMesh);
 		UISr->SetMaterial(uiMaterial);
+
+
+		// FadeEffect Obj
+		GameObject* fadeEffectObj = object::Instantiate<GameObject>(eLayerType::Effect, Vector3::Zero, Vector3::Zero, Vector3(100.0f, 100.0f, 1.0f));
+		SpriteRenderer* fadeEffectSr = fadeEffectObj->AddComponent<SpriteRenderer>();
+		fadeEffectObj->AddComponent<FadeEffectScript>();
+		std::shared_ptr<Mesh> fadeEffectMesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> fadeEffectMaterial = Resources::Find<Material>(L"FadeEffectMaterial");
+		fadeEffectSr->SetMesh(fadeEffectMesh);
+		fadeEffectSr->SetMaterial(fadeEffectMaterial);
 
 
 		mActiveScene->Initalize();

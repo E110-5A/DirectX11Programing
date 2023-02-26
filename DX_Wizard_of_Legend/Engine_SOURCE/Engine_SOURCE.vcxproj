@@ -163,6 +163,7 @@
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
     <ClInclude Include="jsEnums.h" />
+    <ClInclude Include="jsFadeEffectScript.h" />
     <ClInclude Include="jsGameObject.h" />
     <ClInclude Include="jsGraphicDevice_DX11.h" />
     <ClInclude Include="jsGraphics.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="jsComponent.cpp" />
     <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsEntity.cpp" />
+    <ClCompile Include="jsFadeEffectScript.cpp" />
     <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="jsGridScript.cpp" />

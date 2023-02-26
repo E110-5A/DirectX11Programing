@@ -64,6 +64,12 @@ namespace js::renderer
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> fadeEffectShader = Resources::Find<Shader>(L"FadeEffectShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, fadeEffectShader->GetVSBlobBufferPointer()
+			, fadeEffectShader->GetVSBlobBufferSize()
+			, fadeEffectShader->GetInputLayoutAddressOf());
+
 #pragma endregion
 
 #pragma region Sampler State
@@ -198,6 +204,9 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
+
+		constantBuffers[(UINT)eCBType::FadeEffect] = new ConstantBuffer(eCBType::FadeEffect);
+		constantBuffers[(UINT)eCBType::FadeEffect]->Create(sizeof(FadeEffectCB));
 	}
 
 	void LoadShader()
@@ -228,8 +237,13 @@ namespace js::renderer
 		gridShader->SetRSState(eRSType::SolidNone);
 		gridShader->SetDSState(eDSType::NoWrite);
 		gridShader->SetBSState(eBSType::AlphaBlend);
-
 		Resources::Insert<Shader>(L"GridShader", gridShader);
+
+		// Fade
+		std::shared_ptr<Shader> fadeEffectShader = std::make_shared<Shader>();
+		fadeEffectShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		fadeEffectShader->Create(eShaderStage::PS, L"FadeEffectPS.hlsl", "main");
+		Resources::Insert<Shader>(L"FadeEffectShader", fadeEffectShader);
 	}
 
 	void LoadTexture()
@@ -289,6 +303,15 @@ namespace js::renderer
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetShader(gridShader);
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+
+
+		// FadeEffect
+		std::shared_ptr<Shader> fadeEffectShader = Resources::Find<Shader>(L"FadeEffectShader");
+		std::shared_ptr<Material> fadeEffectMaterial = std::make_shared<Material>();
+		fadeEffectMaterial->SetTexture(lightTexture);
+		fadeEffectMaterial->SetShader(fadeEffectShader);
+		fadeEffectMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		Resources::Insert<Material>(L"FadeEffectMaterial", fadeEffectMaterial);
 	}
 
 	void Initialize()
