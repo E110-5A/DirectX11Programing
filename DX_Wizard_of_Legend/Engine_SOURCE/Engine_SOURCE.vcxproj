@@ -173,6 +173,7 @@
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsMeshRenderer.h" />
+    <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />

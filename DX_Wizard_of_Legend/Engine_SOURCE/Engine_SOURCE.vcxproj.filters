@@ -64,6 +64,9 @@
     <Filter Include="Component\Camera">
       <UniqueIdentifier>{758e11c9-06ac-43fe-8937-422a8d9da814}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\FadeInOut">
+      <UniqueIdentifier>{c3935a4a-1cb8-4c25-b2de-ae5fa2cbfc5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="jsGridScript.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="jsObject.h">
+      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

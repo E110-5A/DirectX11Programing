@@ -36,6 +36,8 @@ namespace js
 		{
 			if (nullptr == obj)
 				continue;
+			if (GameObject::eState::Active != obj->GetState())
+				continue;
 
 			obj->Update();
 		}
@@ -47,6 +49,8 @@ namespace js
 		{
 			if (nullptr == obj)
 				continue;
+			if (GameObject::eState::Active != obj->GetState())
+				continue;
 
 			obj->FixedUpdate();
 		}
@@ -57,6 +61,8 @@ namespace js
 		for (GameObject* obj : mGameObjects)
 		{
 			if (nullptr == obj)
+				continue;
+			if (GameObject::eState::Active != obj->GetState())
 				continue;
 
 			obj->Render();
