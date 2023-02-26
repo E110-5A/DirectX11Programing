@@ -6,6 +6,7 @@ namespace js
 {
 	Transform::Transform()
 		: Component(eComponentType::Transform)
+		, mParent(nullptr)
 		, mFoward(Vector3::Forward)
 		, mRight(Vector3::Right)
 		, mUp(Vector3::Up)
@@ -44,6 +45,11 @@ namespace js
 		mFoward = Vector3::TransformNormal(Vector3::Forward, rotation);
 		mRight = Vector3::TransformNormal(Vector3::Right, rotation);
 		mUp = Vector3::TransformNormal(Vector3::Up, rotation);
+
+		if (mParent)
+		{
+			mWorld *= mParent->mWorld;
+		}
 	}
 
 	void Transform::Render()

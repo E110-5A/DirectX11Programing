@@ -17,6 +17,9 @@ namespace js
 
 		void SetConstantBuffer();
 
+		void SetParent(Transform* parent) { mParent = parent; }
+		Transform* GetParent() { return mParent; }
+
 		Vector3 GetPosition() { return mPosition; };
 		Vector3 GetRotation() { return mRotation; };
 		Vector3 GetScale() { return mScale; };
@@ -30,14 +33,15 @@ namespace js
 		Vector3 Up() { return mUp; }
 
 	private:
-		Vector3 mFoward;
-		Vector3 mRight;
-		Vector3 mUp;
+		Transform*	mParent;
+		Vector3		mFoward;
+		Vector3		mRight;
+		Vector3		mUp;
 
-		Vector3 mPosition;
-		Vector3 mRotation;
-		Vector3 mScale;
+		Vector3		mPosition;
+		Vector3		mRotation;
+		Vector3		mScale;
 
-		Matrix mWorld;
+		Matrix		mWorld;
 	};
 }

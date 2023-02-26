@@ -62,12 +62,12 @@ namespace js
 
 		// Smile Obj
 		GameObject* smileObj = new GameObject();
-
 		Transform* rectTr = new Transform();
 		MeshRenderer* rectMr = new MeshRenderer();
+		PlayerScript* smileScript = new PlayerScript();
 		smileObj->AddComponent(rectTr);
-		rectTr->SetPosition(Vector3 (0.0f, 0.0f, 11.0f));
-		rectTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		rectTr->SetPosition(Vector3 (0.0f, 0.0f, 9.0f));
+		rectTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 		
 		smileObj->AddComponent(rectMr);
 		std::shared_ptr<Mesh> smileMesh = Resources::Find<Mesh>(L"RectMesh");
@@ -75,8 +75,34 @@ namespace js
 		rectMr->SetMesh(smileMesh);
 		rectMr->SetMaterial(rectmaterial);
 
+		smileObj->AddComponent(smileScript);
+
 		smileObj->SetName(L"Smile");
 		mActiveScene->AddGameObject(smileObj, eLayerType::Player);
+
+		// child
+		GameObject* child = new GameObject();
+		Transform* childTr = new Transform();
+		childTr->SetPosition(Vector3(2.0f, 0.0f, 0.0f));
+		childTr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+		child->AddComponent(childTr);
+		childTr->SetParent(rectTr);
+
+		MeshRenderer* childMr = new MeshRenderer();
+		child->AddComponent(childMr);
+
+
+
+
+		std::shared_ptr<Material> childmateiral = Resources::Find<Material>(L"RectMaterial");
+
+		childMr->SetMaterial(childmateiral);
+		childMr->SetMesh(smileMesh);
+
+		child->SetName(L"child");
+		mActiveScene->AddGameObject(child, eLayerType::Player);
+
+
 
 		// Sprite Obj
 		GameObject* subObj = new GameObject();
@@ -90,7 +116,7 @@ namespace js
 		subObj->AddComponent(subSr);
 		std::shared_ptr<Mesh> subMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> subMateiral = Resources::Find<Material>(L"SpriteMaterial");
-		subSr->SetMesh(subMesh);
+		subSr->SetMesh(smileMesh);
 		subSr->SetMaterial(subMateiral);
 
 		subObj->SetName(L"Default");
@@ -109,7 +135,7 @@ namespace js
 		lightObj->AddComponent(lightSr);
 		std::shared_ptr<Mesh> lightMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"LightMaterial");
-		lightSr->SetMesh(lightMesh);
+		lightSr->SetMesh(smileMesh);
 		lightSr->SetMaterial(lightMateiral);
 
 

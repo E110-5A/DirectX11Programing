@@ -21,7 +21,13 @@ namespace js
 
 	void PlayerScript::Update()
 	{
-		
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::R))
+		{
+			Vector3 rot = tr->GetRotation();
+			rot.z += 10.0f * Time::DeltaTime();
+			tr->SetRotation(rot);
+		}
 	}
 
 	void PlayerScript::Render()
