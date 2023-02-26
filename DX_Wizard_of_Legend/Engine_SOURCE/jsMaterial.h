@@ -1,5 +1,5 @@
 #pragma once
-#include "jsResource.h";
+#include "jsResource.h"
 #include "jsRenderer.h"
 
 #include "jsShader.h"

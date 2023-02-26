@@ -8,6 +8,7 @@ namespace js::enums
 	{
 		None = 0,
 		Camera,
+		Grid,
 		Monster,
 		Player,
 
@@ -37,7 +38,6 @@ namespace js::enums
 		Texture,
 		Material,
 		Sound,
-		/*Font,*/
 		Prefab,
 		MeshData,
 		GraphicShader,

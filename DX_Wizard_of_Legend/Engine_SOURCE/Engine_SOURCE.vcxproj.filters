@@ -147,6 +147,9 @@
     <ClCompile Include="jsBaseRenderer.cpp">
       <Filter>Component\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="jsGridScript.cpp">
+      <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="jsBaseRenderer.h">
       <Filter>Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="jsGridScript.h">
+      <Filter>Component\Script\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

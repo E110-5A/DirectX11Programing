@@ -86,8 +86,8 @@ namespace js
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
 
-		float width = winRect.right - winRect.left;
-		float height = winRect.bottom - winRect.top;
+		float width = (winRect.right - winRect.left) * mScale;
+		float height = (winRect.bottom - winRect.top) * mScale;
 		mAspectRatio = width / height;
 
 		if (mType == eProjectionType::Perspective)

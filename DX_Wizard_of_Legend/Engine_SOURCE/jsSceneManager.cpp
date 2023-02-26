@@ -4,12 +4,14 @@
 #include "jsResources.h"
 #include "jsTexture.h"
 
-#include "jsTransform.h"
 #include "jsMeshRenderer.h"
-#include "jsPlayerScript.h"
-#include "jsCamera.h"
-#include "jsCameraScript.h"
 #include "jsSpriteRenderer.h"
+#include "jsTransform.h"
+#include "jsCamera.h"
+
+#include "jsCameraScript.h"
+#include "jsPlayerScript.h"
+#include "jsGridScript.h"
 
 namespace js
 {
@@ -20,10 +22,21 @@ namespace js
 		mActiveScene = new Scene();
 		
 
+		// Grid Obj
+		GameObject* gridObj = new GameObject();
+		Transform* gridTr = new Transform();
+		MeshRenderer* gridMr = new MeshRenderer();
+
+		gridObj->AddComponent(gridTr);
+		gridObj->AddComponent(new GridScript());
+		gridObj->AddComponent(gridMr);
+		gridMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
+
+		mActiveScene->AddGameObject(gridObj, eLayerType::Grid);
 
 
-
-		// Camera Obj
+		// Main Camera Obj
 		GameObject* camObj = new GameObject();
 
 		Transform* camTr = new Transform();
@@ -35,7 +48,7 @@ namespace js
 
 		camObj->AddComponent(camCamera);
 		camCamera->TurnLayerMask(eLayerType::UI, false);
-
+		camCamera->RegisterCameraInRenderer();
 		camObj->AddComponent(camScript);
 
 		mActiveScene->AddGameObject(camObj, eLayerType::Camera);

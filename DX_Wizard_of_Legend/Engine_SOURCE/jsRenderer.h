@@ -36,7 +36,12 @@ namespace js::renderer
 		Vector4 xyzw;
 		Matrix matrix;
 	};
-
+	CBUFFER(GridCB, CBSLOT_GRID)
+	{
+		Vector4 cameraPosition;
+		Vector2 cameraScale;
+		Vector2 resolution;
+	};
 
 	extern Vertex vertexes[4];
 	extern ConstantBuffer* constantBuffers[];

@@ -14,7 +14,7 @@
 
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
-
+#define CBSLOT_GRID 2
 
 namespace js::graphics
 {
@@ -95,6 +95,7 @@ namespace js::graphics
 	{
 		Transform,
 		Material,
+		Grid,
 		End,
 	};
 	enum class eGPUParam

@@ -58,6 +58,12 @@ namespace js::renderer
 			, uiShader->GetVSBlobBufferSize()
 			, uiShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, gridShader->GetVSBlobBufferPointer()
+			, gridShader->GetVSBlobBufferSize()
+			, gridShader->GetInputLayoutAddressOf());
+
 #pragma endregion
 
 #pragma region Sampler State
@@ -189,6 +195,9 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Material] = new ConstantBuffer(eCBType::Material);
 		constantBuffers[(UINT)eCBType::Material]->Create(sizeof(MaterialCB));
+
+		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
+		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
 	}
 
 	void LoadShader()
@@ -212,6 +221,15 @@ namespace js::renderer
 		uiShader->Create(eShaderStage::PS, L"UIPS.hlsl", "main");
 		Resources::Insert<Shader>(L"UIShader", spriteShader);
 
+		// Grid
+		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
+		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
+		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
+		gridShader->SetRSState(eRSType::SolidNone);
+		gridShader->SetDSState(eDSType::NoWrite);
+		gridShader->SetBSState(eBSType::AlphaBlend);
+
+		Resources::Insert<Shader>(L"GridShader", gridShader);
 	}
 
 	void LoadTexture()
@@ -235,8 +253,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"RectMaterial", rectMaterial);
 
 
-
-
 		// Sprite
 		std::shared_ptr<Texture> spriteTexture = Resources::Find<Texture>(L"DefaultSprite");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
@@ -256,6 +272,8 @@ namespace js::renderer
 		lightMaterial->SetTexture(lightTexture);
 		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
 
+
+		// UI
 		std::shared_ptr<Texture> uiTexture = Resources::Find<Texture>(L"CameraHurtEffect");
 		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
 		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
@@ -264,6 +282,13 @@ namespace js::renderer
 		uiMaterial->SetTexture(uiTexture);
 		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		Resources::Insert<Material>(L"UIMaterial", uiMaterial);
+
+
+		// Grid
+		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
+		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
+		gridMaterial->SetShader(gridShader);
+		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 	}
 
 	void Initialize()

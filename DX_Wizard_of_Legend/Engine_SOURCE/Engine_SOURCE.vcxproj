@@ -166,6 +166,7 @@
     <ClInclude Include="jsGameObject.h" />
     <ClInclude Include="jsGraphicDevice_DX11.h" />
     <ClInclude Include="jsGraphics.h" />
+    <ClInclude Include="jsGridScript.h" />
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
     <ClInclude Include="jsMaterial.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="jsEntity.cpp" />
     <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
+    <ClCompile Include="jsGridScript.cpp" />
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
     <ClCompile Include="jsMaterial.cpp" />
