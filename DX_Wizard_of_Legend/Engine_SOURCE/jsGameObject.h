@@ -28,13 +28,13 @@ namespace js
 		template <typename T>
 		T* GetComponent()
 		{
-			T* comp;
-			for (auto c : mComponents)
+			T* retComponent;
+			for (auto component : mComponents)
 			{
-				comp = dynamic_cast<T*>(c);
+				retComponent = dynamic_cast<T*>(component);
 
-				if (comp != nullptr)
-					return comp;
+				if (retComponent != nullptr)
+					return retComponent;
 			}
 
 			return nullptr;

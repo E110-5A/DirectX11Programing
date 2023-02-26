@@ -52,6 +52,12 @@ namespace js::renderer
 			, spriteShader->GetVSBlobBufferSize()
 			, spriteShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, uiShader->GetVSBlobBufferPointer()
+			, uiShader->GetVSBlobBufferSize()
+			, uiShader->GetInputLayoutAddressOf());
+
 #pragma endregion
 
 #pragma region Sampler State
@@ -192,23 +198,34 @@ namespace js::renderer
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
-
 		Resources::Insert<Shader>(L"RectShader", shader);
 		
 		// Sprite
 		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
 		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
-		
+		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");		
 		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 
+		// UI
+		std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
+		uiShader->Create(eShaderStage::VS, L"UIVS.hlsl", "main");
+		uiShader->Create(eShaderStage::PS, L"UIPS.hlsl", "main");
+		Resources::Insert<Shader>(L"UIShader", spriteShader);
+
+	}
+
+	void LoadTexture()
+	{
+		std::shared_ptr <Texture> rectTexture = Resources::Load<Texture>(L"SmileTexture",L"Smile.png");
+		std::shared_ptr <Texture> spriteTexture = Resources::Load<Texture>(L"DefaultSprite",L"DefaultSprite.png");
+		std::shared_ptr <Texture> lightTexture = Resources::Load<Texture>(L"LightTexture", L"Light.png");
+		std::shared_ptr <Texture> uiTexture = Resources::Load<Texture>(L"CameraHurtEffect",L"CameraHurtEffect.png");
 	}
 
 	void LoadMaterial()
 	{
-		std::shared_ptr <Texture> rectTexture = Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		// rect
-
+		std::shared_ptr <Texture> rectTexture = Resources::Find<Texture>(L"SmileTexture");
 		std::shared_ptr<Shader> rectShader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Material> rectMaterial = std::make_shared<Material>();
 
@@ -220,9 +237,8 @@ namespace js::renderer
 
 
 
-		std::shared_ptr<Texture> spriteTexture = Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
 		// Sprite
-		
+		std::shared_ptr<Texture> spriteTexture = Resources::Find<Texture>(L"DefaultSprite");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
 
@@ -232,14 +248,22 @@ namespace js::renderer
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 		
 
-		std::shared_ptr<Texture> lightTexture = Resources::Load<Texture>(L"LightTexture", L"Light.png");
-		// Sprite
-
+		// Light
+		std::shared_ptr<Texture> lightTexture = Resources::Find<Texture>(L"LightTexture");
 		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
 
 		lightMaterial->SetShader(spriteShader);
 		lightMaterial->SetTexture(lightTexture);
-		Resources::Insert<Material>(L"lightMaterial", lightMaterial);
+		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
+
+		std::shared_ptr<Texture> uiTexture = Resources::Find<Texture>(L"CameraHurtEffect");
+		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
+		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
+
+		uiMaterial->SetShader(uiShader);
+		uiMaterial->SetTexture(uiTexture);
+		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		Resources::Insert<Material>(L"UIMaterial", uiMaterial);
 	}
 
 	void Initialize()
@@ -264,6 +288,7 @@ namespace js::renderer
 		LoadShader();
 		SetUpState();
 		LoadBuffer();
+		LoadTexture();
 		LoadMaterial();
 	}
 

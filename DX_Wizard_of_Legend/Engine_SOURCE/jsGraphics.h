@@ -45,33 +45,33 @@ namespace js::graphics
 	};
 	enum class eRSType
 	{
-		SolidBack,
-		SolidFront,
-		SolidNone,
-		WireframeNone,
+		SolidBack,		// 뒷면 X
+		SolidFront,		// 앞면 X
+		SolidNone,		// 상관없이 그림
+		WireframeNone,	// 뼈대만 그림
 		End,
 	};
 	enum class eDSType
 	{
-		Less,
-		Greater,
-		NoWrite,
-		None,
+		Less,			// 작거나 같으면 덮어씀
+		Greater,		// 크면 덮어 씀
+		NoWrite,		// 작으면 덮어쓰지 않음
+		None,			// 깊이값 사용안함
 		End,
 	};
 	enum class eBSType
 	{
-		Default,
-		AlphaBlend,
-		OneOne,
+		Default,		//
+		AlphaBlend,		//
+		OneOne,			//
 		End,
 	};
 
 	enum class eRenderingMode
 	{
-		Opaque,
-		Cutout,
-		Transparent,
+		Opaque,			// 투명 영역이 없음
+		Cutout,			// 경계면을 처리하는 영역?
+		Transparent,	// 투명
 		End,
 	};
 

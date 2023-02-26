@@ -18,7 +18,8 @@ namespace js
 	void SceneManager::Initalize()
 	{
 		mActiveScene = new Scene();
-		mActiveScene->Initalize();
+		
+
 
 
 
@@ -26,19 +27,35 @@ namespace js
 		GameObject* camObj = new GameObject();
 
 		Transform* camTr = new Transform();
-		Camera* camComp = new Camera();
+		Camera* camCamera = new Camera();
 		CameraScript* camScript = new CameraScript();
 
 		camObj->AddComponent(camTr);
 		camTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
-		camObj->AddComponent(camComp);
-		
+		camObj->AddComponent(camCamera);
+		camCamera->TurnLayerMask(eLayerType::UI, false);
+
 		camObj->AddComponent(camScript);
 
 		mActiveScene->AddGameObject(camObj, eLayerType::Camera);
 
 
+		// UI Camera Obj
+		GameObject* UICamObj = new GameObject();
+
+		Transform* UICamTr = new Transform();
+		Camera* UICamCamera = new Camera();
+
+		UICamObj->AddComponent(UICamTr);
+		UICamTr->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+
+		UICamObj->AddComponent(UICamCamera);
+		UICamCamera->DisableLayerMasks();
+		UICamCamera->TurnLayerMask(eLayerType::UI);
+		UICamCamera->SetProjectionType(Camera::eProjectionType::Orthographic);
+
+		mActiveScene->AddGameObject(UICamObj, eLayerType::Camera);
 
 
 
@@ -53,9 +70,9 @@ namespace js
 		rectTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 		
 		smileObj->AddComponent(rectMr);
-		std::shared_ptr<Mesh> rectMesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Mesh> smileMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> rectmaterial = Resources::Find<Material>(L"RectMaterial");
-		rectMr->SetMesh(rectMesh);
+		rectMr->SetMesh(smileMesh);
 		rectMr->SetMaterial(rectmaterial);
 
 		smileObj->SetName(L"Smile");
@@ -71,10 +88,12 @@ namespace js
 		subTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 
 		subObj->AddComponent(subSr);
+		std::shared_ptr<Mesh> subMesh = Resources::Find<Mesh>(L"RectMesh");
 		std::shared_ptr<Material> subMateiral = Resources::Find<Material>(L"SpriteMaterial");
-		subSr->SetMesh(rectMesh);
+		subSr->SetMesh(subMesh);
 		subSr->SetMaterial(subMateiral);
 
+		subObj->SetName(L"Default");
 		mActiveScene->AddGameObject(subObj, eLayerType::Player);
 
 
@@ -88,8 +107,9 @@ namespace js
 		SpriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 		
 		lightObj->AddComponent(lightSr);
-		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"lightMaterial");
-		lightSr->SetMesh(rectMesh);
+		std::shared_ptr<Mesh> lightMesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"LightMaterial");
+		lightSr->SetMesh(lightMesh);
 		lightSr->SetMaterial(lightMateiral);
 
 
@@ -97,7 +117,26 @@ namespace js
 		mActiveScene->AddGameObject(lightObj, eLayerType::Player);
 
 
-		
+		// UI Obj
+		GameObject* UIObj = new GameObject();
+		Transform* UITr = new Transform();
+		SpriteRenderer* UISr = new SpriteRenderer();
+
+		UIObj->AddComponent(UITr);
+		UITr->SetPosition(Vector3(-5.0f, 3.0f, 12.0f));
+		UITr->SetScale(Vector3(10.0f, 10.0f, 10.0f));
+
+		UIObj->AddComponent(UISr);
+		std::shared_ptr<Mesh> uiMesh = Resources::Find<Mesh>(L"RectMesh");
+		std::shared_ptr<Material> uiMaterial = Resources::Find<Material>(L"UIMaterial");
+
+		UISr->SetMesh(uiMesh);
+		UISr->SetMaterial(uiMaterial);
+
+		UIObj->SetName(L"HUD");
+		mActiveScene->AddGameObject(UIObj, eLayerType::UI);
+
+		mActiveScene->Initalize();
 	}
 
 	void SceneManager::Update()

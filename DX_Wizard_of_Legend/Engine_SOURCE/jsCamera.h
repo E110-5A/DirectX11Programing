@@ -7,7 +7,7 @@ namespace js
 	class Camera : public Component
 	{
 	public:
-		enum eProjectionType
+		enum class eProjectionType
 		{
 			Perspective,
 			Orthographic,
@@ -32,8 +32,11 @@ namespace js
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
 
+		void SetProjectionType(eProjectionType type) { mType = type; }
+
+
 	private:
-		void sortGameObject();
+		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
@@ -52,7 +55,6 @@ namespace js
 		float mScale;
 
 		std::bitset<(UINT)eLayerType::End> mLayerMasks;
-
 		std::vector<GameObject*> mOpaqueGameObjects;
 		std::vector<GameObject*> mCutoutGameObjects;
 		std::vector<GameObject*> mTransparentGameObjects;

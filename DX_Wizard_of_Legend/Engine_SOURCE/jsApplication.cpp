@@ -48,7 +48,7 @@ namespace js
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-		SceneManager::Render();
+		renderer::Render();
 
 		graphicDevice->Present();
 	}

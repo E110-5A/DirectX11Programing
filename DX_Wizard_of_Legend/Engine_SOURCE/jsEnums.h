@@ -10,6 +10,8 @@ namespace js::enums
 		Camera,
 		Monster,
 		Player,
+
+		UI,
 		End = 16,
 	};
 

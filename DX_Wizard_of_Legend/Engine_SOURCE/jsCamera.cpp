@@ -26,6 +26,7 @@ namespace js
 		, mFar(1000.0f)
 		, mScale(1.0f)
 	{
+		EnableLayerMasks();
 	}
 
 	Camera::~Camera()
@@ -34,7 +35,6 @@ namespace js
 
 	void Camera::Initalize()
 	{
-		EnableLayerMasks();
 	}
 
 	void Camera::Update()
@@ -54,7 +54,7 @@ namespace js
 		View = mView;
 		Projection = mProjection;
 
-		sortGameObject();
+		sortGameObjects();
 
 		renderOpaque();
 		renderCutout();
@@ -107,7 +107,7 @@ namespace js
 	{
 		mLayerMasks.set((UINT)layer, enable);
 	}
-	void Camera::sortGameObject()
+	void Camera::sortGameObjects()
 	{
 		mOpaqueGameObjects.clear();
 		mCutoutGameObjects.clear();
