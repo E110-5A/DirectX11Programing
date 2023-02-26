@@ -6,11 +6,12 @@ namespace js::renderer
 {
 	Vertex vertexes[4] = {};
 	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
+	std::vector<Camera*> cameras;
+
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)eSamplerType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
-
 
 	void SetUpState()
 	{
@@ -106,7 +107,7 @@ namespace js::renderer
 
 		D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 		dsDesc.DepthEnable = true;
-		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;
 		GetDevice()->CreateDepthStencilState(&dsDesc, depthstencilStates[(UINT)eDSType::Less].GetAddressOf());
@@ -213,6 +214,7 @@ namespace js::renderer
 
 		rectMaterial->SetShader(rectShader);
 		rectMaterial->SetTexture(rectTexture);
+		rectMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		Resources::Insert<Material>(L"RectMaterial", rectMaterial);
 
 
@@ -226,6 +228,7 @@ namespace js::renderer
 
 		spriteMaterial->SetShader(spriteShader);
 		spriteMaterial->SetTexture(spriteTexture);
+		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 		
 
@@ -262,6 +265,18 @@ namespace js::renderer
 		SetUpState();
 		LoadBuffer();
 		LoadMaterial();
+	}
+
+	void Render()
+	{
+		for (Camera* cam : cameras)
+		{
+			if (nullptr == cam)
+				continue;
+
+			cam->Render();
+		}
+		cameras.clear();
 	}
 
 	void Release()

@@ -1,10 +1,11 @@
 #pragma once
+#include "jsEntity.h"
 #include "jsComponent.h"
 #include "jsScript.h"
 
 namespace js
 {
-	class GameObject
+	class GameObject : public Entity
 	{
 	public:
 		enum eState

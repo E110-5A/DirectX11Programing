@@ -13,20 +13,20 @@ namespace js
 	{
 		for (Component* comp : mComponents)
 		{
-			if (comp == nullptr)
+			if (nullptr == comp)
 				continue;
 
 			delete comp;
 			comp = nullptr;
 		}
 
-		for (Component* scrComp : mScripts)
+		for (Component* script : mScripts)
 		{
-			if (scrComp == nullptr)
+			if (nullptr == script)
 				continue;
 
-			delete scrComp;
-			scrComp = nullptr;
+			delete script;
+			script = nullptr;
 		}
 	}
 
@@ -34,7 +34,7 @@ namespace js
 	{
 		for (Component* comp : mComponents)
 		{
-			if (comp == nullptr)
+			if (nullptr == comp)
 				continue;
 
 			comp->Initalize();
@@ -42,7 +42,7 @@ namespace js
 
 		for (Component* script : mScripts)
 		{
-			if (script == nullptr)
+			if (nullptr == script)
 				continue;
 
 			script->Initalize();
@@ -53,7 +53,7 @@ namespace js
 	{
 		for (Component* comp : mComponents)
 		{
-			if (comp == nullptr)
+			if (nullptr == comp)
 				continue;
 
 			comp->Update();
@@ -61,7 +61,7 @@ namespace js
 
 		for (Component* script : mScripts)
 		{
-			if (script == nullptr)
+			if (nullptr == script)
 				continue;
 
 			script->Update();
@@ -72,7 +72,7 @@ namespace js
 	{
 		for (Component* comp : mComponents)
 		{
-			if (comp == nullptr)
+			if (nullptr == comp)
 				continue;
 
 			comp->FixedUpdate();
@@ -80,7 +80,7 @@ namespace js
 
 		for (Component* script : mScripts)
 		{
-			if (script == nullptr)
+			if (nullptr == script)
 				continue;
 
 			script->FixedUpdate();
@@ -91,7 +91,7 @@ namespace js
 	{
 		for (Component* comp : mComponents)
 		{
-			if (comp == nullptr)
+			if (nullptr == comp)
 				continue;
 
 			comp->Render();
@@ -99,7 +99,7 @@ namespace js
 
 		for (Component* script : mScripts)
 		{
-			if (script == nullptr)
+			if (nullptr == script)
 				continue;
 
 			script->Render();
@@ -110,7 +110,7 @@ namespace js
 	{
 		eComponentType order = comp->GetOrder();
 
-		if (order != eComponentType::Script)
+		if (eComponentType::Script != order)
 		{
 			mComponents[(UINT)order] = comp;
 			mComponents[(UINT)order]->SetOwner(this);

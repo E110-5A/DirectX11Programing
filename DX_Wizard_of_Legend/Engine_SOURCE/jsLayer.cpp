@@ -11,7 +11,7 @@ namespace js
 	{
 		for (GameObject* obj : mGameObjects)
 		{
-			if (obj == nullptr)
+			if (nullptr == obj)
 				continue;
 
 			delete obj;
@@ -23,7 +23,7 @@ namespace js
 	{
 		for (GameObject* obj : mGameObjects)
 		{
-			if (obj == nullptr)
+			if (nullptr == obj)
 				continue;
 
 			obj->Initalize();
@@ -34,7 +34,7 @@ namespace js
 	{
 		for (GameObject* obj : mGameObjects)
 		{
-			if (obj == nullptr)
+			if (nullptr == obj)
 				continue;
 
 			obj->Update();
@@ -45,7 +45,7 @@ namespace js
 	{
 		for (GameObject* obj : mGameObjects)
 		{
-			if (obj == nullptr)
+			if (nullptr == obj)
 				continue;
 
 			obj->FixedUpdate();
@@ -56,7 +56,7 @@ namespace js
 	{
 		for (GameObject* obj : mGameObjects)
 		{
-			if (obj == nullptr)
+			if (nullptr == obj)
 				continue;
 
 			obj->Render();

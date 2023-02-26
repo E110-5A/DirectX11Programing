@@ -7,6 +7,8 @@
 #include "jsShader.h"
 #include "jsConstantBuffer.h"
 
+#include "jsCamera.h"
+
 namespace js::renderer
 {
 	using namespace math;
@@ -44,8 +46,10 @@ namespace js::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
 	
-	
+	extern std::vector<Camera*> cameras;
+
 	void Initialize();
+	void Render();
 	void Release();
 }
 

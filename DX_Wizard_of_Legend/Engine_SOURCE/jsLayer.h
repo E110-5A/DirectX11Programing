@@ -3,6 +3,7 @@
 
 namespace js
 {
+	typedef const std::vector<GameObject*>& GameObjects;
 	class Layer : public Entity
 	{
 	public:
@@ -15,6 +16,7 @@ namespace js
 		virtual void Render();
 
 		void AddGameObject(GameObject* gameObject);
+		const std::vector<GameObject*> GetGameObjects() { return mGameObjects; }
 
 	private:
 		std::vector<GameObject*> mGameObjects;

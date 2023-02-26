@@ -18,7 +18,7 @@ namespace js
 		virtual void Render();
 
 		void AddGameObject(GameObject* gameObj, const eLayerType type);
-
+		Layer& GetLayer(eLayerType type) { return mLayers[(UINT)type]; }
 	private:
 		std::vector<Layer> mLayers;
 	};

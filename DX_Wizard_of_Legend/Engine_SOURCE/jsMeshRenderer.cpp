@@ -5,7 +5,7 @@
 namespace js
 {
 	MeshRenderer::MeshRenderer()
-		: Component(eComponentType::MeshRenderer)
+		: BaseRenderer(eComponentType::MeshRenderer)
 	{
 	}
 
@@ -29,10 +29,10 @@ namespace js
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mMaterial->Bind();
-		mMesh->BindBuffer();
-		mMesh->Render();
+		GetMaterial()->Bind();
+		GetMesh()->BindBuffer();
+		GetMesh()->Render();
 
-		mMaterial->Clear();
+		GetMaterial()->Clear();
 	}
 }

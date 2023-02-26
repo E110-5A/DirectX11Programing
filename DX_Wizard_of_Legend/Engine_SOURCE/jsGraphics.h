@@ -67,6 +67,14 @@ namespace js::graphics
 		End,
 	};
 
+	enum class eRenderingMode
+	{
+		Opaque,
+		Cutout,
+		Transparent,
+		End,
+	};
+
 	struct GpuBuffer
 	{
 		enum class eType
@@ -89,7 +97,6 @@ namespace js::graphics
 		Material,
 		End,
 	};
-
 	enum class eGPUParam
 	{
 		Int,

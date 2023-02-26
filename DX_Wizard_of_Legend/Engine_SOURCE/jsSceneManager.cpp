@@ -13,12 +13,12 @@
 
 namespace js
 {
-	Scene* SceneManager::mPlayScene = nullptr;
+	Scene* SceneManager::mActiveScene = nullptr;
 
 	void SceneManager::Initalize()
 	{
-		mPlayScene = new Scene();
-		mPlayScene->Initalize();
+		mActiveScene = new Scene();
+		mActiveScene->Initalize();
 
 
 
@@ -36,14 +36,14 @@ namespace js
 		
 		camObj->AddComponent(camScript);
 
-		mPlayScene->AddGameObject(camObj, eLayerType::Camera);
+		mActiveScene->AddGameObject(camObj, eLayerType::Camera);
 
 
 
 
 
 
-		// Rect Obj
+		// Smile Obj
 		GameObject* smileObj = new GameObject();
 
 		Transform* rectTr = new Transform();
@@ -57,28 +57,9 @@ namespace js
 		std::shared_ptr<Material> rectmaterial = Resources::Find<Material>(L"RectMaterial");
 		rectMr->SetMesh(rectMesh);
 		rectMr->SetMaterial(rectmaterial);
-				
-		mPlayScene->AddGameObject(smileObj, eLayerType::Player);
 
-
-
-
-		// Sprite Obj
-		GameObject* lightObj = new GameObject();
-		Transform* SpriteTr = new Transform();
-		SpriteRenderer* lightSr = new SpriteRenderer();
-
-		lightObj->AddComponent(SpriteTr);
-		SpriteTr->SetPosition(Vector3(0.0f, 3.0f, 9.0f));
-		SpriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
-		
-		lightObj->AddComponent(lightSr);
-		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"lightMaterial");
-		lightSr->SetMesh(rectMesh);
-		lightSr->SetMaterial(lightMateiral);
-
-		mPlayScene->AddGameObject(lightObj, eLayerType::Player);
-
+		smileObj->SetName(L"Smile");
+		mActiveScene->AddGameObject(smileObj, eLayerType::Player);
 
 		// Sprite Obj
 		GameObject* subObj = new GameObject();
@@ -86,7 +67,7 @@ namespace js
 		SpriteRenderer* subSr = new SpriteRenderer();
 
 		subObj->AddComponent(subTr);
-		subTr->SetPosition(Vector3(3.0f, 0.0f, 10.0f));
+		subTr->SetPosition(Vector3(4.0f, 0.0f, 11.0f));
 		subTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
 
 		subObj->AddComponent(subSr);
@@ -94,26 +75,48 @@ namespace js
 		subSr->SetMesh(rectMesh);
 		subSr->SetMaterial(subMateiral);
 
-		mPlayScene->AddGameObject(subObj, eLayerType::Player);
+		mActiveScene->AddGameObject(subObj, eLayerType::Player);
+
+
+		// Light Obj
+		GameObject* lightObj = new GameObject();
+		Transform* SpriteTr = new Transform();
+		SpriteRenderer* lightSr = new SpriteRenderer();
+
+		lightObj->AddComponent(SpriteTr);
+		SpriteTr->SetPosition(Vector3(0.0f, 0.0f, 11.0f));
+		SpriteTr->SetScale(Vector3(5.0f, 5.0f, 1.0f));
+		
+		lightObj->AddComponent(lightSr);
+		std::shared_ptr<Material> lightMateiral = Resources::Find<Material>(L"lightMaterial");
+		lightSr->SetMesh(rectMesh);
+		lightSr->SetMaterial(lightMateiral);
+
+
+		lightObj->SetName(L"Light");
+		mActiveScene->AddGameObject(lightObj, eLayerType::Player);
+
+
+		
 	}
 
 	void SceneManager::Update()
 	{
-		mPlayScene->Update();
+		mActiveScene->Update();
 	}
 
 	void SceneManager::FixedUpdate()
 	{
-		mPlayScene->FixedUpdate();
+		mActiveScene->FixedUpdate();
 	}
 
 	void SceneManager::Render()
 	{
-		mPlayScene->Render();
+		mActiveScene->Render();
 	}
 	void SceneManager::Release()
 	{
-		delete mPlayScene;
-		mPlayScene = nullptr;
+		delete mActiveScene;
+		mActiveScene = nullptr;
 	}
 }

@@ -5,7 +5,7 @@
 namespace js
 {
 	SpriteRenderer::SpriteRenderer()
-		: Component(eComponentType::SpriteRenderer)
+		: BaseRenderer(eComponentType::SpriteRenderer)
 	{
 	}
 	SpriteRenderer::~SpriteRenderer()
@@ -24,9 +24,10 @@ namespace js
 	{
 		GetOwner()->GetComponent<Transform>()->SetConstantBuffer();
 
-		mMaterial->Bind();
-		mMesh->BindBuffer();
-		mMesh->Render();
-		mMaterial->Clear();
+		GetMaterial()->Bind();
+		GetMesh()->BindBuffer();
+		GetMesh()->Render();
+
+		GetMaterial()->Clear();
 	}
 }
