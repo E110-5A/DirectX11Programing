@@ -6,6 +6,11 @@ namespace js
 	class FadeEffectScript : public Script
 	{
 	public:
+		enum eFadeState
+		{
+			Fade_In,
+			Fade_Out,
+		};
 		FadeEffectScript();
 		virtual ~FadeEffectScript();
 
@@ -14,12 +19,12 @@ namespace js
 		virtual void FixedUpdate();
 		virtual void Render();
 
-		void FadeIn();
 
 	private:
-		bool	isActive;
-		float	mAddTime;		// 누적시간
-		float	mDuration;		// 효과 시간
-		bool	mFadeIn;
+		bool		isActive;
+		float		mAddTime;		// 누적시간
+		float		mDuration;		// 효과 시간
+		float		mRatio;
+		eFadeState	mType;
 	};
 }

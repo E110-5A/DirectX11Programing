@@ -26,16 +26,8 @@ float4 main(VSOut In) : SV_Target
 {
     float4 color = (float) 0.0f;
     //color = defaultTexture.Sample(anisotropicSampler, In.UV);
-        
-    float ratio = (addTime / duration);
     
-    // 알파 값 감소 (Fade-In)
-    if (true == fadeIn)
-        color.w = 255 * ratio;
-    
-    // 알파 값 증가 (Fade-Out)
-    else
-        color.w = 255 * (1 - ratio);
+    color.w =  alpha;
     
     return color;
 }

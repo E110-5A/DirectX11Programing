@@ -10,7 +10,7 @@ namespace js
 		: isActive(false)
 		, mAddTime(0.0f)
 		, mDuration(2.5f)
-		, mFadeIn(true)
+		, mType(Fade_Out)
 	{
 	}
 	FadeEffectScript::~FadeEffectScript()
@@ -24,7 +24,6 @@ namespace js
 		if (isActive)
 		{
 			mAddTime += Time::DeltaTime();
-			FadeIn();
 		}
 
 		if (mAddTime >= mDuration)
@@ -33,35 +32,45 @@ namespace js
 			mAddTime = 0.0f;
 		}
 
-		/*if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == isActive)
+		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == isActive
+			&& 0.9 <= mRatio)
 		{
 			isActive = true;
-			mFadeIn = true;
-		}*/
-		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == isActive)
+			mType = Fade_In;
+		}
+		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == isActive
+			&& 0.1 >= mRatio)
 		{
 			isActive = true;
-			mFadeIn = false;
+			mType = Fade_Out;
 		}
 	}
 	void FadeEffectScript::FixedUpdate()
 	{
-	}
-	void FadeEffectScript::Render()
-	{
-	}
-	void FadeEffectScript::FadeIn()
-	{
+		if (!isActive)
+			return;
+
+		if (eFadeState::Fade_Out == mType)
+		{
+			mRatio = (mAddTime / mDuration);
+		}
+		else if (eFadeState::Fade_In == mType)
+		{
+			mRatio = 1 - (mAddTime / mDuration);
+		}
 		
+
 		// Constant buffer
 		ConstantBuffer* FadeEffectCB = renderer::constantBuffers[(UINT)eCBType::FadeEffect];
+		
 		renderer::FadeEffectCB data;
-		data.addTime = mAddTime;
-		data.duration = mDuration;
-		data.fadeIn = mFadeIn;
-
+		data.alpha = mRatio;
+		
 		FadeEffectCB->Bind(&data);
 		FadeEffectCB->SetPipline(eShaderStage::PS);
 		FadeEffectCB->SetPipline(eShaderStage::VS);
+	}
+	void FadeEffectScript::Render()
+	{
 	}
 }

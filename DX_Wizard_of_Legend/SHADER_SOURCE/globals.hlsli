@@ -24,9 +24,7 @@ cbuffer Grid : register(b2)
 
 cbuffer FadeEffect : register(b3)
 {
-    float addTime;      // 누적시간
-    float duration;   // 효과 시간
-    bool  fadeIn;        // In, Out 구분
+    float alpha;      // 누적시간
 }
 
 

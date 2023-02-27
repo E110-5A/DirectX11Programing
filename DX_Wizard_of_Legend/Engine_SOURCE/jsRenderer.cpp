@@ -308,7 +308,7 @@ namespace js::renderer
 		// FadeEffect
 		std::shared_ptr<Shader> fadeEffectShader = Resources::Find<Shader>(L"FadeEffectShader");
 		std::shared_ptr<Material> fadeEffectMaterial = std::make_shared<Material>();
-		fadeEffectMaterial->SetTexture(lightTexture);
+		fadeEffectMaterial->SetTexture(spriteTexture);
 		fadeEffectMaterial->SetShader(fadeEffectShader);
 		fadeEffectMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		Resources::Insert<Material>(L"FadeEffectMaterial", fadeEffectMaterial);

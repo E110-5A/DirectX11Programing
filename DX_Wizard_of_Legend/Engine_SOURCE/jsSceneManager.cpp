@@ -38,6 +38,7 @@ namespace js
 		GameObject* camObj = object::Instantiate<GameObject>(eLayerType::Camera);
 		Camera* camCamera = camObj->AddComponent<Camera>();
 		camCamera->TurnLayerMask(eLayerType::UI, false);
+		camCamera->TurnLayerMask(eLayerType::Effect, false);
 		camCamera->RegisterCameraInRenderer();
 		CameraScript* camScript = camObj->AddComponent<CameraScript>();		
 		
@@ -49,6 +50,7 @@ namespace js
 		Camera* UICamCamera = UICamObj->AddComponent<Camera>();
 		UICamCamera->DisableLayerMasks();
 		UICamCamera->TurnLayerMask(eLayerType::UI);
+		UICamCamera->TurnLayerMask(eLayerType::Effect);
 		UICamCamera->SetProjectionType(Camera::eProjectionType::Orthographic);
 
 
