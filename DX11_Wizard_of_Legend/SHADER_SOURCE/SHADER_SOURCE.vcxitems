@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{a9972daf-f7b0-494d-a8c6-4edd91143375}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="$(MSBuildThisFileDirectory)FadeEffectPS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)GridVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpriteVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)TrianglePS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)TriangleVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)UIPS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)UIVS.hlsl" />
+  </ItemGroup>
+</Project>
