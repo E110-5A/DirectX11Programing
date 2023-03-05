@@ -4,7 +4,7 @@
 using namespace js::enums;
 namespace js::graphics
 {
-
+	
 	class GraphicDevice_DX11
 	{
 	public:
@@ -26,7 +26,7 @@ namespace js::graphics
 		void BindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY topology);
 		void BindInputLayout(ID3D11InputLayout* pInputLayout);
 		void BindVertexBuffer(UINT StartSlot, UINT NumBuffers, ID3D11Buffer* const* ppVertexBuffers, const UINT* pStrides, const UINT* pOffsets);
-		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format, UINT Offset);
+		void BindIndexBuffer(ID3D11Buffer* pIndexBuffer, DXGI_FORMAT Format,  UINT Offset);
 		void BindVertexShader(ID3D11VertexShader* pVertexShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances);
 		void BindPixelShader(ID3D11PixelShader* pPixelShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances);
 		void BindViewports(D3D11_VIEWPORT* viewPort);
@@ -48,7 +48,7 @@ namespace js::graphics
 		void Present();
 
 		ID3D11Device* GetID3D11Device() { return mDevice.Get(); }
-
+		
 	private:
 		Microsoft::WRL::ComPtr <ID3D11Device> mDevice;
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> mContext;

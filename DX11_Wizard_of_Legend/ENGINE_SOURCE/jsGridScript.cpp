@@ -4,6 +4,7 @@
 #include "jsApplication.h"
 #include "jsConstantBuffer.h"
 #include "jsRenderer.h"
+#include "jsSceneManager.h"
 
 extern js::Application application;
 
@@ -23,21 +24,25 @@ namespace js
 
 	void GridScript::Initialize()
 	{
-		mCamera = renderer::cameras[0];
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		mCamera = renderer::cameras[(UINT)type][0];
 	}
 
 	void GridScript::Update()
 	{
-	}
+		//	CBUFFER(GridCB, CBSLOT_GRID)
+		//{
+		//	Vector4 cameraPosition;
+		//	Vector2 cameraScale;
+		//	Vector2 resolution;
+		//};
 
-	void GridScript::FixedUpdate()
-	{
 		if (mCamera == nullptr)
 			return;
 
 		GameObject* gameObj = mCamera->GetOwner();
 		Transform* tr = gameObj->GetComponent<Transform>();
-
+		
 		Vector3 cameraPos = tr->GetPosition();
 		Vector4 position = Vector4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
 
@@ -45,8 +50,8 @@ namespace js
 
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
-		float width = (float)(winRect.right - winRect.left);
-		float height = (float)(winRect.bottom - winRect.top);
+		float width = winRect.right - winRect.left;
+		float height = winRect.bottom - winRect.top;
 		Vector2 resolution(width, height);
 
 		// Constant buffer
@@ -59,6 +64,10 @@ namespace js
 		cb->Bind(&data);
 		cb->SetPipline(eShaderStage::VS);
 		cb->SetPipline(eShaderStage::PS);
+ 	}
+
+	void GridScript::FixedUpdate()
+	{
 	}
 
 	void GridScript::Render()

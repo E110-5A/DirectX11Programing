@@ -2,9 +2,9 @@
 #include "jsMath.h"
 #include "jsEntity.h"
 
+using namespace js::enums;
 namespace js
 {
-	using namespace enums;
 	class GameObject;
 	class Component : public Entity
 	{

@@ -2,7 +2,6 @@
 #include "CommonInclude.h"
 #include "jsMath.h"
 #include "jsGraphicDevice_DX11.h"
-
 #include "jsMesh.h"
 #include "jsShader.h"
 #include "jsConstantBuffer.h"
@@ -44,10 +43,6 @@ namespace js::renderer
 		Vector2 resolution;
 	};
 
-	CBUFFER(FadeEffectCB, CBSLOT_FADE)
-	{
-		float	alpha;
-	};
 
 	extern Vertex vertexes[4];
 	extern ConstantBuffer* constantBuffers[];
@@ -55,12 +50,15 @@ namespace js::renderer
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
-
-	extern std::vector<Camera*> cameras;
+	
+	extern std::vector<Camera*> cameras[];
 
 	void Initialize();
 	void Render();
 	void Release();
+
+	//Renderer
+
 
 }
 

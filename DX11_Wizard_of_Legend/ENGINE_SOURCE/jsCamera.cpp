@@ -7,6 +7,7 @@
 #include "jsSceneManager.h"
 #include "jsMaterial.h"
 #include "jsBaseRenderer.h"
+#include "jsSceneManager.h"
 
 extern js::Application application;
 
@@ -18,10 +19,10 @@ namespace js
 	Camera::Camera()
 		: Component(eComponentType::Camera)
 		, mType(eProjectionType::Perspective)
-		, mScale(1.0f)
 		, mAspectRatio(1.0f)
 		, mNear(1.0f)
 		, mFar(1000.0f)
+		, mScale(1.0f)
 	{
 		EnableLayerMasks();
 	}
@@ -32,10 +33,13 @@ namespace js
 
 	void Camera::Initialize()
 	{
+		
+		//RegisterCameraInRenderer();
 	}
 
 	void Camera::Update()
 	{
+
 	}
 
 	void Camera::FixedUpdate()
@@ -66,6 +70,7 @@ namespace js
 		// Crate Translate view matrix
 		mView = Matrix::Identity;
 		mView *= Matrix::CreateTranslation(-pos);
+		//회전 정보
 
 		Vector3 up = tr->Up();
 		Vector3 right = tr->Right();
@@ -83,13 +88,20 @@ namespace js
 	{
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
+
 		float width = (winRect.right - winRect.left) * mScale;
 		float height = (winRect.bottom - winRect.top) * mScale;
 		mAspectRatio = width / height;
 
 		if (mType == eProjectionType::Perspective)
 		{
-			mProjection = Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, mAspectRatio, mNear, mFar);
+			mProjection = Matrix::CreatePerspectiveFieldOfViewLH
+			(
+				XM_2PI / 6.0f
+				, mAspectRatio
+				, mNear
+				, mFar
+			);
 		}
 		else
 		{
@@ -99,7 +111,8 @@ namespace js
 
 	void Camera::RegisterCameraInRenderer()
 	{
-		renderer::cameras.push_back(this);
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		renderer::cameras[(UINT)type].push_back(this);
 	}
 
 	void Camera::TurnLayerMask(eLayerType layer, bool enable)
@@ -172,18 +185,20 @@ namespace js
 			return;
 
 		std::shared_ptr<Material> material = renderer->GetMaterial();
+		//if (material == nullptr)
+		//	continue;
 
 		eRenderingMode mode = material->GetRenderingMode();
 
 		switch (mode)
 		{
-		case eRenderingMode::Opaque:
+		case js::graphics::eRenderingMode::Opaque:
 			mOpaqueGameObjects.push_back(gameObj);
 			break;
-		case eRenderingMode::CutOut:
+		case js::graphics::eRenderingMode::CutOut:
 			mCutoutGameObjects.push_back(gameObj);
 			break;
-		case eRenderingMode::Transparent:
+		case js::graphics::eRenderingMode::Transparent:
 			mTransparentGameObjects.push_back(gameObj);
 			break;
 		default:

@@ -4,7 +4,7 @@
 
 namespace js
 {
-	class Mesh : public Resource
+	class Mesh : public Resource 
 	{
 	public:
 		Mesh();

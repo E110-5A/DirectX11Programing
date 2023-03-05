@@ -5,8 +5,6 @@
 
 namespace js
 {
-	using namespace graphics;
-
 	class Application
 	{
 	public:
@@ -17,6 +15,7 @@ namespace js
 		virtual void Update();
 		virtual void FixedUpdate();
 		virtual void Render();
+		virtual void Destroy();
 
 		// Running main engine loop
 		void Run();
@@ -30,7 +29,7 @@ namespace js
 
 	private:
 		bool initialized = false;
-		std::unique_ptr<GraphicDevice_DX11> graphicDevice;
+		std::unique_ptr<graphics::GraphicDevice_DX11> graphicDevice;
 
 		HWND mHwnd;
 		HDC mHdc;

@@ -63,17 +63,25 @@ namespace js
 		{
 			if (mState == eState::Dead)
 				return true;
-
+			
 			return false;
 		}
 		void Pause() { mState = eState::Paused; }
 		void Death() { mState = eState::Dead; }
 		eState GetState() { return mState; }
+		
+		bool IsDontDestroy() { return mbDontDestroy; }
+		void DontDestroy(bool enable) { mbDontDestroy = enable; }
+		eLayerType GetLayerType() { return mType; }
+		void SetLayerType(eLayerType type) { mType = type; }
 
 	private:
 		eState mState;
+		eLayerType mType;
 		std::vector<Component*> mComponents;
 		std::vector<Component*> mScripts;
+		bool mbDontDestroy;
+		//Scene* mScene;
 	};
 }
 

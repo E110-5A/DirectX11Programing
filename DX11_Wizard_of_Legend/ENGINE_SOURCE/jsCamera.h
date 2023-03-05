@@ -51,11 +51,11 @@ namespace js
 		Matrix mProjection;
 
 		eProjectionType mType;
-		float mScale;
 		float mAspectRatio;
 
 		float mNear;
 		float mFar;
+		float mScale;
 
 		std::bitset<(UINT)eLayerType::End> mLayerMasks;
 		std::vector<GameObject*> mOpaqueGameObjects;

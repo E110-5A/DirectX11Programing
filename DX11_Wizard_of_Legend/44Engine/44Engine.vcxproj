@@ -21,33 +21,33 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6dafa788-499e-4b34-98ec-f4075a483b9e}</ProjectGuid>
-    <RootNamespace>EngineSOURCE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{2fa04ac7-6017-43cf-90f2-767289b68c11}</ProjectGuid>
+    <RootNamespace>My44Engine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,26 +71,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Lib\</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\Lib\</OutDir>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -100,16 +90,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -119,17 +105,13 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);$(SolutionDir)Engine_SOURCE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -139,93 +121,33 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile>
-      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);$(SolutionDir)Engine_SOURCE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>
-      </SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CommonInclude.h" />
-    <ClInclude Include="jsApplication.h" />
-    <ClInclude Include="jsBaseRenderer.h" />
-    <ClInclude Include="jsCamera.h" />
-    <ClInclude Include="jsCameraScript.h" />
-    <ClInclude Include="jsComponent.h" />
-    <ClInclude Include="jsConstantBuffer.h" />
-    <ClInclude Include="jsEngine.h" />
-    <ClInclude Include="jsEntity.h" />
-    <ClInclude Include="jsEnums.h" />
-    <ClInclude Include="jsGameObject.h" />
-    <ClInclude Include="jsGraphicDevice_DX11.h" />
-    <ClInclude Include="jsGraphics.h" />
-    <ClInclude Include="jsGridScript.h" />
-    <ClInclude Include="jsInput.h" />
-    <ClInclude Include="jsLayer.h" />
-    <ClInclude Include="jsMaterial.h" />
-    <ClInclude Include="jsMath.h" />
-    <ClInclude Include="jsMesh.h" />
-    <ClInclude Include="jsMeshRenderer.h" />
-    <ClInclude Include="jsObject.h" />
-    <ClInclude Include="jsPlayerScript.h" />
-    <ClInclude Include="jsPlayScene.h" />
-    <ClInclude Include="jsRenderer.h" />
-    <ClInclude Include="jsResource.h" />
-    <ClInclude Include="jsResources.h" />
-    <ClInclude Include="jsScene.h" />
-    <ClInclude Include="jsSceneManager.h" />
-    <ClInclude Include="jsScript.h" />
-    <ClInclude Include="jsShader.h" />
-    <ClInclude Include="jsSpriteRenderer.h" />
-    <ClInclude Include="jsTexture.h" />
-    <ClInclude Include="jsTime.h" />
-    <ClInclude Include="jsTitleScene.h" />
-    <ClInclude Include="jsTransform.h" />
+    <ClInclude Include="44Engine.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="jsApplication.cpp" />
-    <ClCompile Include="jsBaseRenderer.cpp" />
-    <ClCompile Include="jsCamera.cpp" />
-    <ClCompile Include="jsCameraScript.cpp" />
-    <ClCompile Include="jsComponent.cpp" />
-    <ClCompile Include="jsConstantBuffer.cpp" />
-    <ClCompile Include="jsEntity.cpp" />
-    <ClCompile Include="jsGameObject.cpp" />
-    <ClCompile Include="jsGraphicDevice_DX11.cpp" />
-    <ClCompile Include="jsGridScript.cpp" />
-    <ClCompile Include="jsInput.cpp" />
-    <ClCompile Include="jsLayer.cpp" />
-    <ClCompile Include="jsMaterial.cpp" />
-    <ClCompile Include="jsMath.cpp" />
-    <ClCompile Include="jsMesh.cpp" />
-    <ClCompile Include="jsMeshRenderer.cpp" />
-    <ClCompile Include="jsPlayerScript.cpp" />
-    <ClCompile Include="jsPlayScene.cpp" />
-    <ClCompile Include="jsRenderer.cpp" />
-    <ClCompile Include="jsResource.cpp" />
-    <ClCompile Include="jsResources.cpp" />
-    <ClCompile Include="jsScene.cpp" />
-    <ClCompile Include="jsSceneManager.cpp" />
-    <ClCompile Include="jsScript.cpp" />
-    <ClCompile Include="jsShader.cpp" />
-    <ClCompile Include="jsSpriteRenderer.cpp" />
-    <ClCompile Include="jsTexture.cpp" />
-    <ClCompile Include="jsTime.cpp" />
-    <ClCompile Include="jsTitleScene.cpp" />
-    <ClCompile Include="jsTransform.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="jsMath.inl" />
+    <ResourceCompile Include="44Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="44Engine.ico" />
+    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -20,6 +20,7 @@ using namespace js::math;
 //------------------------------------------------------------------------------
 // Rectangle operations
 //------------------------------------------------------------------------------
+//namespace js::math
 
 inline Vector2 Rectangle::Location() const noexcept
 {

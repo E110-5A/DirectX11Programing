@@ -2,10 +2,10 @@
 #include "jsGraphicDevice_DX11.h"
 #include "jsRenderer.h"
 
+using namespace js::graphics;
 
 namespace js
 {
-	using namespace graphics;
 	Shader::Shader()
 		: Resource(eResourceType::GraphicShader)
 		, mTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
@@ -13,10 +13,12 @@ namespace js
 		, mDSType(eDSType::Less)
 		, mBSType(eBSType::AlphaBlend)
 	{
+
 	}
 
 	Shader::~Shader()
 	{
+
 	}
 
 	HRESULT Shader::Load(const std::wstring& path)
@@ -28,30 +30,30 @@ namespace js
 	{
 		mErrorBlob = nullptr;
 
+		// Vertex Shader
 		std::filesystem::path path = std::filesystem::current_path().parent_path();
 		path += "\\SHADER_SOURCE\\";
+
 		std::wstring shaderPath(path.c_str());
 		shaderPath += file;
-
-
+		
 		if (stage == graphics::eShaderStage::VS)
 		{
 			D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-				, funcName.c_str(), "vs_5_0", 0, 0
-				, mVSBlob.GetAddressOf()
-				, mErrorBlob.GetAddressOf());
+								,funcName.c_str() , "vs_5_0", 0, 0
+								, mVSBlob.GetAddressOf()
+								, mErrorBlob.GetAddressOf());
 
-			if (mErrorBlob)
-			{
-				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-				mErrorBlob->Release();
-				mErrorBlob = nullptr;
-			}
+			//if (mErrorBlob)
+			//{
+			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			//	mErrorBlob->Release();
+			//}
 
 			GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer()
-				, mVSBlob->GetBufferSize()
-				, nullptr
-				, mVS.GetAddressOf());
+														, mVSBlob->GetBufferSize()
+														, nullptr
+														, mVS.GetAddressOf());
 		}
 		else if (stage == graphics::eShaderStage::PS)
 		{
@@ -60,12 +62,11 @@ namespace js
 				, mPSBlob.GetAddressOf()
 				, mErrorBlob.GetAddressOf());
 
-			if (mErrorBlob)
-			{
-				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-				mErrorBlob->Release();
-				mErrorBlob = nullptr;
-			}
+			//if (mErrorBlob)
+			//{
+			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			//	mErrorBlob->Release();
+			//}
 
 			GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer()
 				, mPSBlob->GetBufferSize()

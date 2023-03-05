@@ -17,6 +17,8 @@ namespace js
 	private:
 		std::wstring mName;
 		const UINT32 mID;
-
+		
 	};
 }
+
+

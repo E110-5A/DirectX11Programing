@@ -1,4 +1,4 @@
-#include "jsTime.h"
+ï»¿#include "jsTime.h"
 #include "jsApplication.h"
 
 extern js::Application application;
@@ -9,14 +9,14 @@ namespace js
     LARGE_INTEGER   Time::mPrevFrequency = {};
     LARGE_INTEGER	Time::mCurFrequency = {};
     float			Time::mDeltaTime = 0.0f;
-    float			Time::mOneSecond = 0.0f;
+    float			Time::mAddTime = 0.0f;
 
     void Time::Initialize()
     {
-        //CPU ÀÇ ÃÊ´ç ¹İº¹µÇ´Â ÁÖÆÄ¼ö¸¦ ¾ò¾î¿Â´Ù.
+        //CPU ì˜ ì´ˆë‹¹ ë°˜ë³µë˜ëŠ” ì£¼íŒŒìˆ˜ë¥¼ ì–»ì–´ì˜¨ë‹¤.
         QueryPerformanceFrequency(&mCpuFrequency);
 
-        //ÇÁ·Î±×·¥À» ½ÃÀÛÇßÀ»¶§ÀÇ CPU Å¬·° ¼ö
+        //í”„ë¡œê·¸ë¨ì„ ì‹œì‘í–ˆì„ë•Œì˜ CPU í´ëŸ­ ìˆ˜
         QueryPerformanceCounter(&mPrevFrequency);
     }
 
@@ -24,7 +24,7 @@ namespace js
     {
         QueryPerformanceCounter(&mCurFrequency);
 
-        float differenceInFrequancy
+        float differenceInFrequancy 
             = static_cast<float>((mCurFrequency.QuadPart - mPrevFrequency.QuadPart));
 
         mDeltaTime = differenceInFrequancy / static_cast<float>(mCpuFrequency.QuadPart);
@@ -37,16 +37,22 @@ namespace js
         ++iCount;
 
 
-        mOneSecond += mDeltaTime;
-        if (1.0f < mOneSecond)
+        // 1 ì´ˆì— í•œë²ˆ
+        mAddTime += mDeltaTime;
+        if (1.0f < mAddTime)
         {
             HWND hWnd = application.GetHwnd();
 
             wchar_t szFloat[50] = {};
+            float FPS = 1.f / mDeltaTime;
             swprintf_s(szFloat, 50, L"DeltaTime : %d", iCount);
+            int iLen = wcsnlen_s(szFloat, 50);
+            //TextOut(_dc, 10, 10, szFloat, iLen);
+
             SetWindowText(hWnd, szFloat);
 
-            mOneSecond = 0.f;
+            // ëˆ„ì ì‹œê°„, ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
+            mAddTime = 0.f;
             iCount = 0;
         }
     }

@@ -1,20 +1,22 @@
 #pragma once
-#include "jsBaseRenderer.h"
-#include "jsMesh.h"
-#include "jsMaterial.h"
+#include "jsScene.h"
 
-using namespace js::graphics;
 namespace js
 {
-	class MeshRenderer : public BaseRenderer
+	class PlayScene : public Scene
 	{
 	public:
-		MeshRenderer();
-		virtual ~MeshRenderer();
+		PlayScene();
+		virtual ~PlayScene();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
+
+		virtual void OnEnter() override;
+		virtual void OnExit() override;
+
+	private:
 	};
 }

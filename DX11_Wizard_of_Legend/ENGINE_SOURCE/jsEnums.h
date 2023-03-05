@@ -2,6 +2,13 @@
 
 namespace js::enums
 {
+	enum class eSceneType
+	{
+		Tilte,
+		Play,
+		End,
+	};
+
 	enum class eLayerType
 	{
 		None = 0,
@@ -9,7 +16,7 @@ namespace js::enums
 		Grid,
 		Monster,
 		Player,
-		Effect,
+
 		UI,
 		End = 16,
 	};
@@ -17,14 +24,15 @@ namespace js::enums
 	enum class eComponentType
 	{
 		None,
-		Transform,
+		Transform, // 위치 데이터 수정하는 컴포넌트
 		Camera,
+		Mesh,
 		Collider,
-
+		//Collider2,
 		MeshRenerer,
 		SpriteRenderer,
 		UI,
-
+		//FadeOut,FadeIn
 		Script,
 		End,
 	};
@@ -35,6 +43,7 @@ namespace js::enums
 		Texture,
 		Material,
 		Sound,
+		/*Font,*/
 		Prefab,
 		MeshData,
 		GraphicShader,

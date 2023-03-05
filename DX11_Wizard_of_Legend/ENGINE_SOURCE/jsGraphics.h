@@ -15,7 +15,6 @@
 #define CBSLOT_TRANSFORM 0
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
-#define CBSLOT_FADE 3
 
 
 namespace js::graphics
@@ -81,7 +80,7 @@ namespace js::graphics
 	};
 
 
-	struct GPUBuffer
+	struct GpuBuffer
 	{
 		enum class eType
 		{
@@ -93,8 +92,8 @@ namespace js::graphics
 		D3D11_BUFFER_DESC desc;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> buffer;
 
-		GPUBuffer() = default;
-		virtual ~GPUBuffer() = default;
+		GpuBuffer() = default;
+		virtual ~GpuBuffer() = default;
 	};
 
 	enum class eCBType
@@ -102,7 +101,6 @@ namespace js::graphics
 		Transform,
 		Material,
 		Grid,
-		FadeEffect,
 		End,
 	};
 

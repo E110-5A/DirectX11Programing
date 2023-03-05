@@ -1,8 +1,7 @@
 #pragma once
-#include "jsComponent.h"
+#include "jsBaseRenderer.h"
 #include "jsMesh.h"
 #include "jsMaterial.h"
-#include "jsBaseRenderer.h"
 
 using namespace js::graphics;
 namespace js

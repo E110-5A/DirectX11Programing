@@ -3,6 +3,9 @@
 
 namespace js
 {
+
+
+
 	BaseRenderer::BaseRenderer(eComponentType type)
 		: Component(type)
 	{

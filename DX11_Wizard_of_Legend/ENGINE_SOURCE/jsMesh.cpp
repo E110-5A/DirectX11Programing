@@ -25,6 +25,7 @@ namespace js
 
 	bool Mesh::CreateVertexBuffer(void* data, UINT count)
 	{
+		// 버텍스 버퍼
 		mVBDesc.ByteWidth = sizeof(renderer::Vertex) * count;
 		mVBDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
 		mVBDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
@@ -58,7 +59,7 @@ namespace js
 
 	void Mesh::BindBuffer()
 	{
-		// Input Assembeler
+		// Input Assembeler 단계에 버텍스버퍼 정보 지정
 		UINT stride = sizeof(renderer::Vertex);
 		UINT offset = 0;
 

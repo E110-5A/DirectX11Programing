@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <cstdlib>
 #include <cstring>
 #include <cstdlib>
@@ -79,3 +78,7 @@ constexpr bool has_flag(E lhs, E rhs)
 {
 	return (lhs & rhs) == rhs;
 }
+
+
+
+//#include "yaMath.h"

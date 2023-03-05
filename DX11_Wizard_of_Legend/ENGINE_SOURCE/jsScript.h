@@ -15,5 +15,8 @@ namespace js
 		virtual void Render();
 
 	private:
+		//std::vector<Script*> mScripts;
+		//state jump;
+		//state Attack;
 	};
 }

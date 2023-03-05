@@ -5,6 +5,8 @@ namespace js
 {
 	GameObject::GameObject()
 		: mState(eState::Active)
+		, mType(eLayerType::None)
+		, mbDontDestroy(false)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());
@@ -16,7 +18,7 @@ namespace js
 		{
 			if (comp == nullptr)
 				continue;
-
+			
 			delete comp;
 			comp = nullptr;
 		}

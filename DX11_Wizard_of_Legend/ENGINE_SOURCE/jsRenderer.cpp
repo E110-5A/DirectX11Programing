@@ -1,6 +1,7 @@
 #include "jsRenderer.h"
 #include "jsResources.h"
 #include "jsMaterial.h"
+#include "jsSceneManager.h"
 
 namespace js::renderer
 {
@@ -10,8 +11,8 @@ namespace js::renderer
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
-
-	std::vector<Camera*> cameras;
+	
+	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 
 
 	void SetUpState()
@@ -64,12 +65,6 @@ namespace js::renderer
 			, gridShader->GetVSBlobBufferPointer()
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
-
-		std::shared_ptr<Shader> fadeEffectShader = Resources::Find<Shader>(L"FadeEffectShader");
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, fadeEffectShader->GetVSBlobBufferPointer()
-			, fadeEffectShader->GetVSBlobBufferSize()
-			, fadeEffectShader->GetInputLayoutAddressOf());
 
 #pragma endregion
 #pragma region sampler state
@@ -145,7 +140,7 @@ namespace js::renderer
 		dsDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
 		dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
 		dsDesc.StencilEnable = false;
-
+		
 		GetDevice()->CreateDepthStencilState(&dsDesc
 			, depthstencilStates[(UINT)eDSType::Less].GetAddressOf());
 
@@ -172,7 +167,7 @@ namespace js::renderer
 
 		GetDevice()->CreateDepthStencilState(&dsDesc
 			, depthstencilStates[(UINT)eDSType::None].GetAddressOf());
-
+		
 #pragma endregion
 #pragma region Blend State
 
@@ -209,6 +204,7 @@ namespace js::renderer
 
 	void LoadBuffer()
 	{
+		// Crate Mesh
 		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"RectMesh", mesh);
 
@@ -222,7 +218,7 @@ namespace js::renderer
 		indexes.push_back(0);
 		indexes.push_back(2);
 		indexes.push_back(3);
-		mesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
+		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
 
 		constantBuffers[(UINT)eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)eCBType::Transform]->Create(sizeof(TransformCB));
@@ -232,9 +228,6 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
-
-		constantBuffers[(UINT)eCBType::FadeEffect] = new ConstantBuffer(eCBType::FadeEffect);
-		constantBuffers[(UINT)eCBType::FadeEffect]->Create(sizeof(FadeEffectCB));
 	}
 
 	void LoadShader()
@@ -243,18 +236,21 @@ namespace js::renderer
 		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
 		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+
 		Resources::Insert<Shader>(L"RectShader", shader);
 
 		// Sprite
 		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
 		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+
 		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 
 		// UI
 		std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
-		uiShader->Create(eShaderStage::VS, L"UIVS.hlsl", "main");
-		uiShader->Create(eShaderStage::PS, L"UIPS.hlsl", "main");
+		uiShader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
+		uiShader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
+
 		Resources::Insert<Shader>(L"UIShader", uiShader);
 
 		// Grid Shader
@@ -264,51 +260,39 @@ namespace js::renderer
 		gridShader->SetRSState(eRSType::SolidNone);
 		gridShader->SetDSState(eDSType::NoWrite);
 		gridShader->SetBSState(eBSType::AlphaBlend);
-		Resources::Insert<Shader>(L"GridShader", gridShader);
 
-		// Fade
-		std::shared_ptr<Shader> fadeEffectShader = std::make_shared<Shader>();
-		fadeEffectShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		fadeEffectShader->Create(eShaderStage::PS, L"FadeEffectPS.hlsl", "main");
-		Resources::Insert<Shader>(L"FadeEffectShader", fadeEffectShader);
+		Resources::Insert<Shader>(L"GridShader", gridShader);
 	}
 
 	void LoadTexture()
 	{
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
-		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
-		Resources::Load<Texture>(L"LightTexture", L"Light.png");
-		Resources::Load<Texture>(L"CameraHurtEffect", L"CameraHurtEffect.png");
+		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
+		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
 	}
 
 	void LoadMaterial()
 	{
+
 		// Default
-		std::shared_ptr<Texture> smileTexture = Resources::Find<Texture>(L"SmileTexture");
-		std::shared_ptr<Shader> smileShader = Resources::Find<Shader>(L"RectShader");
-		std::shared_ptr<Material> smileMaterial = std::make_shared<Material>();
-		smileMaterial->SetShader(smileShader);
-		smileMaterial->SetTexture(smileTexture);
-		Resources::Insert<Material>(L"SmileMaterial", smileMaterial);
+		std::shared_ptr <Texture> texture = Resources::Find<Texture>(L"SmileTexture");
+		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
+		std::shared_ptr<Material> material = std::make_shared<Material>(); 
+		material->SetShader(shader);
+		material->SetTexture(texture);
+		Resources::Insert<Material>(L"RectMaterial", material);
 
 		// Sprite
-		std::shared_ptr<Texture> defaultTexture = Resources::Find<Texture>(L"DefaultSprite");
+		std::shared_ptr <Texture> spriteTexture= Resources::Find<Texture>(L"DefaultSprite");
 		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
-		std::shared_ptr<Material> defaultMaterial = std::make_shared<Material>();
-		defaultMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		defaultMaterial->SetShader(spriteShader);
-		defaultMaterial->SetTexture(defaultTexture);
-		Resources::Insert<Material>(L"DefaultMaterial", defaultMaterial);
-
-		// Light
-		std::shared_ptr<Texture> lightTexture = Resources::Find<Texture>(L"LightTexture");
-		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
-		lightMaterial->SetShader(spriteShader);
-		lightMaterial->SetTexture(lightTexture);
-		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
+		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
+		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		spriteMaterial->SetShader(spriteShader);
+		spriteMaterial->SetTexture(spriteTexture);
+		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 
 		// UI
-		std::shared_ptr<Texture> uiTexture = Resources::Find<Texture>(L"CameraHurtEffect");
+		std::shared_ptr <Texture> uiTexture = Resources::Find<Texture>(L"HPBarTexture");
 		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
 		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
 		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -321,13 +305,6 @@ namespace js::renderer
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetShader(gridShader);
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
-
-		// FadeEffect
-		std::shared_ptr<Shader> fadeEffectShader = Resources::Find<Shader>(L"FadeEffectShader");
-		std::shared_ptr<Material> fadeEffectMaterial = std::make_shared<Material>();
-		fadeEffectMaterial->SetShader(fadeEffectShader);
-		fadeEffectMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		Resources::Insert<Material>(L"FadeEffectMaterial", fadeEffectMaterial);
 	}
 
 	void Initialize()
@@ -360,14 +337,16 @@ namespace js::renderer
 	{
 		for (size_t i = 0; i < (UINT)eCBType::End; i++)
 		{
-			delete constantBuffers[i];
+			delete constantBuffers[i]; 
 			constantBuffers[i] = nullptr;
 		}
 	}
 
 	void Render()
 	{
-		for (Camera* cam : cameras)
+		//std::vector<Camera*> cameras[(UINT)eSceneType::End];
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		for (Camera* cam : cameras[(UINT)type])
 		{
 			if (cam == nullptr)
 				continue;
@@ -375,6 +354,6 @@ namespace js::renderer
 			cam->Render();
 		}
 
-		cameras.clear();
+		cameras[(UINT)type].clear();
 	}
 }

@@ -11,9 +11,9 @@ namespace js
 	{
 		//Alphabet
 		'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
-		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+		'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 
 		'Z', 'X', 'C', 'V', 'B', 'N', 'M',
-
+		
 		//Special Key
 		VK_RETURN, VK_ESCAPE, VK_LSHIFT, VK_LMENU, VK_LCONTROL,
 		VK_SPACE, VK_LEFT, VK_RIGHT, VK_UP, VK_DOWN,
@@ -29,7 +29,7 @@ namespace js
 		'0', '1', '2', '3', '4', '5',
 		'6', '7', '8', '9',
 	};
-
+	
 
 	void Input::Initialize()
 	{
@@ -51,8 +51,10 @@ namespace js
 			//KEY
 			for (UINT i = 0; i < (UINT)eKeyCode::END; ++i)
 			{
+				// 해당키가 현재 눌려있다.
 				if (GetAsyncKeyState(ASCII[i]) & 0x8000)
 				{
+					// 이전 프레임에도 눌려 있었다.
 					if (mKeys[i].bPressed)
 						mKeys[i].eState = eKeyState::PRESSED;
 					else
@@ -60,22 +62,23 @@ namespace js
 
 					mKeys[i].bPressed = true;
 				}
-				else
+				else // 해당키가 현재 안눌려있다.
 				{
+					// 이전 프레임에는 눌려 있었다.
 					if (mKeys[i].bPressed)
 						mKeys[i].eState = eKeyState::UP;
-					else
+					else // 이전 프레임에도 안눌려 있었다.
 						mKeys[i].eState = eKeyState::NONE;
 
 					mKeys[i].bPressed = false;
 				}
 			}
-
+			
 			POINT mousePos = {};
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousPosition.x = (float)mousePos.x;
-			mMousPosition.y = (float)mousePos.y;
+			mMousPosition.x = mousePos.x;
+			mMousPosition.y = mousePos.y;
 		}
 		else
 		{
@@ -89,5 +92,6 @@ namespace js
 				mKeys[i].bPressed = false;
 			}
 		}
+
 	}
 }

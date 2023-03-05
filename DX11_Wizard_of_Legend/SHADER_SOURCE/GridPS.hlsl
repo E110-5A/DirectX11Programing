@@ -10,6 +10,7 @@ struct VSOut
 {
     float4 Pos : SV_Position;
     float2 UV : TEXCOORD;
+    
     float2 WorldPos : POSITION;
 };
 

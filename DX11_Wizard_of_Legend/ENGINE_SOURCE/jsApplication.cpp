@@ -7,6 +7,7 @@
 
 namespace js
 {
+	using namespace graphics;
 
 	Application::Application()
 	{
@@ -15,7 +16,7 @@ namespace js
 
 	Application::~Application()
 	{
-		SceneManager::Release();
+		
 	}
 
 	void Application::Initialize()
@@ -27,7 +28,8 @@ namespace js
 		SceneManager::Initialize();
 	}
 
-	// CPU update
+	// 게임 로직 캐릭터 이동 등등 
+	// CPU UPDATE
 	void Application::Update()
 	{
 		Time::Update();
@@ -54,6 +56,13 @@ namespace js
 
 		//graphicDevice->Render();
 		graphicDevice->Present();
+
+		
+	}
+
+	void Application::Destroy()
+	{
+
 	}
 
 	// Running main engine loop
@@ -62,10 +71,12 @@ namespace js
 		Update();
 		FixedUpdate();
 		Render();
+		Destroy();
 	}
 
 	void Application::Release()
 	{
+		Resources::deleteTest();
 	}
 
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)

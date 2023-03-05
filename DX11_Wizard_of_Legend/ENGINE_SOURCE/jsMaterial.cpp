@@ -6,14 +6,19 @@ namespace js::graphics
         : Resource(eResourceType::Material)
         , mMode(eRenderingMode::Opaque)
     {
+
     }
 
     Material::~Material()
     {
+
     }
 
     HRESULT Material::Load(const std::wstring& path)
     {
+        
+        
+        
         return E_NOTIMPL;
     }
 
@@ -21,27 +26,28 @@ namespace js::graphics
     {
         switch (param)
         {
-        case eGPUParam::Int:
+        case js::graphics::eGPUParam::Int:
             mCB.iData = *static_cast<int*>(data);
             break;
-        case eGPUParam::Float:
+        case js::graphics::eGPUParam::Float:
             mCB.fData = *static_cast<float*>(data);
             break;
-        case eGPUParam::Vector2:
+        case js::graphics::eGPUParam::Vector2:
             mCB.xy = *static_cast<Vector2*>(data);
             break;
-        case eGPUParam::Vector3:
+        case js::graphics::eGPUParam::Vector3:
             mCB.xyz = *static_cast<Vector3*>(data);
             break;
-        case eGPUParam::Vector4:
+        case js::graphics::eGPUParam::Vector4:
             mCB.xyzw = *static_cast<Vector4*>(data);
             break;
-        case eGPUParam::Matrix:
+        case js::graphics::eGPUParam::Matrix:
             mCB.matrix = *static_cast<Matrix*>(data);
             break;
         default:
             break;
         }
+
     }
 
     void Material::Bind()

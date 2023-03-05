@@ -1,3 +1,4 @@
+
 cbuffer Transform : register(b0)
 {
     row_major matrix world;
@@ -22,14 +23,10 @@ cbuffer Grid : register(b2)
     float2 resolution;
 }
 
-cbuffer FadeEffect : register(b3)
-{
-    float alpha; // 누적시간
-}
-
-
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
 Texture2D defaultTexture : register(t0);
+//Texture2D defaultTexture2 : register(t1);
+//Texture2D defaultTexture3 : register(t2);

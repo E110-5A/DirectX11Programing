@@ -1,17 +1,22 @@
 #include "jsTexture.h"
 
+
+
 namespace js::graphics
 {
 	Texture::Texture()
 		: Resource(eResourceType::Texture)
 		, mDesc{}
 	{
+
 	}
 
 	Texture::~Texture()
 	{
+
 	}
 
+	//test.cpp
 	HRESULT Texture::Load(const std::wstring& name)
 	{
 		std::filesystem::path parentPath = std::filesystem::current_path().parent_path();
@@ -48,7 +53,7 @@ namespace js::graphics
 		);
 
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
-
+	
 		return S_OK;
 	}
 

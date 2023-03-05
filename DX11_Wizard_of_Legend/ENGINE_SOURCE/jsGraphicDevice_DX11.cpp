@@ -10,6 +10,15 @@ namespace js::graphics
 {
 	GraphicDevice_DX11::GraphicDevice_DX11(ValidationMode validationMode)
 	{
+		/// <summary>
+		/// 1. Device 와 SwapChain 생성한다.
+		/// 2. 백버퍼에 실제로 렌더링할 렌더타겟 뷰를 생성해야한다.
+		/// 3. 화면을 클리어 해줘야한다. 뷰포트를 생성해줘야 한다.
+		/// 4. 매프레임마다 위에서 생성한 렌더타겟뷰에 렌더링해주어야한다.
+		/// 5. Swapchain을 이용하여 최종 디바이스(디스플레이)에 화면을 그려줘야한다.
+		/// </summary>
+		/// <param name="validationMode"></param>
+
 		HWND hwnd = application.GetHwnd();
 
 		// Device, Device Context
@@ -46,7 +55,7 @@ namespace js::graphics
 		if (!CreateSwapChain(&swapChainDesc))
 			return;
 
-		// Get RenderTarget for Swapchain
+		// Get rendertarget for swapchain
 		hr = mSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)mRenderTarget.GetAddressOf());
 
 		// Create Rendertarget View
@@ -234,22 +243,22 @@ namespace js::graphics
 	{
 		switch (stage)
 		{
-		case eShaderStage::VS:
+		case js::graphics::eShaderStage::VS:
 			mContext->VSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
-		case eShaderStage::HS:
+		case js::graphics::eShaderStage::HS:
 			mContext->HSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
-		case eShaderStage::DS:
+		case js::graphics::eShaderStage::DS:
 			mContext->DSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
-		case eShaderStage::GS:
+		case js::graphics::eShaderStage::GS:
 			mContext->GSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
-		case eShaderStage::PS:
+		case js::graphics::eShaderStage::PS:
 			mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
-		case eShaderStage::CS:
+		case js::graphics::eShaderStage::CS:
 			mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
 			break;
 		default:
@@ -262,22 +271,22 @@ namespace js::graphics
 	{
 		switch (stage)
 		{
-		case eShaderStage::VS:
+		case js::graphics::eShaderStage::VS:
 			mContext->VSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
-		case eShaderStage::HS:
+		case js::graphics::eShaderStage::HS:
 			mContext->HSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
-		case eShaderStage::DS:
+		case js::graphics::eShaderStage::DS:
 			mContext->DSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
-		case eShaderStage::GS:
+		case js::graphics::eShaderStage::GS:
 			mContext->GSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
-		case eShaderStage::PS:
+		case js::graphics::eShaderStage::PS:
 			mContext->PSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
-		case eShaderStage::CS:
+		case js::graphics::eShaderStage::CS:
 			mContext->CSSetShaderResources(slot, 1, ppShaderResourceViews);
 			break;
 		default:
@@ -289,22 +298,22 @@ namespace js::graphics
 	{
 		switch (stage)
 		{
-		case eShaderStage::VS:
+		case js::graphics::eShaderStage::VS:
 			mContext->VSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
-		case eShaderStage::HS:
+		case js::graphics::eShaderStage::HS:
 			mContext->HSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
-		case eShaderStage::DS:
+		case js::graphics::eShaderStage::DS:
 			mContext->DSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
-		case eShaderStage::GS:
+		case js::graphics::eShaderStage::GS:
 			mContext->GSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
-		case eShaderStage::PS:
+		case js::graphics::eShaderStage::PS:
 			mContext->PSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
-		case eShaderStage::CS:
+		case js::graphics::eShaderStage::CS:
 			mContext->CSSetSamplers(slot, NumSamplers, ppSamplers);
 			break;
 		default:
@@ -338,6 +347,7 @@ namespace js::graphics
 
 	void GraphicDevice_DX11::Clear()
 	{
+		// 화면 지워주기
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);

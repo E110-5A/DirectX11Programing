@@ -8,5 +8,6 @@ namespace js
 	}
 	Resource::~Resource()
 	{
+		int a = 0;
 	}
 }
