@@ -32,37 +32,31 @@ namespace js
 			rot.z += 10.0f * Time::DeltaTime();
 			tr->SetRotation(rot);
 		}
-
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
-
-		Vector3 pos = tr->GetPosition();
-
-		if (Input::GetKeyState(eKeyCode::D) == eKeyState::PRESSED)
+		if (Input::GetKey(eKeyCode::RIGHT))
 		{
-			pos.x += 3.0f * Time::DeltaTime();
+			Vector3 pos = tr->GetPosition();
+			pos += tr->Right() * 6.0f * Time::DeltaTime();
+			tr->SetPosition(pos);
 		}
-		else if (Input::GetKeyState(eKeyCode::A) == eKeyState::PRESSED)
+		if (Input::GetKey(eKeyCode::LEFT))
 		{
-			pos.x -= 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::W) == eKeyState::PRESSED)
-		{
-			pos.y += 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::S) == eKeyState::PRESSED)
-		{
-			pos.y -= 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::Q) == eKeyState::PRESSED)
-		{
-			pos.z += 3.0f * Time::DeltaTime();
-		}
-		else if (Input::GetKeyState(eKeyCode::E) == eKeyState::PRESSED)
-		{
-			pos.z -= 3.0f * Time::DeltaTime();
+			Vector3 pos = tr->GetPosition();
+			pos += -tr->Right() * 6.0f * Time::DeltaTime();
+			tr->SetPosition(pos);
 		}
 
-		tr->SetPosition(pos);*/
+		if (Input::GetKey(eKeyCode::DOWN))
+		{
+			Vector3 pos = tr->GetPosition();
+			pos += -tr->Up() * 6.0f * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
+		if (Input::GetKey(eKeyCode::UP))
+		{
+			Vector3 pos = tr->GetPosition();
+			pos += tr->Up() * 6.0f * Time::DeltaTime();
+			tr->SetPosition(pos);
+		}
 	}
 
 	void PlayerScript::Render()

@@ -1,5 +1,5 @@
 #pragma once
-#include "DirectXTex\Include\DirectXTex.h"
+#include "..\External\DirectXTex\Include\DirectXTex.h"
 #include "jsResource.h"
 #include "jsGraphicDevice_DX11.h"
 

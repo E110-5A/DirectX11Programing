@@ -51,13 +51,7 @@ namespace js
 		graphicDevice->Clear();
 		graphicDevice->AdjustViewPorts();
 
-		//SceneManager::Render();
 		renderer::Render();
-
-		//graphicDevice->Render();
-		graphicDevice->Present();
-
-		
 	}
 
 	void Application::Destroy()
@@ -77,6 +71,11 @@ namespace js
 	void Application::Release()
 	{
 		Resources::deleteTest();
+	}
+
+	void Application::Pressent()
+	{
+		graphicDevice->Present();
 	}
 
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)

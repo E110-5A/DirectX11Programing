@@ -15,7 +15,7 @@ namespace js::graphics
 
 		virtual HRESULT Load(const std::wstring& path) override;
 
-		void SetData(eGPUParam param, void* data);
+		void SetData(eGpuParam param, void* data);
 		void Bind();
 		void Clear();
 

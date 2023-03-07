@@ -104,7 +104,7 @@ namespace js::graphics
 		End,
 	};
 
-	enum class eGPUParam
+	enum class eGpuParam
 	{
 		Int,
 		Float,
@@ -112,5 +112,16 @@ namespace js::graphics
 		Vector3,
 		Vector4,
 		Matrix,
+	};
+
+	struct DebugMesh
+	{
+		enums::eColliderType type;
+		math::Vector3 position;
+		math::Vector3 rotatation;
+		math::Vector3 scale;
+		float radius;
+		float duration;
+		float time;
 	};
 }

@@ -33,8 +33,7 @@ namespace js
 
 	void Camera::Initialize()
 	{
-		
-		//RegisterCameraInRenderer();
+		RegisterCameraInRenderer();
 	}
 
 	void Camera::Update()

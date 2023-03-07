@@ -11,12 +11,32 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{c481625c-af51-4700-9efa-3051395fff83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="main\header">
+      <UniqueIdentifier>{32943011-00c6-4ecc-871d-f82b8e31d8fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{48cd811b-4839-406c-a003-ff9d2e2b4f9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="44Engine.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="44Engine.h">
+      <Filter>main\header</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>main\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>main\header</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>main\header</Filter>
+    </ClInclude>
+    <ClInclude Include="jsEditor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="jsDebugObject.h" />
+    <ClInclude Include="jsEditorObject.h" />
+    <ClInclude Include="jsWidget.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="44Engine.rc">
@@ -35,5 +55,11 @@
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
+    <ClCompile Include="jsEditor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="jsDebugObject.cpp" />
+    <ClCompile Include="jsEditorObject.cpp" />
+    <ClCompile Include="jsWidget.cpp" />
   </ItemGroup>
 </Project>

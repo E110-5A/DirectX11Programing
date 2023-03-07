@@ -12,8 +12,113 @@ namespace js::renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 	
+	Camera* mainCamera = nullptr;
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
+	std::vector<DebugMesh> debugMeshes;
 
+
+	void LoadMesh()
+	{
+#pragma region Create Mesh
+
+		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		vertexes[0].uv = Vector2(0.f, 0.f);
+
+		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.0f, 1.0f);
+		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.0f, 1.0f);
+		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.0f, 1.0f);
+		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		std::shared_ptr<Mesh> rectMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"RectMesh", rectMesh);
+
+		rectMesh->CreateVertexBuffer(vertexes, 4);
+
+		std::vector<UINT> indexes;
+		indexes.push_back(0);
+		indexes.push_back(1);
+		indexes.push_back(2);
+
+		indexes.push_back(0);
+		indexes.push_back(2);
+		indexes.push_back(3);
+		indexes.push_back(0);
+
+		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+#pragma endregion
+#pragma region Create Debug Rect Mesh
+		
+		vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
+		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
+		vertexes[0].uv = Vector2(0.f, 0.f);
+
+		vertexes[1].pos = Vector4(0.5f, 0.5f, -0.00001f, 1.0f);
+		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
+		vertexes[1].uv = Vector2(1.0f, 0.0f);
+
+		vertexes[2].pos = Vector4(0.5f, -0.5f, -0.00001f, 1.0f);
+		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
+		vertexes[2].uv = Vector2(1.0f, 1.0f);
+
+		vertexes[3].pos = Vector4(-0.5f, -0.5f, -0.00001f, 1.0f);
+		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
+		vertexes[3].uv = Vector2(0.0f, 1.0f);
+
+		std::shared_ptr<Mesh> debugRectMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"DebugRectMesh", debugRectMesh);
+		debugRectMesh->CreateVertexBuffer(vertexes, 4);
+		debugRectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		
+#pragma endregion
+#pragma region Create Debug Circle Mesh
+
+		std::vector<Vertex> circleVertexs;
+		Vertex center = {};
+		center.pos = Vector4(0.0f, 0.0f, -0.00001f, 1.0f);
+		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		center.uv = Vector2::Zero;
+
+		circleVertexs.push_back(center);
+
+		int iSlice = 80;
+		float fRadius = 0.5;
+		float fTheta = XM_2PI / (float)iSlice;
+
+		for (size_t point = 0; point < iSlice; ++point)
+		{
+			Vertex vtx = {};
+			vtx.pos = Vector4
+			(
+				fRadius * cosf(fTheta * (float)point)
+				, fRadius * cosf(fTheta * (float)point)
+				, -0.00001f, 1.0f
+			);
+			vtx.color = center.color;
+
+			circleVertexs.push_back(vtx);
+		}
+		indexes.clear();
+		for (size_t point = 0; point < iSlice - 2; ++point)
+		{
+			indexes.push_back(point + 1);
+		}
+		indexes.push_back(1);
+
+		std::shared_ptr<Mesh> debugCircleMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"DebugCircleMesh", debugCircleMesh);
+		debugCircleMesh->CreateVertexBuffer(circleVertexs.data(), circleVertexs.size());
+		debugCircleMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+
+#pragma endregion
+	}
 
 	void SetUpState()
 	{
@@ -65,6 +170,12 @@ namespace js::renderer
 			, gridShader->GetVSBlobBufferPointer()
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, debugShader->GetVSBlobBufferPointer()
+			, debugShader->GetVSBlobBufferSize()
+			, debugShader->GetInputLayoutAddressOf());
 
 #pragma endregion
 #pragma region sampler state
@@ -204,22 +315,6 @@ namespace js::renderer
 
 	void LoadBuffer()
 	{
-		// Crate Mesh
-		std::shared_ptr<Mesh> mesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"RectMesh", mesh);
-
-		mesh->CreateVertexBuffer(vertexes, 4);
-
-		std::vector<UINT> indexes;
-		indexes.push_back(0);
-		indexes.push_back(1);
-		indexes.push_back(2);
-
-		indexes.push_back(0);
-		indexes.push_back(2);
-		indexes.push_back(3);
-		mesh->CreateIndexBuffer(indexes.data(), indexes.size());
-
 		constantBuffers[(UINT)eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)eCBType::Transform]->Create(sizeof(TransformCB));
 
@@ -262,6 +357,17 @@ namespace js::renderer
 		gridShader->SetBSState(eBSType::AlphaBlend);
 
 		Resources::Insert<Shader>(L"GridShader", gridShader);
+
+		// Debug Shader
+		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
+		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
+		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
+		debugShader->SetRSState(eRSType::SolidNone);
+		debugShader->SetDSState(eDSType::NoWrite);
+		debugShader->SetBSState(eBSType::AlphaBlend);
+		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+		Resources::Insert<Shader>(L"DebugShader", debugShader);
 	}
 
 	void LoadTexture()
@@ -305,27 +411,19 @@ namespace js::renderer
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetShader(gridShader);
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
+
+		// Debug
+		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
+		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
+		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		debugMaterial->SetShader(debugShader);
+		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 	}
 
 	void Initialize()
 	{
-		//RECT
-		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.5f, 1.0f);
-		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
-		vertexes[0].uv = Vector2(0.f, 0.f);
-
-		vertexes[1].pos = Vector4(0.5f, 0.5f, 0.5f, 1.0f);
-		vertexes[1].color = Vector4(1.f, 1.f, 1.f, 1.f);
-		vertexes[1].uv = Vector2(1.0f, 0.0f);
-
-		vertexes[2].pos = Vector4(0.5f, -0.5f, 0.5f, 1.0f);
-		vertexes[2].color = Vector4(1.f, 0.f, 0.f, 1.f);
-		vertexes[2].uv = Vector2(1.0f, 1.0f);
-
-		vertexes[3].pos = Vector4(-0.5f, -0.5f, 0.5f, 1.0f);
-		vertexes[3].color = Vector4(0.f, 0.f, 1.f, 1.f);
-		vertexes[3].uv = Vector2(0.0f, 1.0f);
-
+		
+		LoadMesh();
 		LoadShader();
 		SetUpState();
 		LoadBuffer();
@@ -344,7 +442,6 @@ namespace js::renderer
 
 	void Render()
 	{
-		//std::vector<Camera*> cameras[(UINT)eSceneType::End];
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{

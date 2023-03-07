@@ -5,6 +5,7 @@
 #include "44Engine.h"
 #include "jsApplication.h"
 #include "jsSceneManager.h"
+#include "jsEditor.h"
 
 
 #ifdef _DEBUG
@@ -21,9 +22,9 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-
-
 js::Application application;
+js::Editor editor;
+
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -52,8 +53,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY44ENGINE));
-
     MSG msg;
+
+
+    editor.Run();
 
     // 기본 메시지 루프입니다:
     while (true)
@@ -72,11 +75,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             application.Run();
+            editor.Run();
+            application.Pressent();
         }
     }
 
     js::SceneManager::Release();
     application.Release();
+    editor.Release();
     return (int) msg.wParam;
 }
 
@@ -132,6 +138,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    application.SetWindow(hWnd, WINDOW_WIDTH, WINDOW_HEIGHT);
    application.Initialize();
+   editor.Initialize();
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 

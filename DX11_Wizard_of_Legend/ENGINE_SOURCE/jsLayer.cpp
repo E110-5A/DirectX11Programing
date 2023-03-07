@@ -91,7 +91,7 @@ namespace js
 
 			if (deleteIter != deleteObjects.end())
 			{
-				mGameObjects.erase(iter);
+				iter = mGameObjects.erase(iter);
 			}
 			else
 			{

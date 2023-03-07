@@ -161,6 +161,10 @@
     <ClInclude Include="jsBaseRenderer.h" />
     <ClInclude Include="jsCamera.h" />
     <ClInclude Include="jsCameraScript.h" />
+    <ClInclude Include="jsCollider.h" />
+    <ClInclude Include="jsCollider2D.h" />
+    <ClInclude Include="jsCollider3D.h" />
+    <ClInclude Include="jsCollisionManager.h" />
     <ClInclude Include="jsComponent.h" />
     <ClInclude Include="jsConstantBuffer.h" />
     <ClInclude Include="jsEngine.h" />
@@ -179,6 +183,7 @@
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
+    <ClInclude Include="jsPrefab.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
@@ -197,6 +202,10 @@
     <ClCompile Include="jsBaseRenderer.cpp" />
     <ClCompile Include="jsCamera.cpp" />
     <ClCompile Include="jsCameraScript.cpp" />
+    <ClCompile Include="jsCollider.cpp" />
+    <ClCompile Include="jsCollider2D.cpp" />
+    <ClCompile Include="jsCollider3D.cpp" />
+    <ClCompile Include="jsCollisionManager.cpp" />
     <ClCompile Include="jsComponent.cpp" />
     <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsEntity.cpp" />
@@ -211,6 +220,7 @@
     <ClCompile Include="jsMeshRenderer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
+    <ClCompile Include="jsPrefab.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />

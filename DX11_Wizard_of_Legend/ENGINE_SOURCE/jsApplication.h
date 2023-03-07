@@ -21,6 +21,8 @@ namespace js
 		void Run();
 		void Release();
 
+		void Pressent();
+
 		void SetWindow(HWND hwnd, UINT width, UINT height);
 		void SetHwnd(HWND hwnd) { mHwnd = hwnd; }
 		HWND GetHwnd() { return mHwnd; }

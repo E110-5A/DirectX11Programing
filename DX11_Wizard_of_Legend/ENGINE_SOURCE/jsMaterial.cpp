@@ -22,26 +22,26 @@ namespace js::graphics
         return E_NOTIMPL;
     }
 
-    void Material::SetData(eGPUParam param, void* data)
+    void Material::SetData(eGpuParam param, void* data)
     {
         switch (param)
         {
-        case js::graphics::eGPUParam::Int:
+        case js::graphics::eGpuParam::Int:
             mCB.iData = *static_cast<int*>(data);
             break;
-        case js::graphics::eGPUParam::Float:
+        case js::graphics::eGpuParam::Float:
             mCB.fData = *static_cast<float*>(data);
             break;
-        case js::graphics::eGPUParam::Vector2:
+        case js::graphics::eGpuParam::Vector2:
             mCB.xy = *static_cast<Vector2*>(data);
             break;
-        case js::graphics::eGPUParam::Vector3:
+        case js::graphics::eGpuParam::Vector3:
             mCB.xyz = *static_cast<Vector3*>(data);
             break;
-        case js::graphics::eGPUParam::Vector4:
+        case js::graphics::eGpuParam::Vector4:
             mCB.xyzw = *static_cast<Vector4*>(data);
             break;
-        case js::graphics::eGPUParam::Matrix:
+        case js::graphics::eGpuParam::Matrix:
             mCB.matrix = *static_cast<Matrix*>(data);
             break;
         default:

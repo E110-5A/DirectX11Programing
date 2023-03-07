@@ -24,15 +24,13 @@ namespace js::enums
 	enum class eComponentType
 	{
 		None,
-		Transform, // 위치 데이터 수정하는 컴포넌트
+		Transform,
 		Camera,
 		Mesh,
 		Collider,
-		//Collider2,
 		MeshRenerer,
 		SpriteRenderer,
 		UI,
-		//FadeOut,FadeIn
 		Script,
 		End,
 	};
@@ -43,7 +41,6 @@ namespace js::enums
 		Texture,
 		Material,
 		Sound,
-		/*Font,*/
 		Prefab,
 		MeshData,
 		GraphicShader,
@@ -52,4 +49,13 @@ namespace js::enums
 		End,
 	};
 
+	enum class eColliderType
+	{
+		None,
+		Rect,
+		Circle,
+		Box,
+		Sphere,
+		End,
+	};
 }
