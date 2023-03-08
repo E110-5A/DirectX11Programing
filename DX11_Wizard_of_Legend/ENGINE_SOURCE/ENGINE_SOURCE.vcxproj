@@ -180,7 +180,9 @@
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsMeshRenderer.h" />
+    <ClInclude Include="jsMonster.h" />
     <ClInclude Include="jsObject.h" />
+    <ClInclude Include="jsPlayer.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
     <ClInclude Include="jsPrefab.h" />
@@ -218,6 +220,8 @@
     <ClCompile Include="jsMath.cpp" />
     <ClCompile Include="jsMesh.cpp" />
     <ClCompile Include="jsMeshRenderer.cpp" />
+    <ClCompile Include="jsMonster.cpp" />
+    <ClCompile Include="jsPlayer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
     <ClCompile Include="jsPrefab.cpp" />

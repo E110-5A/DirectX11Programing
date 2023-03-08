@@ -46,7 +46,6 @@ namespace js::renderer
 		indexes.push_back(0);
 		indexes.push_back(1);
 		indexes.push_back(2);
-
 		indexes.push_back(0);
 		indexes.push_back(2);
 		indexes.push_back(3);
@@ -98,7 +97,7 @@ namespace js::renderer
 			vtx.pos = Vector4
 			(
 				fRadius * cosf(fTheta * (float)point)
-				, fRadius * cosf(fTheta * (float)point)
+				, fRadius * sinf(fTheta * (float)point)
 				, -0.00001f, 1.0f
 			);
 			vtx.color = center.color;

@@ -36,7 +36,7 @@ namespace js
 			}
 			else
 			{
-				mScripts.push_back(comp);
+				mScripts.push_back(dynamic_cast<Script*>(comp));
 				comp->SetOwner(this);
 			}
 
@@ -58,7 +58,7 @@ namespace js
 
 			return nullptr;
 		}
-
+		const std::vector<Script*>& GetScripts() { return mScripts; }
 		bool IsDead()
 		{
 			if (mState == eState::Dead)
@@ -81,7 +81,7 @@ namespace js
 	private:
 		eState mState;
 		eLayerType mType;
-		std::vector<Component*> mScripts;
+		std::vector<Script*> mScripts;
 		bool mbDontDestroy;
 		//Scene* mScene;
 	};

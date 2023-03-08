@@ -58,6 +58,11 @@ namespace js
 		mLayers[(UINT)type].AddGameObject(gameObj);
 		gameObj->SetLayerType(type);
 	}
+
+	const std::vector<GameObject*>& Scene::GetGameObjects(const eLayerType layer)
+	{
+		return mLayers[(UINT)layer].GetGameObjects();
+	}
 	
 	std::vector<GameObject*> Scene::GetDontDestroyGameObjects()
 	{

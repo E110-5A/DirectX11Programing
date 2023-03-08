@@ -4,6 +4,7 @@
 
 namespace js
 {
+	UINT Collider2D::ColliderID = 0;
 	Collider2D::Collider2D()
 		: Component(eComponentType::Collider)
 		, mType(eColliderType::None)
@@ -11,7 +12,9 @@ namespace js
 		, mSize(Vector2::One)
 		, mCenter(Vector2::Zero)
 		, mbTrigger(false)
+		, mID(0)
 	{
+		mID = ColliderID++;
 	}
 	Collider2D::~Collider2D()
 	{
@@ -32,6 +35,8 @@ namespace js
 
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
+		mPosition = colliderPos;
+
 
 		Matrix scaleMatrix = Matrix::CreateScale(scale);
 		Matrix rotationMatrix;
@@ -55,5 +60,53 @@ namespace js
 	}
 	void Collider2D::Render()
 	{
+	}
+	void Collider2D::OnCollisionEnter(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnCollisionEnter(collider);
+		}
+	}
+	void Collider2D::OnCollisionStay(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnCollisionStay(collider);
+		}
+	}
+	void Collider2D::OnCollisionExit(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnCollisionExit(collider);
+		}
+	}
+	void Collider2D::OnTriggerEnter(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnTriggerEnter(collider);
+		}
+	}
+	void Collider2D::OnTriggerStay(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnTriggerStay(collider);
+		}
+	}
+	void Collider2D::OnTriggerExit(Collider2D* collider)
+	{
+		const std::vector<Script*>& scripts = GetOwner()->GetScripts();
+		for (Script* script : scripts)
+		{
+			script->OnTriggerExit(collider);
+		}
 	}
 }

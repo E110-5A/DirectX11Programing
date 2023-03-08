@@ -24,6 +24,8 @@ namespace js
 		eSceneType GetSceneType() { return mType; }
 		void AddGameObject(GameObject* gameObj, const eLayerType type);
 		Layer& GetLayer(eLayerType type) { return mLayers[(UINT)type]; }
+		const std::vector<GameObject*>& GetGameObjects(const eLayerType layer);
+
 		std::vector<GameObject*> GetDontDestroyGameObjects();
 
 	private:

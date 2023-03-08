@@ -22,9 +22,6 @@ namespace js
 	void PlayerScript::Update()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-		//Vector3 rot = tr->GetRotation();
-		//rot.z += 10.0f * Time::DeltaTime();
-		//tr->SetRotation(rot);
 
 		if (Input::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
 		{
@@ -60,6 +57,18 @@ namespace js
 	}
 
 	void PlayerScript::Render()
+	{
+	}
+
+	void PlayerScript::OnCollisionEnter(Collider2D* collider)
+	{
+	}
+
+	void PlayerScript::OnCollisionStay(Collider2D* collider)
+	{
+	}
+
+	void PlayerScript::OnCollisionExit(Collider2D* collider)
 	{
 	}
 

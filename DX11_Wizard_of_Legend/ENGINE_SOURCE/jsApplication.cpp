@@ -4,7 +4,7 @@
 #include "jsInput.h"
 #include "jsSceneManager.h"
 #include "jsResources.h"
-
+#include "jsCollisionManager.h"
 namespace js
 {
 	using namespace graphics;
@@ -23,6 +23,7 @@ namespace js
 	{
 		Time::Initialize();
 		Input::Initialize();
+		CollisionManager::Initialize();
 
 		renderer::Initialize();
 		SceneManager::Initialize();
@@ -35,12 +36,14 @@ namespace js
 		Time::Update();
 		Input::Update();
 
+		CollisionManager::Update();
 		SceneManager::Update();
 	}
 
 	// GPU update
 	void Application::FixedUpdate()
 	{
+		CollisionManager::FixedUpdate();
 		SceneManager::FixedUpdate();
 	}
 
@@ -52,6 +55,7 @@ namespace js
 		graphicDevice->AdjustViewPorts();
 
 		renderer::Render();
+		CollisionManager::Render();
 	}
 
 	void Application::Destroy()
