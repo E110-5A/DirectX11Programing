@@ -13,7 +13,7 @@ namespace js
 		, mCenter(Vector2::Zero)
 		, mbTrigger(false)
 		, mID(0)
-		, mRadius(0.0f)
+		, mRadius(1.0f)
 	{
 		mID = ColliderID++;
 	}

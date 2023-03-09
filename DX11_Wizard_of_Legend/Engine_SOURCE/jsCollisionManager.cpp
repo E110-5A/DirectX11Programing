@@ -134,6 +134,7 @@ namespace js
 	}
 	bool CollisionManager::Intersect(Collider2D* left, Collider2D* right)
 	{
+		int a = 0;
 		if (eColliderType::Rect == left->GetType() && eColliderType::Rect == right->GetType())
 		{
 			RectCollision(left, right);
@@ -209,6 +210,19 @@ namespace js
 	bool CollisionManager::CircleCollision(Collider2D* left, Collider2D* right)
 	{
 		// Circle vs Cirlce
+		
+		// 반지름 구하기
+		float totalRadius = (left->GetRadius() / 2) + (right->GetRadius() / 2);
+
+		// 거리 구하기
+		float distanceX = left->GetPosition().x - right->GetPosition().x;
+		float distanceY = left->GetPosition().y - right->GetPosition().y;
+		Vector2 distance = Vector2(distanceX, distanceY);
+		float totaldistance = distance.LengthSquared();
+
+		// 거리가 반지름 합보다 작거나 같으면 충돌
+		if (totaldistance <= totalRadius)
+			return true;
 
 		return false;
 	}
