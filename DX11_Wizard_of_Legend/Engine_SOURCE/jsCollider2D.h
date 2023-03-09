@@ -16,6 +16,10 @@ namespace js
 		virtual void Render() override;
 
 		void SetType(eColliderType type) { mType = type; }
+		eColliderType GetType() { return mType; }
+		void SetRadius(float radius) { mRadius = radius; }
+		float GetRadius() { return mRadius; }
+
 		void SetSize(Vector2 size) { mSize = size; }
 		void SetCenter(Vector2 center) { mCenter = center; }
 
@@ -40,9 +44,11 @@ namespace js
 		eColliderType mType;
 		Transform* mTransform;
 
-		Vector2 mSize;
 		Vector2 mCenter;
 		Vector3 mPosition;
+		Vector2 mSize;
+		float mRadius;
+
 		bool mbTrigger;
 	};
 }

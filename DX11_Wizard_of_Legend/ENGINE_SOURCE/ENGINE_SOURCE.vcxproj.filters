@@ -91,6 +91,9 @@
     <Filter Include="Component\Collider\3D">
       <UniqueIdentifier>{ef70ba73-24b0-4f3d-ba69-e9bc4d1c96dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Script\Contents\Fade">
+      <UniqueIdentifier>{482f6b97-8158-4190-aab2-4fd57c7d01b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="jsMonster.cpp">
       <Filter>Component\Script\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="jsFadeScript.cpp">
+      <Filter>Component\Script\Contents\Fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -331,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="jsMonster.h">
       <Filter>Component\Script\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="jsFadeScript.h">
+      <Filter>Component\Script\Contents\Fade</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

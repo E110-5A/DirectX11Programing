@@ -16,6 +16,7 @@
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)DebugVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)FadePS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
     </FxCompile>

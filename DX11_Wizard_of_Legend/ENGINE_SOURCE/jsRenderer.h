@@ -43,6 +43,11 @@ namespace js::renderer
 		Vector2 resolution;
 	};
 
+	CBUFFER(FadeCB, CBSLOT_FADE)
+	{
+		float alpha;
+	};
+
 
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;

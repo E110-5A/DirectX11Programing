@@ -19,7 +19,7 @@ namespace js::renderer
 
 	void LoadMesh()
 	{
-#pragma region Create Mesh
+#pragma region Create RectMesh
 
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
@@ -51,9 +51,9 @@ namespace js::renderer
 		indexes.push_back(3);
 		indexes.push_back(0);
 
-		rectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		rectMesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 #pragma endregion
-#pragma region Create Debug Rect Mesh
+#pragma region Create DebugRectMesh
 		
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, -0.00001f, 1.0f);
 		vertexes[0].color = Vector4(0.f, 1.f, 0.f, 1.f);
@@ -74,10 +74,10 @@ namespace js::renderer
 		std::shared_ptr<Mesh> debugRectMesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"DebugRectMesh", debugRectMesh);
 		debugRectMesh->CreateVertexBuffer(vertexes, 4);
-		debugRectMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		debugRectMesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 		
 #pragma endregion
-#pragma region Create Debug Circle Mesh
+#pragma region Create DebugCircleMesh
 
 		std::vector<Vertex> circleVertexs;
 		Vertex center = {};
@@ -107,14 +107,14 @@ namespace js::renderer
 		indexes.clear();
 		for (size_t point = 0; point < iSlice - 2; ++point)
 		{
-			indexes.push_back(point + 1);
+			indexes.push_back(UINT(point + 1));
 		}
 		indexes.push_back(1);
 
 		std::shared_ptr<Mesh> debugCircleMesh = std::make_shared<Mesh>();
 		Resources::Insert<Mesh>(L"DebugCircleMesh", debugCircleMesh);
-		debugCircleMesh->CreateVertexBuffer(circleVertexs.data(), circleVertexs.size());
-		debugCircleMesh->CreateIndexBuffer(indexes.data(), indexes.size());
+		debugCircleMesh->CreateVertexBuffer(circleVertexs.data(), (UINT)circleVertexs.size());
+		debugCircleMesh->CreateIndexBuffer(indexes.data(), (UINT)indexes.size());
 
 #pragma endregion
 	}
@@ -169,6 +169,12 @@ namespace js::renderer
 			, gridShader->GetVSBlobBufferPointer()
 			, gridShader->GetVSBlobBufferSize()
 			, gridShader->GetInputLayoutAddressOf());
+
+		std::shared_ptr<Shader> fadeShader = Resources::Find<Shader>(L"FadeShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, fadeShader->GetVSBlobBufferPointer()
+			, fadeShader->GetVSBlobBufferSize()
+			, fadeShader->GetInputLayoutAddressOf());
 
 		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
 		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
@@ -322,6 +328,9 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Grid] = new ConstantBuffer(eCBType::Grid);
 		constantBuffers[(UINT)eCBType::Grid]->Create(sizeof(GridCB));
+
+		constantBuffers[(UINT)eCBType::Fade] = new ConstantBuffer(eCBType::Fade);
+		constantBuffers[(UINT)eCBType::Fade]->Create(sizeof(FadeCB));
 	}
 
 	void LoadShader()
@@ -357,6 +366,13 @@ namespace js::renderer
 
 		Resources::Insert<Shader>(L"GridShader", gridShader);
 
+		// Fade Shader
+		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+		fadeShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"FadeShader", fadeShader);
+
 		// Debug Shader
 		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
 		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
@@ -367,56 +383,85 @@ namespace js::renderer
 		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		Resources::Insert<Shader>(L"DebugShader", debugShader);
+
+
+
+
 	}
 
 	void LoadTexture()
 	{
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
-		Resources::Load<Texture>(L"DefaultSprite", L"Light.png");
+		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
+		Resources::Load<Texture>(L"LightSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
+
+		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
+		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
+		Resources::Load<Texture>(L"PlayerStatusBar", L"UI\\PlayerStatusBar.png");
+		
 	}
 
 	void LoadMaterial()
 	{
 
 		// Default
-		std::shared_ptr <Texture> texture = Resources::Find<Texture>(L"SmileTexture");
-		std::shared_ptr<Shader> shader = Resources::Find<Shader>(L"RectShader");
 		std::shared_ptr<Material> material = std::make_shared<Material>(); 
-		material->SetShader(shader);
-		material->SetTexture(texture);
+		material->SetTexture(Resources::Find<Texture>(L"SmileTexture"));
+		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"RectMaterial", material);
 
 		// Sprite
-		std::shared_ptr <Texture> spriteTexture= Resources::Find<Texture>(L"DefaultSprite");
-		std::shared_ptr<Shader> spriteShader = Resources::Find<Shader>(L"SpriteShader");
 		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
 		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		spriteMaterial->SetShader(spriteShader);
-		spriteMaterial->SetTexture(spriteTexture);
+		spriteMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		spriteMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 
+		// png testing Light Sprite
+		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
+		lightMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		lightMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		lightMaterial->SetTexture(Resources::Find<Texture>(L"LightSprite"));
+		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
+
 		// UI
-		std::shared_ptr <Texture> uiTexture = Resources::Find<Texture>(L"HPBarTexture");
-		std::shared_ptr<Shader> uiShader = Resources::Find<Shader>(L"UIShader");
 		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
 		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		uiMaterial->SetShader(uiShader);
-		uiMaterial->SetTexture(uiTexture);
+		uiMaterial->SetTexture(Resources::Find<Texture>(L"PlayerStatusBar"));
+		uiMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
 		Resources::Insert<Material>(L"UIMaterial", uiMaterial);
 
 		// Grid
-		std::shared_ptr<Shader> gridShader = Resources::Find<Shader>(L"GridShader");
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
-		gridMaterial->SetShader(gridShader);
+		gridMaterial->SetShader(Resources::Find<Shader>(L"GridShader"));
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 
+		// Fade
+		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
+		fadeMaterial->SetShader(Resources::Find<Shader>(L"FadeShader"));
+		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
+
 		// Debug
-		std::shared_ptr<Shader> debugShader = Resources::Find<Shader>(L"DebugShader");
 		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		debugMaterial->SetShader(debugShader);
+		debugMaterial->SetShader(Resources::Find<Shader>(L"DebugShader"));
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+
+		// Title Background
+		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();
+		titleBGMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		titleBGMaterial->SetTexture(Resources::Find<Texture>(L"TitleBackGround"));
+		titleBGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"TitleBGMaterial", titleBGMaterial);
+
+		// Player
+		std::shared_ptr<Material> playerMaterial = std::make_shared<Material>();
+		playerMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		playerMaterial->SetTexture(Resources::Find<Texture>(L"PlayerIdleDown"));
+		playerMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
+
 	}
 
 	void Initialize()

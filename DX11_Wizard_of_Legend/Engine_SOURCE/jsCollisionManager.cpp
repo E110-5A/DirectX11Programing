@@ -134,6 +134,19 @@ namespace js
 	}
 	bool CollisionManager::Intersect(Collider2D* left, Collider2D* right)
 	{
+		if (eColliderType::Rect == left->GetType() && eColliderType::Rect == right->GetType())
+		{
+			RectCollision(left, right);
+		}
+		else if (eColliderType::Circle == left->GetType() && eColliderType::Circle == right->GetType())
+		{
+			CircleCollision(left, right);
+		}
+
+		return true;
+	}
+	bool CollisionManager::RectCollision(Collider2D* left, Collider2D* right)
+	{
 		// Rect vs Rect 
 		// 0 --- 1
 		// |     |
@@ -191,9 +204,12 @@ namespace js
 				return false;
 			}
 		}
-
+		return true;
+	}
+	bool CollisionManager::CircleCollision(Collider2D* left, Collider2D* right)
+	{
 		// Circle vs Cirlce
 
-		return true;
+		return false;
 	}
 }

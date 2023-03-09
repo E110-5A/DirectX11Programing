@@ -77,8 +77,8 @@ namespace js
 			POINT mousePos = {};
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousPosition.x = mousePos.x;
-			mMousPosition.y = mousePos.y;
+			mMousPosition.x = (float)mousePos.x;
+			mMousPosition.y = (float)mousePos.y;
 		}
 		else
 		{

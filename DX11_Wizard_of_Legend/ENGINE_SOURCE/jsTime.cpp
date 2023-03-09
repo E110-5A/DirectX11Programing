@@ -36,22 +36,14 @@ namespace js
         static int iCount = 0;
         ++iCount;
 
-
-        // 1 초에 한번
         mAddTime += mDeltaTime;
         if (1.0f < mAddTime)
         {
             HWND hWnd = application.GetHwnd();
-
             wchar_t szFloat[50] = {};
-            float FPS = 1.f / mDeltaTime;
             swprintf_s(szFloat, 50, L"DeltaTime : %d", iCount);
-            int iLen = wcsnlen_s(szFloat, 50);
-            //TextOut(_dc, 10, 10, szFloat, iLen);
-
             SetWindowText(hWnd, szFloat);
 
-            // 누적시간, 카운트 초기화
             mAddTime = 0.f;
             iCount = 0;
         }
