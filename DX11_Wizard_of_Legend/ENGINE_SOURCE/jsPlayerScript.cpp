@@ -8,6 +8,7 @@ namespace js
 {
 	PlayerScript::PlayerScript()
 		: Script()
+		, movespeed(3.0f)
 	{
 	}
 
@@ -22,36 +23,30 @@ namespace js
 	void PlayerScript::Update()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-
-		if (Input::GetKeyState(eKeyCode::R) == eKeyState::PRESSED)
-		{
-			Vector3 rot = tr->GetRotation();
-			rot.z += 10.0f * Time::DeltaTime();
-			tr->SetRotation(rot);
-		}
+				
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Right() * 6.0f * Time::DeltaTime();
+			pos += tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Right() * 6.0f * Time::DeltaTime();
+			pos += -tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 
 		if (Input::GetKey(eKeyCode::DOWN))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Up() * 6.0f * Time::DeltaTime();
+			pos += -tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 		if (Input::GetKey(eKeyCode::UP))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Up() * 6.0f * Time::DeltaTime();
+			pos += tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
 	}

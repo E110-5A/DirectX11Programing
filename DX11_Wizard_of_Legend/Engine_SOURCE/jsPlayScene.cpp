@@ -34,32 +34,30 @@ namespace js
 
 	void PlayScene::Initialize()
 	{
+		// Camera
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		//cameraComp->RegisterCameraInRenderer();
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
 		cameraObj->AddComponent<CameraScript>();
 
+		//Player Obj
+		{
+			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
+			obj->SetName(L"Player");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
+			tr->SetScale(Vector3(0.25f, 0.4f, 1.0f));
+			Collider2D* collider = obj->AddComponent<Collider2D>();
+			collider->SetType(eColliderType::Rect);
+
+			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
+			obj->AddComponent<PlayerScript>();
+		}
+
 		
-
-		//// test obj
-		//{
-		//	Player* obj = object::Instantiate<Player>(eLayerType::Monster);
-		//	obj->SetName(L"SMILE");
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetPosition(Vector3(2.0f, 0.0f, 5.0f));
-		//	tr->SetRotation(Vector3(0.0f, 0.0f, XM_PIDIV2 / 2.0f));
-
-		//	Collider2D* collider = obj->AddComponent<Collider2D>();
-		//	collider->SetType(eColliderType::Rect);
-
-		//	SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-		//	std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		//	std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"RectMaterial");
-		//	mr->SetMesh(mesh);
-		//	mr->SetMaterial(mateiral);
-		//	object::DontDestroyOnLoad(obj);
-		//}
 
 		Scene::Initialize();
 	}

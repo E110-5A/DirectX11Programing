@@ -19,6 +19,6 @@ namespace js
 		virtual void OnCollisionExit(Collider2D* collider) override;
 
 	private:
-
+		float movespeed;
 	};
 }

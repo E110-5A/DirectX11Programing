@@ -1,16 +1,9 @@
 #include "jsSceneManager.h"
-#include "jsTransform.h"
-#include "jsMeshRenderer.h"
-#include "jsRenderer.h"
-#include "jsResources.h"
-#include "jsTexture.h"
-#include "jsPlayerScript.h"
-#include "jsCamera.h"
-#include "jsCameraScript.h"
-#include "jsSpriteRenderer.h"
-#include "jsGridScript.h"
-#include "jsTitleScene.h"
+
 #include "jsPlayScene.h"
+#include "jsTitleScene.h"
+
+
 
 namespace js
 {
@@ -22,7 +15,9 @@ namespace js
 		mScenes.resize((UINT)eSceneType::End);
 
 		mScenes[(UINT)eSceneType::Tilte] = new TitleScene();
+		mScenes[(UINT)eSceneType::Tilte]->SetName(L"TitleScene");
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
+		mScenes[(UINT)eSceneType::Play]->SetName(L"PlayScene");
 
 		mActiveScene = mScenes[(UINT)eSceneType::Tilte];
 
