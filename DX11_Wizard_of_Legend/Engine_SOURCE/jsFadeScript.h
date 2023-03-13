@@ -22,6 +22,7 @@ namespace js
 
 	private:
 		bool		isActive;
+		bool		isComplete;
 		float		mAddTime;		
 		float		mDuration;		
 		float		mRatio;

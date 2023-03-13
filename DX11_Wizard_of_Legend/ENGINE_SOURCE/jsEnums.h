@@ -14,6 +14,7 @@ namespace js::enums
 		None = 0,
 		Camera,
 		Grid,
+		Tile,
 		Monster,
 		Player,
 

@@ -8,6 +8,7 @@ namespace js
 {
 	FadeScript::FadeScript()
 		: isActive(false)
+		, isComplete(false)
 		, mAddTime(0.0f)
 		, mDuration(1.5f)
 		, mRatio(0.0f)
@@ -26,23 +27,28 @@ namespace js
 		if (isActive)
 		{
 			mAddTime += Time::DeltaTime();
+
+			if (mAddTime >= mDuration)
+			{
+				isComplete = true;
+				isActive = false;
+				mAddTime = 0.0f;
+			}
 		}
 
-		if (mAddTime >= mDuration)
-		{
-			isActive = false;
-			mAddTime = 0.0f;
-		}
+		
 
 		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == isActive
 			&& 0.9 <= mRatio)
 		{
+			isComplete = false;
 			isActive = true;
 			mType = Fade_In;
 		}
 		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == isActive
 			&& 0.1 >= mRatio)
 		{
+			isComplete = false;
 			isActive = true;
 			mType = Fade_Out;
 		}

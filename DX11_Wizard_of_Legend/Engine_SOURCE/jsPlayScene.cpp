@@ -46,8 +46,8 @@ namespace js
 			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
 			obj->SetName(L"Player");
 			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(0.0f, 0.0f, 5.0f));
-			tr->SetScale(Vector3(0.25f, 0.4f, 1.0f));
+			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 			Collider2D* collider = obj->AddComponent<Collider2D>();
 			collider->SetType(eColliderType::Rect);
 

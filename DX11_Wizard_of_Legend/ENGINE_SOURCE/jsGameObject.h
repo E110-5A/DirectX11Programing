@@ -88,7 +88,6 @@ namespace js
 		std::vector<Script*> mScripts;
 		bool mIsDontDestroy;
 		bool mIsDontChangeState;
-		//Scene* mScene;
 	};
 }
 

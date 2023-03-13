@@ -10,67 +10,82 @@ namespace js::object
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type)
 	{
-		T* gameObj = new T();
+		T* obj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+			gameObj->SetLayerType(type);
 
-		return gameObj;
+		return obj;
 	}
 
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type, Scene* scene)
 	{
-		T* gameObj = new T();
+		T* obj = new T();
 		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+			gameObj->SetLayerType(type);
 
-		return gameObj;
+		return obj;
 	}
 
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type, Transform* parent)
 	{
-		T* gameObj = new T();
+		T* obj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+			gameObj->SetLayerType(type);
 
-		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetParent(parent);
 
-		return gameObj;
+		return obj;
 	}
 
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation)
 	{
-		T* gameObj = new T();
+		T* obj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+			gameObj->SetLayerType(type);
 
-		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetPosition(position);
 		tr->SetRotation(rotation);
 
-		return gameObj;
+		return obj;
 	}
 
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type, Vector3 position, Vector3 rotation, Transform* parent)
 	{
-		T* gameObj = new T();
+		T* obj = new T();
 		Scene* scene = SceneManager::GetActiveScene();
 		Layer& layer = scene->GetLayer(type);
-		layer.AddGameObject(gameObj);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+			gameObj->SetLayerType(type);
 
-		Transform* tr = gameObj->GameObject::GetComponent<Transform>();
+		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetPosition(position);
 		tr->SetRotation(rotation);
 		tr->SetParent(parent);
 
-		return gameObj;
+		return obj;
 	}
 
 	static void Destroy(GameObject* gameObject)
@@ -83,6 +98,6 @@ namespace js::object
 		if (gameObject == nullptr)
 			return;
 
-		gameObject->DontDestroy(true);
+		gameObject->DontDestroy();
 	}
 }
