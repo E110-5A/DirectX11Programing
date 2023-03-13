@@ -6,6 +6,7 @@
 #include "jsShader.h"
 #include "jsConstantBuffer.h"
 #include "jsCamera.h"
+#include "jsFadeScript.h"
 
 using namespace js::math;
 using namespace js::graphics;
@@ -51,6 +52,7 @@ namespace js::renderer
 
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
+	extern FadeScript* fade;
 
 	extern ConstantBuffer* constantBuffers[];
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];

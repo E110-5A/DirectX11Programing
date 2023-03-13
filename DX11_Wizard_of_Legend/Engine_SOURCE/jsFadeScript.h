@@ -6,11 +6,20 @@ namespace js
 	class FadeScript : public Script
 	{
 	public:
-		enum eFadeState
+		enum eFadeType
 		{
 			Fade_In,
 			Fade_Out,
 		};
+
+		enum eFadeState
+		{
+			Ready,
+			Processing,
+			Complete,
+			End,
+		};
+
 		FadeScript();
 		virtual ~FadeScript();
 
@@ -19,13 +28,21 @@ namespace js
 		virtual void FixedUpdate();
 		virtual void Render();
 
+		void FadeIn();
+		void FadeOut();
+		eFadeState GetFadeState() { return mState; }
+		void SetFadeState(eFadeState state) { mState = state; }
+		
+		bool IsReady() { return mIsReady; }
+		void SetReady(bool enable) { mIsReady = enable; }
 
 	private:
-		bool		isActive;
-		bool		isComplete;
+		bool		mIsActive;
+		bool		mIsReady;
+		eFadeState	mState;
 		float		mAddTime;		
 		float		mDuration;		
 		float		mRatio;
-		eFadeState	mType;
+		eFadeType	mType;
 	};
 }

@@ -64,14 +64,17 @@ namespace js
 			GameObject* fadeObj = object::Instantiate<GameObject>(eLayerType::UI, this);
 			fadeObj->SetName(L"FadeObject");
 			Transform* fadeTr = fadeObj->GetComponent<Transform>();
-			fadeTr->SetPosition(Vector3(1.0f, 1.0f, 1.0f));
 			fadeTr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+
 			SpriteRenderer* fadeMr = fadeObj->AddComponent<SpriteRenderer>();
 			fadeMr->SetName(L"FadeRenderer");
 			fadeMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
-			fadeObj->AddComponent<FadeScript>();
+			
+			FadeScript* fadeScript = fadeObj->AddComponent<FadeScript>();
 			object::DontDestroyOnLoad(fadeObj);
+			mFadeObject = fadeObj;
+			fade = fadeScript;
 		}
 		
 		// Background Obj
@@ -80,12 +83,11 @@ namespace js
 			obj->SetName(L"TitleBG");
 			
 			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(1.0f, 1.0f, 1.0f));
 			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
 			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
 			mr->SetName(L"BackgroundRenderer");
-			mr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			mr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
 			mr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
 		}
 			
@@ -98,8 +100,17 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			SceneManager::LoadScene(eSceneType::Play);
+			fade->FadeOut();
+			fade->SetReady(true);
 		}
+
+		// fade out이 complete인경우 호출
+		if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
+		{
+			fade->SetReady(false);
+			fade->SetFadeState(FadeScript::Ready);
+			SceneManager::LoadScene(eSceneType::Play);
+		}		
 
 		Scene::Update();
 	}
@@ -113,6 +124,10 @@ namespace js
 	}
 	void TitleScene::OnEnter()
 	{
+		std::vector<Script*> script = mFadeObject->GetScripts();
+		FadeScript* fade = dynamic_cast<FadeScript*>(script[0]);
+		if (nullptr != fade)
+			fade->FadeIn();
 	}
 	void TitleScene::OnExit()
 	{

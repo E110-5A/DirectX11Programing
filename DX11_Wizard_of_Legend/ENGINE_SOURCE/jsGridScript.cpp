@@ -30,21 +30,14 @@ namespace js
 
 	void GridScript::Update()
 	{
-		//	CBUFFER(GridCB, CBSLOT_GRID)
-		//{
-		//	Vector4 cameraPosition;
-		//	Vector2 cameraScale;
-		//	Vector2 resolution;
-		//};
-
 		if (mCamera == nullptr)
 			return;
 
-		GameObject* gameObj = mCamera->GetOwner();
-		Transform* tr = gameObj->GetComponent<Transform>();
+		GameObject* camObj = mCamera->GetOwner();
+		Transform* camTr = camObj->GetComponent<Transform>();
 		
-		Vector3 cameraPos = tr->GetPosition();
-		Vector4 position = Vector4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
+		Vector3 camTrPos = camTr->GetPosition();
+		Vector4 cameraPosition = Vector4(camTrPos.x, camTrPos.y, camTrPos.z, 1.0f);
 
 		float scale = mCamera->GetScale();
 
@@ -57,7 +50,7 @@ namespace js
 		// Constant buffer
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Grid];
 		renderer::GridCB data;
-		data.cameraPosition = position;
+		data.cameraPosition = cameraPosition;
 		data.cameraScale = Vector2(scale, scale);
 		data.resolution = resolution;
 

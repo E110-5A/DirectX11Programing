@@ -7,17 +7,18 @@
 #include "jsObject.h"
 
 #include "jsTransform.h"
+
 #include "jsCamera.h"
+#include "jsCameraScript.h"
 
 #include "jsMeshRenderer.h"
 #include "jsSpriteRenderer.h"
-
-#include "jsCameraScript.h"
-#include "jsPlayerScript.h"
 #include "jsGridScript.h"
-#include "jsPlayerScript.h"
+
+#include "jsFadeScript.h"
 
 #include "jsPlayer.h"
+#include "jsPlayerScript.h"
 
 
 namespace js
@@ -66,6 +67,14 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
+			fade->FadeOut();
+			fade->SetReady(true);
+		}
+
+		if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
+		{
+			fade->SetReady(false);
+			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Tilte);
 		}
 
@@ -84,7 +93,7 @@ namespace js
 
 	void PlayScene::OnEnter()
 	{
-
+		fade->FadeIn();
 	}
 
 	void PlayScene::OnExit()

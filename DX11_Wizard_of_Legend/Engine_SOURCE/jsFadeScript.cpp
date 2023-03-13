@@ -7,12 +7,13 @@
 namespace js
 {
 	FadeScript::FadeScript()
-		: isActive(false)
-		, isComplete(false)
+		: mIsActive(false)
+		, mIsReady(false)
+		, mState(eFadeState::Ready)
 		, mAddTime(0.0f)
-		, mDuration(1.5f)
-		, mRatio(0.0f)
-		, mType(eFadeState::Fade_In)
+		, mDuration(0.5f)
+		, mRatio(1.0f)
+		, mType(eFadeType::Fade_In)
 	{	
 	}
 	FadeScript::~FadeScript()
@@ -24,49 +25,62 @@ namespace js
 	}
 	void FadeScript::Update()
 	{
-		if (isActive)
+		if (mIsActive)
 		{
 			mAddTime += Time::DeltaTime();
 
 			if (mAddTime >= mDuration)
 			{
-				isComplete = true;
-				isActive = false;
+				mIsActive = false;
+				mState = eFadeState::Complete;
 				mAddTime = 0.0f;
 			}
-		}
+		}		
 
-		
-
-		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == isActive
+		/*if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == mIsActive
 			&& 0.9 <= mRatio)
 		{
-			isComplete = false;
-			isActive = true;
+			mIsComplete = false;
+			mIsActive = true;
 			mType = Fade_In;
 		}
-		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == isActive
+		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == mIsActive
 			&& 0.1 >= mRatio)
 		{
-			isComplete = false;
-			isActive = true;
+			mIsComplete = false;
+			mIsActive = true;
 			mType = Fade_Out;
-		}
+		}*/
 	}
+
+	void FadeScript::FadeIn()
+	{
+		mIsActive = true;
+		mState = eFadeState::Processing;
+		mType = Fade_In;
+	}
+	void FadeScript::FadeOut()
+	{
+		mIsActive = true;
+		mState = eFadeState::Processing;
+		mType = Fade_Out;
+	}
+
+
 	void FadeScript::FixedUpdate()
 	{
-		if (!isActive)
+		if (!mIsActive)
 			return;
 
 		// alpha test
 		if (mRatio > 0.5f)
 			int a = 0;
 
-		if (eFadeState::Fade_Out == mType)
+		if (eFadeType::Fade_Out == mType)
 		{
 			mRatio = (mAddTime / mDuration);
 		}
-		else if (eFadeState::Fade_In == mType)
+		else if (eFadeType::Fade_In == mType)
 		{
 			mRatio = 1 - (mAddTime / mDuration);
 		}

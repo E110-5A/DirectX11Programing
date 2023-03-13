@@ -21,6 +21,7 @@ namespace js
 		float GetRadius() { return mRadius; }
 
 		void SetSize(Vector2 size) { mSize = size; }
+		Vector2 GetSize() { return mSize; }
 		void SetCenter(Vector2 center) { mCenter = center; }
 
 		virtual void OnCollisionEnter(Collider2D* collider);

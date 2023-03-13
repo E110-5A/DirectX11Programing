@@ -30,6 +30,8 @@ namespace js
 
 		void ObjectsActive();
 		void ObjectsPause();
+	protected:
+		GameObject* mFadeObject;
 
 	private:
 		std::vector<Layer> mLayers;

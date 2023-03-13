@@ -5,6 +5,7 @@ namespace js
 {
 	Scene::Scene(eSceneType type)
 		: mType(type)
+		, mFadeObject(nullptr)
 	{
 		mLayers.resize((UINT)eLayerType::End);
 	}

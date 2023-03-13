@@ -16,6 +16,8 @@ namespace js
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
 
+		static void MoveDontDestoryObjects(eSceneType type);
+
 	private:
 		static std::vector<Scene*> mScenes;
 		static Scene* mActiveScene;

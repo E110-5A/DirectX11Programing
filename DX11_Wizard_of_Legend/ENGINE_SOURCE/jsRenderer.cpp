@@ -13,6 +13,8 @@ namespace js::renderer
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 	
 	Camera* mainCamera = nullptr;
+	FadeScript* fade = nullptr;
+
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 	std::vector<DebugMesh> debugMeshes;
 
@@ -406,7 +408,8 @@ namespace js::renderer
 	{
 
 		// Default
-		std::shared_ptr<Material> material = std::make_shared<Material>(); 
+		std::shared_ptr<Material> material = std::make_shared<Material>();
+		material->SetRenderingMode(eRenderingMode::Transparent);
 		material->SetTexture(Resources::Find<Texture>(L"SmileTexture"));
 		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"RectMaterial", material);
@@ -434,11 +437,13 @@ namespace js::renderer
 
 		// Grid
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
+		gridMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		gridMaterial->SetShader(Resources::Find<Shader>(L"GridShader"));
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 
 		// Fade
 		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
+		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		fadeMaterial->SetShader(Resources::Find<Shader>(L"FadeShader"));
 		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 

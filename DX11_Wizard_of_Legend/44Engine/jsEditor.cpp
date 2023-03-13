@@ -12,17 +12,15 @@ namespace js
 {	
 	void Editor::Initialize()
 	{
-		// 충돌체의 종류 갯수만큼만 있으면 된다.
+		// 충돌체의 종류 갯수만큼 디버그 객체 생성
 		mDebugObjects.resize((UINT)eColliderType::End);
 
-		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();
-		
+		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();		
 		MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
 		renderer->SetMesh(Resources::Find<Mesh>(L"DebugRectMesh"));
 		renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
 
 		mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
-
 		renderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 		renderer->SetMesh(Resources::Find<Mesh>(L"DebugCircleMesh"));
 		renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
@@ -69,20 +67,20 @@ namespace js
 	{
 		DebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
 
-		Transform* tr = debugObj->GetComponent<Transform>();
-		tr->SetPosition(mesh.position);
-		tr->SetRotation(mesh.rotatation);
+		Transform* debugTr = debugObj->GetComponent<Transform>();
+		debugTr->SetPosition(mesh.position);
+		debugTr->SetRotation(mesh.rotatation);
 
 
 		if (mesh.type == eColliderType::Rect)
-			tr->SetScale(mesh.scale);
+			debugTr->SetScale(mesh.scale);
 		else
-			tr->SetScale(Vector3(mesh.radius));
+			debugTr->SetScale(Vector3(mesh.radius));
 
-		BaseRenderer* renderer = debugObj->GetComponent<BaseRenderer>();
+		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>();
 		Camera* camera = renderer::mainCamera;
 
-		tr->FixedUpdate();
+		debugTr->FixedUpdate();
 
 		Camera::SetGpuViewMatrix(renderer::mainCamera->GetGpuViewMatrix());
 		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetGpuProjectionMatrix());
