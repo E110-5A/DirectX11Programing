@@ -34,13 +34,13 @@ namespace js
 
 	void PlayScene::Initialize()
 	{
-		// Camera
-		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
-		Camera* cameraComp = cameraObj->AddComponent<Camera>();
-		//cameraComp->RegisterCameraInRenderer();
-		cameraComp->TurnLayerMask(eLayerType::UI, false);
-		cameraObj->AddComponent<CameraScript>();
-
+		//// Camera
+		//GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+		//Camera* cameraComp = cameraObj->AddComponent<Camera>();
+		////cameraComp->RegisterCameraInRenderer();
+		//cameraComp->TurnLayerMask(eLayerType::UI, false);
+		//cameraObj->AddComponent<CameraScript>();
+		
 		//Player Obj
 		{
 			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);

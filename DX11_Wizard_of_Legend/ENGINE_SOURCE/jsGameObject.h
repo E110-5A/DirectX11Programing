@@ -66,12 +66,16 @@ namespace js
 			
 			return false;
 		}
-		void Pause() { mState = eState::Paused; }
-		void Death() { mState = eState::Dead; }
+		void SetActive() { mState = eState::Active; }
+		void Pause() { if (mIsDontChangeState) return; mState = eState::Paused; }
+		void Death() { if (mIsDontChangeState) return; mState = eState::Dead; }
 		eState GetState() { return mState; }
-		
-		bool IsDontDestroy() { return mbDontDestroy; }
-		void DontDestroy(bool enable) { mbDontDestroy = enable; }
+				
+		bool IsDontDestroy() { return mIsDontDestroy; }
+		void DontDestroy(bool enable = true) { mIsDontDestroy = enable; }
+		bool IsDontChangeState() { return mIsDontChangeState; }
+		void DontChangeState(bool enable = true) { mIsDontChangeState = enable; }
+
 		eLayerType GetLayerType() { return mType; }
 		void SetLayerType(eLayerType type) { mType = type; }
 
@@ -82,7 +86,8 @@ namespace js
 		eState mState;
 		eLayerType mType;
 		std::vector<Script*> mScripts;
-		bool mbDontDestroy;
+		bool mIsDontDestroy;
+		bool mIsDontChangeState;
 		//Scene* mScene;
 	};
 }

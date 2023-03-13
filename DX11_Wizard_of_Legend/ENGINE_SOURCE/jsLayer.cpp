@@ -134,4 +134,24 @@ namespace js
 
 		return donts;
 	}
+	void Layer::ObjectsActive()
+	{
+		for (GameObject* obj : mGameObjects)
+		{
+			if (obj == nullptr)
+				continue;
+
+			obj->SetActive();
+		}
+	}
+	void Layer::ObjectsPause()
+	{
+		for (GameObject* obj : mGameObjects)
+		{
+			if (obj == nullptr)
+				continue;
+
+			obj->Pause();
+		}
+	}
 }

@@ -39,7 +39,9 @@ namespace js
 		GameObject* cameraObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
 		Camera* cameraComp = cameraObj->AddComponent<Camera>();
 		cameraComp->TurnLayerMask(eLayerType::UI, false);
+		cameraComp->SetProjectionType(Camera::Orthographic);
 		cameraObj->AddComponent<CameraScript>();
+		cameraObj->DontDestroy(true);
 		mainCamera = cameraComp;
 
 
@@ -72,8 +74,8 @@ namespace js
 			obj->SetName(L"TitleBG");
 			
 			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(1.0f, 1.0f, 5.0f));
-			tr->SetScale(Vector3(9.0f, 5.0f, 1.0f));
+			tr->SetPosition(Vector3(1.0f, 1.0f, 1.0f));
+			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
 			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
 			mr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));

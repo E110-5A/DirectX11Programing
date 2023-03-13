@@ -79,4 +79,18 @@ namespace js
 
 		return gameObjects;
 	}
+	void Scene::ObjectsActive()
+	{
+		for (Layer& layer : mLayers)
+		{
+			layer.ObjectsActive();
+		}
+	}
+	void Scene::ObjectsPause()
+	{
+		for (Layer& layer : mLayers)
+		{
+			layer.ObjectsPause();
+		}
+	}
 }

@@ -6,7 +6,8 @@ namespace js
 	GameObject::GameObject()
 		: mState(eState::Active)
 		, mType(eLayerType::None)
-		, mbDontDestroy(false)
+		, mIsDontDestroy(false)
+		, mIsDontChangeState(false)
 	{
 		mComponents.resize((UINT)eComponentType::End);
 		AddComponent(new Transform());

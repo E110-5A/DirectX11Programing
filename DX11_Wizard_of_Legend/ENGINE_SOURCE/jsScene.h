@@ -28,6 +28,9 @@ namespace js
 
 		std::vector<GameObject*> GetDontDestroyGameObjects();
 
+		void ObjectsActive();
+		void ObjectsPause();
+
 	private:
 		std::vector<Layer> mLayers;
 		eSceneType mType;
