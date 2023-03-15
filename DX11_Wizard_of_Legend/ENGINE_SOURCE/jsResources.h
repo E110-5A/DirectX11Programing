@@ -29,6 +29,7 @@ namespace js
 			if (nullptr != resource)
 			{
 				// 해당키로 이미 로딩된게 있으면 해당 리소스를 반환
+				assert(false);
 				return resource;
 			}
 

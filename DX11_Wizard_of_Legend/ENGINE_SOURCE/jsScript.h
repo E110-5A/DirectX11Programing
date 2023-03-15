@@ -22,6 +22,11 @@ namespace js
 		virtual void OnTriggerStay(Collider2D* collider) {};
 		virtual void OnTriggerExit(Collider2D* collider) {};
 
+		virtual void Start() {};
+		virtual void Complete() {};
+		virtual void End() {};
+		virtual void Action() {};
+
 	private:
 	};
 }

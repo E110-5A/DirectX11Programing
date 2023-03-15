@@ -23,6 +23,7 @@
 #include "jsPlayer.h"
 #include "jsMonster.h"
 
+#include "jsAnimator.h"
 
 namespace js
 {
@@ -46,7 +47,24 @@ namespace js
 		object::DontDestroyOnLoad(cameraObj);
 		mainCamera = cameraComp;
 
+		//SMILE RECT
+		{
+			Player* obj = object::Instantiate<Player>(eLayerType::Player);
+			obj->SetName(L"Zelda");
+			Animator* animator = obj->AddComponent<Animator>();
+			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
+			animator->Create(L"Idle", texture, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
+			animator->Create(L"MoveDown", texture, Vector2(0.0f, 520.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
+			animator->Play(L"Idle");
 
+			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			sr->SetMaterial(Resources::Find<Material>(L"SpriteMaterial"));
+
+			obj->AddComponent<PlayerScript>();
+			object::DontDestroyOnLoad(obj);
+		}
+		
 		// UI Cam
 		{
 			GameObject* uiCamObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
@@ -76,20 +94,20 @@ namespace js
 			mFadeObject = fadeObj;
 			fade = fadeScript;
 		}
-		
-		// Background Obj
-		{
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
-			obj->SetName(L"TitleBG");
-			
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+		//
+		//// Background Obj
+		//{
+		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
+		//	obj->SetName(L"TitleBG");
+		//	
+		//	Transform* tr = obj->GetComponent<Transform>();
+		//	tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
-			SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-			mr->SetName(L"BackgroundRenderer");
-			mr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
-			mr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
-		}
+		//	SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+		//	sr->SetName(L"BackgroundRenderer");
+		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
+		//	sr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
+		//}
 			
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);

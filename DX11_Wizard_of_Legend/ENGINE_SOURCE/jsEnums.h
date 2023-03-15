@@ -31,6 +31,7 @@ namespace js::enums
 		Collider,
 		MeshRenerer,
 		SpriteRenderer,
+		Animator,
 		UI,
 		Script,
 		End,
@@ -57,6 +58,14 @@ namespace js::enums
 		Circle,
 		Box,
 		Sphere,
+		End,
+	};
+
+	enum class eAnimationType
+	{
+		None,
+		SecondDimension,
+		ThirdDimension,
 		End,
 	};
 }

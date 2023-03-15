@@ -94,6 +94,9 @@
     <Filter Include="Component\Script\Contents\Fade">
       <UniqueIdentifier>{482f6b97-8158-4190-aab2-4fd57c7d01b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Animator">
+      <UniqueIdentifier>{462c899b-d697-4c1e-a1a1-8cd73bc7838f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -209,6 +212,12 @@
     </ClCompile>
     <ClCompile Include="jsFadeScript.cpp">
       <Filter>Component\Script\Contents\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="jsAnimation.cpp">
+      <Filter>Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="jsAnimator.cpp">
+      <Filter>Component\Animator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +349,12 @@
     </ClInclude>
     <ClInclude Include="jsFadeScript.h">
       <Filter>Component\Script\Contents\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="jsAnimation.h">
+      <Filter>Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="jsAnimator.h">
+      <Filter>Component\Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

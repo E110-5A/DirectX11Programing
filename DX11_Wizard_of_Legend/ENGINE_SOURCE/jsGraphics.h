@@ -16,6 +16,7 @@
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
 #define CBSLOT_FADE 3
+#define CBSLOT_ANIMATION 3
 
 namespace js::graphics
 {
@@ -102,6 +103,7 @@ namespace js::graphics
 		Material,
 		Grid,
 		Fade,
+		Animation,
 		End,
 	};
 
@@ -121,6 +123,7 @@ namespace js::graphics
 		math::Vector3 position;
 		math::Vector3 rotatation;
 		math::Vector3 scale;
+
 		float radius;
 		float duration;
 		float time;

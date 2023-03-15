@@ -333,6 +333,9 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Fade] = new ConstantBuffer(eCBType::Fade);
 		constantBuffers[(UINT)eCBType::Fade]->Create(sizeof(FadeCB));
+
+		constantBuffers[(UINT)eCBType::Animation] = new ConstantBuffer(eCBType::Animation);
+		constantBuffers[(UINT)eCBType::Animation]->Create(sizeof(AnimationCB));
 	}
 
 	void LoadShader()

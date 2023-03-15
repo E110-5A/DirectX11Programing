@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -52,6 +52,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableUnitySupport>true</EnableUnitySupport>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -157,6 +158,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
+    <ClInclude Include="jsAnimation.h" />
+    <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsBaseRenderer.h" />
     <ClInclude Include="jsCamera.h" />
@@ -201,6 +204,8 @@
     <ClInclude Include="jsTransform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="jsAnimation.cpp" />
+    <ClCompile Include="jsAnimator.cpp" />
     <ClCompile Include="jsApplication.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
     <ClCompile Include="jsCamera.cpp" />

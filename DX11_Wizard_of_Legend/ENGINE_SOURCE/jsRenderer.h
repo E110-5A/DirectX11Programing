@@ -49,6 +49,14 @@ namespace js::renderer
 		float alpha;
 	};
 
+	CBUFFER(AnimationCB, CBSLOT_ANIMATION)
+	{
+		Vector2 leftTop;
+		Vector2 spriteSize;
+		Vector2 offset;
+		Vector2 atlasSize;
+		UINT	animationType;
+	};
 
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;

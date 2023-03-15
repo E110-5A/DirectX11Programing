@@ -3,6 +3,7 @@
 #include "jsGameObject.h"
 #include "jsInput.h"
 #include "jsTime.h"
+#include "jsAnimator.h"
 
 namespace js
 {
@@ -18,6 +19,11 @@ namespace js
 
 	void PlayerScript::Initialize()
 	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->GetStartEvent(L"MoveDown") = std::bind(&PlayerScript::Start, this);
+		animator->GetCompleteEvent(L"Idle") = std::bind(&PlayerScript::Action, this);
+		animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
+		animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 	}
 
 	void PlayerScript::Update()
@@ -49,6 +55,12 @@ namespace js
 			pos += tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 		}
+
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		if (Input::GetKey(eKeyCode::N_1))
+		{
+			animator->Play(L"MoveDown");
+		}
 	}
 
 	void PlayerScript::Render()
@@ -64,6 +76,22 @@ namespace js
 	}
 
 	void PlayerScript::OnCollisionExit(Collider2D* collider)
+	{
+	}
+
+	void PlayerScript::Start()
+	{
+	}
+
+	void PlayerScript::Complete()
+	{
+	}
+
+	void PlayerScript::End()
+	{
+	}
+
+	void PlayerScript::Action()
 	{
 	}
 
