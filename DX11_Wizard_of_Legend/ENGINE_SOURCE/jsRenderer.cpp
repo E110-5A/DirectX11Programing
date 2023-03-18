@@ -6,18 +6,20 @@
 namespace js::renderer
 {
 	Vertex vertexes[4] = {};
-	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[(UINT)eSamplerType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 	
+	ConstantBuffer* constantBuffers[(UINT)eCBType::End] = {};
+	StructuredBuffer* lightsBuffer = nullptr;
+
 	Camera* mainCamera = nullptr;
 	FadeScript* fade = nullptr;
 
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 	std::vector<DebugMesh> debugMeshes;
-
+	std::vector<LightAttribute> lights;
 
 	void LoadMesh()
 	{
@@ -322,6 +324,8 @@ namespace js::renderer
 
 	void LoadBuffer()
 	{
+#pragma region Constant Buffers
+
 		constantBuffers[(UINT)eCBType::Transform] = new ConstantBuffer(eCBType::Transform);
 		constantBuffers[(UINT)eCBType::Transform]->Create(sizeof(TransformCB));
 
@@ -336,6 +340,15 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::Animation] = new ConstantBuffer(eCBType::Animation);
 		constantBuffers[(UINT)eCBType::Animation]->Create(sizeof(AnimationCB));
+
+		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
+		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
+#pragma endregion
+#pragma region Structured Buffers
+
+		lightsBuffer = new StructuredBuffer();
+		lightsBuffer->Create(eSRVType::None, sizeof(LightAttribute), 128, nullptr);
+#pragma endregion
 	}
 
 	void LoadShader()
@@ -447,6 +460,7 @@ namespace js::renderer
 		// Fade
 		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
 		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		fadeMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
 		fadeMaterial->SetShader(Resources::Find<Shader>(L"FadeShader"));
 		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 
@@ -473,8 +487,7 @@ namespace js::renderer
 	}
 
 	void Initialize()
-	{
-		
+	{		
 		LoadMesh();
 		LoadShader();
 		SetUpState();
@@ -490,10 +503,15 @@ namespace js::renderer
 			delete constantBuffers[i]; 
 			constantBuffers[i] = nullptr;
 		}
+
+		delete lightsBuffer;
+		lightsBuffer = nullptr;
 	}
 
 	void Render()
 	{
+		BindLights();
+
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{
@@ -504,5 +522,28 @@ namespace js::renderer
 		}
 
 		cameras[(UINT)type].clear();
+		lights.clear();
+	}
+
+	void PushLightAttribute(LightAttribute lightAttribute)
+	{
+		lights.push_back(lightAttribute);
+	}
+
+	void BindLights()
+	{
+		// 버퍼 바인드 및 파이프라인 연결
+		lightsBuffer->Bind(lights.data(), (UINT)lights.size());
+		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
+		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
+
+		// light개수 넘기기
+		LightCB lightCB = {};
+		lightCB.numberOfLight = (UINT)lights.size();
+
+		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
+		cb->Bind(&lightCB);
+		cb->SetPipline(eShaderStage::VS);
+		cb->SetPipline(eShaderStage::PS);
 	}
 }

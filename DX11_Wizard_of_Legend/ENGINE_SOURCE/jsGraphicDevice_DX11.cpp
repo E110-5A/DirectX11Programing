@@ -10,15 +10,6 @@ namespace js::graphics
 {
 	GraphicDevice_DX11::GraphicDevice_DX11(ValidationMode validationMode)
 	{
-		/// <summary>
-		/// 1. Device 와 SwapChain 생성한다.
-		/// 2. 백버퍼에 실제로 렌더링할 렌더타겟 뷰를 생성해야한다.
-		/// 3. 화면을 클리어 해줘야한다. 뷰포트를 생성해줘야 한다.
-		/// 4. 매프레임마다 위에서 생성한 렌더타겟뷰에 렌더링해주어야한다.
-		/// 5. Swapchain을 이용하여 최종 디바이스(디스플레이)에 화면을 그려줘야한다.
-		/// </summary>
-		/// <param name="validationMode"></param>
-
 		HWND hwnd = application.GetHwnd();
 
 		// Device, Device Context
@@ -144,6 +135,14 @@ namespace js::graphics
 		return true;
 	}
 
+	bool GraphicDevice_DX11::CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
+	{
+		if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
+			return false;
+
+		return true;
+	}
+
 	bool GraphicDevice_DX11::CreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11VertexShader** ppVertexShader)
 	{
 		if (FAILED(mDevice->CreateVertexShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppVertexShader)))
@@ -231,7 +230,7 @@ namespace js::graphics
 		mContext->RSSetViewports(1, viewPort);
 	}
 
-	void GraphicDevice_DX11::BindConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+	void GraphicDevice_DX11::BindBuffer(ID3D11Buffer* buffer, void* data, UINT size)
 	{
 		D3D11_MAPPED_SUBRESOURCE sub = {};
 		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);

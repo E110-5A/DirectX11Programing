@@ -9,6 +9,7 @@ struct VSIn
 struct VSOut
 {
     float4 Pos : SV_Position;
+    float3 WorldPos : POSITION;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
@@ -17,6 +18,7 @@ float4 main(VSOut In) : SV_Target
 {
     float4 color = (float) 0.0f;
     
+    // Animation
     if (1 == animationType) // 2D
     {
         // Â÷ÀÌÁ¡?
@@ -36,6 +38,16 @@ float4 main(VSOut In) : SV_Target
     {
         color = defaultTexture.Sample(pointSampler, In.UV);
     }
+    
+    // Light
+    LightColor lightColor = (LightColor) 0.0f;
+    
+    for (int idx = 0; idx < numberOfLight; ++idx)
+    {
+        Calculate(lightColor, In.WorldPos.xyz, idx);
+    }
+    
+    color *= lightColor.diffuse;
     
     return color;
 }

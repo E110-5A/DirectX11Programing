@@ -16,8 +16,10 @@
 #define CBSLOT_MATERIAL 1
 #define CBSLOT_GRID 2
 #define CBSLOT_FADE 3
-#define CBSLOT_ANIMATION 3
+#define CBSLOT_ANIMATION 4
+#define CBSLOT_NUMBEROFLIGHT 5
 
+using namespace js::math;
 namespace js::graphics
 {
 	enum class ValidationMode
@@ -104,6 +106,7 @@ namespace js::graphics
 		Grid,
 		Fade,
 		Animation,
+		Light,
 		End,
 	};
 
@@ -117,6 +120,12 @@ namespace js::graphics
 		Matrix,
 	};
 
+	enum class eSRVType
+	{
+		None,
+		End,
+	};
+
 	struct DebugMesh
 	{
 		enums::eColliderType type;
@@ -127,5 +136,21 @@ namespace js::graphics
 		float radius;
 		float duration;
 		float time;
+	};
+
+	struct LightAttribute
+	{
+		Vector4 diffuse;
+		Vector4 specular;
+		Vector4 ambient;
+		//Vector4 emissive;
+
+		Vector4 posision;
+		Vector4 direction;
+
+		enums::eLightType lightType;
+		float radius;
+		float angle;
+		int padding;
 	};
 }

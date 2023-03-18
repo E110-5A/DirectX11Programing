@@ -49,7 +49,7 @@ namespace js
 
 		//SMILE RECT
 		{
-			Player* obj = object::Instantiate<Player>(eLayerType::Player);
+			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
 			obj->SetName(L"Zelda");
 			Animator* animator = obj->AddComponent<Animator>();
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
@@ -64,7 +64,15 @@ namespace js
 			obj->AddComponent<PlayerScript>();
 			object::DontDestroyOnLoad(obj);
 		}
-		
+		{
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
+			Light* lightComp = directionalLight->AddComponent<Light>();
+			lightComp->SetLightType(eLightType::Directional);
+			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+
+
 		// UI Cam
 		{
 			GameObject* uiCamObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
@@ -84,7 +92,7 @@ namespace js
 			Transform* fadeTr = fadeObj->GetComponent<Transform>();
 			fadeTr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
-			SpriteRenderer* fadeMr = fadeObj->AddComponent<SpriteRenderer>();
+			MeshRenderer* fadeMr = fadeObj->AddComponent<MeshRenderer>();
 			fadeMr->SetName(L"FadeRenderer");
 			fadeMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
@@ -94,6 +102,7 @@ namespace js
 			mFadeObject = fadeObj;
 			fade = fadeScript;
 		}
+		
 		//
 		//// Background Obj
 		//{

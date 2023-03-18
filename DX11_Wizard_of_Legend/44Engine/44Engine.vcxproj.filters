@@ -34,9 +34,15 @@
     <ClInclude Include="jsEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="jsDebugObject.h" />
-    <ClInclude Include="jsEditorObject.h" />
-    <ClInclude Include="jsWidget.h" />
+    <ClInclude Include="jsWidget.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="jsDebugObject.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="jsEditorObject.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="44Engine.rc">
@@ -58,8 +64,14 @@
     <ClCompile Include="jsEditor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="jsDebugObject.cpp" />
-    <ClCompile Include="jsEditorObject.cpp" />
-    <ClCompile Include="jsWidget.cpp" />
+    <ClCompile Include="jsDebugObject.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="jsEditorObject.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="jsWidget.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

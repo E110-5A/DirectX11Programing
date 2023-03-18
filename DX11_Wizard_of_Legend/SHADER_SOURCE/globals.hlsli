@@ -1,3 +1,4 @@
+#include "Light.hlsli"
 
 cbuffer Transform : register(b0)
 {
@@ -33,10 +34,41 @@ cbuffer Animation : register(b4)
     
     uint animationType;
 }
+cbuffer NumberOfLight : register(b5)
+{
+    uint numberOfLight;
+}
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
+StructuredBuffer<LightAttribute> lightAttributes : register(t13);
+
 Texture2D defaultTexture : register(t0);
 Texture2D atlasTexture : register(t12);
+
+void Calculate(in out LightColor pLightColor, float3 position, int idx)
+{
+    // Directional
+    if (0 == lightAttributes[idx].type)
+    {
+        pLightColor.diffuse += lightAttributes[idx].color.diffuse;
+    }
+    // point
+    else if (1 == lightAttributes[idx].type)
+    {
+        float length = distance(lightAttributes[idx].position.xy, position.xy);
+        
+        if (length < lightAttributes[idx].radius)
+        {
+            float ratio = 1.0f - (length / lightAttributes[idx].radius);
+            pLightColor.diffuse += lightAttributes[idx].color.diffuse * ratio;
+        }
+    }
+    // spot
+    else
+    {
+        
+    }
+}

@@ -1,0 +1,70 @@
+#include "jsStructuredBuffer.h"
+#include "jsGraphicDevice_DX11.h"
+
+namespace js::graphics
+{
+	StructuredBuffer::StructuredBuffer()
+		: mSRV(nullptr)
+		, mType(eSRVType::None)
+		, mSize(0)
+		, mStride(0)
+	{
+	}
+	StructuredBuffer::~StructuredBuffer()
+	{
+	}
+
+
+	bool StructuredBuffer::Create(eSRVType type, UINT size, UINT stride, void* data)
+	{
+		mType = type;
+		mSize = size;
+		mStride = stride;
+
+		desc.ByteWidth = mSize * mStride;
+		desc.StructureByteStride = mSize;
+		desc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
+		desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE;
+		desc.MiscFlags = D3D11_RESOURCE_MISC_FLAG::D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+
+		// 버퍼 생성
+		if (data)
+		{
+			D3D11_SUBRESOURCE_DATA sub = {};
+			sub.pSysMem = data;
+
+			if (!(GetDevice()->CreateBuffer(&desc, &sub, buffer.GetAddressOf())))
+				return false;
+		}
+		else
+		{
+			if (!(GetDevice()->CreateBuffer(&desc, nullptr, buffer.GetAddressOf())))
+				return false;
+		}
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+		srvDesc.BufferEx.NumElements = mStride;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D_SRV_DIMENSION_BUFFEREX;
+
+		if (!(GetDevice()->CreateShaderResourceView(buffer.Get(), &srvDesc, mSRV.GetAddressOf())))
+			return false;
+
+		return true;
+	}
+	void StructuredBuffer::Bind(void* data, UINT bufferCount)
+	{
+		if (mStride < bufferCount)
+		{
+			Create(eSRVType::None, mSize, bufferCount, data);
+		}
+		else
+		{
+			GetDevice()->BindBuffer(buffer.Get(), data, mSize * bufferCount);
+		}
+	}
+	void StructuredBuffer::SetPipeline(eShaderStage stage, UINT slot)
+	{
+		GetDevice()->SetShaderResource(stage, slot, mSRV.GetAddressOf());
+	}
+}

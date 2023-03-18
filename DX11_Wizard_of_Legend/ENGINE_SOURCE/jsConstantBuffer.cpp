@@ -20,7 +20,7 @@ namespace js::graphics
 		desc.ByteWidth = (UINT)size;
 		desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
 		desc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		desc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
 		desc.MiscFlags = 0;
 		desc.StructureByteStride = 0;
 
@@ -32,7 +32,7 @@ namespace js::graphics
 
 	void ConstantBuffer::Bind(void* data)
 	{
-		GetDevice()->BindConstantBuffer(buffer.Get(), data, desc.ByteWidth);
+		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
 	}
 
 	void ConstantBuffer::SetPipline(eShaderStage stage)

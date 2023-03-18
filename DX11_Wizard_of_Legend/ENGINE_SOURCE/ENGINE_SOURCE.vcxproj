@@ -180,6 +180,7 @@
     <ClInclude Include="jsGridScript.h" />
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
+    <ClInclude Include="jsLight.h" />
     <ClInclude Include="jsMaterial.h" />
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsMesh.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="jsScript.h" />
     <ClInclude Include="jsShader.h" />
     <ClInclude Include="jsSpriteRenderer.h" />
+    <ClInclude Include="jsStructuredBuffer.h" />
     <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTime.h" />
     <ClInclude Include="jsTitleScene.h" />
@@ -223,6 +225,7 @@
     <ClCompile Include="jsGridScript.cpp" />
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
+    <ClCompile Include="jsLight.cpp" />
     <ClCompile Include="jsMaterial.cpp" />
     <ClCompile Include="jsMath.cpp" />
     <ClCompile Include="jsMesh.cpp" />
@@ -240,6 +243,7 @@
     <ClCompile Include="jsScript.cpp" />
     <ClCompile Include="jsShader.cpp" />
     <ClCompile Include="jsSpriteRenderer.cpp" />
+    <ClCompile Include="jsStructuredBuffer.cpp" />
     <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTime.cpp" />
     <ClCompile Include="jsTitleScene.cpp" />

@@ -7,6 +7,8 @@
 #include "jsConstantBuffer.h"
 #include "jsCamera.h"
 #include "jsFadeScript.h"
+#include "jsLight.h"
+#include "jsStructuredBuffer.h"
 
 using namespace js::math;
 using namespace js::graphics;
@@ -58,11 +60,18 @@ namespace js::renderer
 		UINT	animationType;
 	};
 
+	CBUFFER(LightCB, CBSLOT_NUMBEROFLIGHT)
+	{
+		UINT numberOfLight;
+	};
+
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
 	extern FadeScript* fade;
 
 	extern ConstantBuffer* constantBuffers[];
+	extern StructuredBuffer* lightsBuffer;
+
 	extern Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthstencilStates[];
@@ -70,10 +79,14 @@ namespace js::renderer
 	
 	extern std::vector<Camera*> cameras[];
 	extern std::vector<DebugMesh> debugMeshes;
+	extern std::vector<LightAttribute> lights;
 
 	void Initialize();
 	void Render();
 	void Release();
 
+	// Renderer
+	void PushLightAttribute(LightAttribute lightAttribute);
+	void BindLights();
 }
 
