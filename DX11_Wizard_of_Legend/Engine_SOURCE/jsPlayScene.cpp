@@ -37,21 +37,27 @@ namespace js
 
 	void PlayScene::Initialize()
 	{
-		////Player Obj
-		//{
-		//	Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
-		//	obj->SetName(L"Player");
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
-		//	tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-		//	Collider2D* collider = obj->AddComponent<Collider2D>();
-		//	collider->SetType(eColliderType::Rect);
+		//Player Obj
+		{
+			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
+			obj->SetName(L"Player");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+			Collider2D* collider = obj->AddComponent<Collider2D>();
+			collider->SetType(eColliderType::Rect);
+			
+			Animator* animator = obj->AddComponent<Animator>();
+			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"PlayerSpriteSheet", L"Player\\PlayerSpriteSheet.png");
+			animator->Create(L"PlayerIdleDown", texture, Vector2(0.0f, 0.0f), Vector2(48.0f, 48.0f), Vector2::Zero, 1, 0.1f);
+			animator->Play(L"PlayerIdleDown");
 
-		//	SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
-		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		//	sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
-		//	obj->AddComponent<PlayerScript>();
-		//}
+
+			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
+			obj->AddComponent<PlayerScript>();
+		}
 
 		//// AnimTest Obj
 		//{
@@ -88,6 +94,11 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
+			SceneManager::LoadScene(eSceneType::Title);
+		}
+
+		/*if (Input::GetKeyDown(eKeyCode::N))
+		{
 			fade->FadeOut();
 			fade->SetReady(true);
 		}
@@ -96,8 +107,8 @@ namespace js
 		{
 			fade->SetReady(false);
 			fade->SetFadeState(FadeScript::Ready);
-			SceneManager::LoadScene(eSceneType::Tilte);
-		}
+			SceneManager::LoadScene(eSceneType::Title);
+		}*/
 
 		Scene::Update();
 	}
@@ -114,7 +125,7 @@ namespace js
 
 	void PlayScene::OnEnter()
 	{
-		fade->FadeIn();
+		//fade->FadeIn();
 	}
 
 	void PlayScene::OnExit()

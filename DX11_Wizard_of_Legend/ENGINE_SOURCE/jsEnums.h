@@ -4,7 +4,8 @@ namespace js::enums
 {
 	enum class eSceneType
 	{
-		Tilte,
+		Title,
+
 		Play,
 		End,
 	};

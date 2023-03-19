@@ -28,7 +28,7 @@
 namespace js
 {
 	TitleScene::TitleScene()
-		: Scene(eSceneType::Tilte)
+		: Scene(eSceneType::Title)
 	{
 	}
 	TitleScene::~TitleScene()
@@ -47,63 +47,66 @@ namespace js
 		object::DontDestroyOnLoad(cameraObj);
 		mainCamera = cameraComp;
 
-		//SMILE RECT
-		{
-			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
-			obj->SetName(L"Zelda");
-			Animator* animator = obj->AddComponent<Animator>();
-			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
-			animator->Create(L"Idle", texture, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
-			animator->Create(L"MoveDown", texture, Vector2(0.0f, 520.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
-			animator->Play(L"Idle");
+		////SMILE RECT
+		//{
+		//	Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
+		//	obj->SetName(L"Zelda");
+		//	Animator* animator = obj->AddComponent<Animator>();
+		//	std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
+		//	animator->Create(L"Idle", texture, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
+		//	animator->Create(L"MoveDown", texture, Vector2(0.0f, 520.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 2, 0.1f);
+		//	animator->Play(L"Idle");
 
-			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
-			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"SpriteMaterial"));
+		//	SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		//	sr->SetMaterial(Resources::Find<Material>(L"SpriteMaterial"));
 
-			obj->AddComponent<PlayerScript>();
-			object::DontDestroyOnLoad(obj);
-		}
+		//	obj->AddComponent<PlayerScript>();
+		//	object::DontDestroyOnLoad(obj);
+		//}
+		// Directional Light
 		{
 			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 			Light* lightComp = directionalLight->AddComponent<Light>();
 			lightComp->SetLightType(eLightType::Directional);
 			lightComp->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			object::DontDestroyOnLoad(directionalLight);
 		}
 
 
-		// UI Cam
-		{
-			GameObject* uiCamObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
-			uiCamObj->SetName(L"UICamObj");
-			Camera* uiCamCamera = uiCamObj->AddComponent<Camera>();
-			uiCamCamera->SetName(L"UICamera");
-			uiCamCamera->DisableLayerMasks();
-			uiCamCamera->TurnLayerMask(eLayerType::UI);
-			uiCamCamera->SetProjectionType(Camera::Orthographic);
-			uiCamObj->AddComponent<CameraScript>();
-			object::DontDestroyOnLoad(uiCamObj);
-		}
-		// Fade Obj
-		{
-			GameObject* fadeObj = object::Instantiate<GameObject>(eLayerType::UI, this);
-			fadeObj->SetName(L"FadeObject");
-			Transform* fadeTr = fadeObj->GetComponent<Transform>();
-			fadeTr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+		//// UI Cam
+		//{
+		//	GameObject* uiCamObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
+		//	uiCamObj->SetName(L"UICamObj");
+		//	Camera* uiCamCamera = uiCamObj->AddComponent<Camera>();
+		//	uiCamCamera->SetName(L"UICamera");
+		//	uiCamCamera->DisableLayerMasks();
+		//	uiCamCamera->TurnLayerMask(eLayerType::UI);
+		//	uiCamCamera->SetProjectionType(Camera::Orthographic);
+		//	uiCamObj->AddComponent<CameraScript>();
+		//	object::DontDestroyOnLoad(uiCamObj);
+		//}
 
-			MeshRenderer* fadeMr = fadeObj->AddComponent<MeshRenderer>();
-			fadeMr->SetName(L"FadeRenderer");
-			fadeMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
-			
-			FadeScript* fadeScript = fadeObj->AddComponent<FadeScript>();
-			object::DontDestroyOnLoad(fadeObj);
-			mFadeObject = fadeObj;
-			fade = fadeScript;
-		}
-		
+		//// Fade Obj
+		//{
+		//	GameObject* fadeObj = object::Instantiate<GameObject>(eLayerType::UI, this);
+		//	fadeObj->SetName(L"FadeObject");
+		//	Transform* fadeTr = fadeObj->GetComponent<Transform>();
+		//	fadeTr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+
+		//	MeshRenderer* fadeMr = fadeObj->AddComponent<MeshRenderer>();
+		//	fadeMr->SetName(L"FadeRenderer");
+		//	fadeMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		//	fadeMr->SetMaterial(Resources::Find<Material>(L"FadeMaterial"));
+		//	
+		//	FadeScript* fadeScript = fadeObj->AddComponent<FadeScript>();
+		//	object::DontDestroyOnLoad(fadeObj);
+		//	mFadeObject = fadeObj;
+		//	fade = fadeScript;
+		//}
 		//
+		
 		//// Background Obj
 		//{
 		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
@@ -117,7 +120,7 @@ namespace js
 		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
 		//	sr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
 		//}
-			
+		
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
 		
@@ -127,17 +130,21 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			fade->FadeOut();
-			fade->SetReady(true);
-		}
-
-		// fade out이 complete인경우 호출
-		if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
-		{
-			fade->SetReady(false);
-			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Play);
-		}		
+		}
+		//if (Input::GetKeyDown(eKeyCode::N))
+		//{
+		//	fade->FadeOut();
+		//	fade->SetReady(true);
+		//}
+
+		//// fade out이 complete인경우 호출
+		//if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
+		//{
+		//	fade->SetReady(false);
+		//	fade->SetFadeState(FadeScript::Ready);
+		//	SceneManager::LoadScene(eSceneType::Play);
+		//}
 
 		Scene::Update();
 	}
@@ -151,10 +158,10 @@ namespace js
 	}
 	void TitleScene::OnEnter()
 	{
-		std::vector<Script*> script = mFadeObject->GetScripts();
+		/*std::vector<Script*> script = mFadeObject->GetScripts();
 		FadeScript* fade = dynamic_cast<FadeScript*>(script[0]);
 		if (nullptr != fade)
-			fade->FadeIn();
+			fade->FadeIn();*/
 	}
 	void TitleScene::OnExit()
 	{

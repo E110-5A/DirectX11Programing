@@ -14,12 +14,12 @@ namespace js
 	{
 		mScenes.resize((UINT)eSceneType::End);
 
-		mScenes[(UINT)eSceneType::Tilte] = new TitleScene();
-		mScenes[(UINT)eSceneType::Tilte]->SetName(L"TitleScene");
+		mScenes[(UINT)eSceneType::Title] = new TitleScene();
+		mScenes[(UINT)eSceneType::Title]->SetName(L"TitleScene");
 		mScenes[(UINT)eSceneType::Play] = new PlayScene();
 		mScenes[(UINT)eSceneType::Play]->SetName(L"PlayScene");
 
-		mActiveScene = mScenes[(UINT)eSceneType::Tilte];
+		mActiveScene = mScenes[(UINT)eSceneType::Title];
 
 		for (Scene* scene : mScenes)
 		{
