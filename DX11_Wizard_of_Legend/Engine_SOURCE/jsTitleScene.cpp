@@ -107,19 +107,19 @@ namespace js
 		//}
 		//
 		
-		//// Background Obj
-		//{
-		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
-		//	obj->SetName(L"TitleBG");
-		//	
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+		// Background Obj
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
+			obj->SetName(L"TitleBG");
+			
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
-		//	SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
-		//	sr->SetName(L"BackgroundRenderer");
-		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
-		//	sr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
-		//}
+			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+			sr->SetName(L"BackgroundRenderer");
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
+			sr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
+		}
 		
 
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Monster, true);
