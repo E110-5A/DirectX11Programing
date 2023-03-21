@@ -94,11 +94,6 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			SceneManager::LoadScene(eSceneType::Title);
-		}
-
-		/*if (Input::GetKeyDown(eKeyCode::N))
-		{
 			fade->FadeOut();
 			fade->SetReady(true);
 		}
@@ -108,7 +103,7 @@ namespace js
 			fade->SetReady(false);
 			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Title);
-		}*/
+		}
 
 		Scene::Update();
 	}
@@ -125,7 +120,7 @@ namespace js
 
 	void PlayScene::OnEnter()
 	{
-		//fade->FadeIn();
+		fade->FadeIn();
 	}
 
 	void PlayScene::OnExit()

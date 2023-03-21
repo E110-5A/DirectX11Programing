@@ -74,7 +74,7 @@ namespace js
 			sprite.offset = offset;
 			sprite.duration = duration;
 			// 텍스쳐 크기 비율 조절
-			sprite.atlasSize = Vector2(80.0f / width, 80.0f / height);
+			sprite.atlasSize = Vector2(50.0f / width, 50.0f / height);
 
 			mSpriteSheet.push_back(sprite);
 		}

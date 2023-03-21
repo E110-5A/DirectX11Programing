@@ -386,7 +386,7 @@ namespace js::renderer
 
 		// Fade Shader
 		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
-		fadeShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
 
 		Resources::Insert<Shader>(L"FadeShader", fadeShader);

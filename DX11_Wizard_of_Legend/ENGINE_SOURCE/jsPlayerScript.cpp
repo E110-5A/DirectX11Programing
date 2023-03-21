@@ -10,6 +10,7 @@ namespace js
 {
 	PlayerScript::PlayerScript()
 		: Script()
+		, mState(eState::Idle)
 		, movespeed(3.0f)
 		, mDir(Vector2::Zero)
 	{
@@ -40,38 +41,7 @@ namespace js
 		}
 		break;
 		}
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-
-		if (Input::GetKey(eKeyCode::DOWN))
-		{
-			Vector3 pos = tr->GetPosition();
-			pos += -tr->Up() * movespeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			animator->Play(L"PlayerRunDown");
-		}
-		if (Input::GetKey(eKeyCode::RIGHT))
-		{
-			Vector3 pos = tr->GetPosition();
-			pos += tr->Right() * movespeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			animator->Play(L"PlayerRunRight");
-
-		}
-		if (Input::GetKey(eKeyCode::LEFT))
-		{
-			Vector3 pos = tr->GetPosition();
-			pos += -tr->Right() * movespeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			animator->Play(L"PlayerRunLeft");
-		}		
-		if (Input::GetKey(eKeyCode::UP))
-		{
-			Vector3 pos = tr->GetPosition();
-			pos += tr->Up() * movespeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			animator->Play(L"PlayerRunUp");
-		}*/
+		
 
 	}
 	void PlayerScript::Render()
@@ -91,26 +61,26 @@ namespace js
 		animator->Create(L"PlayerIdleLeft", texture, Vector2(96.0f, 0.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 		animator->Create(L"PlayerIdleUp", texture, Vector2(144.0f, 0.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 
-		animator->Create(L"PlayerRunDown",	texture, Vector2(0.0f,	49.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerRunRight", texture, Vector2(48.0f, 97.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerRunLeft",	texture, Vector2(96.0f, 145.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerRunUp",	texture, Vector2(144.0f, 193.0f), defaultSize, Vector2::Zero, 8, 0.1f);
+		animator->Create(L"PlayerRunDown",	texture, Vector2(0.0f,	49.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunRight",texture, Vector2(0.0f, 97.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunLeft",	texture, Vector2(0.0f, 145.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunUp",	texture, Vector2(0.0f, 193.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 
 		animator->Create(L"PlayerDashRight",	texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 6, 0.1f);
-		animator->Create(L"PlayerDashLeft",		texture, Vector2(48.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashLeft",	texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
 
-		animator->Create(L"PlayerBackhandDown",		texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandRight",	texture, Vector2(48.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandLeft",		texture, Vector2(96.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandUp",		texture, Vector2(144.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerBackhandDown",	texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerBackhandRight",	texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerBackhandLeft",	texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerBackhandUp",		texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.1f);
 
-		animator->Create(L"PlayerForehandDown",		texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerForehandRight",	texture, Vector2(48.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerForehandLeft",		texture, Vector2(96.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerForehandUp",		texture, Vector2(144.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.1f);
+		animator->Create(L"PlayerForehandDown",	texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerForehandRight",	texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.1f);
+		animator->Create(L"PlayerForehandLeft",	texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.1f);
+		animator->Create(L"PlayerForehandUp",		texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.1f);
 
 		animator->Create(L"PlayerGroundSlamDown",	texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerGroundSlamUp",		texture, Vector2(48.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerGroundSlamUp",	texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 
 
 
