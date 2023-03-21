@@ -6,13 +6,19 @@
 #include "jsAnimator.h"
 #include "jsResources.h"
 
+
+#define V2DOWN 0,-1
+#define V2RIGHT 1,0
+#define V2LEFT -1,0
+#define V2UP 0,1
+
 namespace js
 {
 	PlayerScript::PlayerScript()
 		: Script()
 		, mState(eState::Idle)
 		, movespeed(3.0f)
-		, mDir(Vector2::Zero)
+		, mMoveDir(Vector2::Zero)
 	{
 	}
 
@@ -82,7 +88,8 @@ namespace js
 		animator->Create(L"PlayerGroundSlamDown",	texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 		animator->Create(L"PlayerGroundSlamUp",	texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 
-
+		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
 
 		//animator->GetStartEvent(L"MoveDown") = std::bind(&PlayerScript::Start, this);
 		//animator->GetCompleteEvent(L"Idle") = std::bind(&PlayerScript::Action, this);
@@ -113,6 +120,29 @@ namespace js
 	{
 	}
 
+	void PlayerScript::RetIdle()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+
+		mState = eState::Idle;
+		if (Vector2(V2DOWN) == mMoveDir)
+		{
+			animator->Play(L"PlayerIdleDown");
+		}
+		if (Vector2(V2RIGHT) == mMoveDir)
+		{
+			animator->Play(L"PlayerIdleRight");
+		}
+		if (Vector2(V2LEFT) == mMoveDir)
+		{
+			animator->Play(L"PlayerIdleLeft");
+		}
+		if (Vector2(V2UP) == mMoveDir)
+		{
+			animator->Play(L"PlayerIdleUp");
+		}
+	}
+
 	void PlayerScript::Idle()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
@@ -137,6 +167,31 @@ namespace js
 			animator->Play(L"PlayerRunUp");
 			mState = eState::Move;
 		}
+
+		if (Input::GetKeyDown(eKeyCode::LBTN))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::RBTN))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::F))
+		{
+			if (1 == mMoveDir.y)
+				animator->Play(L"PlayerGroundSlamUp", false);
+			else
+				animator->Play(L"PlayerGroundSlamDown", false);
+			mState = eState::Special;
+		}
+		if (Input::GetKeyDown(eKeyCode::Q))
+		{
+
+		}
 	}
 
 	void PlayerScript::Move()
@@ -150,26 +205,56 @@ namespace js
 			Vector3 pos = tr->GetPosition();
 			pos += -tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
+			mMoveDir = Vector2(0, -1);
 		}
 		if (Input::GetKey(eKeyCode::RIGHT))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
+			mMoveDir = Vector2(1, 0);
 		}
 		if (Input::GetKey(eKeyCode::LEFT))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += -tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
+			mMoveDir = Vector2(-1, 0);
 		}
 		if (Input::GetKey(eKeyCode::UP))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
+			mMoveDir = Vector2(0, 1);
 		}
 		
+		if (Input::GetKeyDown(eKeyCode::LBTN))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::RBTN))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
+		}
+		if (Input::GetKeyDown(eKeyCode::F))
+		{
+			if (1 == mMoveDir.y)
+				animator->Play(L"PlayerGroundSlamUp", false);
+			else
+				animator->Play(L"PlayerGroundSlamDown", false);
+			mState = eState::Special;
+		}
+		if (Input::GetKeyDown(eKeyCode::Q))
+		{
+
+		}
+
+
 		if (Input::GetKeyUp(eKeyCode::DOWN))
 		{			
 			animator->Play(L"PlayerIdleDown");
@@ -189,6 +274,43 @@ namespace js
 		{			
 			animator->Play(L"PlayerIdleUp");
 			mState = eState::Idle;
+		}
+	}
+
+	void PlayerScript::AA()
+	{
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
+		}
+	}
+
+	void PlayerScript::Skill()
+	{
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
+		}
+	}
+
+	void PlayerScript::Dash()
+	{
+
+	}
+
+	void PlayerScript::Special()
+	{
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
+		}
+	}
+
+	void PlayerScript::Ultimate()
+	{
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+
 		}
 	}
 

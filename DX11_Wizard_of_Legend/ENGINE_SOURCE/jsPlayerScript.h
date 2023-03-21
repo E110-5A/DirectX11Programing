@@ -11,7 +11,12 @@ namespace js
 		{
 			Idle,
 			Move,
-			End
+			AA,
+			Skill,
+			Dash,
+			Special,
+			Ultimate,
+			End,
 		};
 
 		PlayerScript();
@@ -32,13 +37,23 @@ namespace js
 		virtual void End()override;
 		virtual void Action()override;
 
+
+	public:
+		void RetIdle();
+
+	public:
 		void Idle();
 		void Move();
+		void AA();
+		void Skill();
+		void Dash();
+		void Special();
+		void Ultimate();
 
 
 
 	private:
-		Vector2 mDir;
+		Vector2 mMoveDir;
 		eState mState;
 		float movespeed;
 	};
