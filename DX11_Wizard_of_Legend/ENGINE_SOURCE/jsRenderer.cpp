@@ -512,6 +512,7 @@ namespace js::renderer
 	{
 		BindLights();
 
+		// 현재 씬에 있는 카메라 가져옴
 		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
 		for (Camera* cam : cameras[(UINT)type])
 		{

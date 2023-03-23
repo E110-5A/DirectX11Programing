@@ -6,7 +6,7 @@ extern js::Application application;
 namespace js
 {
 	std::vector<Input::Key> Input::mKeys;
-	math::Vector2 Input::mMousPosition;
+	math::Vector2 Input::mMousePosition;
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
@@ -77,8 +77,10 @@ namespace js
 			POINT mousePos = {};
 			GetCursorPos(&mousePos);
 			ScreenToClient(application.GetHwnd(), &mousePos);
-			mMousPosition.x = (float)mousePos.x;
-			mMousPosition.y = (float)mousePos.y;
+			mMousePosition.x = (float)mousePos.x;
+			mMousePosition.y = (float)mousePos.y;
+
+			CalculateMouseMatrix();
 		}
 		else
 		{
@@ -93,5 +95,14 @@ namespace js
 			}
 		}
 
+	}
+	void Input::CalculateMouseMatrix()
+	{
+		// mMousePosition 윈도우 좌표값은 이미 알고있음
+
+		// 역순으로 역행렬을 적용해서 worldMatrix를 알아야함
+
+		mDebugView = renderer::mainCamera->GetViewMatrix().Invert();
+		mDebugProjection = renderer::mainCamera->GetProjectionMatrix().Invert();
 	}
 }

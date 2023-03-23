@@ -1,7 +1,7 @@
 #pragma once
 #include "CommonInclude.h"
 #include "jsMath.h"
-
+#include "jsRenderer.h"
 
 namespace js
 {
@@ -55,31 +55,27 @@ namespace js
 			return mKeys[static_cast<UINT>(keyCode)].eState; 
 		}
 
-		static __forceinline math::Vector2 GetMousPosition()
-		{
-			return mMousPosition;
-		}
+		static __forceinline math::Vector2 GetMousePosition() { return mMousePosition; }
+		
+		static void CalculateMouseMatrix();
+		Matrix& GetMouseWorldMatrix() { return mMouseMatrix; }
+	
+
+
 
 		//GetKey()		키를 누르는 시간만큼 true를 반환
 		//GetKeyDown()	키를 눌렀을 때, 딱 한번 true를 반환
 		//GetKeyUp()	키를 누르다 땠을 때, 딱 한번 true를 반환
 
-		static __forceinline bool GetKey(eKeyCode keyCode)
-		{
-			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::PRESSED;
-		}
-
-		static __forceinline bool GetKeyDown(eKeyCode keyCode)
-		{
-			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::DOWN;
-		}
-
-		static __forceinline bool GetKeyUp(eKeyCode keyCode)
-		{
-			return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::UP;
-		}
-
+		static __forceinline bool GetKey(eKeyCode keyCode) { return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::PRESSED; }
+		static __forceinline bool GetKeyDown(eKeyCode keyCode) { return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::DOWN; }
+		static __forceinline bool GetKeyUp(eKeyCode keyCode) { return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::UP; }
 		
+
+		// 디버깅용 (확인 마치면 지울것)
+	public:
+		Matrix& GetView() { return mDebugView; }
+		Matrix& GetProjection() { return mDebugProjection; }
 
 	private:
 		Input() = delete;
@@ -87,6 +83,13 @@ namespace js
 
 	private:
 		static std::vector<Key> mKeys;
-		static math::Vector2 mMousPosition;
+		static math::Vector2 mMousePosition;
+		static math::Matrix mMouseMatrix;
+
+		// 디버깅용 (확인 마치면 지울것)
+	private:
+		static math::Matrix mDebugView;
+		static math::Matrix mDebugProjection;
+
 	};
 }

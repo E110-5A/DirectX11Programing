@@ -231,7 +231,7 @@ namespace js
 		
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
-
+			Input::CalculateMouseMatrix();
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{

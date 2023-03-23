@@ -56,6 +56,7 @@ namespace js
 
 		sortGameObjects();
 
+		// 씬에서 각각 분류된 오브젝트를 렌더링 호출함
 		renderOpaque();
 		renderCutout();
 		renderTransparent();

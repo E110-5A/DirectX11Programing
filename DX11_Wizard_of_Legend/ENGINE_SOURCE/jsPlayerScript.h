@@ -19,6 +19,16 @@ namespace js
 			End,
 		};
 
+		enum class eArcanaType
+		{
+			AA,
+			Skill,
+			Dash,
+			Special,
+			Ultimate,
+			End,
+		};
+
 		PlayerScript();
 		~PlayerScript();
 
@@ -56,5 +66,6 @@ namespace js
 		Vector2 mMoveDir;
 		eState mState;
 		float movespeed;
+		Vector2 mTestVector;
 	};
 }

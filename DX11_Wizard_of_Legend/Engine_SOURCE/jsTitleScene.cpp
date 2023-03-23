@@ -98,7 +98,7 @@ namespace js
 			Transform* tr = obj->GetComponent<Transform>();
 			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
 
-			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
+			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
 			sr->SetName(L"BackgroundRenderer");
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));			
 			sr->SetMaterial(Resources::Find<Material>(L"TitleBGMaterial"));
