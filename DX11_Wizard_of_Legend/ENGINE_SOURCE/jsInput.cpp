@@ -107,7 +107,7 @@ namespace js
 		D3D11_VIEWPORT deviceViewport = graphics::GetDevice()->GetViewPort();
 		Viewport viewport = Viewport(deviceViewport.TopLeftX, deviceViewport.TopLeftY, deviceViewport.Width, deviceViewport.Height, deviceViewport.MinDepth, deviceViewport.MaxDepth);
 		// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
-		viewport.Unproject(mMousePosition, mDebugProjection, mDebugView, normalMatrix, mMouseWorldPosition);
+		viewport.Unproject(mMousePosition, renderer::mainCamera->GetGpuProjectionMatrix(), renderer::mainCamera->GetGpuViewMatrix(), normalMatrix, mMouseWorldPosition);
 
 	}	
 }

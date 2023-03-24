@@ -2,6 +2,7 @@
 #include "jsGameObject.h"
 #include "jsTransform.h"
 #include "jsInput.h"
+#include "jsMeshRenderer.h"
 namespace js
 {
 	MouseScript::MouseScript()
@@ -17,7 +18,6 @@ namespace js
 	{
 		Transform* myTransform = GetOwner()->GetComponent<Transform>();
 		Vector3 mousePosition = Input::GetMouseWorldPosition();
-
 		myTransform->SetPosition(mousePosition);
 	}
 	void MouseScript::FixedUpdate()
