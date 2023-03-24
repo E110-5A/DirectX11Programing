@@ -185,8 +185,9 @@ namespace js
 			return;
 
 		std::shared_ptr<Material> material = renderer->GetMaterial();
-		//if (material == nullptr)
-		//	continue;
+		
+		/*if (material == nullptr)
+			continue;*/
 
 		eRenderingMode mode = material->GetRenderingMode();
 

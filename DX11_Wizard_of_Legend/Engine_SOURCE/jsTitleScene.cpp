@@ -24,7 +24,7 @@
 #include "jsMonster.h"
 
 #include "jsAnimator.h"
-
+#include "jsMouseScript.h"
 namespace js
 {
 	TitleScene::TitleScene()
@@ -49,7 +49,7 @@ namespace js
 				
 		// Directional Light
 		{
-			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::Player);
+			GameObject* directionalLight = object::Instantiate<GameObject>(eLayerType::None);
 			directionalLight->GetComponent<Transform>()->SetPosition(Vector3(0.0f, 0.0f, -100.0f));
 			Light* lightComp = directionalLight->AddComponent<Light>();
 			lightComp->SetLightType(eLightType::Directional);
@@ -89,6 +89,18 @@ namespace js
 			fade = fadeScript;
 		}
 		
+		// Mouse Pointer Obj
+		{
+			GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI, this);
+			mouseObj->SetName(L"MouseObject");
+			Transform* mouseTr = mouseObj->GetComponent<Transform>();
+
+			MeshRenderer* mouseMr = mouseObj->AddComponent<MeshRenderer>();
+			mouseMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			mouseMr->SetMaterial(Resources::Find<Material>(L"MouseMaterial"));
+			object::DontDestroyOnLoad(mouseObj);
+			MouseScript* mouseScript = mouseObj->AddComponent<MouseScript>();
+		}
 		
 		// Background Obj
 		{

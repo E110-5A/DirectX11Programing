@@ -417,12 +417,11 @@ namespace js::renderer
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
 		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
 		Resources::Load<Texture>(L"PlayerStatusBar", L"UI\\PlayerStatusBar.png");
-		
+		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");		
 	}
 
 	void LoadMaterial()
 	{
-
 		// Default
 		std::shared_ptr<Material> material = std::make_shared<Material>();
 		material->SetRenderingMode(eRenderingMode::Transparent);
@@ -483,6 +482,13 @@ namespace js::renderer
 		playerMaterial->SetTexture(Resources::Find<Texture>(L"PlayerIdleDown"));
 		playerMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
+
+		// Mouse Pointer
+		std::shared_ptr<Material> mouseMaterial = std::make_shared<Material>();
+		mouseMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		mouseMaterial->SetTexture(Resources::Find<Texture>(L"MousePointer"));
+		mouseMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"MouseMaterial", mouseMaterial);
 
 	}
 

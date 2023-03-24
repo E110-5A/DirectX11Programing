@@ -83,7 +83,7 @@ namespace js
 			ScreenToClient(application.GetHwnd(), &mousePos);
 			mMousePosition.x = (float)mousePos.x;
 			mMousePosition.y = (float)mousePos.y;
-			
+			CalculateMouseMatrix();
 		}
 		else
 		{
@@ -109,8 +109,5 @@ namespace js
 		// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
 		viewport.Unproject(mMousePosition, mDebugProjection, mDebugView, normalMatrix, mMouseWorldPosition);
 
-		Vector2 moustPos = mMouseWorldPosition* Vector2(deviceViewport.Width / 2.0f, deviceViewport.Height / 2.0f);
-		int a = 0;
-	}
-	
+	}	
 }

@@ -59,33 +59,6 @@ namespace js
 			obj->AddComponent<PlayerScript>();
 		}
 
-		//// AnimTest Obj
-		//{
-		//	Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
-		//	obj->SetName(L"Zelda");
-		//	
-		//	/*Animator* animator = obj->AddComponent<Animator>();
-		//	animator->Create(L"Idle", Resources::Load<Texture>(L"Zelda", L"Zelda.png")
-		//		, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 3, 0.1f);
-		//	animator->Play(L"Idle");
-
-		//	SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
-		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		//	sr->SetMaterial(Resources::Find<Material>(L"SpriteMaterial"));
-		//	*/
-		//	Animator* animator = obj->AddComponent<Animator>();
-		//	std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"Zelda", L"Zelda.png");
-		//	animator->Create(L"Idle", texture, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), Vector2::Zero, 3, 0.1f);
-		//	animator->Play(L"Idle", true);
-
-		//	SpriteRenderer* mr = obj->AddComponent<SpriteRenderer>();
-		//	std::shared_ptr<Material> mateiral = Resources::Find<Material>(L"SpriteMaterial");
-		//	mr->SetMaterial(mateiral);
-		//	std::shared_ptr<Mesh> mesh = Resources::Find<Mesh>(L"RectMesh");
-		//	mr->SetMesh(mesh);
-		//	obj->AddComponent<PlayerScript>();
-		//}
-		
 
 		Scene::Initialize();
 	}

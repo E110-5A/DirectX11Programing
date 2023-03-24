@@ -186,6 +186,7 @@
     <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsMeshRenderer.h" />
     <ClInclude Include="jsMonster.h" />
+    <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPlayer.h" />
     <ClInclude Include="jsPlayerScript.h" />
@@ -231,6 +232,7 @@
     <ClCompile Include="jsMesh.cpp" />
     <ClCompile Include="jsMeshRenderer.cpp" />
     <ClCompile Include="jsMonster.cpp" />
+    <ClCompile Include="jsMouseScript.cpp" />
     <ClCompile Include="jsPlayer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
