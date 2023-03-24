@@ -23,12 +23,10 @@ namespace js
 
 	void Transform::Initialize()
 	{
-		//cos(180);
 	}
 
 	void Transform::Update()
 	{
-		//실제 로직상 캐릭터이동 처리
 	}
 
 	void Transform::FixedUpdate()
@@ -45,6 +43,9 @@ namespace js
 		rotation = Matrix::CreateRotationX(mRotation.x);
 		rotation *= Matrix::CreateRotationY(mRotation.y);
 		rotation *= Matrix::CreateRotationZ(mRotation.z);
+
+		if (mPosition.x > 2.0f && mPosition.y > 2.0f)
+			int a = 0;
 
 		// 이동 변환 행렬
 		Matrix position;
@@ -72,6 +73,9 @@ namespace js
 
 	void Transform::SetConstantBuffer()
 	{
+		GameObject* debugObj = GetOwner();
+		int a = 0;
+
 		renderer::TransformCB trCb = {};
 		trCb.world = mWorld;
 		trCb.view = Camera::GetGpuViewMatrix();

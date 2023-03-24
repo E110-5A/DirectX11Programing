@@ -1,12 +1,16 @@
 #include "jsInput.h"
 #include "jsApplication.h"
-
+#include "jsGraphicDevice_DX11.h"
 
 extern js::Application application;
 namespace js
 {
 	std::vector<Input::Key> Input::mKeys;
-	math::Vector2 Input::mMousePosition;
+	math::Vector3 Input::mMousePosition = Vector3::Zero;
+	Vector3 Input::mMouseWorldPosition = Vector3::Zero;
+	Matrix Input::mDebugView = Matrix::Identity;
+	Matrix Input::mDebugProjection = Matrix::Identity;
+
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
@@ -79,8 +83,7 @@ namespace js
 			ScreenToClient(application.GetHwnd(), &mousePos);
 			mMousePosition.x = (float)mousePos.x;
 			mMousePosition.y = (float)mousePos.y;
-
-			CalculateMouseMatrix();
+			
 		}
 		else
 		{
@@ -98,11 +101,16 @@ namespace js
 	}
 	void Input::CalculateMouseMatrix()
 	{
-		// mMousePosition 윈도우 좌표값은 이미 알고있음
+		// 단위행렬
+		Matrix normalMatrix = Matrix::Identity;
+		// viewport 가져오기
+		D3D11_VIEWPORT deviceViewport = graphics::GetDevice()->GetViewPort();
+		Viewport viewport = Viewport(deviceViewport.TopLeftX, deviceViewport.TopLeftY, deviceViewport.Width, deviceViewport.Height, deviceViewport.MinDepth, deviceViewport.MaxDepth);
+		// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
+		viewport.Unproject(mMousePosition, mDebugProjection, mDebugView, normalMatrix, mMouseWorldPosition);
 
-		// 역순으로 역행렬을 적용해서 worldMatrix를 알아야함
-
-		mDebugView = renderer::mainCamera->GetViewMatrix().Invert();
-		mDebugProjection = renderer::mainCamera->GetProjectionMatrix().Invert();
+		Vector2 moustPos = mMouseWorldPosition* Vector2(deviceViewport.Width / 2.0f, deviceViewport.Height / 2.0f);
+		int a = 0;
 	}
+	
 }

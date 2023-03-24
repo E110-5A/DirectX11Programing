@@ -170,7 +170,10 @@ namespace js
 
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
-
+			Vector3 playerPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			Input::CalculateMouseMatrix();
+			Vector3 mouseVector = Input::GetMouseWorldPosition();
+			int a = 0;
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
@@ -231,7 +234,8 @@ namespace js
 		
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
-			Input::CalculateMouseMatrix();
+			Vector3 mouseVector = Input::GetMouseWorldPosition();
+			int a = 0;
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
