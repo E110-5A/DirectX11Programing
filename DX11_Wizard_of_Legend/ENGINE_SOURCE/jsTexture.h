@@ -24,6 +24,7 @@ namespace js::graphics
 
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
+		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
 		void BindShader(eShaderStage stage, UINT slot);
 		void Clear();
 

@@ -17,6 +17,7 @@ namespace js::graphics
 		bool CreateInputLayout(D3D11_INPUT_ELEMENT_DESC* desc, UINT NumElements, const void* byteCode, SIZE_T bytecodeLength, ID3D11InputLayout** ppInputLayout);
 		bool CreateBuffer(D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data, ID3D11Buffer** buffer);
 		
+		bool CreateRenderTargetView(ID3D11Resource* pResource, const D3D11_RENDER_TARGET_VIEW_DESC* pDesc, ID3D11RenderTargetView** ppRTView);
 		bool CreateUnorderedAccessView(ID3D11Resource* pResource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* pDesc, ID3D11UnorderedAccessView** ppUAView);
 		bool CreateDepthStencilView(ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDSView);
 		bool CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView);
@@ -61,14 +62,8 @@ namespace js::graphics
 		Microsoft::WRL::ComPtr <ID3D11DeviceContext> mContext;
 		Microsoft::WRL::ComPtr <IDXGISwapChain> mSwapChain;
 		
-		//std::shared_ptr<class Texture> mRenderTarget;
-		Microsoft::WRL::ComPtr <ID3D11Texture2D> mRenderTarget;
-		Microsoft::WRL::ComPtr <ID3D11RenderTargetView> mRenderTargetView;
-		
-		std::shared_ptr<class Texture> mDepthStencilBuffer;
-		//Microsoft::WRL::ComPtr <ID3D11Texture2D> mDepthStencilBuffer;
-		//Microsoft::WRL::ComPtr <ID3D11DepthStencilView> mDepthStencilView;
-		
+		std::shared_ptr<class Texture> mRenderTargetTexture;
+		std::shared_ptr<class Texture> mDepthStencilBufferTexture;
 
 		D3D11_VIEWPORT mViewPort;
 	};
