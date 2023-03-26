@@ -35,8 +35,7 @@ namespace js
 				mState = eFadeState::Complete;
 				mAddTime = 0.0f;
 			}
-		}		
-
+		}
 		/*if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == mIsActive
 			&& 0.9 <= mRatio)
 		{
@@ -53,17 +52,19 @@ namespace js
 		}*/
 	}
 
-	void FadeScript::FadeIn()
+	void FadeScript::FadeIn(float duration)
 	{
 		mIsActive = true;
 		mState = eFadeState::Processing;
 		mType = Fade_In;
+		mDuration = duration;
 	}
-	void FadeScript::FadeOut()
+	void FadeScript::FadeOut(float duration)
 	{
 		mIsActive = true;
 		mState = eFadeState::Processing;
 		mType = Fade_Out;
+		mDuration = duration;
 	}
 
 

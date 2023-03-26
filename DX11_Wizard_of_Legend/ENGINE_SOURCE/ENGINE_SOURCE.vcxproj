@@ -162,6 +162,7 @@
     <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsBaseRenderer.h" />
+    <ClInclude Include="jsButtonScript.h" />
     <ClInclude Include="jsCamera.h" />
     <ClInclude Include="jsCameraScript.h" />
     <ClInclude Include="jsCollider.h" />
@@ -181,6 +182,7 @@
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
     <ClInclude Include="jsLight.h" />
+    <ClInclude Include="jsLogoScene.h" />
     <ClInclude Include="jsMaterial.h" />
     <ClInclude Include="jsMath.h" />
     <ClInclude Include="jsMesh.h" />
@@ -211,6 +213,7 @@
     <ClCompile Include="jsAnimator.cpp" />
     <ClCompile Include="jsApplication.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
+    <ClCompile Include="jsButtonScript.cpp" />
     <ClCompile Include="jsCamera.cpp" />
     <ClCompile Include="jsCameraScript.cpp" />
     <ClCompile Include="jsCollider.cpp" />
@@ -227,6 +230,7 @@
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
     <ClCompile Include="jsLight.cpp" />
+    <ClCompile Include="jsLogoScene.cpp" />
     <ClCompile Include="jsMaterial.cpp" />
     <ClCompile Include="jsMath.cpp" />
     <ClCompile Include="jsMesh.cpp" />

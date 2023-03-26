@@ -409,15 +409,24 @@ namespace js::renderer
 
 	void LoadTexture()
 	{
+		// test
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
 		Resources::Load<Texture>(L"LightSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
 
+
+		// logoScene
+		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
+		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
+
+		// TitleScene
+		Resources::Load<Texture>(L"TitleTexture", L"BackGround\\TitleLogo.png");
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
+
+		// Object
 		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
 		Resources::Load<Texture>(L"PlayerStatusBar", L"UI\\PlayerStatusBar.png");
-		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");		
 	}
 
 	void LoadMaterial()
@@ -468,6 +477,24 @@ namespace js::renderer
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		debugMaterial->SetShader(Resources::Find<Shader>(L"DebugShader"));
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+
+
+
+		// Logo
+		std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
+		logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		logoMaterial->SetTexture(Resources::Find<Texture>(L"LogoTexture"));
+		logoMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
+
+		// Title Logo
+		std::shared_ptr<Material> titleMaterial = std::make_shared<Material>();
+		titleMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		titleMaterial->SetTexture(Resources::Find<Texture>(L"TitleTexture"));
+		titleMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"TitleMaterial", titleMaterial);
+
+
 
 		// Title Background
 		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();

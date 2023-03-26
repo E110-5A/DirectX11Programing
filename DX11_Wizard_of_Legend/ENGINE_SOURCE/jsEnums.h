@@ -4,8 +4,8 @@ namespace js::enums
 {
 	enum class eSceneType
 	{
+		Logo,
 		Title,
-
 		Play,
 		End,
 	};
@@ -15,6 +15,7 @@ namespace js::enums
 		None = 0,
 		Camera,
 		Grid,
+		Background,
 		Tile,
 		Monster,
 		Player,

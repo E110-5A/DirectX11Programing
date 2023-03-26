@@ -28,11 +28,12 @@ namespace js
 		virtual void FixedUpdate();
 		virtual void Render();
 
-		void FadeIn();
-		void FadeOut();
+		void FadeIn(float duration = 0.5f);
+		void FadeOut(float duration = 0.5f);
 		eFadeState GetFadeState() { return mState; }
 		void SetFadeState(eFadeState state) { mState = state; }
 		
+		// 씬 넘김에 사용하는 fade효과를 체크할 때 사용합니다
 		bool IsReady() { return mIsReady; }
 		void SetReady(bool enable) { mIsReady = enable; }
 
