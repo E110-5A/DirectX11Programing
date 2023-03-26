@@ -21,7 +21,7 @@
 
 #include "jsPlayer.h"
 #include "jsPlayerScript.h"
-
+#include "jsRigidbody.h"
 
 namespace js
 {
@@ -52,11 +52,33 @@ namespace js
 			animator->Create(L"PlayerIdleDown", texture, Vector2(0.0f, 0.0f), Vector2(48.0f, 48.0f), Vector2::Zero, 1, 0.1f);
 			animator->Play(L"PlayerIdleDown");
 
-
+			obj->AddComponent<Rigidbody>();
+			
 			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
 			obj->AddComponent<PlayerScript>();
+		}
+
+		// HUD
+		{
+			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
+			healthHUD->SetName(L"HealthHUD");
+			Transform* healthTr = healthHUD->GetComponent<Transform>();
+			healthTr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			MeshRenderer* healthMr = healthHUD->AddComponent<MeshRenderer>();
+			healthMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			healthMr->SetMaterial(Resources::Find<Material>(L"HealthHUDMaterial"));
+
+			GameObject* skillHUD = object::Instantiate<Player>(eLayerType::UI, this);
+			skillHUD->SetName(L"SkillHUD");
+			Transform* skillTr = skillHUD->GetComponent<Transform>();
+			skillTr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			MeshRenderer* skillMr = skillHUD->AddComponent<MeshRenderer>();
+			skillMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			skillMr->SetMaterial(Resources::Find<Material>(L"SkillHUDMaterial"));
+
+
 		}
 
 

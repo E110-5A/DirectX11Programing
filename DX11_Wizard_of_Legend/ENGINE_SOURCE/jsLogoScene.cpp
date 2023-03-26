@@ -100,7 +100,7 @@ namespace js
 		// Background Obj
 		{
 			// Logo
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
 			obj->SetName(L"Logo");
 
 			Transform* tr = obj->GetComponent<Transform>();

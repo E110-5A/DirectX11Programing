@@ -31,6 +31,7 @@ namespace js::enums
 		Camera,
 		Mesh,
 		Collider,
+		Rigidbody,
 		MeshRenerer,
 		SpriteRenderer,
 		Animator,

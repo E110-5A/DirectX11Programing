@@ -276,6 +276,9 @@
     <ClCompile Include="jsLogoScene.cpp">
       <Filter>Content\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="jsRigidbody.cpp">
+      <Filter>GameObject\Component\Rigidbody</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -427,6 +430,9 @@
     </ClInclude>
     <ClInclude Include="jsLogoScene.h">
       <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsRigidbody.h">
+      <Filter>GameObject\Component\Rigidbody</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

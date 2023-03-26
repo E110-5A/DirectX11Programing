@@ -1,12 +1,18 @@
 #include "jsPlayerScript.h"
-#include "jsTransform.h"
-#include "jsGameObject.h"
+
 #include "jsInput.h"
 #include "jsTime.h"
-#include "jsAnimator.h"
+
 #include "jsResources.h"
 
+#include "jsGameObject.h"
 
+#include "jsTransform.h"
+#include "jsAnimator.h"
+#include "jsRigidbody.h"
+
+
+// 방향
 #define V2DOWN 0,-1
 #define V2RIGHT 1,0
 #define V2LEFT -1,0
@@ -29,7 +35,7 @@ namespace js
 	void PlayerScript::Initialize()
 	{
 		CreateAnimation();
-		
+		AddEvent();
 	}
 
 	void PlayerScript::Update()
@@ -44,6 +50,31 @@ namespace js
 		case eState::Move:
 		{
 			Move();
+		}
+		break;
+		case eState::Dash:
+		{
+			Dash();
+		}
+		break;
+		case eState::AA:
+		{
+			AA();
+		}
+		break;
+		case eState::Skill:
+		{
+			Skill();
+		}
+		break;
+		case eState::Special:
+		{
+			Special();
+		}
+		break;
+		case eState::Ultimate:
+		{
+			Ultimate();
 		}
 		break;
 		}
@@ -67,34 +98,55 @@ namespace js
 		animator->Create(L"PlayerIdleLeft", texture, Vector2(96.0f, 0.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 		animator->Create(L"PlayerIdleUp", texture, Vector2(144.0f, 0.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 
-		animator->Create(L"PlayerRunDown",	texture, Vector2(0.0f,	49.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerRunRight",texture, Vector2(0.0f, 97.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerRunLeft",	texture, Vector2(0.0f, 145.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerRunUp",	texture, Vector2(0.0f, 193.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunDown", texture, Vector2(0.0f, 49.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunRight", texture, Vector2(0.0f, 97.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunLeft", texture, Vector2(0.0f, 145.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerRunUp", texture, Vector2(0.0f, 193.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 
-		animator->Create(L"PlayerDashRight",	texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 6, 0.1f);
-		animator->Create(L"PlayerDashLeft",	texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashRight", texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashLeft", texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
 
-		animator->Create(L"PlayerBackhandDown",	texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandRight",	texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandLeft",	texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerBackhandUp",		texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerBackhandDown", texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandRight", texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandLeft", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandUp", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
 
-		animator->Create(L"PlayerForehandDown",	texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.1f);
-		animator->Create(L"PlayerForehandRight",	texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerForehandLeft",	texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.1f);
-		animator->Create(L"PlayerForehandUp",		texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.1f);
+		animator->Create(L"PlayerForehandDown", texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerForehandRight", texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerForehandLeft", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerForehandUp", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.075f);
 
-		animator->Create(L"PlayerGroundSlamDown",	texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerGroundSlamUp",	texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+	}
 
-		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
+
+	void PlayerScript::AddEvent()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 
 		//animator->GetStartEvent(L"MoveDown") = std::bind(&PlayerScript::Start, this);
 		//animator->GetCompleteEvent(L"Idle") = std::bind(&PlayerScript::Action, this);
 		//animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
+
+		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerBackhandLeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerBackhandUp") = std::bind(&PlayerScript::RetIdle, this);
+
+		animator->GetCompleteEvent(L"PlayerForehandDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerForehandRight") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerForehandLeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerForehandUp") = std::bind(&PlayerScript::RetIdle, this);
+
+		animator->GetCompleteEvent(L"PlayerDashRight") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::AddForce, this);
+		animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::AddForce, this);
+
+		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
 	}
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
@@ -143,26 +195,33 @@ namespace js
 		}
 	}
 
+	void PlayerScript::AddForce()
+	{
+		Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
+		rigidbody->SetVelocity(mMoveDir * 55);
+	}
+
 	void PlayerScript::Idle()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		if (Input::GetKey(eKeyCode::DOWN))
+
+		if (Input::GetKey(eKeyCode::S))
 		{			
 			animator->Play(L"PlayerRunDown");
 			mState = eState::Move;
 		}
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (Input::GetKey(eKeyCode::D))
 		{
 			animator->Play(L"PlayerRunRight");
 			mState = eState::Move;
 		}
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (Input::GetKey(eKeyCode::A))
 		{
 			animator->Play(L"PlayerRunLeft");
 			mState = eState::Move;
 		}
-		if (Input::GetKey(eKeyCode::UP))
+		if (Input::GetKey(eKeyCode::W))
 		{
 			animator->Play(L"PlayerRunUp");
 			mState = eState::Move;
@@ -170,18 +229,52 @@ namespace js
 
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
-			Vector3 playerPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-			Input::CalculateMouseMatrix();
-			Vector3 mouseVector = Input::GetMouseWorldPosition();
-			int a = 0;
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandUp");
+			}
+			mState = eState::AA;
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
-
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandUp");
+			}
+			mState = eState::Skill;
 		}
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);			
+			mState = eState::Dash;
 		}
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
@@ -193,7 +286,23 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
-
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandUp");
+			}
+			mState = eState::Ultimate;
 		}
 	}
 
@@ -203,28 +312,28 @@ namespace js
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		
 		// 이동 로직
-		if (Input::GetKey(eKeyCode::DOWN))
+		if (Input::GetKey(eKeyCode::S))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += -tr->Up() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(0, -1);
 		}
-		if (Input::GetKey(eKeyCode::RIGHT))
+		if (Input::GetKey(eKeyCode::D))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(1, 0);
 		}
-		if (Input::GetKey(eKeyCode::LEFT))
+		if (Input::GetKey(eKeyCode::A))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += -tr->Right() * movespeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(-1, 0);
 		}
-		if (Input::GetKey(eKeyCode::UP))
+		if (Input::GetKey(eKeyCode::W))
 		{
 			Vector3 pos = tr->GetPosition();
 			pos += tr->Up() * movespeed * Time::DeltaTime();
@@ -232,18 +341,46 @@ namespace js
 			mMoveDir = Vector2(0, 1);
 		}
 		
+
 		if (Input::GetKeyDown(eKeyCode::LBTN))
 		{
-			Vector3 mouseVector = Input::GetMouseWorldPosition();
-			int a = 0;
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerBackhandUp");
+			}
+			mState = eState::AA;
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
-
-		}
-		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandUp");
+			}
+			mState = eState::Skill;
 		}
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
@@ -255,26 +392,51 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
-
+			if (Vector2(V2DOWN) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandDown");
+			}
+			if (Vector2(V2RIGHT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandRight");
+			}
+			if (Vector2(V2LEFT) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandLeft");
+			}
+			if (Vector2(V2UP) == mMoveDir)
+			{
+				animator->Play(L"PlayerForehandUp");
+			}
+			mState = eState::Ultimate;
 		}
+		if (Input::GetKeyDown(eKeyCode::SPACE))
+		{
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);
+			mState = eState::Dash;
+		}
+		
 
-
-		if (Input::GetKeyUp(eKeyCode::DOWN))
+		if (Input::GetKeyUp(eKeyCode::S))
 		{			
 			animator->Play(L"PlayerIdleDown");
 			mState = eState::Idle;
 		}
-		if (Input::GetKeyUp(eKeyCode::RIGHT))
+		if (Input::GetKeyUp(eKeyCode::D))
 		{			
 			animator->Play(L"PlayerIdleRight");
 			mState = eState::Idle;
 		}
-		if (Input::GetKeyUp(eKeyCode::LEFT))
+		if (Input::GetKeyUp(eKeyCode::A))
 		{			
 			animator->Play(L"PlayerIdleLeft");
 			mState = eState::Idle;
 		}
-		if (Input::GetKeyUp(eKeyCode::UP))
+		if (Input::GetKeyUp(eKeyCode::W))
 		{			
 			animator->Play(L"PlayerIdleUp");
 			mState = eState::Idle;
@@ -283,17 +445,31 @@ namespace js
 
 	void PlayerScript::AA()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);
+			mState = eState::Dash;
 		}
 	}
 
 	void PlayerScript::Skill()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);
+			mState = eState::Dash;
 		}
 	}
 
@@ -304,17 +480,31 @@ namespace js
 
 	void PlayerScript::Special()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);
+			mState = eState::Dash;
 		}
 	}
 
 	void PlayerScript::Ultimate()
 	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
-
+			// 오른쪽
+			if (1 == mMoveDir.x)
+				animator->Play(L"PlayerDashRight", false);
+			else
+				animator->Play(L"PlayerDashLeft", false);
+			mState = eState::Dash;
 		}
 	}
 

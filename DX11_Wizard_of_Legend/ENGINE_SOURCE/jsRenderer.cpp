@@ -424,9 +424,12 @@ namespace js::renderer
 		Resources::Load<Texture>(L"TitleTexture", L"BackGround\\TitleLogo.png");
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
 
+		// HUD
+		Resources::Load<Texture>(L"HealthHUD", L"UI\\HealthHUD.png");
+		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.png");
+
 		// Object
 		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
-		Resources::Load<Texture>(L"PlayerStatusBar", L"UI\\PlayerStatusBar.png");
 	}
 
 	void LoadMaterial()
@@ -453,11 +456,18 @@ namespace js::renderer
 		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
 
 		// UI
-		std::shared_ptr<Material> uiMaterial = std::make_shared<Material>();
-		uiMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		uiMaterial->SetTexture(Resources::Find<Texture>(L"PlayerStatusBar"));
-		uiMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
-		Resources::Insert<Material>(L"UIMaterial", uiMaterial);
+		std::shared_ptr<Material> healthHUDMaterial = std::make_shared<Material>();
+		healthHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		healthHUDMaterial->SetTexture(Resources::Find<Texture>(L"HealthHUD"));
+		healthHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
+		Resources::Insert<Material>(L"HealthHUDMaterial", healthHUDMaterial);
+
+		std::shared_ptr<Material> skillHUDMaterial = std::make_shared<Material>();
+		skillHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		skillHUDMaterial->SetTexture(Resources::Find<Texture>(L"SkillHUD"));
+		skillHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
+		Resources::Insert<Material>(L"SkillHUDMaterial", skillHUDMaterial);
+
 
 		// Grid
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();

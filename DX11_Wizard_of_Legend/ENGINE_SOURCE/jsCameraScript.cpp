@@ -21,7 +21,7 @@ namespace js
 
 	void CameraScript::Update()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
+		/*Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Vector3 pos = tr->GetPosition();
 
@@ -50,7 +50,7 @@ namespace js
 			pos += 30.0f * -tr->Up() * Time::DeltaTime();
 		}
 
-		tr->SetPosition(pos);
+		tr->SetPosition(pos);*/
 	}
 	void CameraScript::Render()
 	{

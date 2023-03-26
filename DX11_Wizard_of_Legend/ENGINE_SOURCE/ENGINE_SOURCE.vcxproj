@@ -197,6 +197,7 @@
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
+    <ClInclude Include="jsRigidbody.h" />
     <ClInclude Include="jsScene.h" />
     <ClInclude Include="jsSceneManager.h" />
     <ClInclude Include="jsScript.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />
+    <ClCompile Include="jsRigidbody.cpp" />
     <ClCompile Include="jsScene.cpp" />
     <ClCompile Include="jsSceneManager.cpp" />
     <ClCompile Include="jsScript.cpp" />

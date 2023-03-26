@@ -28,7 +28,7 @@ namespace js
 		BaseRenderer* myRenderer = GetOwner()->GetComponent<BaseRenderer>();
 		std::shared_ptr<Texture> myTexture = myRenderer->GetMaterial()->GetTexture();
 
-		Vector3 textSize = Vector3(myTexture->GetWidth(), myTexture->GetHeight(), 1.0f);
+		Vector3 textSize = Vector3((float)myTexture->GetWidth(), (float)myTexture->GetHeight(), 1.0f);
 
 		if (myPosition.x <= mousePos.x && mousePos.x < myPosition.x + textSize.x
 			&& myPosition.y <= mousePos.y && mousePos.y < myPosition.y + textSize.y)

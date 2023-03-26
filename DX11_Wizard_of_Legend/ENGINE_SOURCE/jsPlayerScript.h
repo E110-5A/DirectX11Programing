@@ -37,6 +37,8 @@ namespace js
 		virtual void Render() override;
 
 		void CreateAnimation();
+		void AddEvent();
+
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -50,6 +52,8 @@ namespace js
 
 	public:
 		void RetIdle();
+		void AddForce();
+
 
 	public:
 		void Idle();
@@ -59,7 +63,6 @@ namespace js
 		void Dash();
 		void Special();
 		void Ultimate();
-
 
 
 	private:
