@@ -271,6 +271,16 @@ namespace js::graphics
 		mContext->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
 	}
 
+	void GraphicDevice_DX11::BindComputeShader(ID3D11ComputeShader* pComputeShader, ID3D11ClassInstance* const* ppClassInstances, UINT NumClassInstances)
+	{
+		mContext->CSSetShader(pComputeShader, ppClassInstances, NumClassInstances);
+	}
+
+	void GraphicDevice_DX11::Dispatch(UINT threadGroupCountX, UINT threadGroupCountY, UINT threadGroupCountZ)
+	{
+		mContext->Dispatch(threadGroupCountX, threadGroupCountY, threadGroupCountZ);
+	}
+
 	void GraphicDevice_DX11::BindViewports(D3D11_VIEWPORT* viewPort)
 	{
 		mContext->RSSetViewports(1, viewPort);
@@ -284,7 +294,7 @@ namespace js::graphics
 		mContext->Unmap(buffer, 0);
 	}
 
-	void GraphicDevice_DX11::SetConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
+	void GraphicDevice_DX11::BindConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer)
 	{
 		switch (stage)
 		{
@@ -311,7 +321,7 @@ namespace js::graphics
 		}
 	}
 
-	void GraphicDevice_DX11::SetShaderResource(eShaderStage stage, UINT slot
+	void GraphicDevice_DX11::BindShaderResource(eShaderStage stage, UINT slot
 		, ID3D11ShaderResourceView* const* ppShaderResourceViews)
 	{
 		switch (stage)
@@ -337,6 +347,11 @@ namespace js::graphics
 		default:
 			break;
 		}
+	}
+
+	void GraphicDevice_DX11::BindUnorderedAccessView(UINT startSlot, UINT numUAVs, ID3D11UnorderedAccessView* const* ppUnorderedAccessViews, const UINT* pUAVInitialCounts)
+	{
+		mContext->CSSetUnorderedAccessViews(startSlot, numUAVs, ppUnorderedAccessViews, pUAVInitialCounts);
 	}
 
 	void GraphicDevice_DX11::BindSamplers(eShaderStage stage, UINT slot, UINT NumSamplers, ID3D11SamplerState* const* ppSamplers)

@@ -26,10 +26,13 @@ namespace js::graphics
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
 		void BindShader(eShaderStage stage, UINT slot);
+		void BindUnorderedAccessView(UINT startSlot);
+		void ClearUnorderedAccessView(UINT startSlot);
+
 		void Clear();
 
-		size_t GetHeight() { return mImage.GetMetadata().height; }
-		size_t GetWidth() { return mImage.GetMetadata().width; }
+		size_t GetHeight() { return mDesc.Height; }
+		size_t GetWidth() { return mDesc.Width; }
 		
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV() { return mDSV; }

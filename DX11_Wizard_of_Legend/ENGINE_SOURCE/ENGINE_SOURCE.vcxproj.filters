@@ -139,6 +139,12 @@
     <Filter Include="GameObject\Component\Rigidbody">
       <UniqueIdentifier>{524fd677-0155-4e3c-9512-e74a57082133}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\ComputeShader">
+      <UniqueIdentifier>{702d56f9-1ec3-49a3-81c4-862710f6bdd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\ComputeShader\PaintShader">
+      <UniqueIdentifier>{b54d7db5-1771-417c-a776-6fe2b72eb0f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -278,6 +284,12 @@
     </ClCompile>
     <ClCompile Include="jsRigidbody.cpp">
       <Filter>GameObject\Component\Rigidbody</Filter>
+    </ClCompile>
+    <ClCompile Include="jsComputeShader.cpp">
+      <Filter>Resource\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="jsPaintShader.cpp">
+      <Filter>Resource\ComputeShader\PaintShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -433,6 +445,12 @@
     </ClInclude>
     <ClInclude Include="jsRigidbody.h">
       <Filter>GameObject\Component\Rigidbody</Filter>
+    </ClInclude>
+    <ClInclude Include="jsComputeShader.h">
+      <Filter>Resource\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="jsPaintShader.h">
+      <Filter>Resource\ComputeShader\PaintShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

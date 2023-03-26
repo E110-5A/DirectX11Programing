@@ -2,6 +2,7 @@
 #include "jsResources.h"
 #include "jsMaterial.h"
 #include "jsSceneManager.h"
+#include "jsPaintShader.h"
 
 namespace js::renderer
 {
@@ -403,7 +404,10 @@ namespace js::renderer
 		Resources::Insert<Shader>(L"DebugShader", debugShader);
 
 
-
+		// PaintShader
+		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
+		paintShader->Create(L"PaintCS.hlsl", "main");
+		Resources::Insert<PaintShader>(L"PaintShader", paintShader);
 
 	}
 
@@ -415,8 +419,13 @@ namespace js::renderer
 		Resources::Load<Texture>(L"LightSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
 
+		// create
+		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
+		uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+		Resources::Insert<Texture>(L"PaintTexture", uavTexture);
 
-		// logoScene
+
+		// LogoScene
 		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
 		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
 
@@ -437,7 +446,7 @@ namespace js::renderer
 		// Default
 		std::shared_ptr<Material> material = std::make_shared<Material>();
 		material->SetRenderingMode(eRenderingMode::Transparent);
-		material->SetTexture(Resources::Find<Texture>(L"SmileTexture"));
+		material->SetTexture(Resources::Find<Texture>(L"PaintTexture"));
 		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"RectMaterial", material);
 

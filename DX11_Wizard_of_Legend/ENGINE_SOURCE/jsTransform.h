@@ -15,7 +15,7 @@ namespace js
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void SetConstantBuffer();
+		void BindConstantBuffer();
 		
 		void SetParent(Transform* parent) { mParent = parent; }
 		Transform* GetParent() { return mParent; }

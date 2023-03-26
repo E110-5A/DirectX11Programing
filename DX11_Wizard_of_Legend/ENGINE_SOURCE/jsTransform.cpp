@@ -71,7 +71,7 @@ namespace js
 	{
 	}
 
-	void Transform::SetConstantBuffer()
+	void Transform::BindConstantBuffer()
 	{
 		GameObject* debugObj = GetOwner();
 		int a = 0;

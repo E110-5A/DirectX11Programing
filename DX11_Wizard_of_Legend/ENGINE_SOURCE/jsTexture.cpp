@@ -21,12 +21,12 @@ namespace js::graphics
 	{
 		ID3D11ShaderResourceView* srv = nullptr;
 
-		GetDevice()->SetShaderResource(eShaderStage::VS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::DS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::GS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::HS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::CS, startSlot, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::PS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::VS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::DS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::GS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::HS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::CS, startSlot, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, startSlot, &srv);
 	}
 
 	HRESULT Texture::Load(const std::wstring& name)
@@ -65,7 +65,8 @@ namespace js::graphics
 		);
 
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
-	
+		mTexture->GetDesc(&mDesc);
+
 		return S_OK;
 	}
 
@@ -162,18 +163,31 @@ namespace js::graphics
 
 	void Texture::BindShader(eShaderStage stage, UINT slot)
 	{
-		GetDevice()->SetShaderResource(stage, slot, mSRV.GetAddressOf());
+		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
+	}
+
+	void Texture::BindUnorderedAccessView(UINT startSlot)
+	{
+		UINT index = -1;
+		GetDevice()->BindUnorderedAccessView(startSlot, 1, mUAV.GetAddressOf(), &index);
+	}
+
+	void Texture::ClearUnorderedAccessView(UINT startSlot)
+	{
+		ID3D11UnorderedAccessView* pNullUAV = nullptr;
+		UINT index = -1;
+		GetDevice()->BindUnorderedAccessView(startSlot, 1, &pNullUAV, &index);
 	}
 
 	void Texture::Clear()
 	{
 		ID3D11ShaderResourceView* srv = nullptr;
 
-		GetDevice()->SetShaderResource(eShaderStage::VS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::DS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::GS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::HS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::CS, 0, &srv);
-		GetDevice()->SetShaderResource(eShaderStage::PS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::VS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::DS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::GS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::HS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::CS, 0, &srv);
+		GetDevice()->BindShaderResource(eShaderStage::PS, 0, &srv);
 	}
 }

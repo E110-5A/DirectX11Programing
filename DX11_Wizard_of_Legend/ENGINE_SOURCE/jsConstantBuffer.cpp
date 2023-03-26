@@ -37,6 +37,6 @@ namespace js::graphics
 
 	void ConstantBuffer::SetPipline(eShaderStage stage)
 	{
-		GetDevice()->SetConstantBuffer(stage, mType, buffer.Get());
+		GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
 	}
 }

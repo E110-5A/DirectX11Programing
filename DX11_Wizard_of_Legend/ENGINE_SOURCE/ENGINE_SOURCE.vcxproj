@@ -170,6 +170,7 @@
     <ClInclude Include="jsCollider3D.h" />
     <ClInclude Include="jsCollisionManager.h" />
     <ClInclude Include="jsComponent.h" />
+    <ClInclude Include="jsComputeShader.h" />
     <ClInclude Include="jsConstantBuffer.h" />
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="jsMonster.h" />
     <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
+    <ClInclude Include="jsPaintShader.h" />
     <ClInclude Include="jsPlayer.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
@@ -222,6 +224,7 @@
     <ClCompile Include="jsCollider3D.cpp" />
     <ClCompile Include="jsCollisionManager.cpp" />
     <ClCompile Include="jsComponent.cpp" />
+    <ClCompile Include="jsComputeShader.cpp" />
     <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsEntity.cpp" />
     <ClCompile Include="jsFadeScript.cpp" />
@@ -238,6 +241,7 @@
     <ClCompile Include="jsMeshRenderer.cpp" />
     <ClCompile Include="jsMonster.cpp" />
     <ClCompile Include="jsMouseScript.cpp" />
+    <ClCompile Include="jsPaintShader.cpp" />
     <ClCompile Include="jsPlayer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
