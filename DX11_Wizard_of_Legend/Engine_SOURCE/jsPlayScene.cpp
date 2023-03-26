@@ -65,7 +65,8 @@ namespace js
 			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
 			healthHUD->SetName(L"HealthHUD");
 			Transform* healthTr = healthHUD->GetComponent<Transform>();
-			healthTr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			healthTr->SetPosition(Vector3(-3.3f, 3.8f, 1.0f));
+			healthTr->SetScale(Vector3(3.4f, 1.0f, 1.0f));
 			MeshRenderer* healthMr = healthHUD->AddComponent<MeshRenderer>();
 			healthMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			healthMr->SetMaterial(Resources::Find<Material>(L"HealthHUDMaterial"));
@@ -73,7 +74,9 @@ namespace js
 			GameObject* skillHUD = object::Instantiate<Player>(eLayerType::UI, this);
 			skillHUD->SetName(L"SkillHUD");
 			Transform* skillTr = skillHUD->GetComponent<Transform>();
-			skillTr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			skillTr->SetPosition(Vector3(-3.3f, -2.5f, 1.0f));
+			skillTr->SetScale(Vector3(3.0f, 1.0f, 1.0f));
+
 			MeshRenderer* skillMr = skillHUD->AddComponent<MeshRenderer>();
 			skillMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			skillMr->SetMaterial(Resources::Find<Material>(L"SkillHUDMaterial"));

@@ -413,7 +413,7 @@ namespace js
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 		{
 			// ¿À¸¥ÂÊ
-			if (1 == mMoveDir.x)
+			if (1 == mMoveDir.x || 1 == mMoveDir.y)
 				animator->Play(L"PlayerDashRight", false);
 			else
 				animator->Play(L"PlayerDashLeft", false);

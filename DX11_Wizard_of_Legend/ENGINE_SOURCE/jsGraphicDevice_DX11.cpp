@@ -3,13 +3,18 @@
 #include "jsRenderer.h"
 #include "jsConstantBuffer.h"
 #include "jsMesh.h"
+#include "jsTexture.h"
 
 extern js::Application application;
+#define WINDOW_WIDTH 1600
+#define WINDOW_HEIGHT 900
 
 namespace js::graphics
 {
 	GraphicDevice_DX11::GraphicDevice_DX11(ValidationMode validationMode)
 	{
+		graphics::GetDevice() = this;
+
 		HWND hwnd = application.GetHwnd();
 
 		// Device, Device Context
@@ -70,19 +75,23 @@ namespace js::graphics
 		depthBuffer.MipLevels = 0;
 		depthBuffer.MiscFlags = 0;
 
+		mDepthStencilBuffer = std::make_shared<Texture>();
+		mDepthStencilBuffer->Create(WINDOW_WIDTH, WINDOW_HEIGHT, DXGI_FORMAT_D24_UNORM_S8_UINT, D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL);
+
 		// Depth Stencil Buffer
-		if (!CreateTexture(&depthBuffer, mDepthStencilBuffer.GetAddressOf()))
+		if (!CreateTexture(&depthBuffer, mDepthStencilBuffer->GetTexture().GetAddressOf()))
 			return;
 
 		// Depth Stencil Buffer View
-		if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer.Get(), nullptr, mDepthStencilView.GetAddressOf())))
+		if (FAILED(mDevice->CreateDepthStencilView(mDepthStencilBuffer->GetTexture().Get(), nullptr
+			, mDepthStencilBuffer->GetDSV().GetAddressOf())))
 			return;
 
 		RECT winRect;
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.0f, 0.0f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.0f, 1.0f };
 		BindViewports(&mViewPort);
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilBuffer->GetDSV().Get());
 	}
 
 	GraphicDevice_DX11::~GraphicDevice_DX11()
@@ -135,6 +144,22 @@ namespace js::graphics
 		return true;
 	}
 
+	bool GraphicDevice_DX11::CreateUnorderedAccessView(ID3D11Resource* pResource, const D3D11_UNORDERED_ACCESS_VIEW_DESC* pDesc, ID3D11UnorderedAccessView** ppUAView)
+	{
+		if (FAILED(mDevice->CreateUnorderedAccessView(pResource, pDesc, ppUAView)))
+			return false;
+
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreateDepthStencilView(ID3D11Resource* pResource, const D3D11_DEPTH_STENCIL_VIEW_DESC* pDesc, ID3D11DepthStencilView** ppDSView)
+	{
+		if (FAILED(mDevice->CreateDepthStencilView(pResource, pDesc, ppDSView)))
+			return false;
+
+		return true;
+	}
+
 	bool GraphicDevice_DX11::CreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
 	{
 		if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
@@ -154,6 +179,14 @@ namespace js::graphics
 	bool GraphicDevice_DX11::CreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11PixelShader** ppPixelShader)
 	{
 		if (FAILED(mDevice->CreatePixelShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppPixelShader)))
+			return false;
+
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreateComputeShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11ClassLinkage* pClassLinkage, ID3D11ComputeShader** ppComputeShader)
+	{
+		if (FAILED(mDevice->CreateComputeShader(pShaderBytecode, BytecodeLength, pClassLinkage, ppComputeShader)))
 			return false;
 
 		return true;
@@ -349,7 +382,7 @@ namespace js::graphics
 		// 화면 지워주기
 		FLOAT backgroundColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), backgroundColor);
-		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+		mContext->ClearDepthStencilView(mDepthStencilBuffer->GetDSV().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	}
 
 	void GraphicDevice_DX11::AdjustViewPorts()
@@ -359,7 +392,7 @@ namespace js::graphics
 		GetClientRect(application.GetHwnd(), &winRect);
 		mViewPort = { 0.0f, 0.0f, FLOAT(winRect.right - winRect.left), FLOAT(winRect.bottom - winRect.top), 0.0f, 1.0f };
 		BindViewports(&mViewPort);
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilBuffer->GetDSV().Get());
 	}
 
 	void GraphicDevice_DX11::Draw()

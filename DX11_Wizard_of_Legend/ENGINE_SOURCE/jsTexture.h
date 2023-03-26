@@ -20,18 +20,29 @@ namespace js::graphics
 		virtual ~Texture();
 
 		static void Clear(UINT startSlot);
-
 		virtual HRESULT Load(const std::wstring& path) override;
+
+
+		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		void BindShader(eShaderStage stage, UINT slot);
 		void Clear();
 
 		size_t GetHeight() { return mImage.GetMetadata().height; }
 		size_t GetWidth() { return mImage.GetMetadata().width; }
 		
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> GetTexture() { return mTexture; }
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDSV() { return mDSV; }
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> GetRTV() { return mRTV; }
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return mUAV; }
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetSRV() { return mSRV; }
+
 	private:
 		ScratchImage mImage;
-		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;
-		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
+		Microsoft::WRL::ComPtr<ID3D11Texture2D>				mTexture;
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilView>		mDSV;
+		Microsoft::WRL::ComPtr<ID3D11RenderTargetView>		mRTV;
+		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView>	mUAV;
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>	mSRV;
 		D3D11_TEXTURE2D_DESC mDesc;
 	};
 

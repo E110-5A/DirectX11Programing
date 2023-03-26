@@ -425,8 +425,8 @@ namespace js::renderer
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
 
 		// HUD
-		Resources::Load<Texture>(L"HealthHUD", L"UI\\HealthHUD.png");
-		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.png");
+		Resources::Load<Texture>(L"HealthHUD", L"UI\\HealthHUD.bmp");
+		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
 
 		// Object
 		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
@@ -454,6 +454,8 @@ namespace js::renderer
 		lightMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		lightMaterial->SetTexture(Resources::Find<Texture>(L"LightSprite"));
 		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
+
+
 
 		// UI
 		std::shared_ptr<Material> healthHUDMaterial = std::make_shared<Material>();
