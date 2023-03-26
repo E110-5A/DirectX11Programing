@@ -53,7 +53,7 @@ namespace js
 	public:
 		void RetIdle();
 		void AddForce();
-
+		void AutoAttack();
 
 	public:
 		void Idle();
@@ -64,6 +64,8 @@ namespace js
 		void Special();
 		void Ultimate();
 
+	public:
+		void DashAction();
 
 	private:
 		Vector2 mMoveDir;

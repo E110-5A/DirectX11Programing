@@ -84,6 +84,7 @@ namespace js
 	void PlayerScript::Render()
 	{
 	}
+
 	void PlayerScript::CreateAnimation()
 	{
 		// 애니메이터 가져옴
@@ -119,8 +120,6 @@ namespace js
 		animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 		animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 	}
-
-
 	void PlayerScript::AddEvent()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
@@ -130,21 +129,31 @@ namespace js
 		//animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 
+		// AA, Ultimate
+		animator->GetActionEvent(L"PlayerBackhandDown", 5) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetActionEvent(L"PlayerBackhandRight", 5) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetActionEvent(L"PlayerBackhandLeft", 5) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetActionEvent(L"PlayerBackhandUp", 5) = std::bind(&PlayerScript::RetIdle, this);
+
 		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandLeft") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandUp") = std::bind(&PlayerScript::RetIdle, this);
 
+
+		// Skill
 		animator->GetCompleteEvent(L"PlayerForehandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerForehandRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerForehandLeft") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerForehandUp") = std::bind(&PlayerScript::RetIdle, this);
 
+		// Dash
 		animator->GetCompleteEvent(L"PlayerDashRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::AddForce, this);
 		animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::AddForce, this);
 
+		// Special
 		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
 	}
@@ -201,6 +210,14 @@ namespace js
 		rigidbody->SetVelocity(mMoveDir * 55);
 	}
 
+	void PlayerScript::AutoAttack()
+	{
+		// 투사체 날리기
+
+		// 상태 갱신
+		mState = eState::Idle;
+	}
+
 	void PlayerScript::Idle()
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
@@ -227,7 +244,7 @@ namespace js
 			mState = eState::Move;
 		}
 
-		if (Input::GetKeyDown(eKeyCode::LBTN))
+		if (Input::GetKey(eKeyCode::LBTN))
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
@@ -268,14 +285,7 @@ namespace js
 			mState = eState::Skill;
 		}
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);			
-			mState = eState::Dash;
-		}
+			DashAction();
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
 			if (1 == mMoveDir.y)
@@ -342,7 +352,7 @@ namespace js
 		}
 		
 
-		if (Input::GetKeyDown(eKeyCode::LBTN))
+		if (Input::GetKey(eKeyCode::LBTN))
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
@@ -411,14 +421,7 @@ namespace js
 			mState = eState::Ultimate;
 		}
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x || 1 == mMoveDir.y)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);
-			mState = eState::Dash;
-		}
+			DashAction();
 		
 
 		if (Input::GetKeyUp(eKeyCode::S))
@@ -444,33 +447,15 @@ namespace js
 	}
 
 	void PlayerScript::AA()
-	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
+	{		
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);
-			mState = eState::Dash;
-		}
+			DashAction();
 	}
 
 	void PlayerScript::Skill()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);
-			mState = eState::Dash;
-		}
+			DashAction();
 	}
 
 	void PlayerScript::Dash()
@@ -480,32 +465,26 @@ namespace js
 
 	void PlayerScript::Special()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);
-			mState = eState::Dash;
-		}
+			DashAction();
 	}
 
 	void PlayerScript::Ultimate()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
 		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			// 오른쪽
-			if (1 == mMoveDir.x)
-				animator->Play(L"PlayerDashRight", false);
-			else
-				animator->Play(L"PlayerDashLeft", false);
-			mState = eState::Dash;
-		}
+			DashAction();
 	}
 
+	void PlayerScript::DashAction()
+	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+
+		// 오른쪽
+		if (1 == mMoveDir.x)
+			animator->Play(L"PlayerDashRight", false);
+		else
+			animator->Play(L"PlayerDashLeft", false);
+		mState = eState::Dash;		
+	}
 }
