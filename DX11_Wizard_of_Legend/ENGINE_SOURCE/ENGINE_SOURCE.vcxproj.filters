@@ -145,6 +145,9 @@
     <Filter Include="Resource\ComputeShader\PaintShader">
       <UniqueIdentifier>{b54d7db5-1771-417c-a776-6fe2b72eb0f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Scripts\Random">
+      <UniqueIdentifier>{2eb22745-e619-4646-a202-6a764153450e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -290,6 +293,9 @@
     </ClCompile>
     <ClCompile Include="jsPaintShader.cpp">
       <Filter>Resource\ComputeShader\PaintShader</Filter>
+    </ClCompile>
+    <ClCompile Include="jsRandom.cpp">
+      <Filter>Content\Scripts\Random</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +457,9 @@
     </ClInclude>
     <ClInclude Include="jsPaintShader.h">
       <Filter>Resource\ComputeShader\PaintShader</Filter>
+    </ClInclude>
+    <ClInclude Include="jsRandom.h">
+      <Filter>Content\Scripts\Random</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,7 @@
 #define CBSLOT_FADE 3
 #define CBSLOT_ANIMATION 4
 #define CBSLOT_NUMBEROFLIGHT 5
+#define CBSLOT_RANDOM 6
 
 using namespace js::math;
 namespace js::graphics
@@ -107,6 +108,7 @@ namespace js::graphics
 		Fade,
 		Animation,
 		Light,
+		Random,
 		End,
 	};
 

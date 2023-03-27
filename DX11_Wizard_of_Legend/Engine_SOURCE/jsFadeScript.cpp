@@ -36,20 +36,6 @@ namespace js
 				mAddTime = 0.0f;
 			}
 		}
-		/*if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::I) && false == mIsActive
-			&& 0.9 <= mRatio)
-		{
-			mIsComplete = false;
-			mIsActive = true;
-			mType = Fade_In;
-		}
-		if (eKeyState::PRESSED == Input::GetKeyState(eKeyCode::O) && false == mIsActive
-			&& 0.1 >= mRatio)
-		{
-			mIsComplete = false;
-			mIsActive = true;
-			mType = Fade_Out;
-		}*/
 	}
 
 	void FadeScript::FadeIn(float duration)
@@ -67,25 +53,15 @@ namespace js
 		mDuration = duration;
 	}
 
-
 	void FadeScript::FixedUpdate()
 	{
 		if (!mIsActive)
 			return;
 
-		// alpha test
-		if (mRatio > 0.5f)
-			int a = 0;
-
 		if (eFadeType::Fade_Out == mType)
-		{
 			mRatio = (mAddTime / mDuration);
-		}
 		else if (eFadeType::Fade_In == mType)
-		{
 			mRatio = 1 - (mAddTime / mDuration);
-		}
-
 
 		// Constant buffer
 		ConstantBuffer* FadeCB = renderer::constantBuffers[(UINT)eCBType::Fade];

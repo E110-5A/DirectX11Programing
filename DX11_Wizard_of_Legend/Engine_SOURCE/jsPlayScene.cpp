@@ -25,7 +25,7 @@
 
 
 #include "jsPaintShader.h"
-
+#include "jsRandom.h"
 namespace js
 {
 	PlayScene::PlayScene()
@@ -102,6 +102,8 @@ namespace js
 			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
+
+			obj->AddComponent<Random>();
 		}
 		
 

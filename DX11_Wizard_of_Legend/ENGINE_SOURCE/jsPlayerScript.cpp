@@ -130,10 +130,10 @@ namespace js
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 
 		// AA, Ultimate
-		animator->GetActionEvent(L"PlayerBackhandDown", 5) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetActionEvent(L"PlayerBackhandRight", 5) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetActionEvent(L"PlayerBackhandLeft", 5) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetActionEvent(L"PlayerBackhandUp", 5) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetActionEvent(L"PlayerBackhandDown", 5) = std::bind(&PlayerScript::AutoAttack, this);
+		animator->GetActionEvent(L"PlayerBackhandRight", 5) = std::bind(&PlayerScript::AutoAttack, this);
+		animator->GetActionEvent(L"PlayerBackhandLeft", 5) = std::bind(&PlayerScript::AutoAttack, this);
+		animator->GetActionEvent(L"PlayerBackhandUp", 5) = std::bind(&PlayerScript::AutoAttack, this);
 
 		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -215,7 +215,7 @@ namespace js
 		// 투사체 날리기
 
 		// 상태 갱신
-		mState = eState::Idle;
+		RetIdle();
 	}
 
 	void PlayerScript::Idle()
@@ -481,7 +481,7 @@ namespace js
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
 		// 오른쪽
-		if (1 == mMoveDir.x)
+		if (1 == mMoveDir.x || 1 == mMoveDir.y)
 			animator->Play(L"PlayerDashRight", false);
 		else
 			animator->Play(L"PlayerDashLeft", false);
