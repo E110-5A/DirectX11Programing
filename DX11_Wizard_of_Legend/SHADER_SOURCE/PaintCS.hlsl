@@ -1,9 +1,5 @@
 RWTexture2D<float4> tex : register(u0);
 
-cbuffer Random : register(b6)
-{
-    float random;
-}
 
 //  SV_GroupID  : 스레드에 속한 그룹의 좌표
 //  SV_GroupThreadID : 그룹 내에서, 스레드의 좌표
@@ -15,5 +11,5 @@ void main(uint3 DTid : SV_DispatchThreadID)
 {
     if (1024 <= DTid.x || 1024 <= DTid.y)
         return;
-    tex[DTid.xy] = float4(0, random, random, 1.0f);
+    tex[DTid.xy] = float4(0, 1.0f, 1.0f, 1.0f);
 }

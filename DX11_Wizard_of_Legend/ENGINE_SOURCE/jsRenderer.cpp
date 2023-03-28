@@ -345,8 +345,6 @@ namespace js::renderer
 		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
 
-		constantBuffers[(UINT)eCBType::Random] = new ConstantBuffer(eCBType::Random);
-		constantBuffers[(UINT)eCBType::Random]->Create(sizeof(RandomCB));
 #pragma endregion
 #pragma region Structured Buffers
 

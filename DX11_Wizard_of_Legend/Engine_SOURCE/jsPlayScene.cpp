@@ -103,7 +103,6 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
 
-			obj->AddComponent<Random>();
 		}
 		
 

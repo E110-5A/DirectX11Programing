@@ -38,10 +38,7 @@ cbuffer NumberOfLight : register(b5)
 {
     uint numberOfLight;
 }
-cbuffer Random : register(b6)
-{
-    float random;
-}
+
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);

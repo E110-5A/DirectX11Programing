@@ -65,11 +65,6 @@ namespace js::renderer
 		UINT numberOfLight;
 	};
 
-	CBUFFER(RandomCB, CBSLOT_RANDOM)
-	{
-		float random;
-	};
-
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
 	extern FadeScript* fade;
