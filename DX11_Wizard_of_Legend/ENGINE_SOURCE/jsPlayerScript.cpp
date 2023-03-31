@@ -23,7 +23,7 @@ namespace js
 	PlayerScript::PlayerScript()
 		: Script()
 		, mState(eState::Idle)
-		, movespeed(3.0f)
+		, mMoveSpeed(3.0f)
 		, mMoveDir(Vector2::Zero)
 	{
 	}
@@ -342,28 +342,28 @@ namespace js
 		if (Input::GetKey(eKeyCode::S))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Up() * movespeed * Time::DeltaTime();
+			pos += -tr->Up() * mMoveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(0, -1);
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Right() * movespeed * Time::DeltaTime();
+			pos += tr->Right() * mMoveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(1, 0);
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Right() * movespeed * Time::DeltaTime();
+			pos += -tr->Right() * mMoveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(-1, 0);
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Up() * movespeed * Time::DeltaTime();
+			pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(0, 1);
 		}
@@ -506,10 +506,42 @@ namespace js
 	}
 	void PlayerScript::Shoot()
 	{
-		// 투사체 세팅
+		if (!mProjectile)
+			return;
 
+		// 투사체 세팅
+		CalculateProjectileDir();
 		// 투사체 활성화
 		ActiveProjectile();
+	}
+	void PlayerScript::CalculateProjectileDir()
+	{
+		// 내 방향과 마우스 pos 벡터를 가져옴
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Vector3 myPosistion = myTr->GetPosition();
+		Vector3 mousePosition = Input::GetMouseWorldPosition();
+
+		Vector3 myDir = mousePosition - myPosistion;
+		myDir.Normalize();
+
+		// 방향을 내적해서 회전값구하기 (뭐랑 내적해야 나오?지?)
+		float angle = myDir.Dot(myTr->Right());
+		Vector3 crossAngle = myDir.Cross(myTr->Right());
+
+		// 투사체 Tr가져와서 rotate 변경
+
+		Transform* projectileTr = mProjectile->GetComponent<Transform>();
+		//projectileTr->SetRotation(-crossAngle);
+
+		if (0 < myDir.y)
+		{
+			projectileTr->SetRotation(Vector3(0.0f, 0.0f, -angle));
+		}
+		else
+		{
+			projectileTr->SetRotation(Vector3(0.0f, 0.0f, -angle* XM_PI));
+		}
+
 	}
 	void PlayerScript::ActiveProjectile()
 	{

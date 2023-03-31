@@ -67,12 +67,13 @@ namespace js
 	public:
 		void DashAction();
 		void Shoot();
+		void CalculateProjectileDir();
 		void ActiveProjectile();
 
 	private:
 		Vector2 mMoveDir;
 		eState mState;
-		float movespeed;
+		float mMoveSpeed;
 		GameObject* mProjectile;
 	};
 }
