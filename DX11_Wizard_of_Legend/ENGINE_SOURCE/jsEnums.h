@@ -17,9 +17,9 @@ namespace js::enums
 		Grid,
 		Background,
 		Tile,
-		Projectile,
 		Monster,
 		Player,
+		Projectile,
 
 		UI,
 		End = 16,

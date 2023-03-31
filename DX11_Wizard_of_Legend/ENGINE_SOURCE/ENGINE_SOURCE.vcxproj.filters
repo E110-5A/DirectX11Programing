@@ -148,6 +148,9 @@
     <Filter Include="Content\Scripts\Random">
       <UniqueIdentifier>{2eb22745-e619-4646-a202-6a764153450e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Scripts\Player\Arcana">
+      <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -296,6 +299,9 @@
     </ClCompile>
     <ClCompile Include="jsRandom.cpp">
       <Filter>Content\Scripts\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="jsArcanaScript.cpp">
+      <Filter>Content\Scripts\Player\Arcana</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -460,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="jsRandom.h">
       <Filter>Content\Scripts\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="jsArcanaScript.h">
+      <Filter>Content\Scripts\Player\Arcana</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
