@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{6dafa788-499e-4b34-98ec-f4075a483b9e}</ProjectGuid>
     <RootNamespace>EngineSOURCE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -161,6 +161,7 @@
     <ClInclude Include="jsAnimation.h" />
     <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />
+    <ClInclude Include="jsArcanaScript.h" />
     <ClInclude Include="jsBaseRenderer.h" />
     <ClInclude Include="jsButtonScript.h" />
     <ClInclude Include="jsCamera.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
     <ClInclude Include="jsPrefab.h" />
+    <ClInclude Include="jsRandom.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
@@ -215,6 +217,7 @@
     <ClCompile Include="jsAnimation.cpp" />
     <ClCompile Include="jsAnimator.cpp" />
     <ClCompile Include="jsApplication.cpp" />
+    <ClCompile Include="jsArcanaScript.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
     <ClCompile Include="jsButtonScript.cpp" />
     <ClCompile Include="jsCamera.cpp" />
@@ -246,6 +249,7 @@
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
     <ClCompile Include="jsPrefab.cpp" />
+    <ClCompile Include="jsRandom.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />

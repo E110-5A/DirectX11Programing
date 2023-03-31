@@ -107,6 +107,16 @@ namespace js
 		animator->Create(L"PlayerDashRight", texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 6, 0.1f);
 		animator->Create(L"PlayerDashLeft", texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
 
+		animator->Create(L"PlayerAABDown", texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABRight", texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABLeft", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABUp", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+
+		animator->Create(L"PlayerAAFDown", texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAAFRight", texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerAAFLeft", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerAAFUp", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.075f);
+
 		animator->Create(L"PlayerBackhandDown", texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.075f);
 		animator->Create(L"PlayerBackhandRight", texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.075f);
 		animator->Create(L"PlayerBackhandLeft", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
@@ -129,11 +139,17 @@ namespace js
 		//animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 
-		// AA, Ultimate
+		// AA, UltimateAutoAttack
 		animator->GetActionEvent(L"PlayerBackhandDown", 5) = std::bind(&PlayerScript::AutoAttack, this);
 		animator->GetActionEvent(L"PlayerBackhandRight", 5) = std::bind(&PlayerScript::AutoAttack, this);
 		animator->GetActionEvent(L"PlayerBackhandLeft", 5) = std::bind(&PlayerScript::AutoAttack, this);
 		animator->GetActionEvent(L"PlayerBackhandUp", 5) = std::bind(&PlayerScript::AutoAttack, this);
+
+		animator->GetActionEvent(L"PlayerBackhandDown", 3) = std::bind(&PlayerScript::Shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::Shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandLeft", 3) = std::bind(&PlayerScript::Shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandUp", 3) = std::bind(&PlayerScript::Shoot, this);
+
 
 		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -212,9 +228,10 @@ namespace js
 
 	void PlayerScript::AutoAttack()
 	{
-		// 투사체 날리기
+		// 다음 이미지로 세팅
+		
 
-		// 상태 갱신
+		// 초기화
 		RetIdle();
 	}
 
@@ -486,5 +503,24 @@ namespace js
 		else
 			animator->Play(L"PlayerDashLeft", false);
 		mState = eState::Dash;		
+	}
+	void PlayerScript::Shoot()
+	{
+		// 투사체 세팅
+
+		// 투사체 활성화
+		ActiveProjectile();
+	}
+	void PlayerScript::ActiveProjectile()
+	{
+		Transform* tr = GetOwner()->GetComponent<Transform>();
+
+		Transform* projecTr = mProjectile->GetComponent<Transform>();
+		projecTr->SetPosition(tr->GetPosition());
+
+		// 내 위치로 설정
+				
+		// 방향 설정
+
 	}
 }

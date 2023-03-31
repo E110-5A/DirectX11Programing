@@ -7,7 +7,7 @@ namespace js
 	UINT Collider2D::ColliderID = 0;
 	Collider2D::Collider2D()
 		: Component(eComponentType::Collider)
-		, mType(eColliderType::None)
+		, mType(eColliderType::Rect)
 		, mTransform(nullptr)
 		, mSize(Vector2::One)
 		, mCenter(Vector2::Zero)

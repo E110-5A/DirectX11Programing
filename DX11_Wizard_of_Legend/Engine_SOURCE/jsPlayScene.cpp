@@ -22,10 +22,9 @@
 #include "jsPlayer.h"
 #include "jsPlayerScript.h"
 #include "jsRigidbody.h"
-
+#include "jsArcanaScript.h"
 
 #include "jsPaintShader.h"
-#include "jsRandom.h"
 namespace js
 {
 	PlayScene::PlayScene()
@@ -47,8 +46,7 @@ namespace js
 			Transform* tr = obj->GetComponent<Transform>();
 			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
 			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-			Collider2D* collider = obj->AddComponent<Collider2D>();
-			collider->SetType(eColliderType::Rect);
+			obj->AddComponent<Collider2D>();
 			
 			Animator* animator = obj->AddComponent<Animator>();
 			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"PlayerSpriteSheet", L"Player\\PlayerSpriteSheet.png");
@@ -60,7 +58,19 @@ namespace js
 			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
-			obj->AddComponent<PlayerScript>();
+			PlayerScript* playerScript =  obj->AddComponent<PlayerScript>();
+
+
+			GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
+			projecObj->SetName(L"projectile");
+			projecObj->AddComponent<Collider2D>();
+
+			SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
+			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			projecSr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
+			projecObj->AddComponent<ArcanaScript>();
+
+			playerScript->SetProjectile(projecObj);
 		}
 
 		// HUD

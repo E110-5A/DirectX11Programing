@@ -17,6 +17,7 @@ namespace js::enums
 		Grid,
 		Background,
 		Tile,
+		Projectile,
 		Monster,
 		Player,
 

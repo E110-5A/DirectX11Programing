@@ -38,7 +38,7 @@ namespace js
 
 		void CreateAnimation();
 		void AddEvent();
-
+		void SetProjectile(GameObject* target) { mProjectile = target; }
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -66,11 +66,13 @@ namespace js
 
 	public:
 		void DashAction();
+		void Shoot();
+		void ActiveProjectile();
 
 	private:
 		Vector2 mMoveDir;
 		eState mState;
 		float movespeed;
-		Vector2 mTestVector;
+		GameObject* mProjectile;
 	};
 }
