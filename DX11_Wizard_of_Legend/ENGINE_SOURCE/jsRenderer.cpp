@@ -440,6 +440,9 @@ namespace js::renderer
 
 		// Object
 		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
+
+		// Projectile
+		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 	}
 
 	void LoadMaterial()
@@ -538,6 +541,14 @@ namespace js::renderer
 		mouseMaterial->SetTexture(Resources::Find<Texture>(L"MousePointer"));
 		mouseMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"MouseMaterial", mouseMaterial);
+
+
+		// Projectile
+		std::shared_ptr<Material> projectileMaterial = std::make_shared<Material>();
+		projectileMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		projectileMaterial->SetTexture(Resources::Find<Texture>(L"WindSlash"));
+		projectileMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"WindSlash", projectileMaterial);
 
 	}
 

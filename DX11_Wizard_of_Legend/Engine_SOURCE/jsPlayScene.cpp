@@ -47,30 +47,25 @@ namespace js
 			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
 			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
 			obj->AddComponent<Collider2D>();
-			
-			Animator* animator = obj->AddComponent<Animator>();
-			std::shared_ptr<Texture> texture = Resources::Load<Texture>(L"PlayerSpriteSheet", L"Player\\PlayerSpriteSheet.png");
-			animator->Create(L"PlayerIdleDown", texture, Vector2(0.0f, 0.0f), Vector2(48.0f, 48.0f), Vector2::Zero, 1, 0.1f);
-			animator->Play(L"PlayerIdleDown");
-
+			obj->AddComponent<Animator>();
 			obj->AddComponent<Rigidbody>();
-			
+
 			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
-			PlayerScript* playerScript =  obj->AddComponent<PlayerScript>();
+			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 
 
 			GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
 			projecObj->SetName(L"projectile");
 			projecObj->AddComponent<Collider2D>();
-
+			projecObj->AddComponent<Animator>();
 			SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
 			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			projecSr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
-			projecObj->AddComponent<ArcanaScript>();
+			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 
-			playerScript->SetProjectile(projecObj);
+			playerScript->SetProjectile(arcana);
 		}
 
 		// HUD

@@ -36,9 +36,7 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-		void CreateAnimation();
-		void AddEvent();
-		void SetProjectile(GameObject* target) { mProjectile = target; }
+		void SetProjectile(ArcanaScript* target) { mProjectile = target; }
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -64,16 +62,20 @@ namespace js
 		void Special();
 		void Ultimate();
 
-	public:
-		void DashAction();
-		void Shoot();
-		void CalculateProjectileDir();
-		void ActiveProjectile();
+	private:
+		void createAnimation();
+		void addEvent();
+		void dashAction();
+		void shoot();
+		void calculateProjectileDir();
+		void activeProjectile();
+		void idleState();
 
 	private:
 		Vector2 mMoveDir;
 		eState mState;
 		float mMoveSpeed;
-		GameObject* mProjectile;
+		//GameObject* mProjectile;
+		class ArcanaScript* mProjectile;
 	};
 }

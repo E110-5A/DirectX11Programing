@@ -14,8 +14,6 @@ namespace js
 		virtual void FixedUpdate();
 		virtual void Render();
 
-		void Move();
-
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
 		virtual void OnCollisionExit(Collider2D* collider) override;
@@ -28,9 +26,20 @@ namespace js
 		virtual void Complete() override;
 		virtual void End() override;
 		virtual void Action() override;
-		
+
+
+		void ActiveProjectile();
 
 	private:
+		void createAnimation();
+		void die();
+		
+	private:
+		void move();
+
+	private:
+		float mLifeTime;
+		float mAddTime;
 		float mMoveSpeed;
 
 	};
