@@ -106,31 +106,45 @@ namespace js
 		animator->Create(L"PlayerRunLeft", texture, Vector2(0.0f, 145.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 		animator->Create(L"PlayerRunUp", texture, Vector2(0.0f, 193.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 
-		animator->Create(L"PlayerDashRight", texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 6, 0.1f);
-		animator->Create(L"PlayerDashLeft", texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashDown", texture, Vector2(0.0f, 242.0f), defaultSize, Vector2::Zero, 4, 0.1f);
+		animator->Create(L"PlayerDashRight", texture, Vector2(0.0f, 290.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashLeft", texture, Vector2(0.0f, 338.0f), defaultSize, Vector2::Zero, 6, 0.1f);
+		animator->Create(L"PlayerDashUp", texture, Vector2(0.0f, 386.0f), defaultSize, Vector2::Zero, 5, 0.1f);
 
-		animator->Create(L"PlayerAABDown", texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerAABRight", texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerAABLeft", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerAABUp", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABDown", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABRight", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABLeft", texture, Vector2(0.0f, 531.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAABUp", texture, Vector2(0.0f, 579.0f), defaultSize, Vector2::Zero, 9, 0.075f);
 
-		animator->Create(L"PlayerAAFDown", texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerAAFRight", texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.075f);
-		animator->Create(L"PlayerAAFLeft", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.075f);
-		animator->Create(L"PlayerAAFUp", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.075f);
+		animator->Create(L"PlayerAAFDown", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerAAFRight", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerAAFLeft", texture, Vector2(0.0f, 772.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerAAFUp", texture, Vector2(0.0f, 772.0f), defaultSize, Vector2::Zero, 12, 0.075f);
 
-		animator->Create(L"PlayerBackhandDown", texture, Vector2(0.0f, 339.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerBackhandRight", texture, Vector2(0.0f, 387.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerBackhandLeft", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerBackhandUp", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandDown", texture, Vector2(0.0f, 435.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandRight", texture, Vector2(0.0f, 483.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandLeft", texture, Vector2(0.0f, 531.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerBackhandUp", texture, Vector2(0.0f, 579.0f), defaultSize, Vector2::Zero, 9, 0.075f);
 
-		animator->Create(L"PlayerForehandDown", texture, Vector2(0.0f, 532.0f), defaultSize, Vector2::Zero, 9, 0.075f);
-		animator->Create(L"PlayerForehandRight", texture, Vector2(0.0f, 580.0f), defaultSize, Vector2::Zero, 8, 0.075f);
-		animator->Create(L"PlayerForehandLeft", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 8, 0.075f);
-		animator->Create(L"PlayerForehandUp", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 12, 0.075f);
+		animator->Create(L"PlayerForehandDown", texture, Vector2(0.0f, 628.0f), defaultSize, Vector2::Zero, 9, 0.075f);
+		animator->Create(L"PlayerForehandRight", texture, Vector2(0.0f, 676.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerForehandLeft", texture, Vector2(0.0f, 724.0f), defaultSize, Vector2::Zero, 8, 0.075f);
+		animator->Create(L"PlayerForehandUp", texture, Vector2(0.0f, 772.0f), defaultSize, Vector2::Zero, 12, 0.075f);
 
-		animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 725.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 773.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 821.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 869.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+		
+		animator->Create(L"PlayerAOEDown", texture, Vector2(0.0f, 918.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerAOERight", texture, Vector2(0.0f, 966.0f), defaultSize, Vector2::Zero, 12, 0.1f);
+		animator->Create(L"PlayerAOELeft", texture, Vector2(0.0f, 1014.0f), defaultSize, Vector2::Zero, 12, 0.1f);
+		animator->Create(L"PlayerAOEUp", texture, Vector2(0.0f, 1062.0f), defaultSize, Vector2::Zero, 11, 0.1f);
+
+		animator->Create(L"PlayerHurtDown", texture, Vector2(0.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
+		animator->Create(L"PlayerHurtRight", texture, Vector2(48.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
+		animator->Create(L"PlayerHurtLeft", texture, Vector2(96.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
+		animator->Create(L"PlayerHurtUp", texture, Vector2(144.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
+
+
 		animator->Play(L"PlayerIdleDown");
 	}
 	void PlayerScript::addEvent()
@@ -145,23 +159,23 @@ namespace js
 
 
 		// AA, Basic
-		animator->GetActionEvent(L"PlayerAABDown", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABRight", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABLeft", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABUp", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFDown", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFRight", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFLeft", 3) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFUp", 3) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABDown",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABRight",	4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABLeft",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABUp",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFDown",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFRight",	4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFLeft",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFUp",		4) = std::bind(&PlayerScript::idleState, this);
 
-		animator->GetActionEvent(L"PlayerAABDown", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABRight", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABLeft", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABUp", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFDown", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFRight", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFLeft", 2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFUp", 2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABDown",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABRight",	1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABLeft",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABUp",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFDown",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFRight",	1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFLeft",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFUp",		1) = std::bind(&PlayerScript::shoot, this);
 
 		animator->GetCompleteEvent(L"PlayerAABDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerAABRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -174,10 +188,10 @@ namespace js
 
 		// BackHand
 
-		animator->GetActionEvent(L"PlayerBackhandDown", 3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandLeft", 3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandUp", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandDown",	2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandRight",	2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandLeft",	2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandUp",		2) = std::bind(&PlayerScript::shoot, this);
 		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandLeft") = std::bind(&PlayerScript::RetIdle, this);
@@ -195,16 +209,31 @@ namespace js
 		animator->GetCompleteEvent(L"PlayerForehandUp") = std::bind(&PlayerScript::RetIdle, this);
 
 		// Dash
+		animator->GetCompleteEvent(L"PlayerDashDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerDashRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerDashUp") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::AddForce, this);
 		animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::AddForce, this);
 		animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::AddForce, this);
+		animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::AddForce, this);
 
-		// Special
-		animator->GetActionEvent(L"PlayerGroundSlamDown", 5) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerGroundSlamUp", 5) = std::bind(&PlayerScript::shoot, this);
+		// GroundSlam
+		animator->GetActionEvent(L"PlayerGroundSlamDown",	3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerGroundSlamUp",	3) = std::bind(&PlayerScript::shoot, this);
 		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
+
+		// AOE
+		animator->GetActionEvent(L"PlayerAOEDown"	,3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOERight"	,3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOELeft"	,3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOEUp"	,3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetCompleteEvent(L"PlayerAOEDown"	) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOERight"	) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOELeft"	) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOEUp"		) = std::bind(&PlayerScript::RetIdle, this);
+
 	}
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
@@ -346,19 +375,19 @@ namespace js
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandDown");
+				animator->Play(L"PlayerAOEDown", false);
 			}
 			if (Vector2(V2RIGHT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandRight");
+				animator->Play(L"PlayerAOERight", false);
 			}
 			if (Vector2(V2LEFT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandLeft");
+				animator->Play(L"PlayerAOELeft", false);
 			}
 			if (Vector2(V2UP) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandUp");
+				animator->Play(L"PlayerAOEUp", false);
 			}
 			mState = eState::Ultimate;
 		}
@@ -424,19 +453,19 @@ namespace js
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandDown");
+				animator->Play(L"PlayerForehandDown", false);
 			}
 			if (Vector2(V2RIGHT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandRight");
+				animator->Play(L"PlayerForehandRight", false);
 			}
 			if (Vector2(V2LEFT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandLeft");
+				animator->Play(L"PlayerForehandLeft", false);
 			}
 			if (Vector2(V2UP) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandUp");
+				animator->Play(L"PlayerForehandUp", false);
 			}
 			mState = eState::Skill;
 		}
@@ -452,22 +481,23 @@ namespace js
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandDown");
+				animator->Play(L"PlayerAOEDown", false);
 			}
 			if (Vector2(V2RIGHT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandRight");
+				animator->Play(L"PlayerAOERight", false);
 			}
 			if (Vector2(V2LEFT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandLeft");
+				animator->Play(L"PlayerAOELeft", false);
 			}
 			if (Vector2(V2UP) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandUp");
+				animator->Play(L"PlayerAOEUp", false);
 			}
 			mState = eState::Ultimate;
 		}
+
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 			dashAction();
 		
@@ -528,11 +558,22 @@ namespace js
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
-		// 오른쪽
-		if (1 == mMoveDir.x || 1 == mMoveDir.y)
+		if (Vector2(V2DOWN) == mMoveDir)
+		{
+			animator->Play(L"PlayerDashDown", false);
+		}
+		if (Vector2(V2RIGHT) == mMoveDir)
+		{
 			animator->Play(L"PlayerDashRight", false);
-		else
+		}
+		if (Vector2(V2LEFT) == mMoveDir)
+		{
 			animator->Play(L"PlayerDashLeft", false);
+		}
+		if (Vector2(V2UP) == mMoveDir)
+		{
+			animator->Play(L"PlayerDashUp", false);
+		}
 		mState = eState::Dash;		
 	}
 	void PlayerScript::shoot()
@@ -541,11 +582,11 @@ namespace js
 			return;
 
 
+		// 방향 설정
+		calculateProjectileDir();
 
 		// 투사체 활성화
 		activeProjectile();
-		// 방향 설정
-		calculateProjectileDir();
 		
 	}
 	void PlayerScript::calculateProjectileDir()
@@ -567,6 +608,8 @@ namespace js
 			projectileTr->SetRotation(Vector3(0.0f, 0.0f, -angle));
 		else
 			projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle + XM_PI));
+
+
 	}
 	void PlayerScript::activeProjectile()
 	{
@@ -574,8 +617,11 @@ namespace js
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Transform* projecTr = mProjectile->GetOwner()->GetComponent<Transform>();
-		projecTr->SetPosition(tr->GetPosition());				
 		
+		Vector3 startPos = tr->GetPosition();
+		startPos += projecTr->Up() * 1.1;
+		projecTr->SetPosition(startPos);
+
 		// 투사체 설정 초기화
 		mProjectile->ActiveProjectile();
 	}

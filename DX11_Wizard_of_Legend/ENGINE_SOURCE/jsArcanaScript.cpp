@@ -10,7 +10,7 @@ namespace js
 	ArcanaScript::ArcanaScript()
 		: mLifeTime(2.0f)
 		, mAddTime(0.0f)
-		, mMoveSpeed(1.5f)
+		, mMoveSpeed(0.7f)
 	{
 	}
 	ArcanaScript::~ArcanaScript()
@@ -89,7 +89,7 @@ namespace js
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
-		Vector2 defaultSize = Vector2(64.0f, 64.0f);
+		Vector2 defaultSize = Vector2(48.0f, 48.0f);
 		// 府家胶 啊廉客辑 积己
 		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"WindSlash");
 
