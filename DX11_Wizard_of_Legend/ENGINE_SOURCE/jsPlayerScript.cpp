@@ -26,6 +26,7 @@ namespace js
 		, mState(eState::Idle)
 		, mMoveSpeed(3.0f)
 		, mMoveDir(Vector2(V2DOWN))
+		, mProjectile(nullptr)
 	{
 	}
 
@@ -40,7 +41,7 @@ namespace js
 	}
 
 	void PlayerScript::Update()
-	{		
+	{
 		if (mState == eState::AA)
 			int a = 0;
 		switch (mState)
@@ -133,7 +134,7 @@ namespace js
 
 		animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 821.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 		animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 869.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-		
+
 		animator->Create(L"PlayerAOEDown", texture, Vector2(0.0f, 918.0f), defaultSize, Vector2::Zero, 9, 0.1f);
 		animator->Create(L"PlayerAOERight", texture, Vector2(0.0f, 966.0f), defaultSize, Vector2::Zero, 12, 0.1f);
 		animator->Create(L"PlayerAOELeft", texture, Vector2(0.0f, 1014.0f), defaultSize, Vector2::Zero, 12, 0.1f);
@@ -159,23 +160,23 @@ namespace js
 
 
 		// AA, Basic
-		animator->GetActionEvent(L"PlayerAABDown",		4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABRight",	4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABLeft",		4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAABUp",		4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFDown",		4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFRight",	4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFLeft",		4) = std::bind(&PlayerScript::idleState, this);
-		animator->GetActionEvent(L"PlayerAAFUp",		4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABDown", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABRight", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABLeft", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAABUp", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFDown", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFRight", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFLeft", 4) = std::bind(&PlayerScript::idleState, this);
+		animator->GetActionEvent(L"PlayerAAFUp", 4) = std::bind(&PlayerScript::idleState, this);
 
-		animator->GetActionEvent(L"PlayerAABDown",		1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABRight",	1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABLeft",		1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABUp",		1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFDown",		1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFRight",	1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFLeft",		1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFUp",		1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABDown", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABRight", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABLeft", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABUp", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFDown", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFRight", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFLeft", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAAFUp", 1) = std::bind(&PlayerScript::shoot, this);
 
 		animator->GetCompleteEvent(L"PlayerAABDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerAABRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -188,10 +189,10 @@ namespace js
 
 		// BackHand
 
-		animator->GetActionEvent(L"PlayerBackhandDown",	2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandRight",	2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandLeft",	2) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerBackhandUp",		2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandDown", 2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandRight", 2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandLeft", 2) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerBackhandUp", 2) = std::bind(&PlayerScript::shoot, this);
 		animator->GetCompleteEvent(L"PlayerBackhandDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerBackhandLeft") = std::bind(&PlayerScript::RetIdle, this);
@@ -219,20 +220,20 @@ namespace js
 		animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::AddForce, this);
 
 		// GroundSlam
-		animator->GetActionEvent(L"PlayerGroundSlamDown",	3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerGroundSlamUp",	3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerGroundSlamDown", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerGroundSlamUp", 3) = std::bind(&PlayerScript::shoot, this);
 		animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::RetIdle, this);
 
 		// AOE
-		animator->GetActionEvent(L"PlayerAOEDown"	,3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAOERight"	,3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAOELeft"	,3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAOEUp"	,3) = std::bind(&PlayerScript::shoot, this);
-		animator->GetCompleteEvent(L"PlayerAOEDown"	) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetCompleteEvent(L"PlayerAOERight"	) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetCompleteEvent(L"PlayerAOELeft"	) = std::bind(&PlayerScript::RetIdle, this);
-		animator->GetCompleteEvent(L"PlayerAOEUp"		) = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetActionEvent(L"PlayerAOEDown", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOERight", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOELeft", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAOEUp", 3) = std::bind(&PlayerScript::shoot, this);
+		animator->GetCompleteEvent(L"PlayerAOEDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOERight") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOELeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerAOEUp") = std::bind(&PlayerScript::RetIdle, this);
 
 	}
 
@@ -289,7 +290,7 @@ namespace js
 	void PlayerScript::AutoAttack()
 	{
 		// 다음 이미지로 세팅
-		
+
 
 		// 초기화
 		RetIdle();
@@ -301,7 +302,7 @@ namespace js
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
 		if (Input::GetKey(eKeyCode::S))
-		{			
+		{
 			animator->Play(L"PlayerRunDown");
 			mState = eState::Move;
 		}
@@ -322,7 +323,7 @@ namespace js
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN))
-		{			
+		{
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAABDown");
@@ -397,7 +398,7 @@ namespace js
 	{
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 		Animator* animator = GetOwner()->GetComponent<Animator>();
-		
+
 		// 이동 로직
 		if (Input::GetKey(eKeyCode::S))
 		{
@@ -427,8 +428,8 @@ namespace js
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(0, 1);
 		}
-		
-		
+
+
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
 			if (Vector2(V2DOWN) == mMoveDir)
@@ -500,32 +501,32 @@ namespace js
 
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 			dashAction();
-		
+
 
 		if (Input::GetKeyUp(eKeyCode::S))
-		{			
+		{
 			animator->Play(L"PlayerIdleDown");
 			mState = eState::Idle;
 		}
 		if (Input::GetKeyUp(eKeyCode::D))
-		{			
+		{
 			animator->Play(L"PlayerIdleRight");
 			mState = eState::Idle;
 		}
 		if (Input::GetKeyUp(eKeyCode::A))
-		{			
+		{
 			animator->Play(L"PlayerIdleLeft");
 			mState = eState::Idle;
 		}
 		if (Input::GetKeyUp(eKeyCode::W))
-		{			
+		{
 			animator->Play(L"PlayerIdleUp");
 			mState = eState::Idle;
 		}
 	}
 
 	void PlayerScript::AA()
-	{		
+	{
 		if (Input::GetKeyDown(eKeyCode::SPACE))
 			dashAction();
 	}
@@ -574,7 +575,7 @@ namespace js
 		{
 			animator->Play(L"PlayerDashUp", false);
 		}
-		mState = eState::Dash;		
+		mState = eState::Dash;
 	}
 	void PlayerScript::shoot()
 	{
@@ -587,7 +588,7 @@ namespace js
 
 		// 투사체 활성화
 		activeProjectile();
-		
+
 	}
 	void PlayerScript::calculateProjectileDir()
 	{
@@ -595,20 +596,16 @@ namespace js
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		Vector3 myPosistion = myTr->GetPosition();
 		Vector3 mousePosition = Input::GetMouseWorldPosition();
+		mousePosition.z = 1.0f;
 		Vector3 myDir = mousePosition - myPosistion;
 		myDir.Normalize();
 
-		// 방향을 내적해서 회전값구하기
-		float angle = myDir.Dot(myTr->Right());
+		// 회전값 구하기
+		float angle = atan2(myDir.y, myDir.x) - atan2(myTr->Up().y, myTr->Up().x);
 
 		// 투사체 Tr가져와서 rotate 변경
 		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
-
-		if (0 <= myDir.y)
-			projectileTr->SetRotation(Vector3(0.0f, 0.0f, -angle));
-		else
-			projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle + XM_PI));
-
+		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 
 	}
 	void PlayerScript::activeProjectile()
@@ -617,9 +614,8 @@ namespace js
 		Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Transform* projecTr = mProjectile->GetOwner()->GetComponent<Transform>();
-		
+
 		Vector3 startPos = tr->GetPosition();
-		startPos += projecTr->Up() * 1.1;
 		projecTr->SetPosition(startPos);
 
 		// 투사체 설정 초기화

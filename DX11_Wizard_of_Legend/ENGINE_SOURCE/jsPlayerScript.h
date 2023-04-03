@@ -36,7 +36,7 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-		void SetProjectile(ArcanaScript* target) { mProjectile = target; }
+		void SetProjectile(class ArcanaScript* target) { mProjectile = target; }
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
