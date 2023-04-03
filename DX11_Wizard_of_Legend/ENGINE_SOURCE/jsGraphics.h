@@ -18,6 +18,7 @@
 #define CBSLOT_FADE 3
 #define CBSLOT_ANIMATION 4
 #define CBSLOT_NUMBEROFLIGHT 5
+#define CBSLOT_PARTICLERENDERER 6
 
 using namespace js::math;
 namespace js::graphics
@@ -56,7 +57,6 @@ namespace js::graphics
 		WireframeNone,
 		End,
 	};
-
 	enum class eDSType
 	{
 		Less,
@@ -65,7 +65,6 @@ namespace js::graphics
 		None,
 		End,
 	};
-
 	enum class eBSType
 	{
 		Default,
@@ -107,6 +106,7 @@ namespace js::graphics
 		Fade,
 		Animation,
 		Light,
+		ParticleRenderer,
 		End,
 	};
 
@@ -152,5 +152,16 @@ namespace js::graphics
 		float radius;
 		float angle;
 		int padding;
+	};
+
+	struct Particle
+	{
+		Vector4 position;
+		Vector4 direction;
+
+		float lifeTime;
+		float time;
+		float speed;
+		UINT active;
 	};
 }

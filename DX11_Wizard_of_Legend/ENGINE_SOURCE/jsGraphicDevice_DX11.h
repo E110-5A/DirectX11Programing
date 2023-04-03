@@ -56,6 +56,7 @@ namespace js::graphics
 
 		void Draw();
 		void DrawIndexed(UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation);
+		void DrawIndexedInstanced(UINT indexCountPerInstance, UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation, UINT startInstanceLocation);
 
 		void Present();
 

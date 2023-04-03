@@ -48,9 +48,12 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
       <Filter>CS</Filter>
     </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
   </ItemGroup>
 </Project>

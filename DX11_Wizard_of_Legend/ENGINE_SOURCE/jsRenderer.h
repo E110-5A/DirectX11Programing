@@ -65,6 +65,11 @@ namespace js::renderer
 		UINT numberOfLight;
 	};
 
+	CBUFFER(ParticleRendererCB, CBSLOT_PARTICLERENDERER)
+	{
+		Vector4 color;
+	};
+
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
 	extern FadeScript* fade;

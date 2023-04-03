@@ -21,6 +21,7 @@ namespace js::enums
 		Player,
 		Projectile,
 
+		Particle,
 		UI,
 		End = 16,
 	};
@@ -36,6 +37,7 @@ namespace js::enums
 		MeshRenerer,
 		SpriteRenderer,
 		Animator,
+		ParticleRenderer,
 		Light,
 		UI,
 		Script,

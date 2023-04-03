@@ -36,7 +36,7 @@ namespace js
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->SetName(L"MainCamera");
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			cameraComp->SetProjectionType(Camera::Orthographic);
+			cameraComp->SetProjectionType(Camera::Perspective);
 			cameraObj->AddComponent<CameraScript>();
 			object::DontDestroyOnLoad(cameraObj);
 			mainCamera = cameraComp;

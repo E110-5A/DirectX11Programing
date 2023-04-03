@@ -431,6 +431,11 @@ namespace js::graphics
 		mContext->DrawIndexed(indexCount, StartIndexLocation, BaseVertexLocation);
 	}
 
+	void GraphicDevice_DX11::DrawIndexedInstanced(UINT indexCountPerInstance, UINT indexCount, UINT StartIndexLocation, UINT BaseVertexLocation, UINT startInstanceLocation)
+	{
+		mContext->DrawIndexedInstanced(indexCountPerInstance, indexCount, StartIndexLocation, BaseVertexLocation, startInstanceLocation);
+	}
+
 	void GraphicDevice_DX11::Present()
 	{
 		mSwapChain->Present(0, 0);

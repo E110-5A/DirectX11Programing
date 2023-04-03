@@ -95,8 +95,8 @@ namespace js
 		info.spriteSize = mSpriteSheet[mIndex].spriteSize;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void Animation::Reset()
@@ -114,7 +114,7 @@ namespace js
 		renderer::AnimationCB info = {};
 		info.animationType = (UINT)eAnimationType::None;
 
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 }

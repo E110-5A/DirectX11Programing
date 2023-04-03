@@ -25,6 +25,8 @@
 #include "jsArcanaScript.h"
 
 #include "jsPaintShader.h"
+#include "jsParticleRenderer.h"
+
 namespace js
 {
 	PlayScene::PlayScene()
@@ -107,9 +109,17 @@ namespace js
 			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
-
 		}
-		
+		// Particle
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
+			obj->SetName(L"Particle");
+
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetScale(Vector3(0.0f, 0.0f, 1.0f));
+
+			obj->AddComponent<ParticleRenderer>();
+		}
 
 		Scene::Initialize();
 	}

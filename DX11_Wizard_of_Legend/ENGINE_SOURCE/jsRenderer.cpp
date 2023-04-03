@@ -24,6 +24,14 @@ namespace js::renderer
 
 	void LoadMesh()
 	{
+#pragma region Create PointMesh
+		Vertex pointVertex = {};
+		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
+		Resources::Insert<Mesh>(L"PointMesh", pointMesh);
+		pointMesh->CreateVertexBuffer(&pointVertex, 1);
+		UINT pointIndex = 0;
+		pointMesh->CreateIndexBuffer(&pointIndex, 1);
+#pragma endregion
 #pragma region Create RectMesh
 
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
@@ -187,6 +195,12 @@ namespace js::renderer
 			, debugShader->GetVSBlobBufferSize()
 			, debugShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, particleShader->GetVSBlobBufferPointer()
+			, particleShader->GetVSBlobBufferSize()
+			, particleShader->GetInputLayoutAddressOf());
+
 #pragma endregion
 #pragma region sampler state
 		D3D11_SAMPLER_DESC samplerDesc = {};
@@ -345,6 +359,9 @@ namespace js::renderer
 		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
 
+		constantBuffers[(UINT)eCBType::ParticleRenderer] = new ConstantBuffer(eCBType::ParticleRenderer);
+		constantBuffers[(UINT)eCBType::ParticleRenderer]->Create(sizeof(ParticleRendererCB));
+
 #pragma endregion
 #pragma region Structured Buffers
 
@@ -410,6 +427,14 @@ namespace js::renderer
 		paintShader->Create(L"PaintCS.hlsl", "main");
 		Resources::Insert<PaintShader>(L"PaintShader", paintShader);
 
+
+		// Particle Shader
+		std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
+		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
+
+		Resources::Insert<Shader>(L"ParticleShader", particleShader);
 	}
 
 	void LoadTexture()
@@ -502,6 +527,12 @@ namespace js::renderer
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		debugMaterial->SetShader(Resources::Find<Shader>(L"DebugShader"));
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
+
+		// Particle
+		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
+		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		particleMaterial->SetShader(Resources::Find<Shader>(L"ParticleShader"));
+		Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
 
 
 
@@ -600,17 +631,17 @@ namespace js::renderer
 	void BindLights()
 	{
 		// 버퍼 바인드 및 파이프라인 연결
-		lightsBuffer->Bind(lights.data(), (UINT)lights.size());
-		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
-		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
+		lightsBuffer->SetData(lights.data(), (UINT)lights.size());
+		lightsBuffer->Bind(eShaderStage::VS, 13);
+		lightsBuffer->Bind(eShaderStage::PS, 13);
 
 		// light개수 넘기기
 		LightCB lightCB = {};
 		lightCB.numberOfLight = (UINT)lights.size();
 
 		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
-		cb->Bind(&lightCB);
-		cb->SetPipline(eShaderStage::VS);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&lightCB);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
 	}
 }
