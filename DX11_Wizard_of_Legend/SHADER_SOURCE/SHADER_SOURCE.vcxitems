@@ -24,6 +24,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl">

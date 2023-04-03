@@ -50,6 +50,7 @@
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl" />
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />

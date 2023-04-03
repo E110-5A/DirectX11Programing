@@ -297,7 +297,9 @@
     <ClCompile Include="jsArcanaScript.cpp">
       <Filter>Content\Scripts\Player\Arcana</Filter>
     </ClCompile>
-    <ClCompile Include="jsParticleRenderer.cpp" />
+    <ClCompile Include="jsParticleRenderer.cpp">
+      <Filter>GameObject\Component\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">

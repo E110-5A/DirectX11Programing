@@ -161,7 +161,7 @@ namespace js::graphics
 		return true;
 	}
 
-	void Texture::BindShader(eShaderStage stage, UINT slot)
+	void Texture::BindShaderResource(eShaderStage stage, UINT slot)
 	{
 		GetDevice()->BindShaderResource(stage, slot, mSRV.GetAddressOf());
 	}

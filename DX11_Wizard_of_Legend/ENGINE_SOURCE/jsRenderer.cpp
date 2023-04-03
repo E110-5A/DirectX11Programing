@@ -431,9 +431,9 @@ namespace js::renderer
 		// Particle Shader
 		std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
 		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
 		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
 		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
-
 		Resources::Insert<Shader>(L"ParticleShader", particleShader);
 	}
 
@@ -444,6 +444,7 @@ namespace js::renderer
 		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
 		Resources::Load<Texture>(L"LightSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
+		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
 
 		// create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
@@ -475,7 +476,7 @@ namespace js::renderer
 		// Default
 		std::shared_ptr<Material> material = std::make_shared<Material>();
 		material->SetRenderingMode(eRenderingMode::Transparent);
-		material->SetTexture(Resources::Find<Texture>(L"PaintTexture"));
+		material->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PaintTexture"));
 		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"RectMaterial", material);
 
@@ -483,14 +484,14 @@ namespace js::renderer
 		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
 		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		spriteMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		spriteMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
+		spriteMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"DefaultSprite"));
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 
 		// png testing Light Sprite
 		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
 		lightMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		lightMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		lightMaterial->SetTexture(Resources::Find<Texture>(L"LightSprite"));
+		lightMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"LightSprite"));
 		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
 
 
@@ -498,13 +499,13 @@ namespace js::renderer
 		// UI
 		std::shared_ptr<Material> healthHUDMaterial = std::make_shared<Material>();
 		healthHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		healthHUDMaterial->SetTexture(Resources::Find<Texture>(L"HealthHUD"));
+		healthHUDMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HealthHUD"));
 		healthHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
 		Resources::Insert<Material>(L"HealthHUDMaterial", healthHUDMaterial);
 
 		std::shared_ptr<Material> skillHUDMaterial = std::make_shared<Material>();
 		skillHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		skillHUDMaterial->SetTexture(Resources::Find<Texture>(L"SkillHUD"));
+		skillHUDMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"SkillHUD"));
 		skillHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
 		Resources::Insert<Material>(L"SkillHUDMaterial", skillHUDMaterial);
 
@@ -518,7 +519,7 @@ namespace js::renderer
 		// Fade
 		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
 		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		fadeMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
+		fadeMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"DefaultSprite"));
 		fadeMaterial->SetShader(Resources::Find<Shader>(L"FadeShader"));
 		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 
@@ -539,14 +540,14 @@ namespace js::renderer
 		// Logo
 		std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
 		logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		logoMaterial->SetTexture(Resources::Find<Texture>(L"LogoTexture"));
+		logoMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"LogoTexture"));
 		logoMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
 
 		// Title Logo
 		std::shared_ptr<Material> titleMaterial = std::make_shared<Material>();
 		titleMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		titleMaterial->SetTexture(Resources::Find<Texture>(L"TitleTexture"));
+		titleMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleTexture"));
 		titleMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleMaterial", titleMaterial);
 
@@ -555,21 +556,21 @@ namespace js::renderer
 		// Title Background
 		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();
 		titleBGMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		titleBGMaterial->SetTexture(Resources::Find<Texture>(L"TitleBackGround"));
+		titleBGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleBackGround"));
 		titleBGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleBGMaterial", titleBGMaterial);
 
 		// Player
 		std::shared_ptr<Material> playerMaterial = std::make_shared<Material>();
 		playerMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		playerMaterial->SetTexture(Resources::Find<Texture>(L"PlayerIdleDown"));
+		playerMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PlayerIdleDown"));
 		playerMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
 
 		// Mouse Pointer
 		std::shared_ptr<Material> mouseMaterial = std::make_shared<Material>();
 		mouseMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		mouseMaterial->SetTexture(Resources::Find<Texture>(L"MousePointer"));
+		mouseMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"MousePointer"));
 		mouseMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"MouseMaterial", mouseMaterial);
 
@@ -577,7 +578,7 @@ namespace js::renderer
 		// Projectile
 		std::shared_ptr<Material> projectileMaterial = std::make_shared<Material>();
 		projectileMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		projectileMaterial->SetTexture(Resources::Find<Texture>(L"WindSlash"));
+		projectileMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"WindSlash"));
 		projectileMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"WindSlash", projectileMaterial);
 

@@ -22,10 +22,9 @@ namespace js::graphics
 		static void Clear(UINT startSlot);
 		virtual HRESULT Load(const std::wstring& path) override;
 
-
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
-		void BindShader(eShaderStage stage, UINT slot);
+		void BindShaderResource(eShaderStage stage, UINT slot);
 		void BindUnorderedAccessView(UINT startSlot);
 		void ClearUnorderedAccessView(UINT startSlot);
 

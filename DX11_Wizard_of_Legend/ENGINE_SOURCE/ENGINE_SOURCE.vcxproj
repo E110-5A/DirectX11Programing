@@ -127,6 +127,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -147,6 +148,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CombineFilesOnlyFromTheSameFolder>true</CombineFilesOnlyFromTheSameFolder>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -193,11 +195,11 @@
     <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPaintShader.h" />
+    <ClInclude Include="jsParticleRenderer.h" />
     <ClInclude Include="jsPlayer.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
     <ClInclude Include="jsPrefab.h" />
-    <ClInclude Include="jsRandom.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
@@ -245,11 +247,11 @@
     <ClCompile Include="jsMonster.cpp" />
     <ClCompile Include="jsMouseScript.cpp" />
     <ClCompile Include="jsPaintShader.cpp" />
+    <ClCompile Include="jsParticleRenderer.cpp" />
     <ClCompile Include="jsPlayer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
     <ClCompile Include="jsPrefab.cpp" />
-    <ClCompile Include="jsRandom.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />
