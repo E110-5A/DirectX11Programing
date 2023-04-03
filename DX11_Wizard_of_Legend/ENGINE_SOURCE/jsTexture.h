@@ -24,11 +24,17 @@ namespace js::graphics
 
 		bool Create(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag);
 		bool Create(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture);
+
+		void LoadFile(const std::wstring& name);
+		void InitializeResource();
+
 		void BindShaderResource(eShaderStage stage, UINT slot);
 		void BindUnorderedAccessView(UINT startSlot);
 		void ClearUnorderedAccessView(UINT startSlot);
 
 		void Clear();
+
+		void SetTexture(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture) { mTexture = texture; }
 
 		size_t GetHeight() { return mDesc.Height; }
 		size_t GetWidth() { return mDesc.Width; }
@@ -38,8 +44,6 @@ namespace js::graphics
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> GetRTV() { return mRTV; }
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> GetUAV() { return mUAV; }
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetSRV() { return mSRV; }
-
-		void SetTexture(Microsoft::WRL::ComPtr<ID3D11Texture2D> texture) { mTexture = texture; }
 
 	private:
 		ScratchImage mImage;

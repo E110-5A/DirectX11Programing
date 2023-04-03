@@ -35,22 +35,7 @@ namespace js
 	}
 
 	void GameObject::Initialize()
-	{
-		for (Component* comp : mComponents)
-		{
-			if (comp == nullptr)
-				continue;
-
-			comp->Initialize();
-		}
-
-		for (Component* script : mScripts)
-		{
-			if (script == nullptr)
-				continue;
-
-			script->Initialize();
-		}
+	{		
 	}
 
 	void GameObject::Update()

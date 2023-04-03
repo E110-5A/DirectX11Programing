@@ -297,6 +297,9 @@
     <ClCompile Include="jsArcanaScript.cpp">
       <Filter>Content\Scripts\Player\Arcana</Filter>
     </ClCompile>
+    <ClCompile Include="jsParticleRenderer.cpp">
+      <Filter>GameObject\Component\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -460,6 +463,9 @@
     </ClInclude>
     <ClInclude Include="jsArcanaScript.h">
       <Filter>Content\Scripts\Player\Arcana</Filter>
+    </ClInclude>
+    <ClInclude Include="jsParticleRenderer.h">
+      <Filter>GameObject\Component\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

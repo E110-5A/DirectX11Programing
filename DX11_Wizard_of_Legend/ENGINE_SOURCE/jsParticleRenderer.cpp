@@ -8,6 +8,8 @@
 
 namespace js
 {
+	Particle particles[1000] = {};
+
 	ParticleRenderer::ParticleRenderer()
 		: BaseRenderer(eComponentType::ParticleRenderer)
 		, mCount(0)
@@ -17,14 +19,21 @@ namespace js
 		, mStartColor(Vector4::Zero)
 		, mEndColor(Vector4::Zero)
 		, mStartLifeTime(0.0f)
+	{		
+	}
+	ParticleRenderer::~ParticleRenderer()
 	{
-		SetMesh(Resources::Find<Mesh>(L"PointMesh"));		
+		delete mBuffer;
+		mBuffer = nullptr;
+	}
+	void ParticleRenderer::Initialize()
+	{
+		SetMesh(Resources::Find<Mesh>(L"PointMesh"));
 		std::shared_ptr<Material> material = Resources::Find<Material>(L"ParticleMaterial");
 		SetMaterial(material);
 		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"CartoonSmoke");
 		material->SetTexture(eTextureSlot::T0, texture);
 
-		Particle particles[1000] = {};
 		Vector4 startPos = Vector4(-800.0f, -450.0f, 0.0f, 0.0f);
 		for (size_t y = 0; y < 9; y++)
 		{
@@ -37,14 +46,6 @@ namespace js
 		mCount = 144;
 		mBuffer = new StructuredBuffer();
 		mBuffer->Create(eSRVType::None, sizeof(Particle), mCount, particles);
-	}
-	ParticleRenderer::~ParticleRenderer()
-	{
-		delete mBuffer;
-		mBuffer = nullptr;
-	}
-	void ParticleRenderer::Initialize()
-	{
 	}
 	void ParticleRenderer::Update()
 	{
