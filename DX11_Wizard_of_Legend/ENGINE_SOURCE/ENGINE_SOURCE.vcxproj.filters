@@ -148,6 +148,9 @@
     <Filter Include="Content\Scripts\Player\Arcana">
       <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\ComputeShader\ParticleShader">
+      <UniqueIdentifier>{c9c54e19-d1b8-4fd8-ad2c-18e5b55142cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -299,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="jsParticleRenderer.cpp">
       <Filter>GameObject\Component\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="jsParticleShader.cpp">
+      <Filter>Resource\ComputeShader\ParticleShader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +472,9 @@
     </ClInclude>
     <ClInclude Include="jsParticleRenderer.h">
       <Filter>GameObject\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="jsParticleShader.h">
+      <Filter>Resource\ComputeShader\ParticleShader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
