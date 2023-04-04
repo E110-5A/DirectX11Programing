@@ -9,7 +9,8 @@
 namespace js
 {
 	ArcanaScript::ArcanaScript()
-		: mLifeTime(2.0f)
+		: mCategory(eArcanaCategory::Melee)
+		, mLifeTime(2.0f)
 		, mAddTime(0.0f)
 		, mMoveSpeed(2.7f)
 	{
@@ -19,7 +20,7 @@ namespace js
 	}
 	void ArcanaScript::Initialize()
 	{
-		createAnimation();
+		CreateAnimation();
 	}
 	void ArcanaScript::Update()
 	{
@@ -27,7 +28,6 @@ namespace js
 			mAddTime += Time::DeltaTime();
 		else
 			return;
-		move();
 	}
 	void ArcanaScript::FixedUpdate()
 	{
@@ -73,20 +73,26 @@ namespace js
 
 	void ArcanaScript::move()
 	{
-		/*Transform* tr = GetOwner()->GetComponent<Transform>();
+		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
+		if (eArcanaCategory::Melee == mCategory)
+		{
+			myRigidbody->SetVelocity(shootDir * 30.0f);
+		}
+		else
+		{
+			myRigidbody->SetVelocity(shootDir * 80.0f);
 
-		Vector3 pos = tr->GetPosition();
-		pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
-		tr->SetPosition(pos);*/
-	}
+		}
+			//Transform* tr = GetOwner()->GetComponent<Transform>();
 
-	void ArcanaScript::ActiveProjectile()
-	{
-		mAddTime = 0;
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		animator->Play(L"WindSlash", false);
+			//Vector3 pos = tr->GetPosition();
+			//pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
+			//tr->SetPosition(pos);
+		
 	}
-	void ArcanaScript::createAnimation()
+	void ArcanaScript::CreateAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 
@@ -100,15 +106,20 @@ namespace js
 
 
 	}
+
+	void ArcanaScript::ActiveProjectile(eArcanaCategory category)
+	{
+		mAddTime = 0;
+		mCategory = category;
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		animator->Play(L"WindSlash", false);
+	}
 	void ArcanaScript::die()
 	{
 		mAddTime = mLifeTime;
 	}
 	void ArcanaScript::shoot()
 	{
-		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		Transform* myTr = GetOwner()->GetComponent<Transform>();
-		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
-		myRigidbody->SetVelocity(shootDir * 40.0f);
+		move();
 	}
 }

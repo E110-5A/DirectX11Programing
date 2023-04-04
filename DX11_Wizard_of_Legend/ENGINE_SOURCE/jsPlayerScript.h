@@ -80,5 +80,6 @@ namespace js
 		float mMoveSpeed;
 		//GameObject* mProjectile;
 		class ArcanaScript* mProjectile;
+		eArcanaCategory mProjectileType;
 	};
 }

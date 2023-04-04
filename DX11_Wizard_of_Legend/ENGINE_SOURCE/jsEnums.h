@@ -83,4 +83,12 @@ namespace js::enums
 		Spot,
 		End,
 	};
+
+
+	enum class eArcanaCategory
+	{
+		Melee,
+		Projectile,
+		End,
+	};
 }
