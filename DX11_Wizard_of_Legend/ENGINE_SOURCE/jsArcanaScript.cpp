@@ -4,6 +4,7 @@
 #include "jsTime.h"
 #include "jsAnimator.h"
 #include "jsResources.h"
+#include "jsRigidbody.h"
 
 namespace js
 {
@@ -72,11 +73,11 @@ namespace js
 
 	void ArcanaScript::move()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
+		/*Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Vector3 pos = tr->GetPosition();
 		pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
-		tr->SetPosition(pos);
+		tr->SetPosition(pos);*/
 	}
 
 	void ArcanaScript::ActiveProjectile()
@@ -95,11 +96,19 @@ namespace js
 
 		animator->Create(L"WindSlash", texture, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
 		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
+		animator->GetActionEvent(L"WindSlash", 2) = std::bind(&ArcanaScript::shoot, this);
 
 
 	}
 	void ArcanaScript::die()
 	{
 		mAddTime = mLifeTime;
+	}
+	void ArcanaScript::shoot()
+	{
+		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
+		myRigidbody->SetVelocity(shootDir * 40.0f);
 	}
 }

@@ -66,7 +66,7 @@ namespace js
 			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			projecSr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
 			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
-
+			projecObj->AddComponent<Rigidbody>();
 			playerScript->SetProjectile(arcana);
 		}
 

@@ -166,6 +166,15 @@ namespace js
 
 
 		// AA, Basic
+		animator->GetStartEvent(L"PlayerAABDown") =		std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABRight") =	std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABLeft") =		std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABUp") =		std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFDown") =		std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFRight") =	std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFLeft") =		std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFUp") =		std::bind(&PlayerScript::shoot, this);
+
 		animator->GetActionEvent(L"PlayerAABDown", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAABRight", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAABLeft", 4) = std::bind(&PlayerScript::idleState, this);
@@ -175,14 +184,14 @@ namespace js
 		animator->GetActionEvent(L"PlayerAAFLeft", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAAFUp", 4) = std::bind(&PlayerScript::idleState, this);
 
-		animator->GetActionEvent(L"PlayerAABDown", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABRight", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABLeft", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABUp", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFDown", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFRight", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFLeft", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFUp", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABDown"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABRight"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABLeft"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABUp"		, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFDown"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFRight"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFLeft"	, 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFUp"		, 3) = std::bind(&PlayerScript::playerRush, this);
 
 		animator->GetCompleteEvent(L"PlayerAABDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerAABRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -583,6 +592,8 @@ namespace js
 		}
 		mState = eState::Dash;
 	}
+	
+	
 	void PlayerScript::shoot()
 	{
 		if (!mProjectile)
@@ -593,6 +604,8 @@ namespace js
 		activeProjectile();
 
 	}
+
+
 	void PlayerScript::calculateProjectileDir()
 	{
 	}
@@ -629,10 +642,12 @@ namespace js
 			mMoveDir = Vector2(0, -1);
 		else
 			mMoveDir = Vector2(-1, 0);
-
+	}
+	void PlayerScript::playerRush()
+	{
 		// ÀÌµ¿
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		myRigidbody->SetVelocity(mMoveDir * 20.0f);
+		myRigidbody->SetVelocity(mMoveDir * 30.0f);
 	}
 	void PlayerScript::activeProjectile()
 	{

@@ -72,6 +72,7 @@ namespace js
 		Vector3 calculateMouseDir();
 		float projectileRotate(Vector3 dir);
 		void playerRotate(float angle);
+		void playerRush();
 		void activeProjectile();
 	private:
 		Vector2 mMoveDir;

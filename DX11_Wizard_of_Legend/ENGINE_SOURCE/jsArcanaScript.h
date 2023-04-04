@@ -33,7 +33,7 @@ namespace js
 	private:
 		void createAnimation();
 		void die();
-		
+		void shoot();
 	private:
 		void move();
 
