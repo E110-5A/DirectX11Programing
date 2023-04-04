@@ -10,7 +10,7 @@ namespace js
 	ArcanaScript::ArcanaScript()
 		: mLifeTime(2.0f)
 		, mAddTime(0.0f)
-		, mMoveSpeed(0.7f)
+		, mMoveSpeed(2.7f)
 	{
 	}
 	ArcanaScript::~ArcanaScript()
@@ -93,7 +93,7 @@ namespace js
 		// 府家胶 啊廉客辑 积己
 		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"WindSlash");
 
-		animator->Create(L"WindSlash", texture, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"WindSlash", texture, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
 		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
 
 

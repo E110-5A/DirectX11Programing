@@ -1,5 +1,6 @@
 #pragma once
 #include "jsBaseRenderer.h"
+#include "jsParticleShader.h"
 
 namespace js
 {
@@ -16,6 +17,7 @@ namespace js
 
 	private:
 		class StructuredBuffer* mBuffer;
+		std::shared_ptr<graphics::ParticleShader> mCS;
 
 		UINT mCount;
 		Vector4 mStartSize;

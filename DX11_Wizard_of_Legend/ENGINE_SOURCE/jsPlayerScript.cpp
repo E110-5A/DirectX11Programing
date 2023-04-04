@@ -13,11 +13,17 @@
 #include "jsArcanaScript.h"
 
 
-// 방향
+// 벡터 방향
 #define V2DOWN 0,-1
 #define V2RIGHT 1,0
 #define V2LEFT -1,0
 #define V2UP 0,1
+
+// 라디안 방향
+#define TOP		0
+#define BOTTOM	-3.14
+#define RIGHT	-1.57
+#define LEFT	1.57
 
 namespace js
 {
@@ -581,16 +587,16 @@ namespace js
 	{
 		if (!mProjectile)
 			return;
-
-
-		// 방향 설정
-		calculateProjectileDir();
-
-		// 투사체 활성화
+		Vector3 myDir = calculateMouseDir();
+		float angle = projectileRotate(myDir);
+		playerRotate(angle);		
 		activeProjectile();
 
 	}
 	void PlayerScript::calculateProjectileDir()
+	{
+	}
+	Vector3 PlayerScript::calculateMouseDir()
 	{
 		// 마우스 방향 구하기
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
@@ -599,24 +605,41 @@ namespace js
 		mousePosition.z = 1.0f;
 		Vector3 myDir = mousePosition - myPosistion;
 		myDir.Normalize();
-
+		return myDir;
+	}
+	float PlayerScript::projectileRotate(Vector3 dir)
+	{
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		// 회전값 구하기
-		float angle = atan2(myDir.y, myDir.x) - atan2(myTr->Up().y, myTr->Up().x);
-
+		float angle = atan2(dir.y, dir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		// 투사체 Tr가져와서 rotate 변경
 		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
 		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 
+		return angle;
+	}
+	void PlayerScript::playerRotate(float angle)
+	{
+		//  방향 전환 :  TOP | RIGHT | BOTTOM | LEFT 
+		if ((TOP + 0.78) >= angle && (TOP - 0.78) <= angle)
+			mMoveDir = Vector2(0, 1);
+		else if ((RIGHT + 0.78) >= angle && (RIGHT - 0.78) <= angle)
+			mMoveDir = Vector2(1, 0);
+		else if ((BOTTOM + 0.78) >= angle && (BOTTOM - 0.78) <= angle)
+			mMoveDir = Vector2(0, -1);
+		else
+			mMoveDir = Vector2(-1, 0);
+
+		// 이동
+		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
+		myRigidbody->SetVelocity(mMoveDir * 20.0f);
 	}
 	void PlayerScript::activeProjectile()
 	{
 		// 투사체를 내 위치로 옮기기
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-
 		Transform* projecTr = mProjectile->GetOwner()->GetComponent<Transform>();
-
-		Vector3 startPos = tr->GetPosition();
-		projecTr->SetPosition(startPos);
+		projecTr->SetPosition(tr->GetPosition());
 
 		// 투사체 설정 초기화
 		mProjectile->ActiveProjectile();

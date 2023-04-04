@@ -38,8 +38,9 @@ namespace js
 			{
 				mScripts.push_back(dynamic_cast<Script*>(comp));
 				comp->SetOwner(this);
-				comp->Initalize();
 			}
+
+			comp->Initialize();
 
 			return comp;
 		}

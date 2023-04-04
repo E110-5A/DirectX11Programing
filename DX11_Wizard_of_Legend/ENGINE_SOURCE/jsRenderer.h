@@ -68,6 +68,8 @@ namespace js::renderer
 	CBUFFER(ParticleRendererCB, CBSLOT_PARTICLERENDERER)
 	{
 		Vector4 color;
+		UINT elementCount;
+		float deltaTime;
 	};
 
 	extern Vertex vertexes[4];

@@ -22,15 +22,7 @@ namespace js::renderer
 	std::vector<DebugMesh> debugMeshes;
 	std::vector<LightAttribute> lights;
 
-	void Initialize()
-	{
-		LoadMesh();
-		LoadShader();
-		SetUpState();
-		LoadBuffer();
-		LoadTexture();
-		LoadMaterial();
-	}
+	
 
 	void LoadMesh()
 	{
@@ -150,11 +142,11 @@ namespace js::renderer
 		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
 		Resources::Insert<Shader>(L"RectShader", shader);
 #pragma endregion
-
 #pragma region Sprite
 		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
 		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+		spriteShader->SetRSState(eRSType::SolidNone);
 		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
 #pragma endregion
 #pragma region UI
@@ -198,6 +190,9 @@ namespace js::renderer
 		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
 		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
 		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		particleShader->SetRSState(eRSType::SolidNone);
+		particleShader->SetDSState(eDSType::NoWrite);
+		particleShader->SetBSState(eBSType::AlphaBlend);
 		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
 		Resources::Insert<Shader>(L"ParticleShader", particleShader);
 #pragma endregion
@@ -432,11 +427,10 @@ namespace js::renderer
 
 		constantBuffers[(UINT)eCBType::ParticleRenderer] = new ConstantBuffer(eCBType::ParticleRenderer);
 		constantBuffers[(UINT)eCBType::ParticleRenderer]->Create(sizeof(ParticleRendererCB));
-
 #pragma endregion
 #pragma region Structured Buffers
 		lightsBuffer = new StructuredBuffer();
-		lightsBuffer->Create(eSRVType::None, sizeof(LightAttribute), 128, nullptr);
+		lightsBuffer->Create(eSRVType::SRV, sizeof(LightAttribute), 128, nullptr);
 #pragma endregion
 	}
 
@@ -469,7 +463,7 @@ namespace js::renderer
 		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
 
 		// Object
-		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
+		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\motion\\Idle\\WizardIdleDown.png");
 
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
@@ -579,8 +573,15 @@ namespace js::renderer
 #pragma endregion
 	}
 
-	
-
+	void Initialize()
+	{
+		LoadMesh();
+		LoadShader();
+		SetUpState();
+		LoadBuffer();
+		LoadTexture();
+		LoadMaterial();
+	}
 	void Release()
 	{
 		for (size_t i = 0; i < (UINT)eCBType::End; i++)
@@ -620,8 +621,8 @@ namespace js::renderer
 	{
 		// 버퍼 바인드 및 파이프라인 연결
 		lightsBuffer->SetData(lights.data(), (UINT)lights.size());
-		lightsBuffer->Bind(eShaderStage::VS, 13);
-		lightsBuffer->Bind(eShaderStage::PS, 13);
+		lightsBuffer->BindSRV(eShaderStage::VS, 13);
+		lightsBuffer->BindSRV(eShaderStage::PS, 13);
 
 		// light개수 넘기기
 		LightCB lightCB = {};

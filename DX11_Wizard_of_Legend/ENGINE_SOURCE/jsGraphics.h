@@ -40,7 +40,6 @@ namespace js::graphics
 		CS,
 		Count,
 	};
-
 	enum class eSamplerType
 	{
 		Point,
@@ -81,7 +80,6 @@ namespace js::graphics
 		End,
 	};
 
-
 	struct GpuBuffer
 	{
 		enum class eType
@@ -109,7 +107,6 @@ namespace js::graphics
 		ParticleRenderer,
 		End,
 	};
-
 	enum class eGpuParam
 	{
 		Int,
@@ -123,6 +120,8 @@ namespace js::graphics
 	enum class eSRVType
 	{
 		None,
+		SRV,
+		UAV,
 		End,
 	};
 
@@ -157,7 +156,6 @@ namespace js::graphics
 		float duration;
 		float time;
 	};
-
 	struct LightAttribute
 	{
 		Vector4 diffuse;
@@ -173,7 +171,6 @@ namespace js::graphics
 		float angle;
 		int padding;
 	};
-
 	struct Particle
 	{
 		Vector4 position;

@@ -40,6 +40,14 @@ namespace js
 
 		// 회전 변환 행렬
 		Matrix rotation;
+
+		/*Vector3 radian
+		(
+			mRotation.x * (XM_PI / 180)
+			, mRotation.y * (XM_PI / 180)
+			, mRotation.z * (XM_PI / 180)
+		);*/
+
 		rotation = Matrix::CreateRotationX(mRotation.x);
 		rotation *= Matrix::CreateRotationY(mRotation.y);
 		rotation *= Matrix::CreateRotationZ(mRotation.z);

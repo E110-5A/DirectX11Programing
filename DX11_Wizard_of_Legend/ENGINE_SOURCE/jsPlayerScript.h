@@ -66,11 +66,13 @@ namespace js
 		void createAnimation();
 		void addEvent();
 		void dashAction();
+		void idleState();
 		void shoot();
 		void calculateProjectileDir();
+		Vector3 calculateMouseDir();
+		float projectileRotate(Vector3 dir);
+		void playerRotate(float angle);
 		void activeProjectile();
-		void idleState();
-
 	private:
 		Vector2 mMoveDir;
 		eState mState;
