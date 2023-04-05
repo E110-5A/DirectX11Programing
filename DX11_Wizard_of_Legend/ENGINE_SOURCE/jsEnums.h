@@ -89,6 +89,7 @@ namespace js::enums
 	{
 		Melee,
 		Projectile,
+		Dash,
 		End,
 	};
 }

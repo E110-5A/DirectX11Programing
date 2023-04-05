@@ -41,6 +41,7 @@ namespace js
 		eArcanaCategory mCategory;
 		float mLifeTime;
 		float mAddTime;
-		float mMoveSpeed;
+		float mMeleeVelocity;
+		float mProjectileSpeed;
 	};
 }

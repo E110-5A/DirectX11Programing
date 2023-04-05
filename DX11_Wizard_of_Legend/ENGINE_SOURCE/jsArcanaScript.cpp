@@ -12,7 +12,8 @@ namespace js
 		: mCategory(eArcanaCategory::Melee)
 		, mLifeTime(2.0f)
 		, mAddTime(0.0f)
-		, mMoveSpeed(2.7f)
+		, mMeleeVelocity(30.0f)
+		, mProjectileSpeed(16.0f)
 	{
 	}
 	ArcanaScript::~ArcanaScript()
@@ -27,7 +28,18 @@ namespace js
 		if (mAddTime < mLifeTime)
 			mAddTime += Time::DeltaTime();
 		else
+		{
+			die();
 			return;
+		}
+
+		if (eArcanaCategory::Projectile == mCategory)
+		{
+			Transform* myTr = GetOwner()->GetComponent<Transform>();
+			Vector3 pos = myTr->GetPosition();
+			pos += myTr->Up() * mProjectileSpeed * Time::DeltaTime();
+			myTr->SetPosition(pos);
+		}
 	}
 	void ArcanaScript::FixedUpdate()
 	{
@@ -78,12 +90,11 @@ namespace js
 		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
 		if (eArcanaCategory::Melee == mCategory)
 		{
-			myRigidbody->SetVelocity(shootDir * 30.0f);
+			myRigidbody->SetVelocity(shootDir * mMeleeVelocity);
 		}
 		else
-		{
-			myRigidbody->SetVelocity(shootDir * 80.0f);
-
+		{			
+			//myRigidbody->SetVelocity(shootDir * 80.0f);
 		}
 			//Transform* tr = GetOwner()->GetComponent<Transform>();
 
@@ -98,12 +109,15 @@ namespace js
 
 		Vector2 defaultSize = Vector2(48.0f, 48.0f);
 		// 府家胶 啊廉客辑 积己
-		std::shared_ptr<Texture> texture = Resources::Find<Texture>(L"WindSlash");
+		std::shared_ptr<Texture> windSlash = Resources::Find<Texture>(L"WindSlash");
+		std::shared_ptr<Texture> fireArrow = Resources::Find<Texture>(L"FireArrow");
 
-		animator->Create(L"WindSlash", texture, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
+		animator->Create(L"WindSlash", windSlash, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
 		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
 		animator->GetActionEvent(L"WindSlash", 2) = std::bind(&ArcanaScript::shoot, this);
 
+		animator->Create(L"FireArrow", fireArrow, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
+		animator->GetActionEvent(L"FireArrow", 1) = std::bind(&ArcanaScript::shoot, this);
 
 	}
 
@@ -111,8 +125,18 @@ namespace js
 	{
 		mAddTime = 0;
 		mCategory = category;
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		animator->Play(L"WindSlash", false);
+
+		if (eArcanaCategory::Melee == mCategory)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"WindSlash", false);
+		}
+		else if (eArcanaCategory::Projectile == mCategory)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"FireArrow");
+		}
+		
 	}
 	void ArcanaScript::die()
 	{

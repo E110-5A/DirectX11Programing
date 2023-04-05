@@ -467,6 +467,9 @@ namespace js::renderer
 
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
+		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
+
+
 #pragma endregion
 	}
 
