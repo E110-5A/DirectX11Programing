@@ -69,9 +69,9 @@ namespace js
 		renderer::FadeCB data;
 		data.alpha = mRatio;
 
-		FadeCB->SetData(&data);
-		FadeCB->Bind(eShaderStage::VS);
-		FadeCB->Bind(eShaderStage::PS);
+		FadeCB->Bind(&data);
+		FadeCB->SetPipline(eShaderStage::VS);
+		FadeCB->SetPipline(eShaderStage::PS);
 	}
 	void FadeScript::Render()
 	{

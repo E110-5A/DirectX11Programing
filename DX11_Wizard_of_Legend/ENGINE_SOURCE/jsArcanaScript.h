@@ -5,7 +5,7 @@ namespace js
 {
 	class ArcanaScript : public Script
 	{
-	public:		
+	public:
 		ArcanaScript();
 		virtual ~ArcanaScript();
 
@@ -27,21 +27,20 @@ namespace js
 		virtual void End() override;
 		virtual void Action() override;
 
-		void CreateAnimation();
 
-		void ActiveProjectile(eArcanaCategory category);
+		void ActiveProjectile();
 
 	private:
+		void createAnimation();
 		void die();
-		void shoot();
+		
 	private:
 		void move();
 
 	private:
-		eArcanaCategory mCategory;
 		float mLifeTime;
 		float mAddTime;
-		float mMeleeVelocity;
-		float mProjectileSpeed;
+		float mMoveSpeed;
+
 	};
 }

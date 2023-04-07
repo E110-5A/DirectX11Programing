@@ -12,8 +12,8 @@ namespace js::graphics
 		virtual ~ConstantBuffer();
 
 		bool Create(size_t size);
-		void SetData(void* data);
-		void Bind(eShaderStage stage);
+		void Bind(void* data);
+		void SetPipline(eShaderStage stage);
 
 		//void SetType(eCBType type) { mType = type; }
 

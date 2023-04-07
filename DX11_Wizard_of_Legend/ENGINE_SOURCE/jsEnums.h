@@ -21,7 +21,6 @@ namespace js::enums
 		Player,
 		Projectile,
 
-		Particle,
 		UI,
 		End = 16,
 	};
@@ -37,7 +36,6 @@ namespace js::enums
 		MeshRenerer,
 		SpriteRenderer,
 		Animator,
-		ParticleRenderer,
 		Light,
 		UI,
 		Script,
@@ -81,15 +79,6 @@ namespace js::enums
 		Directional,
 		Point,
 		Spot,
-		End,
-	};
-
-
-	enum class eArcanaCategory
-	{
-		Melee,
-		Projectile,
-		Dash,
 		End,
 	};
 }

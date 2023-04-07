@@ -25,8 +25,6 @@
 #include "jsArcanaScript.h"
 
 #include "jsPaintShader.h"
-#include "jsParticleRenderer.h"
-
 namespace js
 {
 	PlayScene::PlayScene()
@@ -66,7 +64,7 @@ namespace js
 			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			projecSr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
 			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
-			projecObj->AddComponent<Rigidbody>();
+
 			playerScript->SetProjectile(arcana);
 		}
 
@@ -94,32 +92,24 @@ namespace js
 
 		}
 
-		//// paint Shader
-		//{
-		//	std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
-		//	paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
-		//	paintShader->OnExcute();
+		// paint Shader
+		{
+			std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
+			paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
+			paintShader->OnExcute();
 
-		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
-		//	obj->SetName(L"SmileTexture");
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
+			obj->SetName(L"SmileTexture");
 
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 
-		//	MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
-		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		//	sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
-		//}
-		//// Particle
-		//{
-		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
-		//	obj->SetName(L"Particle");
+			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
 
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetScale(Vector3(0.0f, 0.0f, 1.0f));
-
-		//	obj->AddComponent<ParticleRenderer>();
-		//}
+		}
+		
 
 		Scene::Initialize();
 	}

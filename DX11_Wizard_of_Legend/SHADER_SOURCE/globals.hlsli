@@ -1,5 +1,4 @@
 #include "Light.hlsli"
-#include "Particle.hlsli"
 
 cbuffer Transform : register(b0)
 {
@@ -39,22 +38,16 @@ cbuffer NumberOfLight : register(b5)
 {
     uint numberOfLight;
 }
-cbuffer ParticleRenderer : register(b6)
-{
-    float4 particleColor;
-    uint elementCount;
-    float deltaTime;
-}
+
 
 SamplerState pointSampler : register(s0);
 SamplerState linearSampler : register(s1);
 SamplerState anisotropicSampler : register(s2);
 
+StructuredBuffer<LightAttribute> lightAttributes : register(t13);
+
 Texture2D defaultTexture : register(t0);
 Texture2D atlasTexture : register(t12);
-
-StructuredBuffer<LightAttribute> lightAttributes : register(t13);
-StructuredBuffer<Particle> particleBuffer : register(t15);
 
 void Calculate(in out LightColor pLightColor, float3 position, int idx)
 {

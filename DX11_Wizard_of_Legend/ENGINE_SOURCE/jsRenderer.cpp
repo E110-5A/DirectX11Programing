@@ -22,18 +22,8 @@ namespace js::renderer
 	std::vector<DebugMesh> debugMeshes;
 	std::vector<LightAttribute> lights;
 
-	
-
 	void LoadMesh()
 	{
-#pragma region Create PointMesh
-		Vertex pointVertex = {};
-		std::shared_ptr<Mesh> pointMesh = std::make_shared<Mesh>();
-		Resources::Insert<Mesh>(L"PointMesh", pointMesh);
-		pointMesh->CreateVertexBuffer(&pointVertex, 1);
-		UINT pointIndex = 0;
-		pointMesh->CreateIndexBuffer(&pointIndex, 1);
-#pragma endregion
 #pragma region Create RectMesh
 
 		vertexes[0].pos = Vector4(-0.5f, 0.5f, 0.0f, 1.0f);
@@ -134,70 +124,6 @@ namespace js::renderer
 #pragma endregion
 	}
 
-	void LoadShader()
-	{
-#pragma region Default Triangle Shader
-		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
-		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
-		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
-		Resources::Insert<Shader>(L"RectShader", shader);
-#pragma endregion
-#pragma region Sprite
-		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
-		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
-		spriteShader->SetRSState(eRSType::SolidNone);
-		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
-#pragma endregion
-#pragma region UI
-		std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
-		uiShader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
-		uiShader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
-		Resources::Insert<Shader>(L"UIShader", uiShader);
-#pragma endregion
-#pragma region Grid Shader
-		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
-		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
-		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
-		gridShader->SetRSState(eRSType::SolidNone);
-		gridShader->SetDSState(eDSType::NoWrite);
-		gridShader->SetBSState(eBSType::AlphaBlend);
-		Resources::Insert<Shader>(L"GridShader", gridShader);
-#pragma endregion
-#pragma region Fade Shader
-		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
-		fadeShader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
-		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
-		Resources::Insert<Shader>(L"FadeShader", fadeShader);
-#pragma endregion
-#pragma region Debug Shader
-		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
-		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
-		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
-		debugShader->SetRSState(eRSType::SolidNone);
-		debugShader->SetDSState(eDSType::NoWrite);
-		debugShader->SetBSState(eBSType::AlphaBlend);
-		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		Resources::Insert<Shader>(L"DebugShader", debugShader);
-#pragma endregion
-#pragma region PaintShader
-		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
-		paintShader->Create(L"PaintCS.hlsl", "main");
-		Resources::Insert<PaintShader>(L"PaintShader", paintShader);
-#pragma endregion
-#pragma region Particle Shader
-		std::shared_ptr<Shader> particleShader = std::make_shared<Shader>();
-		particleShader->Create(eShaderStage::VS, L"ParticleVS.hlsl", "main");
-		particleShader->Create(eShaderStage::GS, L"ParticleGS.hlsl", "main");
-		particleShader->Create(eShaderStage::PS, L"ParticlePS.hlsl", "main");
-		particleShader->SetRSState(eRSType::SolidNone);
-		particleShader->SetDSState(eDSType::NoWrite);
-		particleShader->SetBSState(eBSType::AlphaBlend);
-		particleShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_POINTLIST);
-		Resources::Insert<Shader>(L"ParticleShader", particleShader);
-#pragma endregion
-	}
-
 	void SetUpState()
 	{
 #pragma region Input layout
@@ -260,12 +186,6 @@ namespace js::renderer
 			, debugShader->GetVSBlobBufferPointer()
 			, debugShader->GetVSBlobBufferSize()
 			, debugShader->GetInputLayoutAddressOf());
-
-		std::shared_ptr<Shader> particleShader = Resources::Find<Shader>(L"ParticleShader");
-		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
-			, particleShader->GetVSBlobBufferPointer()
-			, particleShader->GetVSBlobBufferSize()
-			, particleShader->GetInputLayoutAddressOf());
 
 #pragma endregion
 #pragma region sampler state
@@ -425,31 +345,87 @@ namespace js::renderer
 		constantBuffers[(UINT)eCBType::Light] = new ConstantBuffer(eCBType::Light);
 		constantBuffers[(UINT)eCBType::Light]->Create(sizeof(LightCB));
 
-		constantBuffers[(UINT)eCBType::ParticleRenderer] = new ConstantBuffer(eCBType::ParticleRenderer);
-		constantBuffers[(UINT)eCBType::ParticleRenderer]->Create(sizeof(ParticleRendererCB));
 #pragma endregion
 #pragma region Structured Buffers
+
 		lightsBuffer = new StructuredBuffer();
-		lightsBuffer->Create(eSRVType::SRV, sizeof(LightAttribute), 128, nullptr);
+		lightsBuffer->Create(eSRVType::None, sizeof(LightAttribute), 128, nullptr);
 #pragma endregion
+	}
+
+	void LoadShader()
+	{
+		// Default
+		std::shared_ptr<Shader> shader = std::make_shared<Shader>();
+		shader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+		shader->Create(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"RectShader", shader);
+
+		// Sprite
+		std::shared_ptr<Shader> spriteShader = std::make_shared<Shader>();
+		spriteShader->Create(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		spriteShader->Create(eShaderStage::PS, L"SpritePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"SpriteShader", spriteShader);
+
+		// UI
+		std::shared_ptr<Shader> uiShader = std::make_shared<Shader>();
+		uiShader->Create(eShaderStage::VS, L"UserInterfaceVS.hlsl", "main");
+		uiShader->Create(eShaderStage::PS, L"UserInterfacePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"UIShader", uiShader);
+
+		// Grid Shader
+		std::shared_ptr<Shader> gridShader = std::make_shared<Shader>();
+		gridShader->Create(eShaderStage::VS, L"GridVS.hlsl", "main");
+		gridShader->Create(eShaderStage::PS, L"GridPS.hlsl", "main");
+		gridShader->SetRSState(eRSType::SolidNone);
+		gridShader->SetDSState(eDSType::NoWrite);
+		gridShader->SetBSState(eBSType::AlphaBlend);
+
+		Resources::Insert<Shader>(L"GridShader", gridShader);
+
+		// Fade Shader
+		std::shared_ptr<Shader> fadeShader = std::make_shared<Shader>();
+		fadeShader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+		fadeShader->Create(eShaderStage::PS, L"FadePS.hlsl", "main");
+
+		Resources::Insert<Shader>(L"FadeShader", fadeShader);
+
+		// Debug Shader
+		std::shared_ptr<Shader> debugShader = std::make_shared<Shader>();
+		debugShader->Create(eShaderStage::VS, L"DebugVS.hlsl", "main");
+		debugShader->Create(eShaderStage::PS, L"DebugPS.hlsl", "main");
+		debugShader->SetRSState(eRSType::SolidNone);
+		debugShader->SetDSState(eDSType::NoWrite);
+		debugShader->SetBSState(eBSType::AlphaBlend);
+		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
+		Resources::Insert<Shader>(L"DebugShader", debugShader);
+
+
+		// PaintShader
+		std::shared_ptr<PaintShader> paintShader = std::make_shared<PaintShader>();
+		paintShader->Create(L"PaintCS.hlsl", "main");
+		Resources::Insert<PaintShader>(L"PaintShader", paintShader);
+
 	}
 
 	void LoadTexture()
 	{
-#pragma region sample
+		// test
 		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
 		Resources::Load<Texture>(L"LightSprite", L"Light.png");
 		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
-		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
-#pragma endregion
-#pragma region STATIC Texture
-		// Paint
+
+		// create
 		std::shared_ptr<Texture> uavTexture = std::make_shared<Texture>();
 		uavTexture->Create(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 		Resources::Insert<Texture>(L"PaintTexture", uavTexture);
-#pragma endregion
-#pragma region STATIC Texture
+
+
 		// LogoScene
 		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
 		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
@@ -463,121 +439,121 @@ namespace js::renderer
 		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
 
 		// Object
-		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\motion\\Idle\\WizardIdleDown.png");
+		Resources::Load<Texture>(L"PlayerIdleDown", L"Player\\Idle\\WizardIdleDown.png");
 
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
-		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
-
-
-#pragma endregion
 	}
 
 	void LoadMaterial()
 	{
-#pragma region sample
+		// Default
 		std::shared_ptr<Material> material = std::make_shared<Material>();
 		material->SetRenderingMode(eRenderingMode::Transparent);
-		material->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PaintTexture"));
+		material->SetTexture(Resources::Find<Texture>(L"PaintTexture"));
 		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"RectMaterial", material);
 
+		// Sprite
 		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
 		spriteMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		spriteMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		spriteMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"DefaultSprite"));
+		spriteMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 
+		// png testing Light Sprite
 		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
 		lightMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		lightMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		lightMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"LightSprite"));
+		lightMaterial->SetTexture(Resources::Find<Texture>(L"LightSprite"));
 		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
-#pragma endregion
-#pragma region UI
+
+
+
+		// UI
 		std::shared_ptr<Material> healthHUDMaterial = std::make_shared<Material>();
 		healthHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		healthHUDMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HealthHUD"));
+		healthHUDMaterial->SetTexture(Resources::Find<Texture>(L"HealthHUD"));
 		healthHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
 		Resources::Insert<Material>(L"HealthHUDMaterial", healthHUDMaterial);
 
 		std::shared_ptr<Material> skillHUDMaterial = std::make_shared<Material>();
 		skillHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		skillHUDMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"SkillHUD"));
+		skillHUDMaterial->SetTexture(Resources::Find<Texture>(L"SkillHUD"));
 		skillHUDMaterial->SetShader(Resources::Find<Shader>(L"UIShader"));
 		Resources::Insert<Material>(L"SkillHUDMaterial", skillHUDMaterial);
-#pragma endregion
-#pragma region Grid
+
+
+		// Grid
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		gridMaterial->SetShader(Resources::Find<Shader>(L"GridShader"));
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
-#pragma endregion
-#pragma region Fade
+
+		// Fade
 		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
 		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		fadeMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"DefaultSprite"));
+		fadeMaterial->SetTexture(Resources::Find<Texture>(L"DefaultSprite"));
 		fadeMaterial->SetShader(Resources::Find<Shader>(L"FadeShader"));
 		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
-#pragma endregion
-#pragma region Debug
+
+		// Debug
 		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		debugMaterial->SetShader(Resources::Find<Shader>(L"DebugShader"));
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
-#pragma endregion
-#pragma region Particle
-		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
-		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		particleMaterial->SetShader(Resources::Find<Shader>(L"ParticleShader"));
-		Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
-#pragma endregion
-#pragma region Logo
+
+
+
+		// Logo
 		std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
 		logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		logoMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"LogoTexture"));
+		logoMaterial->SetTexture(Resources::Find<Texture>(L"LogoTexture"));
 		logoMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"LogoMaterial", logoMaterial);
-#pragma endregion
-#pragma region Title Logo
+
+		// Title Logo
 		std::shared_ptr<Material> titleMaterial = std::make_shared<Material>();
 		titleMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		titleMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleTexture"));
+		titleMaterial->SetTexture(Resources::Find<Texture>(L"TitleTexture"));
 		titleMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleMaterial", titleMaterial);
-#pragma endregion
-#pragma region Title Background
+
+
+
+		// Title Background
 		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();
 		titleBGMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		titleBGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleBackGround"));
+		titleBGMaterial->SetTexture(Resources::Find<Texture>(L"TitleBackGround"));
 		titleBGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleBGMaterial", titleBGMaterial);
-#pragma endregion
-#pragma region Player
+
+		// Player
 		std::shared_ptr<Material> playerMaterial = std::make_shared<Material>();
 		playerMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		playerMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PlayerIdleDown"));
+		playerMaterial->SetTexture(Resources::Find<Texture>(L"PlayerIdleDown"));
 		playerMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"PlayerMaterial", playerMaterial);
-#pragma endregion
-#pragma region Mouse Pointer
+
+		// Mouse Pointer
 		std::shared_ptr<Material> mouseMaterial = std::make_shared<Material>();
 		mouseMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		mouseMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"MousePointer"));
+		mouseMaterial->SetTexture(Resources::Find<Texture>(L"MousePointer"));
 		mouseMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"MouseMaterial", mouseMaterial);
-#pragma endregion
-#pragma region Projectile
+
+
+		// Projectile
 		std::shared_ptr<Material> projectileMaterial = std::make_shared<Material>();
 		projectileMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		projectileMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"WindSlash"));
+		projectileMaterial->SetTexture(Resources::Find<Texture>(L"WindSlash"));
 		projectileMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"WindSlash", projectileMaterial);
-#pragma endregion
+
 	}
 
 	void Initialize()
-	{
+	{		
 		LoadMesh();
 		LoadShader();
 		SetUpState();
@@ -585,6 +561,7 @@ namespace js::renderer
 		LoadTexture();
 		LoadMaterial();
 	}
+
 	void Release()
 	{
 		for (size_t i = 0; i < (UINT)eCBType::End; i++)
@@ -623,17 +600,17 @@ namespace js::renderer
 	void BindLights()
 	{
 		// 버퍼 바인드 및 파이프라인 연결
-		lightsBuffer->SetData(lights.data(), (UINT)lights.size());
-		lightsBuffer->BindSRV(eShaderStage::VS, 13);
-		lightsBuffer->BindSRV(eShaderStage::PS, 13);
+		lightsBuffer->Bind(lights.data(), (UINT)lights.size());
+		lightsBuffer->SetPipeline(eShaderStage::VS, 13);
+		lightsBuffer->SetPipeline(eShaderStage::PS, 13);
 
 		// light개수 넘기기
 		LightCB lightCB = {};
 		lightCB.numberOfLight = (UINT)lights.size();
 
 		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Light];
-		cb->SetData(&lightCB);
-		cb->Bind(eShaderStage::VS);
-		cb->Bind(eShaderStage::PS);
+		cb->Bind(&lightCB);
+		cb->SetPipline(eShaderStage::VS);
+		cb->SetPipline(eShaderStage::PS);
 	}
 }

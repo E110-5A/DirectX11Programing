@@ -18,7 +18,6 @@
 #define CBSLOT_FADE 3
 #define CBSLOT_ANIMATION 4
 #define CBSLOT_NUMBEROFLIGHT 5
-#define CBSLOT_PARTICLERENDERER 6
 
 using namespace js::math;
 namespace js::graphics
@@ -40,6 +39,7 @@ namespace js::graphics
 		CS,
 		Count,
 	};
+
 	enum class eSamplerType
 	{
 		Point,
@@ -56,6 +56,7 @@ namespace js::graphics
 		WireframeNone,
 		End,
 	};
+
 	enum class eDSType
 	{
 		Less,
@@ -64,6 +65,7 @@ namespace js::graphics
 		None,
 		End,
 	};
+
 	enum class eBSType
 	{
 		Default,
@@ -79,6 +81,7 @@ namespace js::graphics
 		Transparent,
 		End,
 	};
+
 
 	struct GpuBuffer
 	{
@@ -104,9 +107,9 @@ namespace js::graphics
 		Fade,
 		Animation,
 		Light,
-		ParticleRenderer,
 		End,
 	};
+
 	enum class eGpuParam
 	{
 		Int,
@@ -120,28 +123,6 @@ namespace js::graphics
 	enum class eSRVType
 	{
 		None,
-		SRV,
-		UAV,
-		End,
-	};
-
-	enum class eTextureSlot
-	{
-		T0,
-		T1,
-		T2,
-		T3,
-		T4,
-		T5,
-		T6,
-		T7,
-
-		CubeT8,
-		CubeT9,
-
-		Array2DT10,
-		Array2DT11,
-
 		End,
 	};
 
@@ -156,6 +137,7 @@ namespace js::graphics
 		float duration;
 		float time;
 	};
+
 	struct LightAttribute
 	{
 		Vector4 diffuse;
@@ -170,15 +152,5 @@ namespace js::graphics
 		float radius;
 		float angle;
 		int padding;
-	};
-	struct Particle
-	{
-		Vector4 position;
-		Vector4 direction;
-
-		float lifeTime;
-		float time;
-		float speed;
-		UINT active;
 	};
 }

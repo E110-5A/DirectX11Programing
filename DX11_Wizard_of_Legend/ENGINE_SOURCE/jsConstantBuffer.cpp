@@ -30,12 +30,12 @@ namespace js::graphics
 		return true;
 	}
 
-	void ConstantBuffer::SetData(void* data)
+	void ConstantBuffer::Bind(void* data)
 	{
 		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
 	}
 
-	void ConstantBuffer::Bind(eShaderStage stage)
+	void ConstantBuffer::SetPipline(eShaderStage stage)
 	{
 		GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
 	}

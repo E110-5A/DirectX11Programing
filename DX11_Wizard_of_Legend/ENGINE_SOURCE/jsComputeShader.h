@@ -8,7 +8,6 @@ namespace js::graphics
 	{
 	public:
 		ComputeShader();
-		ComputeShader(UINT threadGroupX, UINT threadGroupY, UINT theradGroupZ);
 		virtual ~ComputeShader();
 
 		virtual HRESULT Load(const std::wstring& path) override;

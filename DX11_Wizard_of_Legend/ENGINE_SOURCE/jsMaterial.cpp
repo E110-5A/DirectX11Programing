@@ -52,34 +52,19 @@ namespace js::graphics
 
     void Material::Bind()
     {
-        for (size_t slot = 0; slot < (UINT)eTextureSlot::End; slot++)
-        {
-            if (nullptr == mTexture[slot])
-                continue;
-            mTexture[slot]->BindShaderResource(eShaderStage::VS, (UINT)slot);
-            mTexture[slot]->BindShaderResource(eShaderStage::HS, (UINT)slot);
-            mTexture[slot]->BindShaderResource(eShaderStage::DS, (UINT)slot);
-            mTexture[slot]->BindShaderResource(eShaderStage::GS, (UINT)slot);
-            mTexture[slot]->BindShaderResource(eShaderStage::PS, (UINT)slot);
-            mTexture[slot]->BindShaderResource(eShaderStage::CS, (UINT)slot);
-        }
+        if (mTexture)
+            mTexture->BindShader(eShaderStage::PS, 0);
 
         ConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
-        pCB->SetData(&mCB);
-        pCB->Bind(eShaderStage::VS);
-        pCB->Bind(eShaderStage::GS);
-        pCB->Bind(eShaderStage::PS);
+        pCB->Bind(&mCB);
+        pCB->SetPipline(eShaderStage::VS);
+        pCB->SetPipline(eShaderStage::PS);
 
         mShader->Binds();
     }
 
     void Material::Clear()
     {
-        for (size_t slot = 0; slot < (UINT)eTextureSlot::End; slot++)
-        {
-            if (nullptr == mTexture[slot])
-                continue;
-            mTexture[slot]->Clear();
-        }
+        mTexture->Clear();
     }
 }
