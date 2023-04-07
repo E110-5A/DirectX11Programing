@@ -65,7 +65,7 @@ namespace js
 			MouseScript* mouseScript = mouseObj->AddComponent<MouseScript>();
 		}
 
-
+		int test = 0;
 		// UI Cam
 		{
 			GameObject* uiCamObj = object::Instantiate<GameObject>(eLayerType::Camera, this);
