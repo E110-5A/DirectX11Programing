@@ -15,9 +15,9 @@ namespace js::graphics
 	}
 	void ParticleShader::Binds()
 	{
-		mBuffer->BindSRV(eShaderStage::CS, 0);
+		mBuffer->BindUAV(eShaderStage::CS, 0);
 
-		mGroupX = mBuffer->GetStride() / mThreadGroupCountX;
+		mGroupX = mBuffer->GetStride() / mThreadGroupCountX + 1;
 		mGroupY = 1;
 		mGroupZ = 1;
 	}

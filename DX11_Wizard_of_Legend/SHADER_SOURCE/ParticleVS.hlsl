@@ -12,7 +12,7 @@ struct VSOut
     uint iInstance : SV_InstanceID;
 };
 
-VSOut main (VSIn In)
+VSOut main(VSIn In)
 {
     VSOut Out = (VSOut) 0.0f;
     

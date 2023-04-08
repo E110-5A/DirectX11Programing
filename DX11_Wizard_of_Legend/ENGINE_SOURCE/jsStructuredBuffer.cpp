@@ -9,8 +9,8 @@ namespace js::graphics
 		, mType(eSRVType::SRV)
 		, mSize(0)
 		, mStride(0)
-		, mSRVSlot(-1)
-		, mUAVSlot(-1)
+		, mSRVSlot(0)
+		, mUAVSlot(0)
 	{
 	}
 	StructuredBuffer::~StructuredBuffer()
@@ -33,7 +33,7 @@ namespace js::graphics
 
 		if (eSRVType::UAV == mType)
 		{
-			desc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
+			desc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
 			desc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS;
 			desc.CPUAccessFlags = 0;
 		}

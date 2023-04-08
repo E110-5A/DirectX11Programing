@@ -12,7 +12,7 @@ namespace js
 		: BaseRenderer(eComponentType::ParticleSystem)
 		, mBuffer(nullptr)
 		, mCS(nullptr)
-		, mCount(0)
+		, mCount(100)
 		, mStartSize(Vector4::Zero)
 		, mStartColor(Vector4::Zero)
 		, mLifeTime(0.0f)
@@ -25,37 +25,38 @@ namespace js
 	}
 	void ParticleSystem::Initialize()
 	{
+		// Particle CS가져오기
+		mCS = Resources::Find<ParticleShader>(L"ParticleCS");
+
 		// material, mesh 세팅
 		std::shared_ptr<Material> material = SetMaterial(Resources::Find<Material>(L"ParticleMaterial"));
 		SetMesh(Resources::Find<Mesh>(L"PointMesh"));
 		material->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"CartoonSmoke"));
+		
 		// 파티클 전달 데이터 생성
-
-		Particle particles[256] = {};
+		Particle particles[100] = {};
 		Vector4 startPos = Vector4(-800.0f, -450.0f, 0.0f, 0.0f);
-
-		// 대략 144개 파티클의 위치를 지정해줌
-		for (size_t y = 0; y < 9; y++)
+		
+		// 파티클 개수만큼 세팅
+		for (size_t index = 0; index < mCount; index++)
 		{
-			for (size_t x = 0; x < 16; x++)
-			{
-				particles[16 * y + x].position = startPos
-					+ Vector4(x * 100.0f, y * 100.0f, 0.0f, 0.0f);
-
-				particles[16 * y + x].active = 1;
-			}
+			particles[index].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
+			particles[index].active = 1;
+			particles[index].direction = Vector4( cosf( (float)index * ( XM_2PI / (float)mCount ) ), sin( (float)index * ( XM_2PI / (float)mCount ) ), 0.0f, 1.0f );
+			particles[index].speed = 100.0f;
 		}
 
 		// 파티클 정보를 구조화버퍼에 담기
-		mCount = 144;
 		mBuffer = new StructuredBuffer();
-		mBuffer->Create(eSRVType::SRV, sizeof(Particle), mCount, particles);
+		mBuffer->Create(eSRVType::UAV, sizeof(Particle), mCount, particles);
 	}
 	void ParticleSystem::Update()
 	{
 	}
 	void ParticleSystem::FixedUpdate()
 	{
+		mCS->SetStructedBuffer(mBuffer);
+		mCS->OnExcute();
 	}
 	void ParticleSystem::Render()
 	{
@@ -66,5 +67,7 @@ namespace js
 
 		GetMaterial()->Bind();
 		GetMesh()->RenderInstanced(mCount);
+
+		mBuffer->Clear();
 	}
 }

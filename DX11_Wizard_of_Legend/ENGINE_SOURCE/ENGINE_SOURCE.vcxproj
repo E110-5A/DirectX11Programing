@@ -195,8 +195,8 @@
     <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPaintShader.h" />
-    <ClInclude Include="jsParticleRenderer.h" />
     <ClInclude Include="jsParticleShader.h" />
+    <ClInclude Include="jsParticleSystem.h" />
     <ClInclude Include="jsPlayer.h" />
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
@@ -248,8 +248,8 @@
     <ClCompile Include="jsMonster.cpp" />
     <ClCompile Include="jsMouseScript.cpp" />
     <ClCompile Include="jsPaintShader.cpp" />
-    <ClCompile Include="jsParticleRenderer.cpp" />
     <ClCompile Include="jsParticleShader.cpp" />
+    <ClCompile Include="jsParticleSystem.cpp" />
     <ClCompile Include="jsPlayer.cpp" />
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />

@@ -14,7 +14,7 @@
 #include "jsMouseScript.h"
 
 #include "jsMeshRenderer.h"
-
+#include "jsParticleSystem.h"
 namespace js
 {
 	LogoScene::LogoScene()
@@ -36,7 +36,7 @@ namespace js
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->SetName(L"MainCamera");
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			cameraComp->SetProjectionType(Camera::Perspective);
+			cameraComp->SetProjectionType(Camera::Orthographic);
 			cameraObj->AddComponent<CameraScript>();
 			object::DontDestroyOnLoad(cameraObj);
 			mainCamera = cameraComp;
@@ -110,36 +110,47 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"LogoMaterial"));
 		}
+		//Particle
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Particle);
+			obj->SetName(L"PARTICLE");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
+			obj->AddComponent<ParticleSystem>();
+		}
 
 		Scene::Initialize();
 	}
 	void LogoScene::Update()
 	{
-		// 시작하면 fadeIn 실행
-		if (mBegin)
-		{
-			fade->FadeIn();
-			mBegin = false;
-		}
+		//// 시작하면 fadeIn 실행
+		//if (mBegin)
+		//{
+		//	fade->FadeIn();
+		//	mBegin = false;
+		//}
 
-		// 2초가 지나면 fadeOut 실행
-		if (2.0f >= mAddTime)
-			mAddTime += Time::DeltaTime();
-		else if (false == fade->IsReady())
-		{
-			fade->FadeOut();
-			fade->SetReady(true);
-		}
+		//// 2초가 지나면 fadeOut 실행
+		//if (2.0f >= mAddTime)
+		//	mAddTime += Time::DeltaTime();
+		//else if (false == fade->IsReady())
+		//{
+		//	fade->FadeOut();
+		//	fade->SetReady(true);
+		//}
 
-		// FadeOut이 종료될경우
-		if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
+		//// FadeOut이 종료될경우
+		//if (fade->IsReady() && FadeScript::Complete == fade->GetFadeState())
+		//{
+		//	fade->SetReady(false);
+		//	fade->SetFadeState(FadeScript::Ready);
+		//	SceneManager::LoadScene(eSceneType::Title);
+		//}
+
+		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			fade->SetReady(false);
-			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Title);
 		}
-
-		
 
 		Scene::Update();
 	}

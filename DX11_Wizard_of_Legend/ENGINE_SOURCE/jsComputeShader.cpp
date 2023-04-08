@@ -58,16 +58,24 @@ namespace js::graphics
 			, mCSBlob.GetAddressOf()
 			, mErrorBlob.GetAddressOf());
 
-		//if (mErrorBlob)
-		//{
-		//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-		//	mErrorBlob->Release();
-		//}
+		if (mErrorBlob)
+		{
+			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			mErrorBlob->Release();
+			mErrorBlob = nullptr;
+		}
 
 		GetDevice()->CreateComputeShader(mCSBlob->GetBufferPointer()
 			, mCSBlob->GetBufferSize()
 			, nullptr
 			, mCS.GetAddressOf());
+		
+		if (mErrorBlob)
+		{
+			OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+			mErrorBlob->Release();
+			mErrorBlob = nullptr;
+		}
 
 		return true;
 	}
