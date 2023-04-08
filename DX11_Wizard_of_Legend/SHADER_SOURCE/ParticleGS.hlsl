@@ -6,24 +6,28 @@ struct VSOut
     uint iInstance : SV_InstanceID;
 };
 
-struct GSOut
+struct GSOutput
 {
-    float4 Pos : SV_Position;
+	float4 Pos : SV_POSITION;
     float2 UV : TEXCOORD;
 };
 
 [maxvertexcount(6)]
-void main(point VSOut Input[1], inout TriangleStream<GSOut> Out)
+void main(point VSOut Input[1], inout TriangleStream<GSOutput> Out)
 {
-    GSOut rect[4] = { (GSOut) 0.0f, (GSOut) 0.0f, (GSOut) 0.0f, (GSOut) 0.0f };
+    // 반환할 자료형 생성
+    GSOutput rect[4] = { (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f, (GSOutput) 0.0f };
     
+    // active가 아니면 종료
     if (0 == particleBuffer[Input[0].iInstance].active)
         return;
     
+    // 좌표 계산
     float3 vWorldPos = Input[0].Pos.xyz + particleBuffer[Input[0].iInstance].position.xyz;
     float3 vViewPos = mul(float4(vWorldPos, 1.0f), view);
     
-    float3 newPos[4] =
+    // 사각형 형태정보 만들기
+    float3 rectPos[4] =
     {
         vViewPos + float3(-0.5f, 0.5f, 0.0f) * float3(50.0f, 50.0f, 1.0f),
         vViewPos + float3(0.5f, 0.5f, 0.0f) * float3(50.0f, 50.0f, 1.0f),
@@ -31,16 +35,19 @@ void main(point VSOut Input[1], inout TriangleStream<GSOut> Out)
         vViewPos + float3(-0.5f, -0.5f, 0.0f) * float3(50.0f, 50.0f, 1.0f)
     };
 
-    for (int count = 0; count < 4; ++count)
+    // 사각형 위치값 채워넣기
+    for (int index = 0; index < 4; ++index)
     {
-        rect[count].Pos = mul(float4(newPos[count], 1.0f), projection);
+        rect[index].Pos = mul(float4(rectPos[index], 1.0f), projection);
     }
     
+    // UV값 넣기
     rect[0].UV = float2(0.0f, 0.0f);
     rect[1].UV = float2(1.0f, 0.0f);
     rect[2].UV = float2(1.0f, 1.0f);
     rect[3].UV = float2(0.0f, 1.0f);
 
+    // 정점 추가하기 (GS 기능)
     Out.Append(rect[0]);
     Out.Append(rect[1]);
     Out.Append(rect[2]);

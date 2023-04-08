@@ -54,9 +54,9 @@ namespace js
 		data.cameraScale = Vector2(scale, scale);
 		data.resolution = resolution;
 
-		cb->Bind(&data);
-		cb->SetPipline(eShaderStage::VS);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&data);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::PS);
  	}
 
 	void GridScript::FixedUpdate()

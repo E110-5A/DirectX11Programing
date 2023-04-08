@@ -39,7 +39,7 @@ namespace js
 				mScripts.push_back(dynamic_cast<Script*>(comp));
 				comp->SetOwner(this);
 			}
-
+			comp->Initialize();
 			return comp;
 		}
 		void AddComponent(Component* comp);

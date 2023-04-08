@@ -10,10 +10,25 @@ namespace js::graphics
 		, mThreadGroupCountX(0)
 		, mThreadGroupCountY(0)
 		, mThreadGroupCountZ(0)
+		, mGroupX(0)
+		, mGroupY(0)
+		, mGroupZ(0)
 	{
 		mThreadGroupCountX = 32;
 		mThreadGroupCountY = 32;
 		mThreadGroupCountZ = 1;
+	}
+	ComputeShader::ComputeShader(UINT threadGroupX, UINT threadGroupY, UINT threadGroupZ)
+		: Resource(eResourceType::ComputeShader)
+		, mCSBlob(nullptr)
+		, mCS(nullptr)
+		, mThreadGroupCountX(threadGroupX)
+		, mThreadGroupCountY(threadGroupY)
+		, mThreadGroupCountZ(threadGroupZ)
+		, mGroupX(0)
+		, mGroupY(0)
+		, mGroupZ(0)
+	{
 	}
 	ComputeShader::~ComputeShader()
 	{

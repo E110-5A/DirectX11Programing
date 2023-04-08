@@ -16,7 +16,10 @@ namespace js::object
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
 		if (nullptr != gameObj)
+		{
 			gameObj->SetLayerType(type);
+			gameObj->Initialize();
+		}
 
 		return obj;
 	}
@@ -29,8 +32,10 @@ namespace js::object
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
 		if (nullptr != gameObj)
+		{
 			gameObj->SetLayerType(type);
-
+			gameObj->Initialize();
+		}
 		return obj;
 	}
 
@@ -43,8 +48,10 @@ namespace js::object
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
 		if (nullptr != gameObj)
+		{
 			gameObj->SetLayerType(type);
-
+			gameObj->Initialize();
+		}
 		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetParent(parent);
 
@@ -60,8 +67,10 @@ namespace js::object
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
 		if (nullptr != gameObj)
+		{
 			gameObj->SetLayerType(type);
-
+			gameObj->Initialize();
+		}
 		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetPosition(position);
 		tr->SetRotation(rotation);
@@ -78,8 +87,10 @@ namespace js::object
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
 		if (nullptr != gameObj)
+		{
 			gameObj->SetLayerType(type);
-
+			gameObj->Initialize();
+		}
 		Transform* tr = obj->GameObject::GetComponent<Transform>();
 		tr->SetPosition(position);
 		tr->SetRotation(rotation);

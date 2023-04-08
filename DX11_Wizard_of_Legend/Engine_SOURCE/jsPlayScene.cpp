@@ -25,6 +25,8 @@
 #include "jsArcanaScript.h"
 
 #include "jsPaintShader.h"
+#include "jsParticleSystem.h"
+
 namespace js
 {
 	PlayScene::PlayScene()
@@ -52,7 +54,7 @@ namespace js
 
 			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
+			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 
 
@@ -62,9 +64,9 @@ namespace js
 			projecObj->AddComponent<Animator>();
 			SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
 			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			projecSr->SetMaterial(Resources::Find<Material>(L"PlayerMaterial"));
+			projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
-
+			projecObj->AddComponent<Rigidbody>();
 			playerScript->SetProjectile(arcana);
 		}
 
@@ -107,9 +109,15 @@ namespace js
 			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
-
 		}
-		
+		//Particle
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Particle);
+			obj->SetName(L"PARTICLE");
+			Transform* tr = obj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
+			obj->AddComponent<ParticleSystem>();
+		}
 
 		Scene::Initialize();
 	}

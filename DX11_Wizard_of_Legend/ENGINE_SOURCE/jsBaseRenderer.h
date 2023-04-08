@@ -16,8 +16,8 @@ namespace js
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; }
-		void SetMaterial(std::shared_ptr <Material> shader) { mMaterial = shader; }
+		std::shared_ptr<Mesh> SetMesh(std::shared_ptr<Mesh> mesh) { mMesh = mesh; return mesh; }
+		std::shared_ptr <Material> SetMaterial(std::shared_ptr <Material> material) { mMaterial = material; return material; }
 		std::shared_ptr<Mesh> GetMesh() { return mMesh; }
 		std::shared_ptr <Material> GetMaterial() { return mMaterial; }
 

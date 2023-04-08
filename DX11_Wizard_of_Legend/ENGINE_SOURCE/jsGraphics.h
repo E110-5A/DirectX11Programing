@@ -18,6 +18,8 @@
 #define CBSLOT_FADE 3
 #define CBSLOT_ANIMATION 4
 #define CBSLOT_NUMBEROFLIGHT 5
+#define CBSLOT_PARTICLESYSTEM 6
+
 
 using namespace js::math;
 namespace js::graphics
@@ -107,6 +109,7 @@ namespace js::graphics
 		Fade,
 		Animation,
 		Light,
+		ParticleSystem,
 		End,
 	};
 
@@ -122,7 +125,28 @@ namespace js::graphics
 
 	enum class eSRVType
 	{
-		None,
+		SRV,
+		UAV,
+		End,
+	};
+
+	enum class eTextureSlot
+	{
+		T0,
+		T1,
+		T2,
+		T3,
+		T4,
+		T5,
+		T6,
+		T7,
+
+		CubeT8,
+		CubeT9,
+
+		Array2DT10,
+		Array2DT11,
+
 		End,
 	};
 
@@ -152,5 +176,16 @@ namespace js::graphics
 		float radius;
 		float angle;
 		int padding;
+	};
+
+	struct Particle
+	{
+		Vector4 position;
+		Vector4 direction;
+
+		float lifeTime;
+		float time;
+		float speed;
+		UINT active;
 	};
 }

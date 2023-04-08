@@ -36,7 +36,7 @@ namespace js
 
 	void GameObject::Initialize()
 	{
-		for (Component* comp : mComponents)
+		/*for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)
 				continue;
@@ -50,7 +50,7 @@ namespace js
 				continue;
 
 			script->Initialize();
-		}
+		}*/
 	}
 
 	void GameObject::Update()

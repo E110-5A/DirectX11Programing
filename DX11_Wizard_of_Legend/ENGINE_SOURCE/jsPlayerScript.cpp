@@ -13,11 +13,17 @@
 #include "jsArcanaScript.h"
 
 
-// 방향
+// 벡터 방향
 #define V2DOWN 0,-1
 #define V2RIGHT 1,0
 #define V2LEFT -1,0
 #define V2UP 0,1
+
+// 라디안 방향
+#define TOP		0
+#define BOTTOM	-3.14
+#define RIGHT	-1.57
+#define LEFT	1.57
 
 namespace js
 {
@@ -27,6 +33,7 @@ namespace js
 		, mMoveSpeed(3.0f)
 		, mMoveDir(Vector2(V2DOWN))
 		, mProjectile(nullptr)
+		, mProjectileType(eArcanaCategory::Melee)
 	{
 	}
 
@@ -145,6 +152,12 @@ namespace js
 		animator->Create(L"PlayerHurtLeft", texture, Vector2(96.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 		animator->Create(L"PlayerHurtUp", texture, Vector2(144.0f, 1111.0f), defaultSize, Vector2::Zero, 1, 0.1f);
 
+		animator->Create(L"PlayerKickDown", texture, Vector2(0.0f, 1159.0f), defaultSize, Vector2::Zero, 11, 0.1f);
+		animator->Create(L"PlayerKickLeft", texture, Vector2(0.0f, 1255.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerKickRight", texture, Vector2(0.0f, 1207.0f), defaultSize, Vector2::Zero, 9, 0.1f);
+		animator->Create(L"PlayerKickUp", texture, Vector2(0.0f, 1303.0f), defaultSize, Vector2::Zero, 8, 0.1f);
+
+
 
 		animator->Play(L"PlayerIdleDown");
 	}
@@ -160,6 +173,15 @@ namespace js
 
 
 		// AA, Basic
+		animator->GetStartEvent(L"PlayerAABDown") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABRight") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABLeft") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAABUp") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFDown") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFRight") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFLeft") = std::bind(&PlayerScript::shoot, this);
+		animator->GetStartEvent(L"PlayerAAFUp") = std::bind(&PlayerScript::shoot, this);
+
 		animator->GetActionEvent(L"PlayerAABDown", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAABRight", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAABLeft", 4) = std::bind(&PlayerScript::idleState, this);
@@ -169,14 +191,14 @@ namespace js
 		animator->GetActionEvent(L"PlayerAAFLeft", 4) = std::bind(&PlayerScript::idleState, this);
 		animator->GetActionEvent(L"PlayerAAFUp", 4) = std::bind(&PlayerScript::idleState, this);
 
-		animator->GetActionEvent(L"PlayerAABDown", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABRight", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABLeft", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAABUp", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFDown", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFRight", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFLeft", 1) = std::bind(&PlayerScript::shoot, this);
-		animator->GetActionEvent(L"PlayerAAFUp", 1) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerAABDown", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABRight", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABLeft", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAABUp", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFDown", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFRight", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFLeft", 3) = std::bind(&PlayerScript::playerRush, this);
+		animator->GetActionEvent(L"PlayerAAFUp", 3) = std::bind(&PlayerScript::playerRush, this);
 
 		animator->GetCompleteEvent(L"PlayerAABDown") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerAABRight") = std::bind(&PlayerScript::RetIdle, this);
@@ -235,6 +257,16 @@ namespace js
 		animator->GetCompleteEvent(L"PlayerAOELeft") = std::bind(&PlayerScript::RetIdle, this);
 		animator->GetCompleteEvent(L"PlayerAOEUp") = std::bind(&PlayerScript::RetIdle, this);
 
+		// Kick
+		animator->GetActionEvent(L"PlayerKickDown", 4) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerKickLeft", 4) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerKickRight", 4) = std::bind(&PlayerScript::shoot, this);
+		animator->GetActionEvent(L"PlayerKickUp", 4) = std::bind(&PlayerScript::shoot, this);
+		animator->GetCompleteEvent(L"PlayerKickDown") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerKickLeft") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerKickRight") = std::bind(&PlayerScript::RetIdle, this);
+		animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::RetIdle, this);
+
 	}
 
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
@@ -285,7 +317,7 @@ namespace js
 	void PlayerScript::AddForce()
 	{
 		Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-		rigidbody->SetVelocity(mMoveDir * 55);
+		rigidbody->SetVelocity(mMoveDir * 40);
 	}
 	void PlayerScript::AutoAttack()
 	{
@@ -324,6 +356,7 @@ namespace js
 
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
+			mProjectileType = eArcanaCategory::Melee;
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAABDown");
@@ -344,21 +377,23 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
+
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandDown");
+				animator->Play(L"PlayerKickDown");
 			}
 			if (Vector2(V2RIGHT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandRight");
+				animator->Play(L"PlayerKickRight");
 			}
 			if (Vector2(V2LEFT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandLeft");
+				animator->Play(L"PlayerKickLeft");
 			}
 			if (Vector2(V2UP) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandUp");
+				animator->Play(L"PlayerKickUp");
 			}
 			mState = eState::Skill;
 		}
@@ -366,6 +401,8 @@ namespace js
 			dashAction();
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
+
 			if (1 == mMoveDir.y)
 				animator->Play(L"PlayerGroundSlamUp", false);
 			else
@@ -374,6 +411,9 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
+			mState = eState::Ultimate;
+
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAOEDown", false);
@@ -390,7 +430,6 @@ namespace js
 			{
 				animator->Play(L"PlayerAOEUp", false);
 			}
-			mState = eState::Ultimate;
 		}
 	}
 
@@ -432,6 +471,8 @@ namespace js
 
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
+			mProjectileType = eArcanaCategory::Melee;
+
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAABDown");
@@ -452,26 +493,29 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
+
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandDown", false);
+				animator->Play(L"PlayerKickDown", false);
 			}
 			if (Vector2(V2RIGHT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandRight", false);
+				animator->Play(L"PlayerKickRight", false);
 			}
 			if (Vector2(V2LEFT) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandLeft", false);
+				animator->Play(L"PlayerKickLeft", false);
 			}
 			if (Vector2(V2UP) == mMoveDir)
 			{
-				animator->Play(L"PlayerForehandUp", false);
+				animator->Play(L"PlayerKickUp", false);
 			}
 			mState = eState::Skill;
 		}
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
 			if (1 == mMoveDir.y)
 				animator->Play(L"PlayerGroundSlamUp", false);
 			else
@@ -480,6 +524,8 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
+			mProjectileType = eArcanaCategory::Projectile;
+			mState = eState::Ultimate;
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAOEDown", false);
@@ -496,7 +542,6 @@ namespace js
 			{
 				animator->Play(L"PlayerAOEUp", false);
 			}
-			mState = eState::Ultimate;
 		}
 
 		if (Input::GetKeyDown(eKeyCode::SPACE))
@@ -577,20 +622,24 @@ namespace js
 		}
 		mState = eState::Dash;
 	}
+
+
 	void PlayerScript::shoot()
 	{
 		if (!mProjectile)
 			return;
-
-
-		// 방향 설정
-		calculateProjectileDir();
-
-		// 투사체 활성화
+		Vector3 myDir = calculateMouseDir();
+		float angle = projectileRotate(myDir);
+		playerRotate(angle);
 		activeProjectile();
 
 	}
+
+
 	void PlayerScript::calculateProjectileDir()
+	{
+	}
+	Vector3 PlayerScript::calculateMouseDir()
 	{
 		// 마우스 방향 구하기
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
@@ -599,27 +648,46 @@ namespace js
 		mousePosition.z = 1.0f;
 		Vector3 myDir = mousePosition - myPosistion;
 		myDir.Normalize();
-
+		return myDir;
+	}
+	float PlayerScript::projectileRotate(Vector3 dir)
+	{
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		// 회전값 구하기
-		float angle = atan2(myDir.y, myDir.x) - atan2(myTr->Up().y, myTr->Up().x);
-
+		float angle = atan2(dir.y, dir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		// 투사체 Tr가져와서 rotate 변경
 		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
 		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 
+		return angle;
+	}
+	void PlayerScript::playerRotate(float angle)
+	{
+		//  방향 전환 :  TOP | RIGHT | BOTTOM | LEFT 
+		if ((TOP + 0.78) >= angle && (TOP - 0.78) <= angle)
+			mMoveDir = Vector2(0, 1);
+		else if ((RIGHT + 0.78) >= angle && (RIGHT - 0.78) <= angle)
+			mMoveDir = Vector2(1, 0);
+		else if ((BOTTOM + 0.78) >= angle && (BOTTOM - 0.78) <= angle)
+			mMoveDir = Vector2(0, -1);
+		else
+			mMoveDir = Vector2(-1, 0);
+	}
+	void PlayerScript::playerRush()
+	{
+		// 이동
+		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
+		myRigidbody->SetVelocity(mMoveDir * 21.0f);
 	}
 	void PlayerScript::activeProjectile()
 	{
 		// 투사체를 내 위치로 옮기기
 		Transform* tr = GetOwner()->GetComponent<Transform>();
-
 		Transform* projecTr = mProjectile->GetOwner()->GetComponent<Transform>();
-
-		Vector3 startPos = tr->GetPosition();
-		projecTr->SetPosition(startPos);
+		projecTr->SetPosition(tr->GetPosition());
 
 		// 투사체 설정 초기화
-		mProjectile->ActiveProjectile();
+		mProjectile->ActiveProjectile(mProjectileType);
 	}
 	void PlayerScript::idleState()
 	{

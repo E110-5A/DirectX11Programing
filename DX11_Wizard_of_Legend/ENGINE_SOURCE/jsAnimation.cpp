@@ -83,7 +83,7 @@ namespace js
 	void Animation::BindShader()
 	{
 		// 텍스쳐를 레지스터 12번 슬롯에 바인딩
-		mAtlas->BindShader(eShaderStage::PS, 12);
+		mAtlas->BindShaderResource(eShaderStage::PS, 12);
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
 
@@ -95,8 +95,8 @@ namespace js
 		info.spriteSize = mSpriteSheet[mIndex].spriteSize;
 		info.atlasSize = mSpriteSheet[mIndex].atlasSize;
 
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 
 	void Animation::Reset()
@@ -114,7 +114,7 @@ namespace js
 		renderer::AnimationCB info = {};
 		info.animationType = (UINT)eAnimationType::None;
 
-		cb->Bind(&info);
-		cb->SetPipline(eShaderStage::PS);
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 }

@@ -43,17 +43,22 @@ namespace js
 								,funcName.c_str() , "vs_5_0", 0, 0
 								, mVSBlob.GetAddressOf()
 								, mErrorBlob.GetAddressOf());
-
-			//if (mErrorBlob)
-			//{
-			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-			//	mErrorBlob->Release();
-			//}
-
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
 			GetDevice()->CreateVertexShader(mVSBlob->GetBufferPointer()
 														, mVSBlob->GetBufferSize()
 														, nullptr
 														, mVS.GetAddressOf());
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
 		}
 		else if (stage == graphics::eShaderStage::PS)
 		{
@@ -61,17 +66,45 @@ namespace js
 				, funcName.c_str(), "ps_5_0", 0, 0
 				, mPSBlob.GetAddressOf()
 				, mErrorBlob.GetAddressOf());
-
-			//if (mErrorBlob)
-			//{
-			//	OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
-			//	mErrorBlob->Release();
-			//}
-
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
 			GetDevice()->CreatePixelShader(mPSBlob->GetBufferPointer()
 				, mPSBlob->GetBufferSize()
 				, nullptr
 				, mPS.GetAddressOf());
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
+		}
+		else if (stage == graphics::eShaderStage::GS)
+		{
+			D3DCompileFromFile(shaderPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+				, funcName.c_str(), "gs_5_0", 0, 0
+				, mGSBlob.GetAddressOf()
+				, mErrorBlob.GetAddressOf());
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
+			GetDevice()->CreateGeometryShader(mGSBlob->GetBufferPointer()
+				, mGSBlob->GetBufferSize()
+				, nullptr
+				, mGS.GetAddressOf());
+			if (mErrorBlob)
+			{
+				OutputDebugStringA((char*)mErrorBlob->GetBufferPointer());
+				mErrorBlob->Release();
+				mErrorBlob = nullptr;
+			}
 		}
 	}
 
@@ -81,6 +114,9 @@ namespace js
 		GetDevice()->BindInputLayout(mInputLayout.Get());
 
 		GetDevice()->BindVertexShader(mVS.Get(), nullptr, 0);
+		GetDevice()->BindHullShader(mHS.Get(), nullptr, 0);
+		GetDevice()->BindDomainShader(mDS.Get(), nullptr, 0);
+		GetDevice()->BindGeometryShader(mGS.Get(), nullptr, 0);
 		GetDevice()->BindPixelShader(mPS.Get(), nullptr, 0);
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rs = renderer::rasterizerStates[(UINT)mRSType];

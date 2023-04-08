@@ -27,20 +27,21 @@ namespace js
 		virtual void End() override;
 		virtual void Action() override;
 
+		void CreateAnimation();
 
-		void ActiveProjectile();
+		void ActiveProjectile(eArcanaCategory category);
 
 	private:
-		void createAnimation();
 		void die();
-		
+		void shoot();
 	private:
 		void move();
 
 	private:
+		eArcanaCategory mCategory;
 		float mLifeTime;
 		float mAddTime;
-		float mMoveSpeed;
-
+		float mMeleeVelocity;
+		float mProjectileSpeed;
 	};
 }

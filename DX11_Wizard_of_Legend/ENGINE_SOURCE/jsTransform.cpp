@@ -73,16 +73,18 @@ namespace js
 
 	void Transform::BindConstantBuffer()
 	{
-		GameObject* debugObj = GetOwner();
-		int a = 0;
-
 		renderer::TransformCB trCb = {};
 		trCb.world = mWorld;
 		trCb.view = Camera::GetGpuViewMatrix();
 		trCb.projection = Camera::GetGpuProjectionMatrix();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Transform];
-		cb->Bind(&trCb);
-		cb->SetPipline(eShaderStage::VS);
+		cb->SetData(&trCb);
+		cb->Bind(eShaderStage::VS);
+		cb->Bind(eShaderStage::HS);
+		cb->Bind(eShaderStage::DS);
+		cb->Bind(eShaderStage::GS);
+		cb->Bind(eShaderStage::PS);
+		cb->Bind(eShaderStage::CS);
 	}
 }

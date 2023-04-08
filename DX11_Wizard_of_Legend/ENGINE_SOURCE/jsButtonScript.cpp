@@ -26,7 +26,7 @@ namespace js
 
 		// 이미지 크기
 		BaseRenderer* myRenderer = GetOwner()->GetComponent<BaseRenderer>();
-		std::shared_ptr<Texture> myTexture = myRenderer->GetMaterial()->GetTexture();
+		std::shared_ptr<Texture> myTexture = myRenderer->GetMaterial()->GetTexture(eTextureSlot::T0);
 
 		Vector3 textSize = Vector3((float)myTexture->GetWidth(), (float)myTexture->GetHeight(), 1.0f);
 

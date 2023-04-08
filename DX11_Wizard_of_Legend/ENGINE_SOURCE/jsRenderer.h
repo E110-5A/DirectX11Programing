@@ -65,6 +65,13 @@ namespace js::renderer
 		UINT numberOfLight;
 	};
 
+	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
+	{
+		Vector4 color;
+		UINT elementCount;
+		float deltaTime;
+	};
+
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
 	extern FadeScript* fade;
