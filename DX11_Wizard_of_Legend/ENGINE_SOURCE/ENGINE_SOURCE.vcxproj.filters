@@ -151,6 +151,12 @@
     <Filter Include="Resource\ComputeShader\ParticleShader">
       <UniqueIdentifier>{c9c54e19-d1b8-4fd8-ad2c-18e5b55142cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Component\Base">
+      <UniqueIdentifier>{932f9eb6-3cce-4242-959a-6bce4a96bf97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Base">
+      <UniqueIdentifier>{cab0e444-78f1-404f-bfe7-3ab6dd6dea45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -174,9 +180,6 @@
     <ClCompile Include="jsRenderer.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="jsGameObject.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="jsMesh.cpp">
       <Filter>Resource\Mesh</Filter>
     </ClCompile>
@@ -185,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="jsResources.cpp">
       <Filter>Resource\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="jsComponent.cpp">
-      <Filter>GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="jsMaterial.cpp">
       <Filter>Resource\Material</Filter>
@@ -306,6 +306,12 @@
     <ClCompile Include="jsParticleSystem.cpp">
       <Filter>GameObject\Component\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="jsComponent.cpp">
+      <Filter>GameObject\Component\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsGameObject.cpp">
+      <Filter>GameObject\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -338,9 +344,6 @@
     <ClInclude Include="jsRenderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="jsGameObject.h">
-      <Filter>GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="jsMesh.h">
       <Filter>Resource\Mesh</Filter>
     </ClInclude>
@@ -349,9 +352,6 @@
     </ClInclude>
     <ClInclude Include="jsResources.h">
       <Filter>Resource\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="jsComponent.h">
-      <Filter>GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="jsMaterial.h">
       <Filter>Resource\Material</Filter>
@@ -373,9 +373,6 @@
     </ClInclude>
     <ClInclude Include="jsSpriteRenderer.h">
       <Filter>GameObject\Component\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="jsObject.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
     <ClInclude Include="jsGridScript.h">
       <Filter>Resource\Script</Filter>
@@ -475,6 +472,15 @@
     </ClInclude>
     <ClInclude Include="jsParticleSystem.h">
       <Filter>GameObject\Component\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="jsComponent.h">
+      <Filter>GameObject\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsGameObject.h">
+      <Filter>GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsObject.h">
+      <Filter>GameObject\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

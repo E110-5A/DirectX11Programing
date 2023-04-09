@@ -48,8 +48,11 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)ConstantBuffer.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
     <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Resource.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
   </ItemGroup>
 </Project>
