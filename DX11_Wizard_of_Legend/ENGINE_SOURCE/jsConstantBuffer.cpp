@@ -32,11 +32,23 @@ namespace js::graphics
 
 	void ConstantBuffer::SetData(void* data)
 	{
-		GetDevice()->BindBuffer(buffer.Get(), data, desc.ByteWidth);
+		GetDevice()->SetData(buffer.Get(), data, desc.ByteWidth);
 	}
 
 	void ConstantBuffer::Bind(eShaderStage stage)
 	{
-		GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
+		if (eShaderStage::ALL == stage)
+		{
+			GetDevice()->BindConstantBuffer(eShaderStage::VS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::HS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::DS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::GS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::PS, mType, buffer.Get());
+			GetDevice()->BindConstantBuffer(eShaderStage::CS, mType, buffer.Get());
+		}
+		else
+		{
+			GetDevice()->BindConstantBuffer(stage, mType, buffer.Get());
+		}
 	}
 }

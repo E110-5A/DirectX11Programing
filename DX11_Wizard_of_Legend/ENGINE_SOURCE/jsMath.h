@@ -1,6 +1,6 @@
 #pragma once
 #include "jsEngine.h"
-
+#include <math.h>
 
 
 

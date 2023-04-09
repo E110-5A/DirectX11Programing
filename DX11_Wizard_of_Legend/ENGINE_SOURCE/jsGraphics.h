@@ -39,6 +39,7 @@ namespace js::graphics
 		GS,
 		PS,
 		CS,
+		ALL,
 		Count,
 	};
 
@@ -187,5 +188,10 @@ namespace js::graphics
 		float time;
 		float speed;
 		UINT active;
+	};
+
+	struct ParticleShared
+	{
+		UINT activeCount;
 	};
 }

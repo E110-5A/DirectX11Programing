@@ -13,9 +13,11 @@ namespace js::graphics
 		virtual void Binds() override;
 		virtual void Clear() override;
 
-		void SetStructedBuffer(StructuredBuffer* buffer);
+		void SetStructedBuffer(StructuredBuffer* buffer) { mBuffer = buffer; }
+		void SetSharedStructedBuffer(StructuredBuffer* buffer) { mSharedBuffer = buffer; }
 
 	private:
 		StructuredBuffer* mBuffer;
+		StructuredBuffer* mSharedBuffer;
 	};
 }

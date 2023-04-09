@@ -4,6 +4,11 @@
 
 namespace js
 {
+	enum class eSimulationSpace
+	{
+		Local,
+		World,
+	};
 	class ParticleSystem : public BaseRenderer
 	{
 	public:
@@ -17,12 +22,21 @@ namespace js
 
 	private:
 		class StructuredBuffer* mBuffer;
+		class StructuredBuffer* mSharedBuffer;
+
 		std::shared_ptr<ParticleShader> mCS;
 
-		UINT mCount;
+		UINT mMaxParticles;
+		eSimulationSpace mSimulationSpace;
+		
 		Vector4 mStartSize;
 		Vector4 mStartColor;
-		Vector4 mLifeTime;
+		float mStartSpeed;
+		float mRadius;
 
+		float mFrequency;
+		float mLifeTime;
+		float mDeltaTime;
+		float mElapsedTime;
 	};
 }

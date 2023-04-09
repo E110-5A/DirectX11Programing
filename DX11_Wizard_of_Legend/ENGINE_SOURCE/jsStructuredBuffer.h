@@ -9,8 +9,9 @@ namespace js::graphics
 		StructuredBuffer();
 		virtual ~StructuredBuffer();
 
-		bool Create(eSRVType type, UINT size, UINT stride, void* data);
+		bool Create(eSRVType type, UINT size, UINT stride, void* data, bool cpuAccess = false);
 		void SetData(void* data, UINT bufferCount);
+		void GetData(void* data, UINT size = 0);
 		void BindSRV(eShaderStage stage, UINT slot);
 		void BindUAV(eShaderStage stage, UINT slot);
 
@@ -20,6 +21,15 @@ namespace js::graphics
 		UINT GetStride() { return mStride; }
 
 	private:
+		void setDiscription();
+		bool createBuffer(void* data);
+		bool createView();
+		bool createRWBuffer();
+
+	private:
+		Microsoft::WRL::ComPtr<ID3D11Buffer> mWriteBuffer;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> mReadBuffer;
+
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> mSRV;
 		Microsoft::WRL::ComPtr<ID3D11UnorderedAccessView> mUAV;
 		eSRVType mType;

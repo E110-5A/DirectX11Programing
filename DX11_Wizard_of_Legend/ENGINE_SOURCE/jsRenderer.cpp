@@ -368,7 +368,7 @@ namespace js::renderer
 #pragma region Structured Buffers
 
 		lightsBuffer = new StructuredBuffer();
-		lightsBuffer->Create(eSRVType::SRV, sizeof(LightAttribute), 128, nullptr);
+		lightsBuffer->Create(eSRVType::SRV, sizeof(LightAttribute), 128, nullptr, true);
 #pragma endregion
 	}
 
