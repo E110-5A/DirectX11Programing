@@ -153,7 +153,7 @@ namespace js
 		// |     |
 		// 3 --- 2
 
-		// 로컬 방향
+		// 로컬 Rect의 위치값
 		static const Vector3 arrLocalPos[4] =
 		{
 			Vector3{-0.5f, 0.5f, 0.0f}
@@ -162,61 +162,78 @@ namespace js
 			,Vector3{-0.5f, -0.5f, 0.0f}
 		};
 
+		// 각각 Tr 가져오기
 		Transform* leftTr = left->GetOwner()->GetComponent<Transform>();
 		Transform* rightTr = right->GetOwner()->GetComponent<Transform>();
 
+		// 각각 World Matrix 가져오기
 		Matrix leftMat = leftTr->GetWorldMatrix();
 		Matrix rightMat = rightTr->GetWorldMatrix();
 
-		// 분리축 벡터 ( 투영 벡터 )
-		Vector3 Axis[4] = {};
-		Axis[0] = Vector3::Transform(arrLocalPos[1], leftMat);
-		Axis[1] = Vector3::Transform(arrLocalPos[3], leftMat);
-		Axis[2] = Vector3::Transform(arrLocalPos[1], rightMat);
-		Axis[3] = Vector3::Transform(arrLocalPos[3], rightMat);
-
-		Axis[0] -= Vector3::Transform(arrLocalPos[0], leftMat);
-		Axis[1] -= Vector3::Transform(arrLocalPos[0], leftMat);
-		Axis[2] -= Vector3::Transform(arrLocalPos[0], rightMat);
-		Axis[3] -= Vector3::Transform(arrLocalPos[0], rightMat);
-
+		// Scale값 먼저 가져오기 ( 메트릭스에 스케일 값 곱하기 )
 		Vector3 leftScale = Vector3(left->GetSize().x, left->GetSize().y, 1.0f);
-		Axis[0] = Axis[0] * leftScale;
-		Axis[1] = Axis[1] * leftScale;
+		Matrix finalLeft = Matrix::CreateScale(leftScale);
+		finalLeft *= leftMat;
 
 		Vector3 rightScale = Vector3(right->GetSize().x, right->GetSize().y, 1.0f);
-		Axis[2] = Axis[2] * rightScale;
-		Axis[3] = Axis[3] * rightScale;
+		Matrix finalRight = Matrix::CreateScale(rightScale);
+		finalRight *= rightMat;
 
+		// 분리축 벡터 만들기 ( 투영 벡터 )
 
+		// 로컬로 생성한 rect 정점에 메트릭스(스케일 적용된)의 회전값을 적용한 벡터를 Axis에 저장
+
+		// Left Right 메트릭스를, 대각선 정점에 곱하여 변환을 준값을 left 0 1, right 2, 3 에 저장한다
+
+		Vector3 Axis[4] = {};
+		Axis[0] = Vector3::Transform(arrLocalPos[1], finalLeft);
+		Axis[1] = Vector3::Transform(arrLocalPos[3], finalLeft);
+		Axis[2] = Vector3::Transform(arrLocalPos[1], finalRight);
+		Axis[3] = Vector3::Transform(arrLocalPos[3], finalRight);
+
+		// 수직 위치의 정점에 행렬변환한 값을 0,1 2,3 에 빼준다?
+
+		Axis[0] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+		Axis[1] -= Vector3::Transform(arrLocalPos[0], finalLeft);
+		Axis[2] -= Vector3::Transform(arrLocalPos[0], finalRight);
+		Axis[3] -= Vector3::Transform(arrLocalPos[0], finalRight);
+
+		// Axis.z 값을 0으로 초기화
 		for (size_t i = 0; i < 4; i++)
 			Axis[i].z = 0.0f;
 
+		// left <-> right 간의 방향을 구한다
 		Vector3 vc = leftTr->GetPosition() - rightTr->GetPosition();
 		vc.z = 0.0f;
 
 		Vector3 centerDir = vc;
-		for (size_t i = 0; i < 4; ++i)
+		for (size_t i = 0; i < 4; i++)
 		{
+			// 비교할 분리축 벡터 (4개)
 			Vector3 vA = Axis[i];
+			//vA.Normalize();
 
-			float projDist = 0.0f;
+			float projDist = 0.0f; // <- 이게 뭔지 모르겠음
 			for (size_t j = 0; j < 4; j++)
 			{
 				projDist += fabsf(Axis[j].Dot(vA) / 2.0f);
+				// 내적한 값을 2로 나눠서 계속 더함?
 			}
 
+			// 
 			if (projDist < fabsf(centerDir.Dot(vA)))
-			{
 				return false;
-			}
 		}
-		return true;
+		return true;		
 	}
 	bool CollisionManager::CircleCollision(Collider2D* left, Collider2D* right)
 	{
 		// Circle vs Cirlce
 		
+		// 스케일 가져오기
+		left->GetSize();
+		right->GetSize();
+
 		// 반지름 구하기
 		float totalRadius = (left->GetRadius() / 2) + (right->GetRadius() / 2);
 
