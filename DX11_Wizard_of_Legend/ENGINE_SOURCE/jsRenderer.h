@@ -70,6 +70,12 @@ namespace js::renderer
 		Vector4 color;
 		UINT elementCount;
 		float deltaTime;
+		float elapsedTime;
+	};
+
+	CBUFFER(NoiseCB, CBSLOT_NOISE)
+	{
+		Vector4 noiseSize;
 	};
 
 	extern Vertex vertexes[4];
@@ -95,5 +101,5 @@ namespace js::renderer
 	// Renderer
 	void PushLightAttribute(LightAttribute lightAttribute);
 	void BindLights();
+	void BindNoiseTexture();
 }
-

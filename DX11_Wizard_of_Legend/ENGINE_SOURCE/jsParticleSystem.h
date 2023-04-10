@@ -25,6 +25,7 @@ namespace js
 		class StructuredBuffer* mSharedBuffer;
 
 		std::shared_ptr<ParticleShader> mCS;
+		renderer::ParticleSystemCB mCBData;
 
 		UINT mMaxParticles;
 		eSimulationSpace mSimulationSpace;

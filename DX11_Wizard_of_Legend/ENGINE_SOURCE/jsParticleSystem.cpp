@@ -12,7 +12,9 @@ namespace js
 	ParticleSystem::ParticleSystem()
 		: BaseRenderer(eComponentType::ParticleSystem)
 		, mBuffer(nullptr)
+		, mSharedBuffer(nullptr)
 		, mCS(nullptr)
+		, mCBData{}
 		, mMaxParticles(100)
 		, mSimulationSpace(eSimulationSpace::World)
 		, mStartSize(Vector4(50.0f, 50.0f, 1.0f, 1.0f))
@@ -44,7 +46,7 @@ namespace js
 		
 		// 파티클 전달 데이터 생성
 		Particle particles[100] = {};
-		Vector4 startPos = Vector4(-800.0f, -450.0f, 0.0f, 0.0f);
+		Vector4 startPos = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 		
 		// 파티클 개수만큼 세팅
 		for (size_t index = 0; index < mMaxParticles; index++)
@@ -88,12 +90,11 @@ namespace js
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		renderer::ParticleSystemCB info = {};
-		info.elementCount = mBuffer->GetStride();
-		info.deltaTime = Time::DeltaTime();
+		mCBData.elementCount = mBuffer->GetStride();
+		mCBData.deltaTime = Time::DeltaTime();
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
-		cb->SetData(&info);
+		cb->SetData(&mCBData);
 		cb->Bind(eShaderStage::CS);
 
 		mCS->SetStructedBuffer(mBuffer);
@@ -103,9 +104,7 @@ namespace js
 	void ParticleSystem::Render()
 	{
 		GetOwner()->GetComponent<Transform>()->BindConstantBuffer();
-		mBuffer->BindSRV(eShaderStage::VS, 15);
 		mBuffer->BindSRV(eShaderStage::GS, 15);
-		mBuffer->BindSRV(eShaderStage::PS, 15);
 
 		GetMaterial()->Bind();
 		GetMesh()->RenderInstanced(mMaxParticles);

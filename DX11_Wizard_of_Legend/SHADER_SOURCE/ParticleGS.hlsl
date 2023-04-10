@@ -12,6 +12,8 @@ struct GSOutput
     float2 UV : TEXCOORD;
 };
 
+StructuredBuffer<Particle> particleBuffer : register(t15);
+
 [maxvertexcount(6)]
 void main(point VSOut Input[1], inout TriangleStream<GSOutput> Out)
 {

@@ -10,6 +10,12 @@
     <Filter Include="CS">
       <UniqueIdentifier>{384b4658-3105-4af5-aa58-fe52b3b9b0d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GS">
+      <UniqueIdentifier>{02be0897-61e7-46db-81b5-bd9a1a3d7356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{4cf0e7d5-a41e-4fbf-8bc1-9f3c1aa40d56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)TriangleVS.hlsl">
@@ -48,17 +54,38 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
       <Filter>CS</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl" />
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl" />
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
+      <Filter>CS</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl">
+      <Filter>GS</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl">
+      <Filter>PS</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl">
+      <Filter>VS</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)Light.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)Particle.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)Resource.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli" />
-    <None Include="$(MSBuildThisFileDirectory)ConstantBuffer.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)ConstantBuffer.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)globals.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Light.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Particle.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Resource.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli">
+      <Filter>Global</Filter>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Blur.hlsli" />
   </ItemGroup>
 </Project>
