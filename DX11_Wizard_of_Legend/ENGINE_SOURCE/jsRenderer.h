@@ -67,10 +67,19 @@ namespace js::renderer
 
 	CBUFFER(ParticleSystemCB, CBSLOT_PARTICLESYSTEM)
 	{
+		Vector4 worldPosition;
 		Vector4 color;
-		UINT elementCount;
+		Vector4 size;
+
+		UINT maxParticles;
+		UINT simulationSpace;
+		float radius;
+		float speed;
+
+		float lifeTime;
 		float deltaTime;
 		float elapsedTime;
+		int padding;
 	};
 
 	CBUFFER(NoiseCB, CBSLOT_NOISE)

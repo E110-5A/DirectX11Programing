@@ -53,7 +53,8 @@ namespace js
 		{
 			particles[index].position = Vector4(0.0f, 0.0f, 20.0f, 1.0f);
 			particles[index].active = 0;
-			particles[index].direction = Vector4( cosf( (float)index * ( XM_2PI / (float)mMaxParticles) ), sin( (float)index * ( XM_2PI / (float)mMaxParticles) ), 0.0f, 1.0f );
+			particles[index].direction = Vector4( cosf( (float)index * ( XM_2PI / (float)mMaxParticles) )
+												, sin( (float)index * ( XM_2PI / (float)mMaxParticles) ), 0.0f, 1.0f );
 			particles[index].speed = 100.0f;
 		}
 
@@ -90,12 +91,26 @@ namespace js
 			mSharedBuffer->SetData(&shared, 1);
 		}
 
-		mCBData.elementCount = mBuffer->GetStride();
+		mMaxParticles = mBuffer->GetStride();
+		Vector3 pos = GetOwner()->GetComponent<Transform>()->GetPosition();
+		
+		mCBData.worldPosition = Vector4(pos.x, pos.y, pos.z, 1.0f);
+		mCBData.color = mStartColor;
+		mCBData.size = mStartSize;
+		
+		mCBData.maxParticles = mMaxParticles;
+		mCBData.simulationSpace = (UINT)mSimulationSpace;
+		mCBData.radius = mRadius;
+		mCBData.speed = mStartSpeed;
+
+		mCBData.lifeTime = mLifeTime;
 		mCBData.deltaTime = Time::DeltaTime();
+		mCBData.elapsedTime = mElapsedTime;
+
 
 		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::ParticleSystem];
 		cb->SetData(&mCBData);
-		cb->Bind(eShaderStage::CS);
+		cb->Bind(eShaderStage::ALL);
 
 		mCS->SetStructedBuffer(mBuffer);
 		mCS->SetSharedStructedBuffer(mSharedBuffer);

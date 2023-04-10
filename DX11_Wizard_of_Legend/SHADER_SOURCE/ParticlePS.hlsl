@@ -15,10 +15,8 @@ float4 main(GSOutput In) : SV_TARGET
 {
     float4 outColor = (float4) 0.0f;
     
-    //outColor = float4(0.0f, 1.0f, 1.0f, 1.0f);
-    
     // T0 
     outColor = defaultTexture.Sample(anisotropicSampler, In.UV);
-    
+    outColor *= particleColor;
     return outColor;
 }

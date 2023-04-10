@@ -37,7 +37,7 @@ namespace js
 
 		float mFrequency;
 		float mLifeTime;
-		float mDeltaTime;
+		float mDeltaTime;		// ¾È¾¸
 		float mElapsedTime;
 	};
 }
