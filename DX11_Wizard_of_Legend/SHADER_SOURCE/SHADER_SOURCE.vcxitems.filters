@@ -86,6 +86,8 @@
     <None Include="$(MSBuildThisFileDirectory)Sampler.hlsli">
       <Filter>Global</Filter>
     </None>
-    <None Include="$(MSBuildThisFileDirectory)Blur.hlsli" />
+    <None Include="$(MSBuildThisFileDirectory)Blur.hlsli">
+      <Filter>Global</Filter>
+    </None>
   </ItemGroup>
 </Project>

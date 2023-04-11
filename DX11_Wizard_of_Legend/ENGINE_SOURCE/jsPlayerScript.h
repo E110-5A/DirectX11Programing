@@ -69,13 +69,15 @@ namespace js
 		void idleState();
 		void shoot();
 		void calculateProjectileDir();
-		Vector3 calculateMouseDir();
-		float projectileRotate(Vector3 dir);
+		void calculateMouseDir();
+		float calculateRotate();
+		void projectileRotate(float angle);
 		void playerRotate(float angle);
 		void playerRush();
 		void activeProjectile();
 	private:
 		Vector2 mMoveDir;
+		Vector2 mMouseDir;
 		eState mState;
 		float mMoveSpeed;
 		class ArcanaScript* mProjectile;

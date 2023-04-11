@@ -32,6 +32,7 @@ namespace js
 		, mState(eState::Idle)
 		, mMoveSpeed(3.0f)
 		, mMoveDir(Vector2(V2DOWN))
+		, mMouseDir(Vector2::Zero)
 		, mProjectile(nullptr)
 		, mProjectileType(eArcanaCategory::Melee)
 	{
@@ -89,6 +90,7 @@ namespace js
 		}
 		break;
 		}
+		calculateMouseDir();
 	}
 
 	void PlayerScript::Render()
@@ -357,6 +359,8 @@ namespace js
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
 			mProjectileType = eArcanaCategory::Melee;
+			float angle = calculateRotate();
+			playerRotate(angle);
 			if (Vector2(V2DOWN) == mMoveDir)
 			{
 				animator->Play(L"PlayerAABDown");
@@ -377,6 +381,8 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::RBTN))
 		{
+			float angle = calculateRotate();
+			playerRotate(angle);
 			mProjectileType = eArcanaCategory::Projectile;
 
 			if (Vector2(V2DOWN) == mMoveDir)
@@ -401,6 +407,8 @@ namespace js
 			dashAction();
 		if (Input::GetKeyDown(eKeyCode::F))
 		{
+			float angle = calculateRotate();
+			playerRotate(angle);
 			mProjectileType = eArcanaCategory::Projectile;
 
 			if (1 == mMoveDir.y)
@@ -411,6 +419,8 @@ namespace js
 		}
 		if (Input::GetKeyDown(eKeyCode::Q))
 		{
+			float angle = calculateRotate();
+			playerRotate(angle);
 			mProjectileType = eArcanaCategory::Projectile;
 			mState = eState::Ultimate;
 
@@ -628,38 +638,32 @@ namespace js
 	{
 		if (!mProjectile)
 			return;
-		Vector3 myDir = calculateMouseDir();
-		float angle = projectileRotate(myDir);
-		playerRotate(angle);
+		float angle = calculateRotate();
+		projectileRotate(angle);
 		activeProjectile();
-
 	}
 
 
-	void PlayerScript::calculateProjectileDir()
-	{
-	}
-	Vector3 PlayerScript::calculateMouseDir()
+	void PlayerScript::calculateMouseDir()
 	{
 		// 마우스 방향 구하기
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		Vector3 myPosistion = myTr->GetPosition();
 		Vector3 mousePosition = Input::GetMouseWorldPosition();
-		mousePosition.z = 1.0f;
 		Vector3 myDir = mousePosition - myPosistion;
-		myDir.Normalize();
-		return myDir;
+		mMouseDir = Vector2(myDir.x, myDir.y);
+		mMouseDir.Normalize();
 	}
-	float PlayerScript::projectileRotate(Vector3 dir)
+	float PlayerScript::calculateRotate()
 	{
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
-		// 회전값 구하기
-		float angle = atan2(dir.y, dir.x) - atan2(myTr->Up().y, myTr->Up().x);
-		// 투사체 Tr가져와서 rotate 변경
+		float angle = atan2(mMouseDir.y, mMouseDir.x) - atan2(myTr->Up().y, myTr->Up().x);
+		return angle;
+	}
+	void PlayerScript::projectileRotate(float angle)
+	{
 		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
 		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
-
-		return angle;
 	}
 	void PlayerScript::playerRotate(float angle)
 	{
@@ -677,7 +681,7 @@ namespace js
 	{
 		// 이동
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		myRigidbody->SetVelocity(mMoveDir * 21.0f);
+		myRigidbody->SetVelocity(mMouseDir * 21.0f);
 	}
 	void PlayerScript::activeProjectile()
 	{
