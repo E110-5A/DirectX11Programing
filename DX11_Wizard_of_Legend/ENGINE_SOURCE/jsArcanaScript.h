@@ -30,10 +30,12 @@ namespace js
 		void CreateAnimation();
 
 		void ActiveProjectile(eArcanaCategory category);
-
+		bool IsReady() { return mIsReady; }
 	private:
 		void die();
 		void shoot();
+		void activated();
+		void ready();
 	private:
 		void move();
 
@@ -43,5 +45,9 @@ namespace js
 		float mAddTime;
 		float mMeleeVelocity;
 		float mProjectileSpeed;
+
+		// arcana info | A스킬 B스킬 C스킬 구분.. 할필요가 있나?
+		// spell stat | 속도, 거리 공격력, 타입 등
+		bool mIsReady;
 	};
 }

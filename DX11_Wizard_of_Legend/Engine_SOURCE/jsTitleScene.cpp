@@ -55,8 +55,11 @@ namespace js
 	}
 	void TitleScene::Update()
 	{
-		
 		if (Input::GetKeyDown(eKeyCode::N))
+		{
+			SceneManager::LoadScene(eSceneType::Play);
+		}
+		/*if (Input::GetKeyDown(eKeyCode::N))
 		{
 			fade->FadeOut();
 			fade->SetReady(true);
@@ -67,7 +70,7 @@ namespace js
 			fade->SetReady(false);
 			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Play);
-		}
+		}*/
 
 		Scene::Update();
 	}
@@ -81,7 +84,7 @@ namespace js
 	}
 	void TitleScene::OnEnter()
 	{
-		fade->FadeIn();
+		//fade->FadeIn();
 	}
 	void TitleScene::OnExit()
 	{

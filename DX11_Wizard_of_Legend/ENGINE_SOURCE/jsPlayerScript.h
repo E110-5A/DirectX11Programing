@@ -1,7 +1,7 @@
 #pragma once
 #include "jsScript.h"
 #include "jsCollider2D.h"
-
+#include "jsArcanaScript.h"
 namespace js
 {
 	class PlayerScript : public Script
@@ -29,6 +29,27 @@ namespace js
 			End,
 		};
 
+		enum class eStagger
+		{
+			Light,
+			Normal,
+			Heave,
+		};
+
+		struct ArcanaInfo
+		{
+			// 피해량 = 채력
+			float power;
+			// 카테고리
+			eArcanaCategory category;
+			// 재사용 대기시간
+			float cooldown;
+			// 재사용 대기시간2
+			float colldownDT;
+			// 스테거
+			eStagger stagger;
+		};
+
 		PlayerScript();
 		~PlayerScript();
 
@@ -36,7 +57,8 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-		void SetProjectile(class ArcanaScript* target) { mProjectile = target; }
+		void SetProjectile(ArcanaScript* target) { mProjectile = target; }
+		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -68,19 +90,26 @@ namespace js
 		void dashAction();
 		void idleState();
 		void shoot();
-		void calculateProjectileDir();
 		void calculateMouseDir();
 		float calculateRotate();
+		
 		void projectileRotate(float angle);
+		void activeProjectile();
+
 		void playerRotate(float angle);
 		void playerRush();
-		void activeProjectile();
+
+		void projectileRotates(ArcanaScript* target, float angle);
+		void activeProjectiles(ArcanaScript* target);
 	private:
 		Vector2 mMoveDir;
 		Vector2 mMouseDir;
 		eState mState;
 		float mMoveSpeed;
-		class ArcanaScript* mProjectile;
+		ArcanaScript* mProjectile;
+		std::vector<ArcanaScript*> mProjectiles;
+
 		eArcanaCategory mProjectileType;
+		ArcanaInfo mArcanaInfo;
 	};
 }

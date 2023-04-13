@@ -14,6 +14,7 @@ namespace js
 		, mAddTime(0.0f)
 		, mMeleeVelocity(30.0f)
 		, mProjectileSpeed(16.0f)
+		, mIsReady(true)
 	{
 	}
 	ArcanaScript::~ArcanaScript()
@@ -71,6 +72,7 @@ namespace js
 #pragma region Events
 	void ArcanaScript::Start()
 	{
+
 	}
 	void ArcanaScript::Complete()
 	{
@@ -115,10 +117,11 @@ namespace js
 		animator->Create(L"WindSlash", windSlash, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
 		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
 		animator->GetActionEvent(L"WindSlash", 2) = std::bind(&ArcanaScript::shoot, this);
+		animator->GetStartEvent(L"WindSlash") = std::bind(&ArcanaScript::activated, this);
 
 		animator->Create(L"FireArrow", fireArrow, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
 		animator->GetActionEvent(L"FireArrow", 1) = std::bind(&ArcanaScript::shoot, this);
-
+		animator->GetStartEvent(L"FireArrow") = std::bind(&ArcanaScript::activated, this);
 	}
 
 	void ArcanaScript::ActiveProjectile(eArcanaCategory category)
@@ -141,9 +144,18 @@ namespace js
 	void ArcanaScript::die()
 	{
 		mAddTime = mLifeTime;
+		mIsReady = true;
 	}
 	void ArcanaScript::shoot()
 	{
 		move();
+	}
+	void ArcanaScript::activated()
+	{
+		mIsReady = false;
+	}
+	void ArcanaScript::ready()
+	{
+		mIsReady = true;
 	}
 }

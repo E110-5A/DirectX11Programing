@@ -50,8 +50,7 @@ namespace js
 
 	void PlayerScript::Update()
 	{
-		if (mState == eState::AA)
-			int a = 0;
+		
 		switch (mState)
 		{
 		case eState::Idle:
@@ -91,6 +90,15 @@ namespace js
 		break;
 		}
 		calculateMouseDir();
+
+		if (Input::GetKey(eKeyCode::K))
+		{
+			GetOwner()->Kill();
+		}
+		if (Input::GetKey(eKeyCode::L))
+		{
+			GetOwner()->Alive();
+		}
 	}
 
 	void PlayerScript::Render()
@@ -636,11 +644,29 @@ namespace js
 
 	void PlayerScript::shoot()
 	{
-		if (!mProjectile)
-			return;
+		// 방향 계산
 		float angle = calculateRotate();
-		projectileRotate(angle);
-		activeProjectile();
+		
+		// 투사체 찾기
+		for (int index = 0; index < PROJECTILE_POOL; ++index)
+		{
+			if (index == 3)
+				int a = 0;
+
+			// 없으면 다음으로
+			if (nullptr == mProjectiles[index])
+				continue;
+			// 사용중이면 다음으로
+			if (mProjectiles[index]->IsReady())
+			{
+				int a = 0;
+				projectileRotates(mProjectiles[index], angle);
+				activeProjectiles(mProjectiles[index]);
+				break;
+			}
+			/*projectileRotate(angle);
+			activeProjectile();*/
+		}
 	}
 
 
@@ -660,11 +686,6 @@ namespace js
 		float angle = atan2(mMouseDir.y, mMouseDir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		return angle;
 	}
-	void PlayerScript::projectileRotate(float angle)
-	{
-		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
-		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
-	}
 	void PlayerScript::playerRotate(float angle)
 	{
 		//  방향 전환 :  TOP | RIGHT | BOTTOM | LEFT 
@@ -683,6 +704,11 @@ namespace js
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
 		myRigidbody->SetVelocity(mMouseDir * 21.0f);
 	}
+	void PlayerScript::projectileRotate(float angle)
+	{
+		Transform* projectileTr = mProjectile->GetOwner()->GetComponent<Transform>();
+		projectileTr->SetRotation(Vector3(0.0f, 0.0f, angle));
+	}
 	void PlayerScript::activeProjectile()
 	{
 		// 투사체를 내 위치로 옮기기
@@ -692,6 +718,22 @@ namespace js
 
 		// 투사체 설정 초기화
 		mProjectile->ActiveProjectile(mProjectileType);
+	}
+
+	void PlayerScript::projectileRotates(ArcanaScript* target, float angle)
+	{
+		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
+		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
+	}
+	void PlayerScript::activeProjectiles(ArcanaScript* target)
+	{
+		// 투사체를 내 위치로 옮기기
+		Transform * tr = GetOwner()->GetComponent<Transform>();
+		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
+		targetTr->SetPosition(tr->GetPosition());
+
+		// 투사체 설정 초기화
+		target->ActiveProjectile(mProjectileType);
 	}
 	void PlayerScript::idleState()
 	{

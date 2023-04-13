@@ -24,9 +24,6 @@
 #include "jsRigidbody.h"
 #include "jsArcanaScript.h"
 
-#include "jsPaintShader.h"
-#include "jsParticleSystem.h"
-
 namespace js
 {
 	PlayScene::PlayScene()
@@ -68,8 +65,24 @@ namespace js
 			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 			projecObj->AddComponent<Rigidbody>();
 			playerScript->SetProjectile(arcana);
-		}
 
+			for (int index = 0; index < PROJECTILE_POOL; ++index)
+			{
+				// 투사체 생성
+				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
+				projecObj->SetName(L"projectile");
+				projecObj->AddComponent<Collider2D>();
+				projecObj->AddComponent<Animator>();
+				projecObj->AddComponent<Rigidbody>();
+				SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
+				projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+				projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
+				// 스크립트 추가
+				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
+				playerScript->AddProjectile(arcana);
+			}
+		}
+			
 		// HUD
 		{
 			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
@@ -90,41 +103,14 @@ namespace js
 			MeshRenderer* skillMr = skillHUD->AddComponent<MeshRenderer>();
 			skillMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			skillMr->SetMaterial(Resources::Find<Material>(L"SkillHUDMaterial"));
-
-
 		}
-
-		// paint Shader
-		{
-			std::shared_ptr<PaintShader> paintShader = Resources::Find<PaintShader>(L"PaintShader");
-			paintShader->SetTarget(Resources::Find<Texture>(L"PaintTexture"));
-			paintShader->OnExcute();
-
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Tile, this);
-			obj->SetName(L"SmileTexture");
-
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
-
-			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
-			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"RectMaterial"));
-		}
-		////Particle
-		//{
-		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Particle);
-		//	obj->SetName(L"PARTICLE");
-		//	Transform* tr = obj->GetComponent<Transform>();
-		//	tr->SetPosition(Vector3(0.0f, 0.0f, 100.0f));
-		//	obj->AddComponent<ParticleSystem>();
-		//}
 
 		Scene::Initialize();
 	}
 
 	void PlayScene::Update()
 	{
-		if (Input::GetKeyDown(eKeyCode::N))
+		/*if (Input::GetKeyDown(eKeyCode::N))
 		{
 			fade->FadeOut();
 			fade->SetReady(true);
@@ -135,7 +121,7 @@ namespace js
 			fade->SetReady(false);
 			fade->SetFadeState(FadeScript::Ready);
 			SceneManager::LoadScene(eSceneType::Title);
-		}
+		}*/
 
 		Scene::Update();
 	}
@@ -152,7 +138,7 @@ namespace js
 
 	void PlayScene::OnEnter()
 	{
-		fade->FadeIn();
+		//fade->FadeIn();
 	}
 
 	void PlayScene::OnExit()

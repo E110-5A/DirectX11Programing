@@ -84,6 +84,10 @@ namespace js
 			
 			return false;
 		}
+
+		void Kill() { mState = eState::Dead; }
+		void Alive() { mState = eState::Active; }
+
 		void SetActive() { mState = eState::Active; }
 		void Pause() { if (mIsDontChangeState) return; mState = eState::Paused; }
 		void Death() { if (mIsDontChangeState) return; mState = eState::Dead; }
