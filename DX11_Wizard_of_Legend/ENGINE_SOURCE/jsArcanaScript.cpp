@@ -9,12 +9,13 @@
 namespace js
 {
 	ArcanaScript::ArcanaScript()
-		: mCategory(eArcanaCategory::Melee)
+		: mInfo(nullptr)
+		, mCategory(eArcanaCategory::Melee)
 		, mLifeTime(2.0f)
 		, mAddTime(0.0f)
 		, mMeleeVelocity(30.0f)
 		, mProjectileSpeed(16.0f)
-		, mIsReady(true)
+		, mAvailable(true)
 	{
 	}
 	ArcanaScript::~ArcanaScript()
@@ -22,24 +23,25 @@ namespace js
 	}
 	void ArcanaScript::Initialize()
 	{
+		// 애니메이션 생성
 		CreateAnimation();
+
+		// 이벤트 생성
+
 	}
 	void ArcanaScript::Update()
 	{
+		// 수명 함수
+
+		// 작동 함수
+
+
 		if (mAddTime < mLifeTime)
 			mAddTime += Time::DeltaTime();
 		else
 		{
 			die();
 			return;
-		}
-
-		if (eArcanaCategory::Projectile == mCategory)
-		{
-			Transform* myTr = GetOwner()->GetComponent<Transform>();
-			Vector3 pos = myTr->GetPosition();
-			pos += myTr->Up() * mProjectileSpeed * Time::DeltaTime();
-			myTr->SetPosition(pos);
 		}
 	}
 	void ArcanaScript::FixedUpdate()
@@ -90,19 +92,25 @@ namespace js
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
-		if (eArcanaCategory::Melee == mCategory)
+		// melee
+		if (eArcanaCategory::Melee == mInfo->category)
 		{
 			myRigidbody->SetVelocity(shootDir * mMeleeVelocity);
 		}
-		else
+
+		// projectile
+		else if (eArcanaCategory::Projectile == mInfo->category)
 		{
+			Transform* myTr = GetOwner()->GetComponent<Transform>();
+			Vector3 pos = myTr->GetPosition();
+			pos += myTr->Up() * mInfo->range * Time::DeltaTime() * 10;
+			myTr->SetPosition(pos);
 			//myRigidbody->SetVelocity(shootDir * 80.0f);
 		}
-		//Transform* tr = GetOwner()->GetComponent<Transform>();
 
-		//Vector3 pos = tr->GetPosition();
-		//pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
-		//tr->SetPosition(pos);
+		// dash = melee
+
+
 
 	}
 	void ArcanaScript::CreateAnimation()
@@ -115,15 +123,20 @@ namespace js
 		std::shared_ptr<Texture> fireArrow = Resources::Find<Texture>(L"FireArrow");
 
 		animator->Create(L"WindSlash", windSlash, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
-		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
-		animator->GetActionEvent(L"WindSlash", 2) = std::bind(&ArcanaScript::shoot, this);
-		animator->GetStartEvent(L"WindSlash") = std::bind(&ArcanaScript::activated, this);
-
 		animator->Create(L"FireArrow", fireArrow, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
-		animator->GetActionEvent(L"FireArrow", 1) = std::bind(&ArcanaScript::shoot, this);
-		animator->GetStartEvent(L"FireArrow") = std::bind(&ArcanaScript::activated, this);
 	}
 
+	void ArcanaScript::CreateEvents()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		/*animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::die, this);
+		animator->GetActionEvent(L"WindSlash", 2) = std::bind(&ArcanaScript::shoot, this);
+		animator->GetStartEvent(L"WindSlash") = std::bind(&ArcanaScript::activated, this);
+		animator->GetActionEvent(L"FireArrow", 1) = std::bind(&ArcanaScript::shoot, this);
+		animator->GetStartEvent(L"FireArrow") = std::bind(&ArcanaScript::activated, this);*/
+	}
+
+	// 안씀
 	void ArcanaScript::ActiveProjectile(eArcanaCategory category)
 	{
 		mAddTime = 0;
@@ -141,21 +154,63 @@ namespace js
 		}
 
 	}
+
+
+	// 플레이어로부터 호출받음
+	void ArcanaScript::ActiveArcana(ArcanaInfo& skillInfo)
+	{
+		// 스킬 정보 가져오기
+		mInfo = &skillInfo;
+
+		// 스킬 타입에 따라 재생할 애니메이션 정하기
+		if (eArcanaType::AA == mInfo->arcanaType)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"WindSlash", false);
+		}
+		else if (eArcanaType::Skill == mInfo->arcanaType)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"FireArrow");
+		}
+		else if (eArcanaType::Dash == mInfo->arcanaType)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"WindSlash");
+		}
+		else if (eArcanaType::Special == mInfo->arcanaType)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"WindSlash");
+		}
+		else if (eArcanaType::Ultimate == mInfo->arcanaType)
+		{
+			Animator* animator = GetOwner()->GetComponent<Animator>();
+			animator->Play(L"FireArrow");
+		}
+	}
+
+
+	// 종료 함수
 	void ArcanaScript::die()
 	{
 		mAddTime = mLifeTime;
-		mIsReady = true;
+		mAvailable = false;
 	}
+
+	// 안씀
 	void ArcanaScript::shoot()
 	{
 		move();
 	}
+
+	// 외부 호출용
 	void ArcanaScript::activated()
 	{
-		mIsReady = false;
+		mAvailable = false;
 	}
 	void ArcanaScript::ready()
 	{
-		mIsReady = true;
+		mAvailable = true;
 	}
 }

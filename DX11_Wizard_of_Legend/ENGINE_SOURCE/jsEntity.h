@@ -1,7 +1,7 @@
 #pragma once
 #include "jsEngine.h"
 
-#define PROJECTILE_POOL 20
+
 
 namespace js
 {

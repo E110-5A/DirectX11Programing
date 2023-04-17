@@ -28,9 +28,13 @@ namespace js
 		virtual void Action() override;
 
 		void CreateAnimation();
+		void CreateEvents();
 
+		// 안씀
 		void ActiveProjectile(eArcanaCategory category);
-		bool IsReady() { return mIsReady; }
+
+		void ActiveArcana(ArcanaInfo& skillInfo);
+		bool IsReady() { return mAvailable; }
 	private:
 		void die();
 		void shoot();
@@ -40,6 +44,7 @@ namespace js
 		void move();
 
 	private:
+		ArcanaInfo*	mInfo;
 		eArcanaCategory mCategory;
 		float mLifeTime;
 		float mAddTime;
@@ -48,6 +53,6 @@ namespace js
 
 		// arcana info | A스킬 B스킬 C스킬 구분.. 할필요가 있나?
 		// spell stat | 속도, 거리 공격력, 타입 등
-		bool mIsReady;
+		bool mAvailable;
 	};
 }

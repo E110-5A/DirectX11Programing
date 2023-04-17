@@ -215,6 +215,7 @@
     <ClInclude Include="jsTime.h" />
     <ClInclude Include="jsTitleScene.h" />
     <ClInclude Include="jsTransform.h" />
+    <ClInclude Include="jsContents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsAnimation.cpp" />

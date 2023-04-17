@@ -18,3 +18,4 @@
 
 #include "CommonInclude.h"
 #include "jsEnums.h"
+#include "jsContents.h"

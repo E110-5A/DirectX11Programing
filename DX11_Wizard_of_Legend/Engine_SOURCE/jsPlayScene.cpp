@@ -38,7 +38,7 @@ namespace js
 
 	void PlayScene::Initialize()
 	{
-		//Player Obj
+		//Player Obj & Projectile Obj Pool
 		{
 			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
 			obj->SetName(L"Player");
@@ -54,21 +54,9 @@ namespace js
 			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 
-
-			GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
-			projecObj->SetName(L"projectile");
-			projecObj->AddComponent<Collider2D>();
-			projecObj->AddComponent<Animator>();
-			SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
-			projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
-			ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
-			projecObj->AddComponent<Rigidbody>();
-			playerScript->SetProjectile(arcana);
-
+			// 투사체 생성
 			for (int index = 0; index < PROJECTILE_POOL; ++index)
 			{
-				// 투사체 생성
 				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
 				projecObj->SetName(L"projectile");
 				projecObj->AddComponent<Collider2D>();
@@ -77,13 +65,12 @@ namespace js
 				SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
 				projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 				projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
-				// 스크립트 추가
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);
 			}
 		}
 			
-		// HUD
+		// Skill & Health HUD
 		{
 			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
 			healthHUD->SetName(L"HealthHUD");
@@ -103,6 +90,11 @@ namespace js
 			MeshRenderer* skillMr = skillHUD->AddComponent<MeshRenderer>();
 			skillMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			skillMr->SetMaterial(Resources::Find<Material>(L"SkillHUDMaterial"));
+		}
+
+		// Temp Background Tile
+		{
+
 		}
 
 		Scene::Initialize();

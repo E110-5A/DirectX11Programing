@@ -85,11 +85,7 @@ namespace js::enums
 	};
 
 
-	enum class eArcanaCategory
-	{
-		Melee,
-		Projectile,
-		Dash,
-		End,
-	};
+
+
+	
 }
