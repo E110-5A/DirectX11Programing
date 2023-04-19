@@ -482,6 +482,9 @@
     <ClInclude Include="jsObject.h">
       <Filter>GameObject\Base</Filter>
     </ClInclude>
+    <ClInclude Include="jsContents.h">
+      <Filter>API\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl">

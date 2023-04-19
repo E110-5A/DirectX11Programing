@@ -44,16 +44,16 @@ struct ArcanaInfo
 	int maxCount;
 	int curCount;
 	// 기술 재사용
-	float cooldown;
+	float cooldownTime;
 	float currentTime;
-	bool able;
+	bool cooldownReady;
 public:
 	ArcanaInfo()
 		: category(eArcanaCategory::Melee), arcanaType(eArcanaType::AA), stagger(eStagger::Light)
-		, damage(5), range(100), maxCount(1), curCount(0), cooldown(1.0f), currentTime(0.0f), able(true)
+		, damage(5), range(100), maxCount(1), curCount(0), cooldownTime(1.0f), currentTime(0.0f), cooldownReady(true)
 	{
 	}
-	void SetAble(bool trigger) { able = trigger; }
+	void SetAble(bool trigger) { cooldownReady = trigger; }
 };
 
 struct Stat

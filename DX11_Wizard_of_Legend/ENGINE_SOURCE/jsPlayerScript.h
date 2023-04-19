@@ -59,37 +59,41 @@ namespace js
 		void setSpecial() { mState = eState::Special; }
 		void setUltimate() { mState = eState::Ultimate; }
 
-		void playAnimation(eState changeState);
 
 		void cooldown();
 		void skillProcess();
-
-
-
 		void shoot(ArcanaInfo& info);
-		void calculateMouseDir();
-		float calculateRotate();
+
+		void calculateMouseDirection();
+		float calculateRotateAngle();
+		void setPlayerDirection(float angle);
 		
 		int findProjectilePool();
-
-		void setPlayerDirection(float angle);
-		void playerRush();
-
 		void projectileRotates(ArcanaScript* target, float angle);
-		void activeProjectiles(ArcanaScript* target);
 
 
-		void setStateDash();
-		void retIdle();		// 이건 사용하는거
-		void addForce();	// 대시에 사용함
+		void playAnimation(eState changeState);
+		void playBasicMotion();
+		void playDashMotion();
 
+		void playerRush();	// 공격시 약진
+		void addForce();	// 대시 이동
+
+		// 딜레이 초과시 false 반환
+		void comboDelayOnCheck();
+		bool comboCountOutCheck();
+		bool comboValidOutCheck();
+
+		
+		void comboReset();
 
 	private:
-		Vector2 mMoveDir;
 		Vector2 mMouseDir;
+		Vector2 mMoveDir;
+		std::vector<ArcanaScript*> mProjectiles;
+		// PlayerInfo 사용하기 전 멤버들
 		eState mState;
 		float mMoveSpeed;
-		std::vector<ArcanaScript*> mProjectiles;
 
 		ArcanaInfo	mAA;
 		ArcanaInfo	mSkill;
@@ -97,13 +101,30 @@ namespace js
 		ArcanaInfo	mSpecial;
 		ArcanaInfo	mUltimate;
 
-		int mComboCount;
-		int mCurrentCount;
-		float mComboValidTime;
-		float mComboCurrentTime;
 
-		// 안씀
-		eArcanaCategory mProjectileType;
-		ArcanaScript* mProjectile;
+		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
+
+
+
+
+		// 콤보 시작
+		bool mComboStarted; // 안씀
+
+		// 콤보 딜레이
+		bool mComboDelay;
+		// 콤보 진행
+		bool mComboProcess;
+
+		// 콤보 횟수
+		int mMaxComboCount;
+		int mCurComboCount;
+
+		// 콤보 유지 시간
+		float mComboValidTime;
+		float mComboCurrentValidTime;
+
+		// 콤보 딜레이 시간
+		float mComboDelayTime;
+		float mComboCurrentDelayTime;
 	};
 }

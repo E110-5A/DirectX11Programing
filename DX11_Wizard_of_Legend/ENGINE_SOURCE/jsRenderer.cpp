@@ -674,8 +674,8 @@ namespace js::renderer
 		noise->BindShaderResource(eShaderStage::CS, 16);
 
 		NoiseCB info = {};
-		info.noiseSize.x = noise->GetWidth();
-		info.noiseSize.y = noise->GetHeight();
+		info.noiseSize.x = (float)noise->GetWidth();
+		info.noiseSize.y = (float)noise->GetHeight();
 
 		ConstantBuffer* cb = constantBuffers[(UINT)eCBType::Noise];
 		cb->SetData(&info);
