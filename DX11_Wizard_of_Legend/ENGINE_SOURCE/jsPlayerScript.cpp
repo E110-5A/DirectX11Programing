@@ -60,18 +60,23 @@ namespace js
 	void PlayerScript::Initialize()
 	{
 		createAnimation();
-		addEvent();
+		addEvents();
 		// 기술 세팅하기
 		// 근거리 평타 (콤보 기능 넣을것!)
-		initializeArcana(mAA, eArcanaCategory::Melee, eArcanaType::AA, eStagger::Light, 6.0f, 30.0f, 1, 1.4f);		
+		initializeArcana(mAA, eArcanaCategory::Melee, eArcanaType::AA, eStagger::Light
+			, 6.0f, 20.0f, 300.0f, 1, 1.4f);		
 		// Dragon_Arc
-		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal, 6.5f, 20.0f, 1, 3.0f);
+		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal
+			, 6.5f, 20.0f, 300.0f,1, 3.0f);
 		// 어깨빵 
-		initializeArcana(mDash, eArcanaCategory::Melee, eArcanaType::Dash, eStagger::Light, 3.0f, 60.0f, 1, 1.0f);
+		initializeArcana(mDash, eArcanaCategory::Melee, eArcanaType::Dash, eStagger::Light
+			, 3.0f, 20.0f, 300.0f, 1, 1.0f);
 		// 부채꼴로 광역 투사체?
-		initializeArcana(mSpecial, eArcanaCategory::Projectile, eArcanaType::Special, eStagger::Normal, 6.5f, 20.0f, 1, 4.0f);
+		initializeArcana(mSpecial, eArcanaCategory::Projectile, eArcanaType::Special, eStagger::Normal
+			, 6.5f, 20.0f, 300.0f, 1, 5.0f);
 		// Shearing_Chain 근거리 죽창
-		initializeArcana(mUltimate, eArcanaCategory::Melee, eArcanaType::Ultimate, eStagger::Heave, 6.5f, 20.0f, 1, 4.0f);
+		initializeArcana(mUltimate, eArcanaCategory::Melee, eArcanaType::Ultimate, eStagger::Heave
+			, 6.5f, 20.0f, 300.0f, 1, 7.0f);
 	}
 	
 	void PlayerScript::createAnimation()
@@ -141,7 +146,7 @@ namespace js
 
 		animator->Play(L"PlayerIdleDown");
 	}
-	void PlayerScript::addEvent()
+	void PlayerScript::addEvents()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		// 예제
@@ -203,18 +208,25 @@ namespace js
 			animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::setIdle, this);
 		}
 	}
-	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger, float damage, float range, int count, float cooldown)
+	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
+		, float damage, float moveSpeed, float spellRange, int count, float cooldown)
 	{
-		skill.category = category;
-		skill.arcanaType = arcanaType;
-		skill.stagger = stagger;
-		skill.damage = damage;
-		skill.range = range;
+		skill.spellStat.category = category;
+		skill.spellStat.arcanaType = arcanaType;
+		skill.spellStat.stagger = stagger;
+		skill.spellStat.damage = damage;
+		skill.spellStat.moveSpeed = moveSpeed;
+		skill.spellStat.spellRange = spellRange;
+
+
+
 		skill.maxCount = count;
 		skill.curCount = 0;
 		skill.cooldownTime = cooldown;
 		skill.currentTime = 0.0f;
 		skill.cooldownReady = true;
+
+
 	}
 #pragma endregion
 
@@ -579,11 +591,10 @@ namespace js
 				{
 					++mCurComboCount;
 					mComboDelay = true;
-				}
-				//shoot();
+					shoot(mAA);
+				}				
 			}
-		}
-		
+		}		
 
 		switch (mState)
 		{
@@ -694,7 +705,7 @@ namespace js
 			if (nullptr == mProjectiles[index])
 				continue;
 			// 사용중이면 다음으로
-			if (mProjectiles[index]->IsReady())
+			if (eArcanaState::Disabled == mProjectiles[index]->GetArcanaState())
 			{
 				return index;
 			}
@@ -858,12 +869,6 @@ namespace js
 		rigidbody->SetVelocity(mMoveDir * 56);
 	}
 
-	void PlayerScript::comboDelayOnCheck()
-	{
-		// 대기시간이 끝났는지 확인
-		
-	}
-
 	bool PlayerScript::comboCountOutCheck()
 	{
 		if (mCurComboCount >= mMaxComboCount)
@@ -887,7 +892,7 @@ namespace js
 	void PlayerScript::comboReset()
 	{
 		// 조건 초기화
-		mAA.cooldownReady = false;	// 평타 쿨다운 조건
+		mAA.SetAble(false);			// 평타 쿨다운 조건
 		mComboProcess = false;		// 콤보 진행 조건
 		mComboDelay = false;		// 콤보 대기시간 초기화
 		// 변수 초기화

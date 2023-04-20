@@ -4,6 +4,13 @@
 #define PROJECTILE_POOL 64
 
 // contents enum
+
+enum class eArcanaState
+{
+	Active,
+	Disabled,
+};
+
 enum class eArcanaCategory
 {
 	Melee,
@@ -28,29 +35,38 @@ enum class eStagger
 	Normal,
 	Heave,
 };
+
+struct ArcanaStat
+{
+	eArcanaCategory category;	// 근거리, 원거리 구분
+	eArcanaType arcanaType;		// 스킬 타입 구분
+	eStagger stagger;			// 경직도 구분
+	float damage;
+	float moveSpeed;
+	float spellRange;			// 원거리 기술 사거리
+
+public:
+	ArcanaStat()
+		: category(eArcanaCategory::Melee), arcanaType(eArcanaType::AA), stagger(eStagger::Light)
+		, damage(0.0f), moveSpeed(0.0f), spellRange(0.0f)
+	{}
+};
+
+
 struct ArcanaInfo
 {
-	// 카테고리
-	eArcanaCategory category;
-	// 기술 타입
-	eArcanaType arcanaType;
-	// 스테거
-	eStagger stagger;
-	// 피해량 = 채력
-	float damage;
-	// 사거리
-	float range;
-	// 투사체 개수
+	// arcana Script에서 사용
+	ArcanaStat spellStat;
+
+	// player Script 에서 사용
 	int maxCount;
 	int curCount;
-	// 기술 재사용
 	float cooldownTime;
 	float currentTime;
 	bool cooldownReady;
 public:
 	ArcanaInfo()
-		: category(eArcanaCategory::Melee), arcanaType(eArcanaType::AA), stagger(eStagger::Light)
-		, damage(5), range(100), maxCount(1), curCount(0), cooldownTime(1.0f), currentTime(0.0f), cooldownReady(true)
+		: spellStat{}, maxCount(1), curCount(0), cooldownTime(1.0f), currentTime(0.0f), cooldownReady(true)
 	{
 	}
 	void SetAble(bool trigger) { cooldownReady = trigger; }

@@ -36,7 +36,7 @@ namespace js
 		{
 			if (obj == nullptr)
 				continue;
-			if (obj->GetState() != GameObject::eState::Active)
+			if (obj->GetState() != GameObject::eGlobalState::Active)
 				continue;
 
 			obj->Update();
@@ -49,7 +49,7 @@ namespace js
 		{
 			if (obj == nullptr)
 				continue;
-			if (obj->GetState() != GameObject::eState::Active)
+			if (obj->GetState() != GameObject::eGlobalState::Active)
 				continue;
 
 			obj->FixedUpdate();
@@ -62,7 +62,7 @@ namespace js
 		{
 			if (obj == nullptr)
 				continue;
-			if (obj->GetState() != GameObject::eState::Active)
+			if (obj->GetState() != GameObject::eGlobalState::Active)
 				continue;
 
 			obj->Render();
@@ -75,7 +75,7 @@ namespace js
 		// 삭제할 오브젝트들을 전부 찾아온다.
 		for (GameObject* gameObj : mGameObjects)
 		{
-			if (gameObj->GetState() == GameObject::eState::Dead)
+			if (gameObj->GetState() == GameObject::eGlobalState::Dead)
 			{
 				deleteObjects.insert(gameObj);
 			}

@@ -27,24 +27,29 @@ namespace js
 		virtual void End() override;
 		virtual void Action() override;
 
-		void CreateAnimation();
-		void CreateEvents();
-
-		// 안씀
-		void ActiveProjectile(eArcanaCategory category);
-
+		void SetSpellID(int id) { mSpellID = id; }
 		void ActiveArcana(ArcanaInfo& skillInfo);
-		bool IsReady() { return mAvailable; }
+
+		eArcanaState GetArcanaState() { return mArcanaState; }
+
 	private:
-		void die();
-		void shoot();
-		void activated();
-		void ready();
-	private:
+		void createAnimation();
+		void addEvents();
+		void bindAnimation();
+
 		void move();
 
+		void endConditionMelee();
+		void endConditionProjectile();
+
 	private:
+		int mSpellID;
 		ArcanaInfo*	mInfo;
+		eArcanaState mArcanaState;
+		Vector3 mStartPos;
+
+
+		// 레거시
 		eArcanaCategory mCategory;
 		float mLifeTime;
 		float mAddTime;
@@ -53,6 +58,5 @@ namespace js
 
 		// arcana info | A스킬 B스킬 C스킬 구분.. 할필요가 있나?
 		// spell stat | 속도, 거리 공격력, 타입 등
-		bool mAvailable;
 	};
 }

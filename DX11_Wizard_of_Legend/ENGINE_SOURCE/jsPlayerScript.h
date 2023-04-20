@@ -27,6 +27,7 @@ namespace js
 		virtual void Render() override;
 				
 		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
+		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -48,8 +49,9 @@ namespace js
 
 	private:
 		void createAnimation();
-		void addEvent();
-		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger, float damage, float range, int count, float cooldown);
+		void addEvents();
+		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
+			, float damage, float moveSpeed, float spellRange, int count, float cooldown);
 
 		void setIdle() { playAnimation(eState::Idle); }
 		void setMove() { mState = eState::Move; }
@@ -80,7 +82,6 @@ namespace js
 		void addForce();	// 대시 이동
 
 		// 딜레이 초과시 false 반환
-		void comboDelayOnCheck();
 		bool comboCountOutCheck();
 		bool comboValidOutCheck();
 

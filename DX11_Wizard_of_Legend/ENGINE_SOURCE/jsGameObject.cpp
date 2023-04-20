@@ -4,7 +4,7 @@
 namespace js
 {
 	GameObject::GameObject()
-		: mState(eState::Active)
+		: mState(eGlobalState::Active)
 		, mType(eLayerType::None)
 		, mIsDontDestroy(false)
 		, mIsDontChangeState(false)
@@ -55,6 +55,8 @@ namespace js
 
 	void GameObject::Update()
 	{
+		if (eGlobalState::Paused == mState)
+			return;
 		for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)
@@ -74,6 +76,8 @@ namespace js
 
 	void GameObject::FixedUpdate()
 	{
+		if (eGlobalState::Paused == mState)
+			return;
 		for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)
@@ -93,6 +97,8 @@ namespace js
 
 	void GameObject::Render()
 	{
+		if (eGlobalState::Paused == mState)
+			return;
 		for (Component* comp : mComponents)
 		{
 			if (comp == nullptr)

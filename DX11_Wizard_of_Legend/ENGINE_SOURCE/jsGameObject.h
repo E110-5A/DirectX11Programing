@@ -8,7 +8,7 @@ namespace js
 	class GameObject : public Entity
 	{
 	public:
-		enum eState
+		enum eGlobalState
 		{
 			Active,
 			Paused,
@@ -79,19 +79,19 @@ namespace js
 		const std::vector<Script*>& GetScripts() { return mScripts; }
 		bool IsDead()
 		{
-			if (mState == eState::Dead)
+			if (mState == eGlobalState::Dead)
 				return true;
 			
 			return false;
 		}
 
-		void Kill() { mState = eState::Dead; }
-		void Alive() { mState = eState::Active; }
+		void Kill() { mState = eGlobalState::Dead; }
+		void Alive() { mState = eGlobalState::Active; }
 
-		void SetActive() { mState = eState::Active; }
-		void Pause() { if (mIsDontChangeState) return; mState = eState::Paused; }
-		void Death() { if (mIsDontChangeState) return; mState = eState::Dead; }
-		eState GetState() { return mState; }
+		void SetActive() { mState = eGlobalState::Active; }
+		void Pause() { if (mIsDontChangeState) return; mState = eGlobalState::Paused; }
+		void Death() { if (mIsDontChangeState) return; mState = eGlobalState::Dead; }
+		eGlobalState GetState() { return mState; }
 				
 		bool IsDontDestroy() { return mIsDontDestroy; }
 		void DontDestroy(bool enable = true) { mIsDontDestroy = enable; }
@@ -105,7 +105,7 @@ namespace js
 		std::vector<Component*> mComponents;
 
 	private:
-		eState mState;
+		eGlobalState mState;
 		eLayerType mType;
 		std::vector<Script*> mScripts;
 		bool mIsDontDestroy;

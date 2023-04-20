@@ -67,6 +67,7 @@ namespace js
 				projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);
+				playerScript->SetProjectileID(index);
 			}
 		}
 			
