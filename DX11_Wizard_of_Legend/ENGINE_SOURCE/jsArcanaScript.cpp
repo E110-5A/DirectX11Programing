@@ -140,7 +140,7 @@ namespace js
 		{
 			Transform* myTr = GetOwner()->GetComponent<Transform>();
 			Vector3 pos = myTr->GetPosition();
-			pos += myTr->Up() * mInfo->spellStat.moveSpeed * Time::DeltaTime() * 10;
+			pos += myTr->Up() * mInfo->spellStat.moveSpeed * Time::DeltaTime();
 			myTr->SetPosition(pos);
 		}
 	}
@@ -188,12 +188,12 @@ namespace js
 	{
 		if (nullptr == mInfo)
 			return;
-
+		
 		if (eArcanaCategory::Projectile == mInfo->spellStat.category)
 		{
 			// 일정거리 이동하면 종료
 			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-
+			
 			if (mInfo->spellStat.spellRange <= Vector3::Distance(mStartPos, currentPos))
 			{
 				mArcanaState = eArcanaState::Disabled;

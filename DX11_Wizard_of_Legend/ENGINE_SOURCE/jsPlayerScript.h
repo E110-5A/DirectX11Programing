@@ -51,7 +51,8 @@ namespace js
 		void createAnimation();
 		void addEvents();
 		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
-			, float damage, float moveSpeed, float spellRange, int count, float cooldown);
+			, float damage, float moveSpeed, float spellRange, float cooldown
+			, int mMaxComboCount, float mComboValidTime, float mComboDelayTime);
 
 		void setIdle() { playAnimation(eState::Idle); }
 		void setMove() { mState = eState::Move; }
@@ -63,6 +64,7 @@ namespace js
 
 
 		void cooldown();
+		void comboCooldown(ArcanaInfo& info);
 		void skillProcess();
 		void shoot(ArcanaInfo& info);
 
@@ -82,11 +84,11 @@ namespace js
 		void addForce();	// 대시 이동
 
 		// 딜레이 초과시 false 반환
-		bool comboCountOutCheck();
-		bool comboValidOutCheck();
+		bool comboCountOutCheck(ArcanaInfo& info);
+		bool comboValidOutCheck(ArcanaInfo& info);
 
 		
-		void comboReset();
+		void comboReset(ArcanaInfo& info);
 
 	private:
 		Vector2 mMouseDir;
@@ -106,10 +108,6 @@ namespace js
 		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
 
 
-
-
-		// 콤보 시작
-		bool mComboStarted; // 안씀
 
 		// 콤보 딜레이
 		bool mComboDelay;

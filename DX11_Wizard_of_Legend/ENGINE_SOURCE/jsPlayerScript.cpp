@@ -35,14 +35,13 @@ namespace js
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}, mAA{}, mSkill{}, mDash{}, mSpecial{}, mUltimate{}
 		, mBasicAnimationType(true)
-		, mComboStarted(false)
 		, mComboDelay(false)
 		, mComboProcess(false)
 		, mMaxComboCount(4)
 		, mCurComboCount(0)
 		, mComboValidTime(0.9)
 		, mComboCurrentValidTime(0.0f)
-		, mComboDelayTime(0.4f)
+		, mComboDelayTime(0.1f)
 		, mComboCurrentDelayTime(0.0f)
 	{
 	}
@@ -63,20 +62,20 @@ namespace js
 		addEvents();
 		// 기술 세팅하기
 		// 근거리 평타 (콤보 기능 넣을것!)
-		initializeArcana(mAA, eArcanaCategory::Melee, eArcanaType::AA, eStagger::Light
-			, 6.0f, 20.0f, 300.0f, 1, 1.4f);		
+		initializeArcana(mAA, eArcanaCategory::Projectile, eArcanaType::AA, eStagger::Light
+			, 6.0f, 5.0f, 5.0f, 1.4f, 4, 0.9, 0.14f);
 		// Dragon_Arc
 		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal
-			, 6.5f, 20.0f, 300.0f,1, 3.0f);
-		// 어깨빵 
+			, 6.5f, 12.0f, 5.0f, 3.0f, 3, 1.0f, 0.12f);
+		// 어깨빵
 		initializeArcana(mDash, eArcanaCategory::Melee, eArcanaType::Dash, eStagger::Light
-			, 3.0f, 20.0f, 300.0f, 1, 1.0f);
+			, 3.0f, 20.0f, 5.0f, 1.0f, 1, 0.9f, 0.4f);
 		// 부채꼴로 광역 투사체?
 		initializeArcana(mSpecial, eArcanaCategory::Projectile, eArcanaType::Special, eStagger::Normal
-			, 6.5f, 20.0f, 300.0f, 1, 5.0f);
+			, 6.5f, 10.0f, 5.0f, 5.0f, 4, 0.9f, 0.1f);
 		// Shearing_Chain 근거리 죽창
 		initializeArcana(mUltimate, eArcanaCategory::Melee, eArcanaType::Ultimate, eStagger::Heave
-			, 6.5f, 20.0f, 300.0f, 1, 7.0f);
+			, 6.5f, 7.0f, 5.0f, 7.0f, 4, 0.9f, 0.1f);
 	}
 	
 	void PlayerScript::createAnimation()
@@ -208,8 +207,12 @@ namespace js
 			animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::setIdle, this);
 		}
 	}
+
+	
+
 	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
-		, float damage, float moveSpeed, float spellRange, int count, float cooldown)
+		, float damage, float moveSpeed, float spellRange, float cooldown
+		, int mMaxComboCount, float mComboValidTime, float mComboDelayTime)
 	{
 		skill.spellStat.category = category;
 		skill.spellStat.arcanaType = arcanaType;
@@ -218,15 +221,18 @@ namespace js
 		skill.spellStat.moveSpeed = moveSpeed;
 		skill.spellStat.spellRange = spellRange;
 
-
-
-		skill.maxCount = count;
-		skill.curCount = 0;
 		skill.cooldownTime = cooldown;
 		skill.currentTime = 0.0f;
 		skill.cooldownReady = true;
 
-
+		skill.comboDelay = false;
+		skill.comboProcess = false;
+		skill.maxComboCount = mMaxComboCount;
+		skill.curComboCount = 0;
+		skill.comboValidTime = mComboValidTime;
+		skill.comboCurrentValidTime = 0.0f;
+		skill.comboDelayTime = mComboDelayTime;
+		skill.comboCurrentDelayTime = 0.0f;
 	}
 #pragma endregion
 
@@ -459,9 +465,9 @@ namespace js
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
 			// 대기 상태가 아니라면
-			if (false == mComboDelay)
+			if (false == mAA.comboDelay)
 			{
-				mComboProcess = true;
+				mAA.comboProcess = true;
 			}
 		}
 	}
@@ -474,12 +480,26 @@ namespace js
 		}
 		
 		// 로직
-
+		if (Input::GetKey(eKeyCode::RBTN))
+		{
+			// 대기 상태가 아니라면
+			if (false == mSkill.comboDelay)
+			{
+				mSkill.comboProcess = true;
+			}
+		}
 	}
 	void PlayerScript::Dash()
 	{
 		// 로직
-
+		if (Input::GetKey(eKeyCode::SPACE))
+		{
+			// 대기 상태가 아니라면
+			if (false == mDash.comboDelay)
+			{
+				mDash.comboProcess = true;
+			}
+		}
 	}
 	void PlayerScript::Special()
 	{
@@ -489,7 +509,14 @@ namespace js
 			playAnimation(eState::Dash);
 		}
 		// 로직
-
+		if (Input::GetKey(eKeyCode::F))
+		{
+			// 대기 상태가 아니라면
+			if (false == mSpecial.comboDelay)
+			{
+				mSpecial.comboProcess = true;
+			}
+		}
 	}
 	void PlayerScript::Ultimate()
 	{
@@ -499,23 +526,23 @@ namespace js
 			playAnimation(eState::Dash);
 		}
 
-		// 로직
-
+		if (Input::GetKey(eKeyCode::Q))
+		{
+			// 대기 상태가 아니라면
+			if (false == mUltimate.comboDelay)
+			{
+				mUltimate.comboProcess = true;
+			}
+		}
 	}
 
 	void PlayerScript::cooldown()
 	{
-		// 콤보
-		if (true == mComboDelay)
-			mComboCurrentDelayTime += Time::DeltaTime();
-		if (true == mComboProcess)
-			mComboCurrentValidTime += Time::DeltaTime();
-
-		if (mComboCurrentDelayTime >= mComboDelayTime)
-		{
-			mComboDelay = false;
-			mComboCurrentDelayTime = 0.0f;
-		}
+		comboCooldown(mAA);
+		comboCooldown(mSkill);
+		comboCooldown(mDash);
+		comboCooldown(mSpecial);
+		comboCooldown(mUltimate);
 
 		// LBTN
 		if (false == mAA.cooldownReady)
@@ -573,74 +600,106 @@ namespace js
 			}
 		}
 	}
+	void PlayerScript::comboCooldown(ArcanaInfo& info)
+	{
+		// 콤보
+		if (true == info.comboDelay)
+			info.comboCurrentDelayTime += Time::DeltaTime();
+		if (true == info.comboProcess)
+			info.comboCurrentValidTime += Time::DeltaTime();
+
+		if (info.comboCurrentDelayTime >= info.comboDelayTime)
+		{
+			info.comboDelay = false;
+			info.comboCurrentDelayTime = 0.0f;
+		}
+	}
+
 	void PlayerScript::skillProcess()
 	{		
 		if (true == mAA.cooldownReady)
 		{
-			if (true == mComboProcess)
+			if (true == mAA.comboProcess)
 			{
 				// 콤보 카운트 넘겼는지 확인
-				if (comboCountOutCheck())
+				if (comboCountOutCheck(mAA))
 					return;
 				// 콤보 유효시간 넘겼는지 확인
-				if (comboValidOutCheck())
+				if (comboValidOutCheck(mAA))
 					return;
 
 				// 문제없으면 평타 때림!
-				if (false == mComboDelay)
+				if (false == mAA.comboDelay)
 				{
-					++mCurComboCount;
-					mComboDelay = true;
+					++mAA.curComboCount;
+					mAA.comboDelay = true;
 					shoot(mAA);
 				}				
 			}
 		}		
+		if (true == mSkill.cooldownReady)
+		{
+			if (true == mSkill.comboProcess)
+			{
+				// 콤보 카운트 넘겼는지 확인
+				if (comboCountOutCheck(mSkill))
+					return;
+				// 콤보 유효시간 넘겼는지 확인
+				if (comboValidOutCheck(mSkill))
+					return;
 
-		switch (mState)
+				// 문제없으면 평타 때림!
+				if (false == mSkill.comboDelay)
+				{
+					++mSkill.curComboCount;
+					mSkill.comboDelay = true;
+					shoot(mSkill);
+				}
+			}
+		}
+		if (true == mDash.cooldownReady)
 		{
-		case js::PlayerScript::eState::AA:
+			mDash.cooldownReady = false;
+		}
+		if (true == mSpecial.cooldownReady)
 		{
+			if (true == mSpecial.comboProcess)
+			{
+				// 콤보 카운트 넘겼는지 확인
+				if (comboCountOutCheck(mSpecial))
+					return;
+				// 콤보 유효시간 넘겼는지 확인
+				if (comboValidOutCheck(mSpecial))
+					return;
 
-			//// 쿨다운 테스트
-			//if (true == mAA.cooldownReady)
-			//{
-			//	mAA.cooldownReady = false;
-			//}
-		}
-		break;
-		case js::PlayerScript::eState::Skill:
-		{			
-			// 쿨다운 테스트
-			if (true == mSkill.cooldownReady)
-			{
-				mSkill.cooldownReady = false;
+				// 문제없으면 평타 때림!
+				if (false == mSpecial.comboDelay)
+				{
+					++mSpecial.curComboCount;
+					mSpecial.comboDelay = true;
+					shoot(mSpecial);
+				}
 			}
 		}
-		break;
-		case js::PlayerScript::eState::Dash:
-		{			
-			if (true == mDash.cooldownReady)
-			{
-				mDash.cooldownReady = false;
-			}
-		}
-		break;
-		case js::PlayerScript::eState::Special:
+		if (true == mUltimate.cooldownReady)
 		{
-			if (true == mSpecial.cooldownReady)
+			if (true == mUltimate.comboProcess)
 			{
-				mSpecial.SetAble(false);
+				// 콤보 카운트 넘겼는지 확인
+				if (comboCountOutCheck(mUltimate))
+					return;
+				// 콤보 유효시간 넘겼는지 확인
+				if (comboValidOutCheck(mUltimate))
+					return;
+
+				// 문제없으면 평타 때림!
+				if (false == mUltimate.comboDelay)
+				{
+					++mUltimate.curComboCount;
+					mUltimate.comboDelay = true;
+					shoot(mUltimate);
+				}
 			}
-		}
-		break;
-		case js::PlayerScript::eState::Ultimate:
-		{
-			if (true == mUltimate.cooldownReady)
-			{
-				mUltimate.cooldownReady = (false);
-			}
-		}
-		break;
 		}
 	}
 
@@ -869,36 +928,36 @@ namespace js
 		rigidbody->SetVelocity(mMoveDir * 56);
 	}
 
-	bool PlayerScript::comboCountOutCheck()
+	bool PlayerScript::comboCountOutCheck(ArcanaInfo& info)
 	{
-		if (mCurComboCount >= mMaxComboCount)
+		if (info.curComboCount >= info.maxComboCount)
 		{
-			comboReset();
+			comboReset(info);
 			return true;
 		}
 		return false;
 	}
 
-	bool PlayerScript::comboValidOutCheck()
+	bool PlayerScript::comboValidOutCheck(ArcanaInfo& info)
 	{
-		if (mComboCurrentValidTime >= mComboValidTime)
+		if (info.comboCurrentValidTime >= info.comboValidTime)
 		{			
-			comboReset();
+			comboReset(info);
 			return true;
 		}
 		return false;
 	}
 
-	void PlayerScript::comboReset()
+	void PlayerScript::comboReset(ArcanaInfo& info)
 	{
 		// 조건 초기화
-		mAA.SetAble(false);			// 평타 쿨다운 조건
-		mComboProcess = false;		// 콤보 진행 조건
-		mComboDelay = false;		// 콤보 대기시간 초기화
+		info.SetAble(false);			// 평타 쿨다운 조건
+		info.comboProcess = false;		// 콤보 진행 조건
+		info.comboDelay = false;		// 콤보 대기시간 초기화
 		// 변수 초기화
-		mComboCurrentValidTime = 0.0f;
-		mComboCurrentDelayTime = 0.0f;
-		mCurComboCount = 0;
+		info.comboCurrentValidTime = 0.0f;
+		info.comboCurrentDelayTime = 0.0f;
+		info.curComboCount = 0;
 	}
 
 }

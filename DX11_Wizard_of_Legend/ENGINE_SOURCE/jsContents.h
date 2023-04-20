@@ -59,33 +59,51 @@ struct ArcanaInfo
 	ArcanaStat spellStat;
 
 	// player Script 에서 사용
-	int maxCount;
-	int curCount;
-	float cooldownTime;
+	// 기본
+	bool cooldownReady;				// 재사용 준비됨
+	float cooldownTime;				// 스킬 쿨다운
 	float currentTime;
-	bool cooldownReady;
+
+	// 연계기	
+	bool comboDelay;				// 콤보 딜레이	
+	bool comboProcess;				// 콤보 진행	
+	int maxComboCount;				// 콤보 횟수
+	int curComboCount;
+	float comboValidTime;			// 콤보 유지 시간
+	float comboCurrentValidTime;
+	float comboDelayTime;			// 콤보 딜레이 시간
+	float comboCurrentDelayTime;
+
 public:
 	ArcanaInfo()
-		: spellStat{}, maxCount(1), curCount(0), cooldownTime(1.0f), currentTime(0.0f), cooldownReady(true)
+		: spellStat{}, cooldownReady(true), cooldownTime(0.0f), currentTime(0.0f)
+		, comboDelay(false), comboProcess(false), maxComboCount(0), curComboCount(0)
+		, comboValidTime(0.0f), comboCurrentValidTime(0.0f), comboDelayTime(0.0f), comboCurrentDelayTime(0.0f)
 	{
 	}
 	void SetAble(bool trigger) { cooldownReady = trigger; }
 };
 
+struct HealthStat
+{
+	float maxHp;
+	float curHp;
+	float regHp;	// 채력 재생
+	float moveSpeed;
+};
+struct OffenceStat
+{
+	float power;	// 피해량 증가 비율 | default = 1.0
+	float criticalChance;
+	float criticalDamage;
+};
 struct Stat
 {
+	HealthStat healthStat;
+	OffenceStat offenceStat;
+
 	int level;
 	float maxExp;
 	float curExp;
 	float gold;
-
-	float maxHp;
-	float curHp;
-	float regHp;	// 채력 재생
-
-	float power;	// 피해량 증가 비율 | default = 1.0
-	float criticalChance;
-	float criticalDamage;
-
-	float moveSpeed;
 };
