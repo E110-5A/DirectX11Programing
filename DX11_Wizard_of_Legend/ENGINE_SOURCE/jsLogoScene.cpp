@@ -40,6 +40,7 @@ namespace js
 			cameraObj->AddComponent<CameraScript>();
 			object::DontDestroyOnLoad(cameraObj);
 			mainCamera = cameraComp;
+			mainCameraObject = cameraObj;
 		}
 
 		// Directional Light

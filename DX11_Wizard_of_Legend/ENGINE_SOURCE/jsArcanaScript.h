@@ -47,16 +47,5 @@ namespace js
 		ArcanaInfo*	mInfo;
 		eArcanaState mArcanaState;
 		Vector3 mStartPos;
-
-
-		// 레거시
-		eArcanaCategory mCategory;
-		float mLifeTime;
-		float mAddTime;
-		float mMeleeVelocity;
-		float mProjectileSpeed;
-
-		// arcana info | A스킬 B스킬 C스킬 구분.. 할필요가 있나?
-		// spell stat | 속도, 거리 공격력, 타입 등
 	};
 }

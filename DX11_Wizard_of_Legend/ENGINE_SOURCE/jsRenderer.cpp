@@ -4,6 +4,7 @@
 #include "jsSceneManager.h"
 #include "jsPaintShader.h"
 #include "jsParticleShader.h"
+#include "jsGameObject.h"
 
 namespace js::renderer
 {
@@ -17,6 +18,7 @@ namespace js::renderer
 	StructuredBuffer* lightsBuffer = nullptr;
 
 	Camera* mainCamera = nullptr;
+	GameObject* mainCameraObject = nullptr;
 	FadeScript* fade = nullptr;
 
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];

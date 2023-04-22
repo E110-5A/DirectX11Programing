@@ -104,26 +104,7 @@ namespace js
 		ArcanaInfo	mSpecial;
 		ArcanaInfo	mUltimate;
 
-
 		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
 
-
-
-		// 콤보 딜레이
-		bool mComboDelay;
-		// 콤보 진행
-		bool mComboProcess;
-
-		// 콤보 횟수
-		int mMaxComboCount;
-		int mCurComboCount;
-
-		// 콤보 유지 시간
-		float mComboValidTime;
-		float mComboCurrentValidTime;
-
-		// 콤보 딜레이 시간
-		float mComboDelayTime;
-		float mComboCurrentDelayTime;
 	};
 }

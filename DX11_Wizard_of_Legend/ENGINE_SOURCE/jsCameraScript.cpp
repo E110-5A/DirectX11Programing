@@ -21,7 +21,8 @@ namespace js
 
 	void CameraScript::Update()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
+		FollowTarget();
+		/*Transform* tr = GetOwner()->GetComponent<Transform>();
 
 		Vector3 pos = tr->GetPosition();
 
@@ -44,9 +45,20 @@ namespace js
 			pos += 30.0f * -tr->Foward() * Time::DeltaTime();
 
 
-		tr->SetPosition(pos);
+		tr->SetPosition(pos);*/
 	}
 	void CameraScript::Render()
 	{
+	}
+	void CameraScript::FollowTarget()
+	{
+		if (nullptr != mFollowTarget)
+		{
+			Transform* myTr = GetOwner()->GetComponent<Transform>();
+			Transform* targetTr = mFollowTarget->GetComponent<Transform>();
+			Vector3 targetPosition = targetTr->GetPosition();
+
+			myTr->SetPosition(targetPosition);
+		}
 	}
 }

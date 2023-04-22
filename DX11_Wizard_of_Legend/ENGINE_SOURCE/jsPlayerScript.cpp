@@ -35,22 +35,9 @@ namespace js
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}, mAA{}, mSkill{}, mDash{}, mSpecial{}, mUltimate{}
 		, mBasicAnimationType(true)
-		, mComboDelay(false)
-		, mComboProcess(false)
-		, mMaxComboCount(4)
-		, mCurComboCount(0)
-		, mComboValidTime(0.9)
-		, mComboCurrentValidTime(0.0f)
-		, mComboDelayTime(0.1f)
-		, mComboCurrentDelayTime(0.0f)
 	{
 	}
-	
-
-	
-	
-	
-	
+		
 	PlayerScript::~PlayerScript()
 	{
 	}
@@ -63,7 +50,7 @@ namespace js
 		// 기술 세팅하기
 		// 근거리 평타 (콤보 기능 넣을것!)
 		initializeArcana(mAA, eArcanaCategory::Projectile, eArcanaType::AA, eStagger::Light
-			, 6.0f, 5.0f, 5.0f, 1.4f, 4, 0.9, 0.14f);
+			, 6.0f, 5.0f, 5.0f, 1.4f, 1, 0.9, 0.14f);
 		// Dragon_Arc
 		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal
 			, 6.5f, 12.0f, 5.0f, 3.0f, 3, 1.0f, 0.12f);
@@ -212,7 +199,7 @@ namespace js
 
 	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
 		, float damage, float moveSpeed, float spellRange, float cooldown
-		, int mMaxComboCount, float mComboValidTime, float mComboDelayTime)
+		, int maxProjectileCount, float mComboValidTime, float mComboDelayTime)
 	{
 		skill.spellStat.category = category;
 		skill.spellStat.arcanaType = arcanaType;
@@ -227,7 +214,7 @@ namespace js
 
 		skill.comboDelay = false;
 		skill.comboProcess = false;
-		skill.maxComboCount = mMaxComboCount;
+		skill.maxComboCount = maxProjectileCount;
 		skill.curComboCount = 0;
 		skill.comboValidTime = mComboValidTime;
 		skill.comboCurrentValidTime = 0.0f;
@@ -624,9 +611,9 @@ namespace js
 				// 콤보 카운트 넘겼는지 확인
 				if (comboCountOutCheck(mAA))
 					return;
-				// 콤보 유효시간 넘겼는지 확인
-				if (comboValidOutCheck(mAA))
-					return;
+				//// 콤보 유효시간 넘겼는지 확인
+				//if (comboValidOutCheck(mAA))
+				//	return;
 
 				// 문제없으면 평타 때림!
 				if (false == mAA.comboDelay)
@@ -644,9 +631,9 @@ namespace js
 				// 콤보 카운트 넘겼는지 확인
 				if (comboCountOutCheck(mSkill))
 					return;
-				// 콤보 유효시간 넘겼는지 확인
-				if (comboValidOutCheck(mSkill))
-					return;
+				//// 콤보 유효시간 넘겼는지 확인
+				//if (comboValidOutCheck(mSkill))
+				//	return;
 
 				// 문제없으면 평타 때림!
 				if (false == mSkill.comboDelay)
@@ -668,9 +655,9 @@ namespace js
 				// 콤보 카운트 넘겼는지 확인
 				if (comboCountOutCheck(mSpecial))
 					return;
-				// 콤보 유효시간 넘겼는지 확인
-				if (comboValidOutCheck(mSpecial))
-					return;
+				//// 콤보 유효시간 넘겼는지 확인
+				//if (comboValidOutCheck(mSpecial))
+				//	return;
 
 				// 문제없으면 평타 때림!
 				if (false == mSpecial.comboDelay)
@@ -688,9 +675,9 @@ namespace js
 				// 콤보 카운트 넘겼는지 확인
 				if (comboCountOutCheck(mUltimate))
 					return;
-				// 콤보 유효시간 넘겼는지 확인
-				if (comboValidOutCheck(mUltimate))
-					return;
+				//// 콤보 유효시간 넘겼는지 확인
+				//if (comboValidOutCheck(mUltimate))
+				//	return;
 
 				// 문제없으면 평타 때림!
 				if (false == mUltimate.comboDelay)

@@ -53,6 +53,13 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
+			std::vector<Script*> camScripts = renderer::mainCameraObject->GetScripts();
+			CameraScript* cameraScript = dynamic_cast<CameraScript*>(camScripts[0]);
+
+			if (nullptr != cameraScript)
+			{
+				cameraScript->SetCamFollow(obj);
+			}
 
 			// 투사체 생성
 			for (int index = 0; index < PROJECTILE_POOL; ++index)

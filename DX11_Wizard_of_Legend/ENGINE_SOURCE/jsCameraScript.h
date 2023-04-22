@@ -14,7 +14,11 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-	private:
+		void FollowTarget();
 
+		void SetCamFollow(GameObject* target) { mFollowTarget = target; }
+
+	private:
+		GameObject* mFollowTarget;
 	};
 }

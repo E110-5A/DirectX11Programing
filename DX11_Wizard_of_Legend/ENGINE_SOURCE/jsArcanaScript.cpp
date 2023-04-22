@@ -13,13 +13,7 @@ namespace js
 		, mInfo(nullptr)
 		, mArcanaState(eArcanaState::Disabled)
 		, mStartPos(Vector3::Zero)
-
-		, mCategory(eArcanaCategory::Melee)
-		, mLifeTime(2.0f)
-		, mAddTime(0.0f)
-		, mMeleeVelocity(30.0f)
-		, mProjectileSpeed(16.0f)
-	{
+	{	
 	}
 	ArcanaScript::~ArcanaScript()
 	{
