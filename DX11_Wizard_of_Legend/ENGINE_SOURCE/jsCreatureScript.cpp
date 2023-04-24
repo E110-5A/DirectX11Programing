@@ -5,7 +5,7 @@
 #include "jsTransform.h"
 
 // object
-#include "jsGameObject.h"
+#include "jsObject.h"
 
 
 namespace js

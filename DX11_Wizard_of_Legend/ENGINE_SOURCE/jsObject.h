@@ -101,7 +101,7 @@ namespace js::object
 
 	static void Destroy(GameObject* gameObject)
 	{
-		gameObject->Death();
+		gameObject->OnDeath();
 	}
 
 	static void DontDestroyOnLoad(GameObject* gameObject)   //씬 이동시 이 오브젝트는 삭제하지 않는다

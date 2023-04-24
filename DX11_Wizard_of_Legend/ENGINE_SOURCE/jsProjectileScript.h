@@ -1,26 +1,16 @@
 #pragma once
 #include "jsScript.h"
 #include "jsCollider2D.h"
-
-// 벡터 방향
-#define V2DOWN 0,-1
-#define V2RIGHT 1,0
-#define V2LEFT -1,0
-#define V2UP 0,1
-
-// 라디안 방향
-#define RTOP		 0
-#define RBOTTOM		-3.14
-#define RRIGHT		-1.57
-#define RLEFT		 1.57
+#include "jsRigidbody.h"
+#include "jsTransform.h"
 
 namespace js
 {
-	class CreatureScript : public Script
+	class ProjectileScript : public Script
 	{
 	public:
-		CreatureScript();
-		virtual ~CreatureScript();
+		ProjectileScript();
+		virtual ~ProjectileScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -39,37 +29,23 @@ namespace js
 	public:
 		Rigidbody* GetRigidbody() { return mRigidbody; }
 		Transform* GetTransform() { return mTransform; }
-		OffenceStat GetOffenceStat() { return mOffenceStat; }
-		HealthStat GetHealthStat() { return mHealthStat; }
 
 		// 초기화 관련 함수
 	protected:
-		// float maxHp, float curHp, float regHp, float moveSpeed
-		virtual void initializeHealthStat(float maxHp, float curHp, float regHp,float moveSpeed);
-		// float power, float criticalChance, float criticalDamage
-		virtual void initializeOffenceStat(float power, float criticalChance, float criticalDamage);
 		virtual void createAnimation() {};
 		virtual void addEvents() {};
+		virtual void ActiveProjectile() {};
 
 		// 충돌 관련 함수
 	protected:
 		virtual void Hit(Script* target);
-		virtual void knockback(Vector3 dir) {};
 
 		virtual void WallCollision(Script* target);
-		virtual void FallCollision(Script* target);
-
-
-
-
-
 
 	protected:
 		Rigidbody* mRigidbody;
 		Transform* mTransform;
-
-		HealthStat mHealthStat;
-		OffenceStat mOffenceStat;
+		ArcanaStat* mArcanaStat;
 
 	protected:
 		Vector2 mAnimationDir;

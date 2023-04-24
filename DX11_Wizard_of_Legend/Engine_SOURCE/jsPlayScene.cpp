@@ -67,6 +67,7 @@ namespace js
 			for (int index = 0; index < PROJECTILE_POOL; ++index)
 			{
 				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::PlayerProjectile, this);
+				projecObj->OnPause();
 				projecObj->SetName(L"projectile");
 				projecObj->AddComponent<Collider2D>();
 				projecObj->AddComponent<Animator>();

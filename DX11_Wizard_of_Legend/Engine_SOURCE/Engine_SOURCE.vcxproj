@@ -204,6 +204,7 @@
     <ClInclude Include="jsPlayerScript.h" />
     <ClInclude Include="jsPlayScene.h" />
     <ClInclude Include="jsPrefab.h" />
+    <ClInclude Include="jsProjectileScript.h" />
     <ClInclude Include="jsRenderer.h" />
     <ClInclude Include="jsResource.h" />
     <ClInclude Include="jsResources.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="jsPlayerScript.cpp" />
     <ClCompile Include="jsPlayScene.cpp" />
     <ClCompile Include="jsPrefab.cpp" />
+    <ClCompile Include="jsProjectileScript.cpp" />
     <ClCompile Include="jsRenderer.cpp" />
     <ClCompile Include="jsResource.cpp" />
     <ClCompile Include="jsResources.cpp" />

@@ -59,9 +59,10 @@ namespace js
 	{
 		ArcanaScript* projectile = dynamic_cast<ArcanaScript*>(target);
 		// 상대의 공격 관련 정보를 가져옴
-		float totalDamage = projectile->GetArcanaInfo();
+		float totalDamage = projectile->GetTotalDamage();
 
-		Vector3 myPosition = mTransform->GetPosition();		
+		Vector3 myPosition = mTransform->GetPosition();
+
 		Vector3 targetPosition = projectile->GetTransform()->GetPosition();
 		Vector3 dir = targetPosition - myPosition;
 		dir.Normalize();

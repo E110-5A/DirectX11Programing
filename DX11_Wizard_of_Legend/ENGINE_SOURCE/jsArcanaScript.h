@@ -1,9 +1,9 @@
 #pragma once
-#include "jsScript.h"
+#include "jsProjectileScript.h"
 
 namespace js
 {
-	class ArcanaScript : public Script
+	class ArcanaScript : public ProjectileScript
 	{
 	public:
 		ArcanaScript();
@@ -28,12 +28,12 @@ namespace js
 		virtual void Action() override;
 
 		void SetSpellID(int id) { mSpellID = id; }
-		void ActiveArcana(ArcanaInfo& skillInfo, float power);
+		void ActiveArcana(ArcanaStat& skillInfo, float power);
 
 		eArcanaState GetArcanaState() { return mArcanaState; }
-		ArcanaInfo* GetArcanaInfo() { return mArcanaInfo; }
+		ArcanaStat* GetArcanaInfo() { return mArcanaStat; }
 
-		float GetTotalDamage() { return mArcanaInfo->spellStat.damage * mPower; }
+		float GetTotalDamage() { return mArcanaStat->damage * mPower; }
 
 	private:
 		void createAnimation();
@@ -47,7 +47,7 @@ namespace js
 
 	private:
 		int mSpellID;
-		ArcanaInfo*	mArcanaInfo;
+		//ArcanaInfo*	mArcanaInfo;
 		eArcanaState mArcanaState;
 		Vector3 mStartPos;
 

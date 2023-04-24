@@ -141,7 +141,7 @@ namespace js
 			if (obj == nullptr)
 				continue;
 
-			obj->SetActive();
+			obj->OnActive();
 		}
 	}
 	void Layer::ObjectsPause()
@@ -151,7 +151,7 @@ namespace js
 			if (obj == nullptr)
 				continue;
 
-			obj->Pause();
+			obj->OnPause();
 		}
 	}
 }

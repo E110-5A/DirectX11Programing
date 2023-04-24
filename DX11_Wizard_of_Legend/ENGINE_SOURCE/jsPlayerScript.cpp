@@ -20,10 +20,10 @@
 #define V2UP 0,1
 
 // 라디안 방향
-#define TOP		0
-#define BOTTOM	-3.14
-#define RIGHT	-1.57
-#define LEFT	1.57
+#define RTOP		 0
+#define RBOTTOM		-3.14
+#define RRIGHT		-1.57
+#define RLEFT		 1.57
 
 namespace js
 {
@@ -45,6 +45,10 @@ namespace js
 	{
 		initializeHealthStat(200.0f, 200.0f, 0.1f, 3.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
+		mInfo.level = 1;
+		mInfo.maxExp = 20;
+		mInfo.curExp = 0;
+		mInfo.gold = 0;
 		createAnimation();
 		addEvents();
 		// 기술 세팅하기
@@ -195,20 +199,6 @@ namespace js
 		}
 	}
 
-	void PlayerScript::initializeStat()
-	{
-		mOffenceStat.power = 1;
-		mOffenceStat.criticalChance = 5;
-		mOffenceStat.criticalDamage = 1.7;
-		mHealthStat.maxHp = 200;
-		mHealthStat.curHp = 200;
-		mHealthStat.moveSpeed = 3;
-		mHealthStat.regHp = 0.1;
-		mInfo.level = 1;
-		mInfo.maxExp = 20;
-		mInfo.curExp = 0;
-		mInfo.gold = 0;
-	}
 		
 
 	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
@@ -290,11 +280,11 @@ namespace js
 		{
 			if (Input::GetKey(eKeyCode::K))
 			{
-				GetOwner()->Kill();
+				GetOwner()->OnDeath();
 			}
 			if (Input::GetKey(eKeyCode::L))
 			{
-				GetOwner()->Alive();
+				GetOwner()->OnActive();
 			}
 		}
 	}
@@ -723,7 +713,7 @@ namespace js
 			Transform* targetTr = mProjectiles[poolIndex]->GetOwner()->GetComponent<Transform>();
 			targetTr->SetPosition(tr->GetPosition());
 
-			mProjectiles[poolIndex]->ActiveArcana(info, mOffenceStat.power);
+			mProjectiles[poolIndex]->ActiveArcana(info.spellStat, mOffenceStat.power);
 		}
 		
 	}
@@ -744,14 +734,16 @@ namespace js
 		float angle = atan2(mMouseDir.y, mMouseDir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		return angle;
 	}
+	
+
 	void PlayerScript::setPlayerDirection(float angle)
 	{
 		//  방향 전환 :  TOP | RIGHT | BOTTOM | LEFT 
-		if ((TOP + 0.78) >= angle && (TOP - 0.78) <= angle)
+		if ((RTOP + 0.78) >= angle && (RTOP - 0.78) <= angle)
 			mMoveDir = Vector2(0, 1);
-		else if ((RIGHT + 0.78) >= angle && (RIGHT - 0.78) <= angle)
+		else if ((RRIGHT + 0.78) >= angle && (RRIGHT - 0.78) <= angle)
 			mMoveDir = Vector2(1, 0);
-		else if ((BOTTOM + 0.78) >= angle && (BOTTOM - 0.78) <= angle)
+		else if ((RBOTTOM + 0.78) >= angle && (RBOTTOM - 0.78) <= angle)
 			mMoveDir = Vector2(0, -1);
 		else
 			mMoveDir = Vector2(-1, 0);

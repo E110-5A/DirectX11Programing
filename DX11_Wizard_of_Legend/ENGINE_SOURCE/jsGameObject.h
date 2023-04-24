@@ -85,12 +85,9 @@ namespace js
 			return false;
 		}
 
-		void Kill() { mState = eGlobalState::Dead; }
-		void Alive() { mState = eGlobalState::Active; }
-
-		void SetActive() { mState = eGlobalState::Active; }
-		void Pause() { if (mIsDontChangeState) return; mState = eGlobalState::Paused; }
-		void Death() { if (mIsDontChangeState) return; mState = eGlobalState::Dead; }
+		void OnActive() { mState = eGlobalState::Active; }
+		void OnPause() { if (mIsDontChangeState) return; mState = eGlobalState::Paused; }
+		void OnDeath() { if (mIsDontChangeState) return; mState = eGlobalState::Dead; }
 		eGlobalState GetState() { return mState; }
 				
 		bool IsDontDestroy() { return mIsDontDestroy; }

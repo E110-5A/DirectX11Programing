@@ -40,7 +40,6 @@ namespace js
 	protected:
 		virtual void createAnimation()override;
 		virtual void addEvents()override;
-		virtual void initializeStat() override;
 		
 	public:
 		PlayerInfo GetPlayerInfo() { return mInfo; }
