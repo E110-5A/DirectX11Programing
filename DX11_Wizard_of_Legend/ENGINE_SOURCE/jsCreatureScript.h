@@ -39,15 +39,11 @@ namespace js
 	protected:
 		virtual void createAnimation() {};
 		virtual void initializeStat() {};
-		virtual void knockback(Vector3 dir) {};
 	protected:
-		// 피격 함수
 		virtual void Hit(Script* target);
+		virtual void knockback(Vector3 dir) {};
 
-		// Wall 충돌 함수
 		virtual void WallCollision(Script* target);
-
-		// Fall 충돌 함수
 		virtual void FallCollision(Script* target);
 
 	protected:

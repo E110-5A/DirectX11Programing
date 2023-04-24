@@ -58,20 +58,20 @@ namespace js
 	{
 		ArcanaScript* projectile = dynamic_cast<ArcanaScript*>(target);
 		// 상대의 공격 관련 정보를 가져옴
-		float totalDamage = projectile->GetTotalDamage();
+		/*float totalDamage = projectile->GetTotalDamage();
 
 		Vector3 myPosition = mTransform->GetPosition();		
 		Vector3 targetPosition = projectile->GetTransform()->GetPosition();
 		Vector3 dir = targetPosition - myPosition;
-		dir.Normalize();
+		dir.Normalize();*/
 
 		// 자기 자신에게 피해를 줌
-		mMonsterStat.curHp -= totalDamage;
+		//mMonsterStat.curHp -= totalDamage;
 
 		// 방향 구하기
 
 		// 넉백하기
-		knockback(dir);
+		//knockback(dir);
 	}
 	void MonsterScript::knockback(Vector3 dir)
 	{

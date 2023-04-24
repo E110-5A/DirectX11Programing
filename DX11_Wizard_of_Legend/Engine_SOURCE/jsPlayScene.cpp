@@ -3,19 +3,19 @@
 #include "jsInput.h"
 #include "jsRenderer.h"
 #include "jsResources.h"
-#include "jsTexture.h"
 #include "jsObject.h"
 
-#include "jsTransform.h"
+#include "jsCollisionManager.h"
 
 #include "jsCamera.h"
 #include "jsCameraScript.h"
 
-#include "jsGridScript.h"
-
 #include "jsMeshRenderer.h"
-#include "jsSpriteRenderer.h"
+#include "jsGridScript.h"
 #include "jsFadeScript.h"
+
+#include "jsSpriteRenderer.h"
+#include "jsTransform.h"
 
 #include "jsAnimator.h"
 
@@ -23,6 +23,8 @@
 #include "jsPlayerScript.h"
 #include "jsRigidbody.h"
 #include "jsArcanaScript.h"
+
+#include "jsMonsterScript.h"
 
 namespace js
 {
@@ -64,7 +66,7 @@ namespace js
 			// 투사체 생성
 			for (int index = 0; index < PROJECTILE_POOL; ++index)
 			{
-				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::Projectile, this);
+				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::PlayerProjectile, this);
 				projecObj->SetName(L"projectile");
 				projecObj->AddComponent<Collider2D>();
 				projecObj->AddComponent<Animator>();
@@ -77,7 +79,25 @@ namespace js
 				playerScript->SetProjectileID(index);
 			}
 		}
-			
+		
+		// Monster
+		{
+			GameObject* monsterObj = object::Instantiate<GameObject>(eLayerType::Monster, this);
+			monsterObj->SetName(L"monster");
+			monsterObj->AddComponent<Collider2D>();
+			monsterObj->AddComponent<Animator>();
+			monsterObj->AddComponent<Rigidbody>();
+
+			Transform* tr = monsterObj->GetComponent<Transform>();
+			tr->SetPosition(Vector3(1.0f, 0.0f, 1.0f));
+
+			SpriteRenderer* sr = monsterObj->AddComponent<SpriteRenderer>();
+			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
+			monsterObj->AddComponent<MonsterScript>();
+
+		}
+
 		// Skill & Health HUD
 		{
 			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
@@ -139,6 +159,7 @@ namespace js
 	void PlayScene::OnEnter()
 	{
 		//fade->FadeIn();
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
 	}
 
 	void PlayScene::OnExit()

@@ -50,7 +50,7 @@ namespace js
 		// 기술 세팅하기
 		// 근거리 평타 (콤보 기능 넣을것!)
 		initializeArcana(mAA, eArcanaCategory::Projectile, eArcanaType::AA, eStagger::Light
-			, 6.0f, 5.0f, 5.0f, 1.4f, 1, 0.9, 0.14f);
+			, 6.0f, 5.0f, 5.0f, 1.4f, 2, 0.9, 0.14f);
 		// Dragon_Arc
 		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal
 			, 6.5f, 12.0f, 5.0f, 3.0f, 3, 1.0f, 0.12f);

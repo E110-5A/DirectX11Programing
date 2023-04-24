@@ -17,9 +17,12 @@ namespace js::enums
 		Grid,
 		Background,
 		Tile,
+		Wall,
+		Fall,
 		Monster,
+		MonsterProjectile,
 		Player,
-		Projectile,
+		PlayerProjectile,
 
 		Particle,
 		UI,
