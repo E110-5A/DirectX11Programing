@@ -52,13 +52,15 @@ namespace js
 	}
 	void CameraScript::FollowTarget()
 	{
-		if (nullptr != mFollowTarget)
-		{
-			Transform* myTr = GetOwner()->GetComponent<Transform>();
-			Transform* targetTr = mFollowTarget->GetComponent<Transform>();
-			Vector3 targetPosition = targetTr->GetPosition();
+		if (nullptr == mFollowTarget)
+			return;
+		if (GameObject::Active != mFollowTarget->GetState())
+			return;
 
-			myTr->SetPosition(targetPosition);
-		}
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Transform* targetTr = mFollowTarget->GetComponent<Transform>();
+		Vector3 targetPosition = targetTr->GetPosition();
+
+		myTr->SetPosition(targetPosition);
 	}
 }

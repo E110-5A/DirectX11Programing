@@ -43,6 +43,7 @@ namespace js
 		//Player Obj & Projectile Obj Pool
 		{
 			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
+			obj->OnPause();
 			obj->SetName(L"Player");
 			Transform* tr = obj->GetComponent<Transform>();
 			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
@@ -50,11 +51,13 @@ namespace js
 			obj->AddComponent<Collider2D>();
 			obj->AddComponent<Animator>();
 			obj->AddComponent<Rigidbody>();
-
 			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
+
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
+			renderer::player = playerScript;
+
 			std::vector<Script*> camScripts = renderer::mainCameraObject->GetScripts();
 			CameraScript* cameraScript = dynamic_cast<CameraScript*>(camScripts[0]);
 
@@ -161,6 +164,7 @@ namespace js
 	{
 		//fade->FadeIn();
 		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
+		renderer::player->GetOwner()->OnActive();
 	}
 
 	void PlayScene::OnExit()

@@ -9,7 +9,7 @@
 #include "jsFadeScript.h"
 #include "jsLight.h"
 #include "jsStructuredBuffer.h"
-
+#include "jsPlayerScript.h"
 using namespace js::math;
 using namespace js::graphics;
 
@@ -91,6 +91,7 @@ namespace js::renderer
 	extern Camera* mainCamera;
 	extern GameObject* mainCameraObject;
 	extern FadeScript* fade;
+	extern PlayerScript* player;
 
 	extern ConstantBuffer* constantBuffers[];
 	extern StructuredBuffer* lightsBuffer;

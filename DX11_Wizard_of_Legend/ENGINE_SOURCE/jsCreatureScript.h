@@ -1,6 +1,8 @@
 #pragma once
 #include "jsScript.h"
 #include "jsCollider2D.h"
+#include "jsRigidbody.h"
+#include "jsTransform.h"
 
 // ∫§≈Õ πÊ«‚
 #define V2DOWN 0,-1

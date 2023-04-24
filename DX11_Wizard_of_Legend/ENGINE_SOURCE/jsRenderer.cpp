@@ -5,6 +5,7 @@
 #include "jsPaintShader.h"
 #include "jsParticleShader.h"
 #include "jsGameObject.h"
+#include "jsPlayerScript.h"
 
 namespace js::renderer
 {
@@ -20,7 +21,7 @@ namespace js::renderer
 	Camera* mainCamera = nullptr;
 	GameObject* mainCameraObject = nullptr;
 	FadeScript* fade = nullptr;
-
+	PlayerScript* player = nullptr;
 	std::vector<Camera*> cameras[(UINT)eSceneType::End];
 	std::vector<DebugMesh> debugMeshes;
 	std::vector<LightAttribute> lights;

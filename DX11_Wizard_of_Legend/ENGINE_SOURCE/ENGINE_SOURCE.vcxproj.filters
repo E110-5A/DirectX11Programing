@@ -154,6 +154,9 @@
     <Filter Include="Content\Objects &amp; Scripts\Creature\Monster">
       <UniqueIdentifier>{caae50a4-4b55-459b-b7c3-25f4036e9453}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Creature\Projectile">
+      <UniqueIdentifier>{3f7c23e1-931e-468c-8b1e-a086ee2b8192}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -317,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="jsMonsterScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="jsProjectileScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="jsMonsterScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="jsProjectileScript.h">
+      <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
