@@ -106,35 +106,8 @@
     <Filter Include="Content">
       <UniqueIdentifier>{bfee7126-f21d-492b-a001-1f37fb5c2f8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Objects">
-      <UniqueIdentifier>{a8bb0890-11ae-4669-8132-d6f2439e459b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\Scenes">
       <UniqueIdentifier>{7bd2a06f-987b-4ff0-87bd-c8402f13cca9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts">
-      <UniqueIdentifier>{0c9e0d2f-bd3f-44cc-a073-834f8bdf9d93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts\Fade">
-      <UniqueIdentifier>{482f6b97-8158-4190-aab2-4fd57c7d01b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts\Camera">
-      <UniqueIdentifier>{25c2dc14-84fd-4553-9d85-473627da4dc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts\Mouse">
-      <UniqueIdentifier>{9f439c0d-7a9f-46d0-a899-4d585810abb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts\Player">
-      <UniqueIdentifier>{86ab2da9-ae1c-43ba-a6a6-64ebd0758513}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Objects\Player">
-      <UniqueIdentifier>{9df74ce7-be6d-45d1-b007-dd18aef8e316}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Objects\Monster">
-      <UniqueIdentifier>{caae50a4-4b55-459b-b7c3-25f4036e9453}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Scripts\UI">
-      <UniqueIdentifier>{869bec72-133a-46f9-96e6-70d2fb25512c}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObject\Component\Rigidbody">
       <UniqueIdentifier>{524fd677-0155-4e3c-9512-e74a57082133}</UniqueIdentifier>
@@ -145,9 +118,6 @@
     <Filter Include="Resource\ComputeShader\PaintShader">
       <UniqueIdentifier>{b54d7db5-1771-417c-a776-6fe2b72eb0f2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Scripts\Player\Arcana">
-      <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource\ComputeShader\ParticleShader">
       <UniqueIdentifier>{c9c54e19-d1b8-4fd8-ad2c-18e5b55142cb}</UniqueIdentifier>
     </Filter>
@@ -156,6 +126,33 @@
     </Filter>
     <Filter Include="GameObject\Base">
       <UniqueIdentifier>{cab0e444-78f1-404f-bfe7-3ab6dd6dea45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts">
+      <UniqueIdentifier>{a8bb0890-11ae-4669-8132-d6f2439e459b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Mouse">
+      <UniqueIdentifier>{9f439c0d-7a9f-46d0-a899-4d585810abb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Fade">
+      <UniqueIdentifier>{482f6b97-8158-4190-aab2-4fd57c7d01b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Camera">
+      <UniqueIdentifier>{25c2dc14-84fd-4553-9d85-473627da4dc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\UI">
+      <UniqueIdentifier>{869bec72-133a-46f9-96e6-70d2fb25512c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Creature">
+      <UniqueIdentifier>{46cc4337-fd51-4f40-a14d-1c0c9883f2db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Creature\Player">
+      <UniqueIdentifier>{9df74ce7-be6d-45d1-b007-dd18aef8e316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Creature\Player\Arcana">
+      <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Creature\Monster">
+      <UniqueIdentifier>{caae50a4-4b55-459b-b7c3-25f4036e9453}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -238,7 +235,7 @@
       <Filter>GameObject\Component\Collider\3D</Filter>
     </ClCompile>
     <ClCompile Include="jsFadeScript.cpp">
-      <Filter>Content\Scripts\Fade</Filter>
+      <Filter>Content\Objects &amp; Scripts\Fade</Filter>
     </ClCompile>
     <ClCompile Include="jsAnimation.cpp">
       <Filter>GameObject\Component\Animator</Filter>
@@ -268,22 +265,19 @@
       <Filter>Graphics\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="jsCameraScript.cpp">
-      <Filter>Content\Scripts\Camera</Filter>
+      <Filter>Content\Objects &amp; Scripts\Camera</Filter>
     </ClCompile>
     <ClCompile Include="jsMouseScript.cpp">
-      <Filter>Content\Scripts\Mouse</Filter>
-    </ClCompile>
-    <ClCompile Include="jsPlayerScript.cpp">
-      <Filter>Content\Scripts\Player</Filter>
+      <Filter>Content\Objects &amp; Scripts\Mouse</Filter>
     </ClCompile>
     <ClCompile Include="jsPlayer.cpp">
-      <Filter>Content\Objects\Player</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
     </ClCompile>
     <ClCompile Include="jsMonster.cpp">
-      <Filter>Content\Objects\Monster</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClCompile>
     <ClCompile Include="jsButtonScript.cpp">
-      <Filter>Content\Scripts\UI</Filter>
+      <Filter>Content\Objects &amp; Scripts\UI</Filter>
     </ClCompile>
     <ClCompile Include="jsLogoScene.cpp">
       <Filter>Content\Scenes</Filter>
@@ -298,7 +292,7 @@
       <Filter>Resource\ComputeShader\PaintShader</Filter>
     </ClCompile>
     <ClCompile Include="jsArcanaScript.cpp">
-      <Filter>Content\Scripts\Player\Arcana</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
     </ClCompile>
     <ClCompile Include="jsParticleShader.cpp">
       <Filter>Resource\ComputeShader\ParticleShader</Filter>
@@ -311,6 +305,18 @@
     </ClCompile>
     <ClCompile Include="jsGameObject.cpp">
       <Filter>GameObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsPlayerScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="jsArcanaObject.cpp">
+      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
+    </ClCompile>
+    <ClCompile Include="jsCreatureScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="jsMonsterScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -402,7 +408,7 @@
       <Filter>GameObject\Component\Collider\2D</Filter>
     </ClInclude>
     <ClInclude Include="jsFadeScript.h">
-      <Filter>Content\Scripts\Fade</Filter>
+      <Filter>Content\Objects &amp; Scripts\Fade</Filter>
     </ClInclude>
     <ClInclude Include="jsAnimation.h">
       <Filter>GameObject\Component\Animator</Filter>
@@ -435,22 +441,19 @@
       <Filter>Graphics\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="jsCameraScript.h">
-      <Filter>Content\Scripts\Camera</Filter>
+      <Filter>Content\Objects &amp; Scripts\Camera</Filter>
     </ClInclude>
     <ClInclude Include="jsMouseScript.h">
-      <Filter>Content\Scripts\Mouse</Filter>
-    </ClInclude>
-    <ClInclude Include="jsPlayerScript.h">
-      <Filter>Content\Scripts\Player</Filter>
+      <Filter>Content\Objects &amp; Scripts\Mouse</Filter>
     </ClInclude>
     <ClInclude Include="jsPlayer.h">
-      <Filter>Content\Objects\Player</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
     </ClInclude>
     <ClInclude Include="jsMonster.h">
-      <Filter>Content\Objects\Monster</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClInclude>
     <ClInclude Include="jsButtonScript.h">
-      <Filter>Content\Scripts\UI</Filter>
+      <Filter>Content\Objects &amp; Scripts\UI</Filter>
     </ClInclude>
     <ClInclude Include="jsLogoScene.h">
       <Filter>Content\Scenes</Filter>
@@ -465,7 +468,7 @@
       <Filter>Resource\ComputeShader\PaintShader</Filter>
     </ClInclude>
     <ClInclude Include="jsArcanaScript.h">
-      <Filter>Content\Scripts\Player\Arcana</Filter>
+      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
     </ClInclude>
     <ClInclude Include="jsParticleShader.h">
       <Filter>Resource\ComputeShader\ParticleShader</Filter>
@@ -484,6 +487,18 @@
     </ClInclude>
     <ClInclude Include="jsContents.h">
       <Filter>API\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="jsPlayerScript.h">
+      <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="jsArcanaObject.h">
+      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
+    </ClInclude>
+    <ClInclude Include="jsCreatureScript.h">
+      <Filter>Content\Objects &amp; Scripts\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="jsMonsterScript.h">
+      <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

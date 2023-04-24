@@ -10,7 +10,7 @@ namespace js
 {
 	ArcanaScript::ArcanaScript()
 		: mSpellID(-1)
-		, mInfo(nullptr)
+		, mArcanaInfo(nullptr)
 		, mArcanaState(eArcanaState::Disabled)
 		, mStartPos(Vector3::Zero)
 	{	
@@ -104,37 +104,37 @@ namespace js
 #pragma endregion
 	
 	// 플레이어로부터 호출받음
-	void ArcanaScript::ActiveArcana(ArcanaInfo& skillInfo)
+	void ArcanaScript::ActiveArcana(ArcanaInfo& skillInfo, float power)
 	{
 		// 변수 초기화
-		mInfo = &skillInfo;
+		mArcanaInfo = &skillInfo;
 		mArcanaState = eArcanaState::Active;
 		mStartPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-
+		mPower = power;
 		// 애니메이션 연결
 		bindAnimation();
 	}
 
 	void ArcanaScript::move()
 	{
-		if (nullptr == mInfo)
+		if (nullptr == mArcanaInfo)
 			return;
 
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
 		// melee
-		if (eArcanaCategory::Melee == mInfo->spellStat.category)
+		if (eArcanaCategory::Melee == mArcanaInfo->spellStat.category)
 		{
-			myRigidbody->SetVelocity(shootDir * mInfo->spellStat.moveSpeed);
+			myRigidbody->SetVelocity(shootDir * mArcanaInfo->spellStat.moveSpeed);
 		}
 
 		// projectile
-		if (eArcanaCategory::Projectile == mInfo->spellStat.category)
+		if (eArcanaCategory::Projectile == mArcanaInfo->spellStat.category)
 		{
 			Transform* myTr = GetOwner()->GetComponent<Transform>();
 			Vector3 pos = myTr->GetPosition();
-			pos += myTr->Up() * mInfo->spellStat.moveSpeed * Time::DeltaTime();
+			pos += myTr->Up() * mArcanaInfo->spellStat.moveSpeed * Time::DeltaTime();
 			myTr->SetPosition(pos);
 		}
 	}
@@ -144,27 +144,27 @@ namespace js
 
 	void ArcanaScript::bindAnimation()
 	{
-		if (eArcanaType::AA == mInfo->spellStat.arcanaType)
+		if (eArcanaType::AA == mArcanaInfo->spellStat.arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash", false);
 		}
-		else if (eArcanaType::Skill == mInfo->spellStat.arcanaType)
+		else if (eArcanaType::Skill == mArcanaInfo->spellStat.arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"FireArrow");
 		}
-		else if (eArcanaType::Dash == mInfo->spellStat.arcanaType)
+		else if (eArcanaType::Dash == mArcanaInfo->spellStat.arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash");
 		}
-		else if (eArcanaType::Special == mInfo->spellStat.arcanaType)
+		else if (eArcanaType::Special == mArcanaInfo->spellStat.arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash");
 		}
-		else if (eArcanaType::Ultimate == mInfo->spellStat.arcanaType)
+		else if (eArcanaType::Ultimate == mArcanaInfo->spellStat.arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"FireArrow");
@@ -180,15 +180,15 @@ namespace js
 
 	void ArcanaScript::endConditionProjectile()
 	{
-		if (nullptr == mInfo)
+		if (nullptr == mArcanaInfo)
 			return;
 		
-		if (eArcanaCategory::Projectile == mInfo->spellStat.category)
+		if (eArcanaCategory::Projectile == mArcanaInfo->spellStat.category)
 		{
 			// 일정거리 이동하면 종료
 			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();
 			
-			if (mInfo->spellStat.spellRange <= Vector3::Distance(mStartPos, currentPos))
+			if (mArcanaInfo->spellStat.spellRange <= Vector3::Distance(mStartPos, currentPos))
 			{
 				mArcanaState = eArcanaState::Disabled;
 			}

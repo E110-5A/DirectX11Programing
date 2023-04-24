@@ -163,6 +163,7 @@
     <ClInclude Include="jsAnimation.h" />
     <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />
+    <ClInclude Include="jsArcanaObject.h" />
     <ClInclude Include="jsArcanaScript.h" />
     <ClInclude Include="jsBaseRenderer.h" />
     <ClInclude Include="jsButtonScript.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="jsComponent.h" />
     <ClInclude Include="jsComputeShader.h" />
     <ClInclude Include="jsConstantBuffer.h" />
+    <ClInclude Include="jsCreatureScript.h" />
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
     <ClInclude Include="jsEnums.h" />
@@ -192,6 +194,7 @@
     <ClInclude Include="jsMesh.h" />
     <ClInclude Include="jsMeshRenderer.h" />
     <ClInclude Include="jsMonster.h" />
+    <ClInclude Include="jsMonsterScript.h" />
     <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPaintShader.h" />
@@ -221,6 +224,7 @@
     <ClCompile Include="jsAnimation.cpp" />
     <ClCompile Include="jsAnimator.cpp" />
     <ClCompile Include="jsApplication.cpp" />
+    <ClCompile Include="jsArcanaObject.cpp" />
     <ClCompile Include="jsArcanaScript.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
     <ClCompile Include="jsButtonScript.cpp" />
@@ -233,6 +237,7 @@
     <ClCompile Include="jsComponent.cpp" />
     <ClCompile Include="jsComputeShader.cpp" />
     <ClCompile Include="jsConstantBuffer.cpp" />
+    <ClCompile Include="jsCreatureScript.cpp" />
     <ClCompile Include="jsEntity.cpp" />
     <ClCompile Include="jsFadeScript.cpp" />
     <ClCompile Include="jsGameObject.cpp" />
@@ -247,6 +252,7 @@
     <ClCompile Include="jsMesh.cpp" />
     <ClCompile Include="jsMeshRenderer.cpp" />
     <ClCompile Include="jsMonster.cpp" />
+    <ClCompile Include="jsMonsterScript.cpp" />
     <ClCompile Include="jsMouseScript.cpp" />
     <ClCompile Include="jsPaintShader.cpp" />
     <ClCompile Include="jsParticleShader.cpp" />

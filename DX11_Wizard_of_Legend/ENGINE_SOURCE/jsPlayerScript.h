@@ -1,10 +1,9 @@
 #pragma once
-#include "jsScript.h"
-#include "jsCollider2D.h"
+#include "jsCreatureScript.h"
 #include "jsArcanaScript.h"
 namespace js
 {
-	class PlayerScript : public Script
+	class PlayerScript : public CreatureScript
 	{
 	public:
 		enum class eState
@@ -20,7 +19,7 @@ namespace js
 		};
 
 		PlayerScript();
-		~PlayerScript();
+		virtual ~PlayerScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -37,8 +36,22 @@ namespace js
 		virtual void Complete() override;
 		virtual void End()override;
 		virtual void Action()override;
-
+			
+	protected:
+		virtual void createAnimation()override;
+		virtual void addEvents()override;
+		virtual void initializeStat() override;
+		
 	public:
+		PlayerInfo GetPlayerInfo() { return mInfo; }
+		
+
+	private:
+
+		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
+			, float damage, float moveSpeed, float spellRange, float cooldown
+			, int mMaxComboCount, float mComboValidTime, float mComboDelayTime);
+
 		void Idle();
 		void Move();
 		void AA();
@@ -46,13 +59,6 @@ namespace js
 		void Dash();
 		void Special();
 		void Ultimate();
-
-	private:
-		void createAnimation();
-		void addEvents();
-		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
-			, float damage, float moveSpeed, float spellRange, float cooldown
-			, int mMaxComboCount, float mComboValidTime, float mComboDelayTime);
 
 		void setIdle() { playAnimation(eState::Idle); }
 		void setMove() { mState = eState::Move; }
@@ -94,9 +100,8 @@ namespace js
 		Vector2 mMouseDir;
 		Vector2 mMoveDir;
 		std::vector<ArcanaScript*> mProjectiles;
-		// PlayerInfo 사용하기 전 멤버들
 		eState mState;
-		float mMoveSpeed;
+		PlayerInfo mInfo;
 
 		ArcanaInfo	mAA;
 		ArcanaInfo	mSkill;

@@ -28,9 +28,7 @@
 namespace js
 {
 	PlayerScript::PlayerScript()
-		: Script()
-		, mState(eState::Idle)
-		, mMoveSpeed(3.0f)
+		: mState(eState::Idle)
 		, mMoveDir(Vector2(V2DOWN))
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}, mAA{}, mSkill{}, mDash{}, mSpecial{}, mUltimate{}
@@ -45,6 +43,8 @@ namespace js
 #pragma region 초기화
 	void PlayerScript::Initialize()
 	{
+		initializeHealthStat(200.0f, 200.0f, 0.1f, 3.0f);
+		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 		createAnimation();
 		addEvents();
 		// 기술 세팅하기
@@ -195,7 +195,21 @@ namespace js
 		}
 	}
 
-	
+	void PlayerScript::initializeStat()
+	{
+		mOffenceStat.power = 1;
+		mOffenceStat.criticalChance = 5;
+		mOffenceStat.criticalDamage = 1.7;
+		mHealthStat.maxHp = 200;
+		mHealthStat.curHp = 200;
+		mHealthStat.moveSpeed = 3;
+		mHealthStat.regHp = 0.1;
+		mInfo.level = 1;
+		mInfo.maxExp = 20;
+		mInfo.curExp = 0;
+		mInfo.gold = 0;
+	}
+		
 
 	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
 		, float damage, float moveSpeed, float spellRange, float cooldown
@@ -370,28 +384,28 @@ namespace js
 		if (Input::GetKey(eKeyCode::S))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Up() * mMoveSpeed * Time::DeltaTime();
+			pos += -tr->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(V2DOWN);
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Right() * mMoveSpeed * Time::DeltaTime();
+			pos += tr->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(V2RIGHT);
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += -tr->Right() * mMoveSpeed * Time::DeltaTime();
+			pos += -tr->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(V2LEFT);
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
 			Vector3 pos = tr->GetPosition();
-			pos += tr->Up() * mMoveSpeed * Time::DeltaTime();
+			pos += tr->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			tr->SetPosition(pos);
 			mMoveDir = Vector2(V2UP);
 		}
@@ -709,7 +723,7 @@ namespace js
 			Transform* targetTr = mProjectiles[poolIndex]->GetOwner()->GetComponent<Transform>();
 			targetTr->SetPosition(tr->GetPosition());
 
-			mProjectiles[poolIndex]->ActiveArcana(info);
+			mProjectiles[poolIndex]->ActiveArcana(info, mOffenceStat.power);
 		}
 		
 	}

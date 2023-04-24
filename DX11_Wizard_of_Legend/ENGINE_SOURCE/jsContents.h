@@ -97,11 +97,8 @@ struct OffenceStat
 	float criticalChance;
 	float criticalDamage;
 };
-struct Stat
+struct PlayerInfo
 {
-	HealthStat healthStat;
-	OffenceStat offenceStat;
-
 	int level;
 	float maxExp;
 	float curExp;

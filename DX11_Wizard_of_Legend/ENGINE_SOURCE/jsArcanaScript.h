@@ -28,9 +28,12 @@ namespace js
 		virtual void Action() override;
 
 		void SetSpellID(int id) { mSpellID = id; }
-		void ActiveArcana(ArcanaInfo& skillInfo);
+		void ActiveArcana(ArcanaInfo& skillInfo, float power);
 
 		eArcanaState GetArcanaState() { return mArcanaState; }
+		ArcanaInfo* GetArcanaInfo() { return mArcanaInfo; }
+
+		float GetTotalDamage() { return mArcanaInfo->spellStat.damage * mPower; }
 
 	private:
 		void createAnimation();
@@ -44,8 +47,10 @@ namespace js
 
 	private:
 		int mSpellID;
-		ArcanaInfo*	mInfo;
+		ArcanaInfo*	mArcanaInfo;
 		eArcanaState mArcanaState;
 		Vector3 mStartPos;
+
+		float mPower;
 	};
 }

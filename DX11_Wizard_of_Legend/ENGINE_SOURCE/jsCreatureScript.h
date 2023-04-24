@@ -35,21 +35,41 @@ namespace js
 		virtual void End()override {};
 		virtual void Action()override {};
 
+		// 멤버 반환 함수
+	public:
+		Rigidbody* GetRigidbody() { return mRigidbody; }
+		Transform* GetTransform() { return mTransform; }
+		OffenceStat GetOffenceStat() { return mOffenceStat; }
+		HealthStat GetHealthStat() { return mHealthStat; }
 
+		// 초기화 관련 함수
 	protected:
+		// float maxHp, float curHp, float regHp, float moveSpeed
+		virtual void initializeHealthStat(float maxHp, float curHp, float regHp,float moveSpeed);
+		// float power, float criticalChance, float criticalDamage
+		virtual void initializeOffenceStat(float power, float criticalChance, float criticalDamage);
 		virtual void createAnimation() {};
-		virtual void initializeStat() {};
+		virtual void addEvents() {};
+
+		// 충돌 관련 함수
 	protected:
-		virtual void Hit(Script* target);
+		virtual void Hit(CreatureScript* target);
 		virtual void knockback(Vector3 dir) {};
 
 		virtual void WallCollision(Script* target);
 		virtual void FallCollision(Script* target);
 
+
+
+
+
+
 	protected:
 		Rigidbody* mRigidbody;
 		Transform* mTransform;
-		HealthStat mMonsterStat;
+
+		HealthStat mHealthStat;
+		OffenceStat mOffenceStat;
 
 	protected:
 		Vector2 mAnimationDir;

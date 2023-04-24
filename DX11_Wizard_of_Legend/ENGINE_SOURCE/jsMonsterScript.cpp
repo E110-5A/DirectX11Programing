@@ -21,7 +21,8 @@ namespace js
 	{
 		CreatureScript::Initialize();
 		createAnimation();
-		initializeStat();
+		initializeHealthStat(20.0f, 20.0f, 0.1f, 2.0f);
+		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 	}
 	void MonsterScript::Update()
 	{
@@ -58,12 +59,12 @@ namespace js
 	{
 		ArcanaScript* projectile = dynamic_cast<ArcanaScript*>(target);
 		// 상대의 공격 관련 정보를 가져옴
-		/*float totalDamage = projectile->GetTotalDamage();
+		float totalDamage = projectile->GetArcanaInfo();
 
 		Vector3 myPosition = mTransform->GetPosition();		
 		Vector3 targetPosition = projectile->GetTransform()->GetPosition();
 		Vector3 dir = targetPosition - myPosition;
-		dir.Normalize();*/
+		dir.Normalize();
 
 		// 자기 자신에게 피해를 줌
 		//mMonsterStat.curHp -= totalDamage;
@@ -103,14 +104,6 @@ namespace js
 
 			animator->Play(L"GhoulLargeIdleRight");
 		}
-	}
-
-	void MonsterScript::initializeStat()
-	{
-		mMonsterStat.maxHp = 20.0f;
-		mMonsterStat.curHp = 20.0f;
-		mMonsterStat.regHp = 0.1f;
-		mMonsterStat.moveSpeed = 1.7f;
 	}
 
 }

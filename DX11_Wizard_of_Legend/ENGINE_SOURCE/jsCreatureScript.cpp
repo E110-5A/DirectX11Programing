@@ -38,9 +38,25 @@ namespace js
 	void CreatureScript::OnCollisionExit(Collider2D* collider)
 	{
 	}
+	void CreatureScript::initializeHealthStat(float maxHp, float curHp, float regHp, float moveSpeed)
+	{
+		mHealthStat.maxHp = maxHp;
+		mHealthStat.curHp = curHp;
+		mHealthStat.regHp = regHp;
+		mHealthStat.moveSpeed = moveSpeed;
+	}
+	void CreatureScript::initializeOffenceStat(float power, float criticalChance, float criticalDamage)
+	{
+		mOffenceStat.power = power;
+		mOffenceStat.criticalChance = criticalChance;
+		mOffenceStat.criticalDamage = criticalDamage;
+	}
 	void CreatureScript::Hit(Script* target)
 	{
 		// 상대의 공격 관련 정보를 가져옴
+		// 스크립트에서 바로 Tr, Rb 가져올 수 있음
+		
+
 		// 자기 자신에게 피해를 줌
 	}
 	void CreatureScript::WallCollision(Script* target)
