@@ -64,7 +64,7 @@ namespace js
 		Vector3 myPosition = mTransform->GetPosition();
 
 		Vector3 targetPosition = projectile->GetTransform()->GetPosition();
-		Vector3 dir = targetPosition - myPosition;
+		Vector3 dir = myPosition - targetPosition ;
 		dir.Normalize();
 
 		// 자기 자신에게 피해를 줌
@@ -73,7 +73,7 @@ namespace js
 		// 방향 구하기
 
 		// 넉백하기
-		//knockback(dir);
+		knockback(dir);
 	}
 	void MonsterScript::knockback(Vector3 dir)
 	{

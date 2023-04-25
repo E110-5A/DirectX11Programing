@@ -224,7 +224,7 @@ namespace js
 			if (projDist < fabsf(centerDir.Dot(vA)))
 				return false;
 		}
-		return true;		
+		return true;
 	}
 	bool CollisionManager::CircleCollision(Collider2D* left, Collider2D* right)
 	{
