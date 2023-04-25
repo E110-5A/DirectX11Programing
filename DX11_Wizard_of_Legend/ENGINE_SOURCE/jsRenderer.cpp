@@ -473,6 +473,8 @@ namespace js::renderer
 		// TitleScene
 		Resources::Load<Texture>(L"TitleTexture", L"BackGround\\TitleLogo.png");
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
+		// PlayScene
+		Resources::Load<Texture>(L"PlayBackGround", L"testBackground.png");
 		// HUD
 		Resources::Load<Texture>(L"HealthHUD", L"UI\\HealthHUD.bmp");
 		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
@@ -573,20 +575,23 @@ namespace js::renderer
 		titleMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleTexture"));
 		titleMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleMaterial", titleMaterial);
-
-
-
 #pragma endregion
+
 #pragma region Title Background
 		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();
 		titleBGMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		titleBGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"TitleBackGround"));
 		titleBGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleBGMaterial", titleBGMaterial);
-
-		// Player
 #pragma endregion
-		
+
+#pragma region Background
+		std::shared_ptr<Material> BGMaterial = std::make_shared<Material>();
+		BGMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		BGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"BGMaterial", BGMaterial);
+
+#pragma endregion
 #pragma region Mouse Pointer
 		std::shared_ptr<Material> mouseMaterial = std::make_shared<Material>();
 		mouseMaterial->SetRenderingMode(eRenderingMode::Transparent);
