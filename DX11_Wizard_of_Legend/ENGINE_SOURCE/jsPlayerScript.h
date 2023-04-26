@@ -47,7 +47,7 @@ namespace js
 
 	private:
 
-		void initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
+		void initializeArcana(lArcanaInfo& skill, elArcanaCategory category, elArcanaType arcanaType, elStagger stagger
 			, float damage, float moveSpeed, float spellRange, float cooldown
 			, int mMaxComboCount, float mComboValidTime, float mComboDelayTime);
 
@@ -69,9 +69,9 @@ namespace js
 
 
 		void cooldown();
-		void comboCooldown(ArcanaInfo& info);
+		void comboCooldown(lArcanaInfo& info);
 		void skillProcess();
-		void shoot(ArcanaInfo& info);
+		void shoot(lArcanaInfo& info);
 
 		void calculateMouseDirection();
 		float calculateRotateAngle();
@@ -89,11 +89,11 @@ namespace js
 		void addForce();	// 대시 이동
 
 		// 딜레이 초과시 false 반환
-		bool comboCountOutCheck(ArcanaInfo& info);
-		bool comboValidOutCheck(ArcanaInfo& info);
+		bool comboCountOutCheck(lArcanaInfo& info);
+		bool comboValidOutCheck(lArcanaInfo& info);
 
 		
-		void comboReset(ArcanaInfo& info);
+		void comboReset(lArcanaInfo& info);
 
 	private:
 		Vector2 mMouseDir;
@@ -102,11 +102,11 @@ namespace js
 		eState mState;
 		PlayerInfo mInfo;
 
-		ArcanaInfo	mAA;
-		ArcanaInfo	mSkill;
-		ArcanaInfo	mDash;
-		ArcanaInfo	mSpecial;
-		ArcanaInfo	mUltimate;
+		lArcanaInfo	mAA;
+		lArcanaInfo	mSkill;
+		lArcanaInfo	mDash;
+		lArcanaInfo	mSpecial;
+		lArcanaInfo	mUltimate;
 
 		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
 

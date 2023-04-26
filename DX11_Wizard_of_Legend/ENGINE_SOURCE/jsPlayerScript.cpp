@@ -53,19 +53,19 @@ namespace js
 		addEvents();
 		// 기술 세팅하기
 		// 근거리 평타 (콤보 기능 넣을것!)
-		initializeArcana(mAA, eArcanaCategory::Projectile, eArcanaType::AA, eStagger::Light
+		initializeArcana(mAA, elArcanaCategory::Projectile, elArcanaType::AA, elStagger::Light
 			, 6.0f, 5.0f, 5.0f, 1.4f, 2, 0.9, 0.14f);
 		// Dragon_Arc
-		initializeArcana(mSkill, eArcanaCategory::Projectile, eArcanaType::Skill, eStagger::Normal
+		initializeArcana(mSkill, elArcanaCategory::Projectile, elArcanaType::Skill, elStagger::Normal
 			, 6.5f, 12.0f, 5.0f, 3.0f, 3, 1.0f, 0.12f);
 		// 어깨빵
-		initializeArcana(mDash, eArcanaCategory::Melee, eArcanaType::Dash, eStagger::Light
+		initializeArcana(mDash, elArcanaCategory::Melee, elArcanaType::Dash, elStagger::Light
 			, 3.0f, 20.0f, 5.0f, 1.0f, 1, 0.9f, 0.4f);
 		// 부채꼴로 광역 투사체?
-		initializeArcana(mSpecial, eArcanaCategory::Projectile, eArcanaType::Special, eStagger::Normal
+		initializeArcana(mSpecial, elArcanaCategory::Projectile, elArcanaType::Special, elStagger::Normal
 			, 6.5f, 10.0f, 5.0f, 5.0f, 4, 0.9f, 0.1f);
 		// Shearing_Chain 근거리 죽창
-		initializeArcana(mUltimate, eArcanaCategory::Melee, eArcanaType::Ultimate, eStagger::Heave
+		initializeArcana(mUltimate, elArcanaCategory::Melee, elArcanaType::Ultimate, elStagger::Heave
 			, 6.5f, 7.0f, 5.0f, 7.0f, 4, 0.9f, 0.1f);
 	}
 	
@@ -201,7 +201,7 @@ namespace js
 
 		
 
-	void PlayerScript::initializeArcana(ArcanaInfo& skill, eArcanaCategory category, eArcanaType arcanaType, eStagger stagger
+	void PlayerScript::initializeArcana(lArcanaInfo& skill, elArcanaCategory category, elArcanaType arcanaType, elStagger stagger
 		, float damage, float moveSpeed, float spellRange, float cooldown
 		, int maxProjectileCount, float mComboValidTime, float mComboDelayTime)
 	{
@@ -591,7 +591,7 @@ namespace js
 			}
 		}
 	}
-	void PlayerScript::comboCooldown(ArcanaInfo& info)
+	void PlayerScript::comboCooldown(lArcanaInfo& info)
 	{
 		// 콤보
 		if (true == info.comboDelay)
@@ -695,7 +695,7 @@ namespace js
 	}
 
 	// 아직 안씀
-	void PlayerScript::shoot(ArcanaInfo& info)
+	void PlayerScript::shoot(lArcanaInfo& info)
 	{
 		// 방향 계산
 		float angle = calculateRotateAngle();
@@ -921,7 +921,7 @@ namespace js
 		rigidbody->SetVelocity(mMoveDir * 56);
 	}
 
-	bool PlayerScript::comboCountOutCheck(ArcanaInfo& info)
+	bool PlayerScript::comboCountOutCheck(lArcanaInfo& info)
 	{
 		if (info.curComboCount >= info.maxComboCount)
 		{
@@ -931,7 +931,7 @@ namespace js
 		return false;
 	}
 
-	bool PlayerScript::comboValidOutCheck(ArcanaInfo& info)
+	bool PlayerScript::comboValidOutCheck(lArcanaInfo& info)
 	{
 		if (info.comboCurrentValidTime >= info.comboValidTime)
 		{			
@@ -941,7 +941,7 @@ namespace js
 		return false;
 	}
 
-	void PlayerScript::comboReset(ArcanaInfo& info)
+	void PlayerScript::comboReset(lArcanaInfo& info)
 	{
 		// 조건 초기화
 		info.SetAble(false);			// 평타 쿨다운 조건

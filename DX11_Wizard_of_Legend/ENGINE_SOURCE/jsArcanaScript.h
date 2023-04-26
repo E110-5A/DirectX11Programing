@@ -28,10 +28,10 @@ namespace js
 		virtual void Action() override;
 
 		void SetSpellID(int id) { mSpellID = id; }
-		void ActiveArcana(ArcanaStat& skillInfo, float power);
+		void ActiveArcana(lArcanaStat& skillInfo, float power);
 
 		eArcanaState GetArcanaState() { return mArcanaState; }
-		ArcanaStat* GetArcanaInfo() { return mArcanaStat; }
+		lArcanaStat* GetArcanaInfo() { return mArcanaStat; }
 
 		float GetTotalDamage() { return mArcanaStat->damage * mPower; }
 

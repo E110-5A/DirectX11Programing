@@ -105,7 +105,7 @@ namespace js
 #pragma endregion
 	
 	// 플레이어로부터 호출받음
-	void ArcanaScript::ActiveArcana(ArcanaStat& skillInfo, float power)
+	void ArcanaScript::ActiveArcana(lArcanaStat& skillInfo, float power)
 	{
 		// 변수 초기화
 		mArcanaStat = &skillInfo;
@@ -126,13 +126,13 @@ namespace js
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
 		Vector2 shootDir(myTr->Up().x, myTr->Up().y);
 		// melee
-		if (eArcanaCategory::Melee == mArcanaStat->category)
+		if (elArcanaCategory::Melee == mArcanaStat->category)
 		{
 			myRigidbody->SetVelocity(shootDir * mArcanaStat->moveSpeed);
 		}
 
 		// projectile
-		if (eArcanaCategory::Projectile == mArcanaStat->category)
+		if (elArcanaCategory::Projectile == mArcanaStat->category)
 		{
 			Transform* myTr = GetOwner()->GetComponent<Transform>();
 			Vector3 pos = myTr->GetPosition();
@@ -147,27 +147,27 @@ namespace js
 
 	void ArcanaScript::bindAnimation()
 	{
-		if (eArcanaType::AA == mArcanaStat->arcanaType)
+		if (elArcanaType::AA == mArcanaStat->arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash", false);
 		}
-		else if (eArcanaType::Skill == mArcanaStat->arcanaType)
+		else if (elArcanaType::Skill == mArcanaStat->arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"FireArrow");
 		}
-		else if (eArcanaType::Dash == mArcanaStat->arcanaType)
+		else if (elArcanaType::Dash == mArcanaStat->arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash");
 		}
-		else if (eArcanaType::Special == mArcanaStat->arcanaType)
+		else if (elArcanaType::Special == mArcanaStat->arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"WindSlash");
 		}
-		else if (eArcanaType::Ultimate == mArcanaStat->arcanaType)
+		else if (elArcanaType::Ultimate == mArcanaStat->arcanaType)
 		{
 			Animator* animator = GetOwner()->GetComponent<Animator>();
 			animator->Play(L"FireArrow");
@@ -186,7 +186,7 @@ namespace js
 		if (nullptr == mArcanaStat)
 			return;
 		
-		if (eArcanaCategory::Projectile == mArcanaStat->category)
+		if (elArcanaCategory::Projectile == mArcanaStat->category)
 		{
 			// 일정거리 이동하면 종료
 			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();

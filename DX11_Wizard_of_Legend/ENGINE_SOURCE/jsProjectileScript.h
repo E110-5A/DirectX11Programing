@@ -45,7 +45,7 @@ namespace js
 	protected:
 		Rigidbody* mRigidbody;
 		Transform* mTransform;
-		ArcanaStat* mArcanaStat;
+		lArcanaStat* mArcanaStat;
 
 	protected:
 		Vector2 mAnimationDir;
