@@ -694,7 +694,6 @@ namespace js
 		}
 	}
 
-	// 아직 안씀
 	void PlayerScript::shoot(lArcanaInfo& info)
 	{
 		// 방향 계산

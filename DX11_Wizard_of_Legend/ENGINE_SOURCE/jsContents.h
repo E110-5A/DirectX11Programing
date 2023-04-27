@@ -174,3 +174,30 @@ public:
 	{}
 };
 #pragma endregion
+enum class eRelic
+{
+	ComboGloves,
+	B,
+	C,
+	D,
+};
+struct Relic
+{
+	eRelic name;
+};
+struct Inventory
+{
+	std::vector<Relic*> relics;
+	Arcana* arcanaBasic;
+	Arcana* arcanaDash;
+	Arcana* arcanaStandardA;
+	Arcana* arcanaStandardB;
+	Arcana* arcanaStandardC;
+	Arcana* arcanaStandardD;
+	Arcana* arcanaSignature;
+
+	Inventory()
+		:relics{}, arcanaBasic(nullptr), arcanaDash(nullptr),
+		arcanaStandardA(nullptr), arcanaStandardB(nullptr), arcanaStandardC(nullptr), arcanaStandardD(nullptr), arcanaSignature(nullptr)
+	{}
+};

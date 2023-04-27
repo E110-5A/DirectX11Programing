@@ -17,7 +17,19 @@ namespace js
 			Ultimate,
 			End,
 		};
-
+		enum class ePlayerState
+		{
+			Idle,
+			Move,
+			LBtn,	// 베이직
+			RBtn,	// 스탠다드
+			Space,	// 대시
+			Q,		// 시그니처
+			F,		// 스탠다드
+			R,		// 스탠다드
+			End,
+		};
+		
 		PlayerScript();
 		virtual ~PlayerScript();
 
@@ -53,30 +65,22 @@ namespace js
 
 		void Idle();
 		void Move();
-		void AA();
-		void Skill();
-		void Dash();
-		void Special();
-		void Ultimate();
+		void LBtn();
+		void RBtn();
+		void Space();
+		void Q();
+		void F();
+		void R();
 
 		void setIdle() { playAnimation(eState::Idle); }
 		void setMove() { mState = eState::Move; }
-		void setAA() { mState = eState::AA; }
-		void setSkill() { mState = eState::Skill; }
-		void setDash() { mState = eState::Dash; }
-		void setSpecial() { mState = eState::Special; }
-		void setUltimate() { mState = eState::Ultimate; }
 
 
-		void cooldown();
-		void comboCooldown(lArcanaInfo& info);
-		void skillProcess();
-		void shoot(lArcanaInfo& info);
-
+	private:
 		void calculateMouseDirection();
 		float calculateRotateAngle();
 		void setPlayerDirection(float angle);
-		
+
 		int findProjectilePool();
 		void projectileRotates(ArcanaScript* target, float angle);
 
@@ -87,6 +91,27 @@ namespace js
 
 		void playerRush();	// 공격시 약진
 		void addForce();	// 대시 이동
+		
+		
+		
+		// 레거시
+		void AA();
+		void Skill();
+		void Dash();
+		void Special();
+		void Ultimate();
+		void setAA() { mState = eState::AA; }
+		void setSkill() { mState = eState::Skill; }
+		void setDash() { mState = eState::Dash; }
+		void setSpecial() { mState = eState::Special; }
+		void setUltimate() { mState = eState::Ultimate; }
+
+		void cooldown();
+		void comboCooldown(lArcanaInfo& info);
+		void skillProcess();
+		void shoot(lArcanaInfo& info);
+
+		
 
 		// 딜레이 초과시 false 반환
 		bool comboCountOutCheck(lArcanaInfo& info);
@@ -96,9 +121,17 @@ namespace js
 		void comboReset(lArcanaInfo& info);
 
 	private:
+		Vector2 mMoveDir;		// 8방향
 		Vector2 mMouseDir;
-		Vector2 mMoveDir;
 		std::vector<ArcanaScript*> mProjectiles;
+		ePlayerState mPlayerState;
+
+		// 아르카나, 렐릭이 들어있어요
+		Inventory mInventory;
+
+
+
+		// 레거시
 		eState mState;
 		PlayerInfo mInfo;
 
@@ -107,8 +140,6 @@ namespace js
 		lArcanaInfo	mDash;
 		lArcanaInfo	mSpecial;
 		lArcanaInfo	mUltimate;
-
 		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
-
 	};
 }
