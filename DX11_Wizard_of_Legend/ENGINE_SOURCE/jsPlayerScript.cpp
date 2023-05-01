@@ -20,19 +20,35 @@
 #define V2UP 0,1
 
 // 라디안 방향
-#define RTOP		 0
-#define RBOTTOM		-3.14
-#define RRIGHT		-1.57
-#define RLEFT		 1.57
+
+#define RW		1.57
+#define RNW		0.785
+#define RN		0
+#define RNE		-0.785
+#define RE		-1.57
+#define RSE		-2.335
+#define RS		-3.14
+#define RSW		-3.925
+
+#define NORTH		 0
+#define SOUTH		-3.14
+#define EAST		-1.57
+#define WEST		 1.57
 
 namespace js
 {
 	PlayerScript::PlayerScript()
-		: mState(eState::Idle)
-		, mMoveDir(Vector2(V2DOWN))
+		: mPlayerState(ePlayerState::Idle)
+		, mPlayerDir(Vector2(V2DOWN))
 		, mMouseDir(Vector2::Zero)
-		, mProjectiles{}, mAA{}, mSkill{}, mDash{}, mSpecial{}, mUltimate{}
-		, mBasicAnimationType(true)
+		, mProjectiles{}
+		, mTempArcana()
+		, mLBtn()
+		, mRBtn()
+		, mSpace()
+		, mQ()
+		, mF()
+		, mR()
 	{
 	}
 		
@@ -40,35 +56,39 @@ namespace js
 	{
 	}
 
-#pragma region 초기화
 	void PlayerScript::Initialize()
 	{
 		initializeHealthStat(200.0f, 200.0f, 0.1f, 3.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
-		mInfo.level = 1;
-		mInfo.maxExp = 20;
-		mInfo.curExp = 0;
-		mInfo.gold = 0;
+
 		createAnimation();
 		addEvents();
-		// 기술 세팅하기
-		// 근거리 평타 (콤보 기능 넣을것!)
-		initializeArcana(mAA, elArcanaCategory::Projectile, elArcanaType::AA, elStagger::Light
-			, 6.0f, 5.0f, 5.0f, 1.4f, 2, 0.9, 0.14f);
-		// Dragon_Arc
-		initializeArcana(mSkill, elArcanaCategory::Projectile, elArcanaType::Skill, elStagger::Normal
-			, 6.5f, 12.0f, 5.0f, 3.0f, 3, 1.0f, 0.12f);
-		// 어깨빵
-		initializeArcana(mDash, elArcanaCategory::Melee, elArcanaType::Dash, elStagger::Light
-			, 3.0f, 20.0f, 5.0f, 1.0f, 1, 0.9f, 0.4f);
-		// 부채꼴로 광역 투사체?
-		initializeArcana(mSpecial, elArcanaCategory::Projectile, elArcanaType::Special, elStagger::Normal
-			, 6.5f, 10.0f, 5.0f, 5.0f, 4, 0.9f, 0.1f);
-		// Shearing_Chain 근거리 죽창
-		initializeArcana(mUltimate, elArcanaCategory::Melee, elArcanaType::Ultimate, elStagger::Heave
-			, 6.5f, 7.0f, 5.0f, 7.0f, 4, 0.9f, 0.1f);
+		
+		ArcanaInfo* tempInfo	= new ArcanaInfo();
+		tempInfo->name			= eArcanaName::WindSlash;
+		tempInfo->category		= eArcanaCategory::Melee;
+		tempInfo->type			= eArcanaType::BasicArcana;
+		tempInfo->motion		= ePlayerMotion::Basic;
+		tempInfo->cooldownReady = true;
+		tempInfo->cooldownTime	= 0.6f;
+		tempInfo->currentTime	= 0.0f;
+
+		ArcanaStat* tempStat = new ArcanaStat();
+		tempStat->damage 							 = 11.0f;
+		tempStat->stagger							 = 3.0f;
+		tempStat->moveSpeed							 = 0.0f;
+		tempStat->spellRange						 = 0.0f;
+		tempStat->projectileDelayTime				 = 0.0f;
+		tempStat->projectileCurrentDelayTime		 = 0.0f;
+		tempStat->maxProjectile						 = 1;
+		tempStat->curProjectile						 = 0;
+
+		mTempArcana->arcanaInfo = tempInfo;
+		mTempArcana->arcanaStat = tempStat;
+
 	}
 	
+#pragma region 초기화
 	void PlayerScript::createAnimation()
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
@@ -133,7 +153,6 @@ namespace js
 			animator->Create(L"PlayerKickRight", texture, Vector2(0.0f, 1207.0f),	defaultSize, Vector2::Zero, 9, 0.07f);
 			animator->Create(L"PlayerKickUp", texture, Vector2(0.0f, 1303.0f),		defaultSize, Vector2::Zero, 8, 0.07f);
 		}
-
 		animator->Play(L"PlayerIdleDown");
 	}
 	void PlayerScript::addEvents()
@@ -146,149 +165,108 @@ namespace js
 		//animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 		}
-		// Dash (setIdle, addForce)
-		{
-			animator->GetActionEvent(L"PlayerDashDown", 3) = std::bind(&PlayerScript::setIdle, this);
-			animator->GetActionEvent(L"PlayerDashRight", 3) = std::bind(&PlayerScript::setIdle, this);
-			animator->GetActionEvent(L"PlayerDashLeft", 3) = std::bind(&PlayerScript::setIdle, this);
-			animator->GetActionEvent(L"PlayerDashUp", 3) = std::bind(&PlayerScript::setIdle, this);
-			animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::addForce, this);
-			animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::addForce, this);
-			animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::addForce, this);
-			animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::addForce, this);
-		}
-		// Basic (setIdle, playerRush)
-		{
-			animator->GetCompleteEvent(L"PlayerBackhandDown")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerBackhandRight")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerBackhandLeft")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerBackhandUp")		= std::bind(&PlayerScript::setIdle, this);
-			animator->GetActionEvent(L"PlayerBackhandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//// Dash (setIdle, addForce)
+		//{
+		//	animator->GetActionEvent(L"PlayerDashDown", 3) = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetActionEvent(L"PlayerDashRight", 3) = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetActionEvent(L"PlayerDashLeft", 3) = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetActionEvent(L"PlayerDashUp", 3) = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::addForceDash, this);
+		//	animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::addForceDash, this);
+		//	animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::addForceDash, this);
+		//	animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::addForceDash, this);
+		//}
+		//// Basic (setIdle, playerRush)
+		//{
+		//	animator->GetCompleteEvent(L"PlayerBackhandDown")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerBackhandRight")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerBackhandLeft")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerBackhandUp")		= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetActionEvent(L"PlayerBackhandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerBackhandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerBackhandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
 
-			animator->GetCompleteEvent(L"PlayerForehandDown")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerForehandRight")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerForehandLeft")	= std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerForehandUp")		= std::bind(&PlayerScript::setIdle, this);
-			animator->GetActionEvent(L"PlayerForehandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetCompleteEvent(L"PlayerForehandDown")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerForehandRight")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerForehandLeft")	= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerForehandUp")		= std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetActionEvent(L"PlayerForehandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerForehandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
+		//	animator->GetActionEvent(L"PlayerForehandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
 
-		}
-		// GroundSlam (setIdle)
-		{
-			animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::setIdle, this);
-		}
-		// AOE (setIdle)
-		{
-			animator->GetCompleteEvent(L"PlayerAOEDown") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerAOERight") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerAOELeft") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerAOEUp") = std::bind(&PlayerScript::setIdle, this);
-		}
-		// Kick (setIdle)
-		{
-			animator->GetCompleteEvent(L"PlayerKickDown") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerKickLeft") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerKickRight") = std::bind(&PlayerScript::setIdle, this);
-			animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::setIdle, this);
-		}
+		//}
+		//// GroundSlam (setIdle)
+		//{
+		//	animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::setIdle, this);
+		//}
+		//// AOE (setIdle)
+		//{
+		//	animator->GetCompleteEvent(L"PlayerAOEDown") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerAOERight") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerAOELeft") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerAOEUp") = std::bind(&PlayerScript::setIdle, this);
+		//}
+		//// Kick (setIdle)
+		//{
+		//	animator->GetCompleteEvent(L"PlayerKickDown") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerKickLeft") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerKickRight") = std::bind(&PlayerScript::setIdle, this);
+		//	animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::setIdle, this);
+		//}
 	}
 
-		
-
-	void PlayerScript::initializeArcana(lArcanaInfo& skill, elArcanaCategory category, elArcanaType arcanaType, elStagger stagger
-		, float damage, float moveSpeed, float spellRange, float cooldown
-		, int maxProjectileCount, float mComboValidTime, float mComboDelayTime)
-	{
-		skill.spellStat.category = category;
-		skill.spellStat.arcanaType = arcanaType;
-		skill.spellStat.stagger = stagger;
-		skill.spellStat.damage = damage;
-		skill.spellStat.moveSpeed = moveSpeed;
-		skill.spellStat.spellRange = spellRange;
-
-		skill.cooldownTime = cooldown;
-		skill.currentTime = 0.0f;
-		skill.cooldownReady = true;
-
-		skill.comboDelay = false;
-		skill.comboProcess = false;
-		skill.maxComboCount = maxProjectileCount;
-		skill.curComboCount = 0;
-		skill.comboValidTime = mComboValidTime;
-		skill.comboCurrentValidTime = 0.0f;
-		skill.comboDelayTime = mComboDelayTime;
-		skill.comboCurrentDelayTime = 0.0f;
-	}
 #pragma endregion
 
 	void PlayerScript::Update()
 	{
-		// 쿨다운
-		cooldown();
-		// 각 상태별 행동 (애니메이션 변경)
-		switch (mState)
+		switch (mPlayerState)
 		{
-		case eState::Idle:
+		case js::PlayerScript::ePlayerState::Idle:
 		{
 			Idle();
 		}
-		break;
-		case eState::Move:
+			break;
+		case js::PlayerScript::ePlayerState::Move:
 		{
 			Move();
 		}
-		break;
-		case eState::Dash:
+			break;
+		case js::PlayerScript::ePlayerState::LBtn:
 		{
-			Dash();
+			LBtn();
 		}
-		break;
-		case eState::AA:
+			break;
+		case js::PlayerScript::ePlayerState::RBtn:
 		{
-			AA();
+			RBtn();
 		}
-		break;
-		case eState::Skill:
+			break;
+		case js::PlayerScript::ePlayerState::Space:
 		{
-			Skill();
+			Space();
 		}
-		break;
-		case eState::Special:
+			break;
+		case js::PlayerScript::ePlayerState::Q:
 		{
-			Special();
+			Q();
 		}
-		break;
-		case eState::Ultimate:
+			break;
+		case js::PlayerScript::ePlayerState::F:
 		{
-			Ultimate();
+			F();
 		}
-		break;
+			break;
+		case js::PlayerScript::ePlayerState::R:
+		{
+			R();
+		}
+			break;
 		}
 
-		// 스킬 적용?
-		skillProcess();
-
-		calculateMouseDirection();
-
-		// 테스트 (KEY : K, L)
-		{
-			if (Input::GetKey(eKeyCode::K))
-			{
-				GetOwner()->OnDeath();
-			}
-			if (Input::GetKey(eKeyCode::L))
-			{
-				GetOwner()->OnActive();
-			}
-		}
 	}
-
 	void PlayerScript::Render()
 	{
 	}
@@ -318,405 +296,160 @@ namespace js
 	}
 #pragma endregion 
 
-
 	void PlayerScript::Idle()
 	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		// 애니메이션
 		if (Input::GetKey(eKeyCode::S))
 		{
-			animator->Play(L"PlayerRunDown");
-			mState = eState::Move;
+			// 방향 전환
+			// 상태 바꾸기
+			changeState(ePlayerState::Move);
+			// 애니메이션 재생	
+			mPlayerState = ePlayerState::Move;
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
-			animator->Play(L"PlayerRunRight");
-			mState = eState::Move;
+			// 방향 전환
+			// 상태 바꾸기
+			changeState(ePlayerState::Move);
+			// 애니메이션 재생	
+			mPlayerState = ePlayerState::Move;
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
-			animator->Play(L"PlayerRunLeft");
-			mState = eState::Move;
+			// 방향 전환
+			// 상태 바꾸기
+			changeState(ePlayerState::Move);
+			// 애니메이션 재생	
+			mPlayerState = ePlayerState::Move;
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
-			animator->Play(L"PlayerRunUp");
-			mState = eState::Move;
+			// 방향 전환
+			// 상태 바꾸기
+			changeState(ePlayerState::Move);
+			// 애니메이션 재생	
+			mPlayerState = ePlayerState::Move;
 		}
 
-		if (Input::GetKey(eKeyCode::LBTN) && true == mAA.cooldownReady)
+		if (Input::GetKey(eKeyCode::LBTN)) 
 		{
-			playAnimation(eState::AA);
 		}
-		if (Input::GetKey(eKeyCode::RBTN) && true == mSkill.cooldownReady)
+		if (Input::GetKey(eKeyCode::RBTN))
 		{
-			playAnimation(eState::Skill);
 		}
-		if (Input::GetKey(eKeyCode::SPACE) && true == mDash.cooldownReady)
+		if (Input::GetKey(eKeyCode::SPACE))
 		{
-			playDashMotion();
 		}
-		if (Input::GetKey(eKeyCode::F) && true == mSpecial.cooldownReady)
+		if (Input::GetKey(eKeyCode::F))
 		{
-			playAnimation(eState::Special);
 		}
-		if (Input::GetKey(eKeyCode::Q) && true == mUltimate.cooldownReady)
+		if (Input::GetKey(eKeyCode::Q))
 		{
-			playAnimation(eState::Ultimate);
 		}
 
 	}
 	void PlayerScript::Move()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Animator* animator = GetOwner()->GetComponent<Animator>();
 		// 이동 로직
 		if (Input::GetKey(eKeyCode::S))
 		{
-			Vector3 pos = tr->GetPosition();
-			pos += -tr->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			mMoveDir = Vector2(V2DOWN);
+			Vector3 pos = mTransform->GetPosition();
+			pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+			mTransform->SetPosition(pos);
+			mPlayerDir = Vector2(V2DOWN);
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
-			Vector3 pos = tr->GetPosition();
-			pos += tr->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			mMoveDir = Vector2(V2RIGHT);
+			Vector3 pos = mTransform->GetPosition();
+			pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+			mTransform->SetPosition(pos);
+			mPlayerDir = Vector2(V2RIGHT);
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
-			Vector3 pos = tr->GetPosition();
-			pos += -tr->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			mMoveDir = Vector2(V2LEFT);
+			Vector3 pos = mTransform->GetPosition();
+			pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+			mTransform->SetPosition(pos);
+			mPlayerDir = Vector2(V2LEFT);
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
-			Vector3 pos = tr->GetPosition();
-			pos += tr->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-			tr->SetPosition(pos);
-			mMoveDir = Vector2(V2UP);
+			Vector3 pos = mTransform->GetPosition();
+			pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+			mTransform->SetPosition(pos);
+			mPlayerDir = Vector2(V2UP);
 		}
 
-		// 애니메이션
-		if (Input::GetKey(eKeyCode::LBTN) && true == mAA.cooldownReady)
-		{
-			playAnimation(eState::AA);
-		}
-		if (Input::GetKey(eKeyCode::RBTN) && true == mSkill.cooldownReady)
-		{
-			playAnimation(eState::Skill);
-		}
-		if (Input::GetKey(eKeyCode::SPACE) && true == mDash.cooldownReady)
-		{
-			playDashMotion();
-		}
-		if (Input::GetKey(eKeyCode::F) && true == mSpecial.cooldownReady)
-		{
-			playAnimation(eState::Special);
-		}
-		if (Input::GetKey(eKeyCode::Q) && true == mUltimate.cooldownReady)
-		{
-			playAnimation(eState::Ultimate);
-		}
+		//// 애니메이션
+		//if (Input::GetKey(eKeyCode::LBTN))
+		//{
+		//	
+		//}
+		//if (Input::GetKey(eKeyCode::RBTN))
+		//{
+		//	
+		//}
+		//if (Input::GetKey(eKeyCode::SPACE))
+		//{
+		//	
+		//}
+		//if (Input::GetKey(eKeyCode::F))
+		//{
+		//	
+		//}
+		//if (Input::GetKey(eKeyCode::Q))
+		//{
+		//	
+		//}
 
-		if (Input::GetKeyUp(eKeyCode::S))
-		{
-			animator->Play(L"PlayerIdleDown");
-			mState = eState::Idle;
-		}
-		if (Input::GetKeyUp(eKeyCode::D))
-		{
-			animator->Play(L"PlayerIdleRight");
-			mState = eState::Idle;
-		}
-		if (Input::GetKeyUp(eKeyCode::A))
-		{
-			animator->Play(L"PlayerIdleLeft");
-			mState = eState::Idle;
-		}
-		if (Input::GetKeyUp(eKeyCode::W))
-		{
-			animator->Play(L"PlayerIdleUp");
-			mState = eState::Idle;
-		}
+		//if (Input::GetKeyUp(eKeyCode::S))
+		//{
+		//	animator->Play(L"PlayerIdleDown");
+		//	mPlayerState = ePlayerState::Idle;
+		//}
+		//if (Input::GetKeyUp(eKeyCode::D))
+		//{
+		//	animator->Play(L"PlayerIdleRight");
+		//	mPlayerState = ePlayerState::Idle;
+		//}
+		//if (Input::GetKeyUp(eKeyCode::A))
+		//{
+		//	animator->Play(L"PlayerIdleLeft");
+		//	mPlayerState = ePlayerState::Idle;
+		//}
+		//if (Input::GetKeyUp(eKeyCode::W))
+		//{
+		//	animator->Play(L"PlayerIdleUp");
+		//	mPlayerState = ePlayerState::Idle;
+		//}
 
 	}
-	void PlayerScript::AA()
+
+	void PlayerScript::LBtn()
 	{
-		// 애니메이션
-		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			playAnimation(eState::Dash);
-		}
-
-		// 로직
-		if (Input::GetKey(eKeyCode::LBTN))
-		{
-			// 대기 상태가 아니라면
-			if (false == mAA.comboDelay)
-			{
-				mAA.comboProcess = true;
-			}
-		}
 	}
-	void PlayerScript::Skill()
+
+	void PlayerScript::RBtn()
 	{
-		// 애니메이션
-		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			playAnimation(eState::Dash);
-		}
-		
-		// 로직
-		if (Input::GetKey(eKeyCode::RBTN))
-		{
-			// 대기 상태가 아니라면
-			if (false == mSkill.comboDelay)
-			{
-				mSkill.comboProcess = true;
-			}
-		}
 	}
-	void PlayerScript::Dash()
+
+	void PlayerScript::Space()
 	{
-		// 로직
-		if (Input::GetKey(eKeyCode::SPACE))
-		{
-			// 대기 상태가 아니라면
-			if (false == mDash.comboDelay)
-			{
-				mDash.comboProcess = true;
-			}
-		}
 	}
-	void PlayerScript::Special()
+
+	void PlayerScript::Q()
 	{
-		// 애니메이션
-		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			playAnimation(eState::Dash);
-		}
-		// 로직
-		if (Input::GetKey(eKeyCode::F))
-		{
-			// 대기 상태가 아니라면
-			if (false == mSpecial.comboDelay)
-			{
-				mSpecial.comboProcess = true;
-			}
-		}
 	}
-	void PlayerScript::Ultimate()
+
+	void PlayerScript::F()
 	{
-		// 애니메이션
-		if (Input::GetKeyDown(eKeyCode::SPACE))
-		{
-			playAnimation(eState::Dash);
-		}
-
-		if (Input::GetKey(eKeyCode::Q))
-		{
-			// 대기 상태가 아니라면
-			if (false == mUltimate.comboDelay)
-			{
-				mUltimate.comboProcess = true;
-			}
-		}
 	}
 
-	void PlayerScript::cooldown()
+	void PlayerScript::R()
 	{
-		comboCooldown(mAA);
-		comboCooldown(mSkill);
-		comboCooldown(mDash);
-		comboCooldown(mSpecial);
-		comboCooldown(mUltimate);
-
-		// LBTN
-		if (false == mAA.cooldownReady)
-		{
-			mAA.currentTime += Time::DeltaTime();
-
-			if (mAA.currentTime >= mAA.cooldownTime)
-			{
-				mAA.cooldownReady = true;
-				mAA.currentTime = 0.0f;
-			}
-		}
-		// RBTN
-		if (false == mSkill.cooldownReady)
-		{
-			mSkill.currentTime += Time::DeltaTime();
-
-			if (mSkill.currentTime >= mSkill.cooldownTime)
-			{
-				mSkill.cooldownReady = true;
-				mSkill.currentTime = 0.0f;
-			}
-		}		
-		// SPACE
-		if (false == mDash.cooldownReady)
-		{
-			mDash.currentTime += Time::DeltaTime();
-
-			if (mDash.currentTime >= mDash.cooldownTime)
-			{
-				mDash.cooldownReady = true;
-				mDash.currentTime = 0.0f;
-			}
-		}
-		// F
-		if (false == mSpecial.cooldownReady)
-		{
-			mSpecial.currentTime += Time::DeltaTime();
-
-			if (mSpecial.currentTime >= mSpecial.cooldownTime)
-			{
-				mSpecial.cooldownReady = true;
-				mSpecial.currentTime = 0.0f;
-			}
-		}
-		// Q
-		if (false == mUltimate.cooldownReady)
-		{
-			mUltimate.currentTime += Time::DeltaTime();
-
-			if (mUltimate.currentTime >= mUltimate.cooldownTime)
-			{
-				mUltimate.cooldownReady = true;
-				mUltimate.currentTime = 0.0f;
-			}
-		}
 	}
-	void PlayerScript::comboCooldown(lArcanaInfo& info)
-	{
-		// 콤보
-		if (true == info.comboDelay)
-			info.comboCurrentDelayTime += Time::DeltaTime();
-		if (true == info.comboProcess)
-			info.comboCurrentValidTime += Time::DeltaTime();
-
-		if (info.comboCurrentDelayTime >= info.comboDelayTime)
-		{
-			info.comboDelay = false;
-			info.comboCurrentDelayTime = 0.0f;
-		}
-	}
-
-	void PlayerScript::skillProcess()
-	{		
-		if (true == mAA.cooldownReady)
-		{
-			if (true == mAA.comboProcess)
-			{
-				// 콤보 카운트 넘겼는지 확인
-				if (comboCountOutCheck(mAA))
-					return;
-				//// 콤보 유효시간 넘겼는지 확인
-				//if (comboValidOutCheck(mAA))
-				//	return;
-
-				// 문제없으면 평타 때림!
-				if (false == mAA.comboDelay)
-				{
-					++mAA.curComboCount;
-					mAA.comboDelay = true;
-					shoot(mAA);
-				}				
-			}
-		}		
-		if (true == mSkill.cooldownReady)
-		{
-			if (true == mSkill.comboProcess)
-			{
-				// 콤보 카운트 넘겼는지 확인
-				if (comboCountOutCheck(mSkill))
-					return;
-				//// 콤보 유효시간 넘겼는지 확인
-				//if (comboValidOutCheck(mSkill))
-				//	return;
-
-				// 문제없으면 평타 때림!
-				if (false == mSkill.comboDelay)
-				{
-					++mSkill.curComboCount;
-					mSkill.comboDelay = true;
-					shoot(mSkill);
-				}
-			}
-		}
-		if (true == mDash.cooldownReady)
-		{
-			mDash.cooldownReady = false;
-		}
-		if (true == mSpecial.cooldownReady)
-		{
-			if (true == mSpecial.comboProcess)
-			{
-				// 콤보 카운트 넘겼는지 확인
-				if (comboCountOutCheck(mSpecial))
-					return;
-				//// 콤보 유효시간 넘겼는지 확인
-				//if (comboValidOutCheck(mSpecial))
-				//	return;
-
-				// 문제없으면 평타 때림!
-				if (false == mSpecial.comboDelay)
-				{
-					++mSpecial.curComboCount;
-					mSpecial.comboDelay = true;
-					shoot(mSpecial);
-				}
-			}
-		}
-		if (true == mUltimate.cooldownReady)
-		{
-			if (true == mUltimate.comboProcess)
-			{
-				// 콤보 카운트 넘겼는지 확인
-				if (comboCountOutCheck(mUltimate))
-					return;
-				//// 콤보 유효시간 넘겼는지 확인
-				//if (comboValidOutCheck(mUltimate))
-				//	return;
-
-				// 문제없으면 평타 때림!
-				if (false == mUltimate.comboDelay)
-				{
-					++mUltimate.curComboCount;
-					mUltimate.comboDelay = true;
-					shoot(mUltimate);
-				}
-			}
-		}
-	}
-
-	void PlayerScript::shoot(lArcanaInfo& info)
-	{
-		// 방향 계산
-		float angle = calculateRotateAngle();
-		
-		// 투사체 찾기
-		int poolIndex = findProjectilePool();
-
-		if (-1 != poolIndex)
-		{
-			// 투사체 회전
-			projectileRotates(mProjectiles[poolIndex], angle);
-			
-			// 투사체를 내 위치로 옮기기
-			Transform* tr = GetOwner()->GetComponent<Transform>();
-			Transform* targetTr = mProjectiles[poolIndex]->GetOwner()->GetComponent<Transform>();
-			targetTr->SetPosition(tr->GetPosition());
-
-			mProjectiles[poolIndex]->ActiveArcana(info.spellStat, mOffenceStat.power);
-		}
-		
-	}
-
+	
+	
 	void PlayerScript::calculateMouseDirection()
 	{
 		// 마우스 방향 구하기
@@ -733,21 +466,6 @@ namespace js
 		float angle = atan2(mMouseDir.y, mMouseDir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		return angle;
 	}
-	
-
-	void PlayerScript::setPlayerDirection(float angle)
-	{
-		//  방향 전환 :  TOP | RIGHT | BOTTOM | LEFT 
-		if ((RTOP + 0.78) >= angle && (RTOP - 0.78) <= angle)
-			mMoveDir = Vector2(0, 1);
-		else if ((RRIGHT + 0.78) >= angle && (RRIGHT - 0.78) <= angle)
-			mMoveDir = Vector2(1, 0);
-		else if ((RBOTTOM + 0.78) >= angle && (RBOTTOM - 0.78) <= angle)
-			mMoveDir = Vector2(0, -1);
-		else
-			mMoveDir = Vector2(-1, 0);
-	}
-
 	int PlayerScript::findProjectilePool()
 	{
 		for (int index = 0; index < PROJECTILE_POOL; ++index)
@@ -760,13 +478,6 @@ namespace js
 			{
 				return index;
 			}
-			else
-			{
-				if (index == 63)
-					int a = 0;
-			}
-			/*projectileRotate(angle);
-			activeProjectile();*/
 		}
 		return -1;
 	}
@@ -775,181 +486,131 @@ namespace js
 		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
 		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 	}
-	
-	void PlayerScript::playAnimation(eState changeState)
-	{
-
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-
-		// 플레이어 방향 세팅
-		float angle = calculateRotateAngle();
-		setPlayerDirection(angle);
-
-		// 애니메이션 세팅
-		switch (changeState)
-		{
-		case js::PlayerScript::eState::Idle:
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerIdleDown");
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerIdleRight");
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerIdleLeft");
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerIdleUp");
-		}
-			break;
-		case js::PlayerScript::eState::Move:
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerRunDown");
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerRunRight");
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerRunLeft");
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerRunUp");
-		}
-			break;
-		case js::PlayerScript::eState::AA:
-		{
-			playBasicMotion();
-		}
-			break;
-		case js::PlayerScript::eState::Skill:
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerKickDown");
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerKickRight");
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerKickLeft");
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerKickUp");
-		}
-			break;
-		case js::PlayerScript::eState::Dash:	// 안씀
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerDashDown", false);
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerDashRight", false);
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerDashLeft", false);
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerDashUp", false);
-		}
-			break;
-		case js::PlayerScript::eState::Special:
-		{
-			if (1 == mMoveDir.y)
-				animator->Play(L"PlayerGroundSlamUp", false);
-			else
-				animator->Play(L"PlayerGroundSlamDown", false);
-		}
-			break;
-		case js::PlayerScript::eState::Ultimate:
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerAOEDown", false);
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerAOERight", false);
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerAOELeft", false);
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerAOEUp", false);
-		}
-			break;
-		}
-
-		// 상태 변경
-		mState = changeState;
-	}
-	void PlayerScript::playBasicMotion()
-	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		if (true == mBasicAnimationType)
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerBackhandDown");
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerBackhandRight");
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerBackhandLeft");
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerBackhandUp");
-			mBasicAnimationType = false;
-		}
-		else
-		{
-			if (Vector2(V2DOWN) == mMoveDir)
-				animator->Play(L"PlayerForehandDown");
-			if (Vector2(V2RIGHT) == mMoveDir)
-				animator->Play(L"PlayerForehandRight");
-			if (Vector2(V2LEFT) == mMoveDir)
-				animator->Play(L"PlayerForehandLeft");
-			if (Vector2(V2UP) == mMoveDir)
-				animator->Play(L"PlayerForehandUp");
-			mBasicAnimationType = true;
-		}
-	}
-	void PlayerScript::playDashMotion()
-	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		mMoveDir.Normalize();
-		if (Vector2(V2DOWN) == mMoveDir)
-			animator->Play(L"PlayerDashDown", false);
-		if (Vector2(V2RIGHT) == mMoveDir)
-			animator->Play(L"PlayerDashRight", false);
-		if (Vector2(V2LEFT) == mMoveDir)
-			animator->Play(L"PlayerDashLeft", false);
-		if (Vector2(V2UP) == mMoveDir)
-			animator->Play(L"PlayerDashUp", false);
-		mState = eState::Dash;
-	}
 	void PlayerScript::playerRush()
 	{
 		// 이동
 		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
 		myRigidbody->SetVelocity(mMouseDir * 11.0f);
 	}
-	void PlayerScript::addForce()
+	void PlayerScript::addForceDash()
 	{
 		Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-		rigidbody->SetVelocity(mMoveDir * 56);
+		rigidbody->SetVelocity(mPlayerDir * 56);
 	}
 
-	bool PlayerScript::comboCountOutCheck(lArcanaInfo& info)
+	// 일단 보류
+	void PlayerScript::playComboAnimation()
 	{
-		if (info.curComboCount >= info.maxComboCount)
+		/*Animator* animator = GetOwner()->GetComponent<Animator>();
+		if (true == mBasicAnimationType)
 		{
-			comboReset(info);
-			return true;
+			if (Vector2(V2DOWN) == mPlayerDir)
+				animator->Play(L"PlayerBackhandDown");
+			if (Vector2(V2RIGHT) == mPlayerDir)
+				animator->Play(L"PlayerBackhandRight");
+			if (Vector2(V2LEFT) == mPlayerDir)
+				animator->Play(L"PlayerBackhandLeft");
+			if (Vector2(V2UP) == mPlayerDir)
+				animator->Play(L"PlayerBackhandUp");
+			mBasicAnimationType = false;
 		}
-		return false;
+		else
+		{
+			if (Vector2(V2DOWN) == mPlayerDir)
+				animator->Play(L"PlayerForehandDown");
+			if (Vector2(V2RIGHT) == mPlayerDir)
+				animator->Play(L"PlayerForehandRight");
+			if (Vector2(V2LEFT) == mPlayerDir)
+				animator->Play(L"PlayerForehandLeft");
+			if (Vector2(V2UP) == mPlayerDir)
+				animator->Play(L"PlayerForehandUp");
+			mBasicAnimationType = true;
+		}*/
 	}
-
-	bool PlayerScript::comboValidOutCheck(lArcanaInfo& info)
+	void PlayerScript::playDashMotion()
 	{
-		if (info.comboCurrentValidTime >= info.comboValidTime)
-		{			
-			comboReset(info);
-			return true;
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		mPlayerDir.Normalize();
+		if (Vector2(V2DOWN) == mPlayerDir)
+			animator->Play(L"PlayerDashDown", false);
+		if (Vector2(V2RIGHT) == mPlayerDir)
+			animator->Play(L"PlayerDashRight", false);
+		if (Vector2(V2LEFT) == mPlayerDir)
+			animator->Play(L"PlayerDashLeft", false);
+		if (Vector2(V2UP) == mPlayerDir)
+			animator->Play(L"PlayerDashUp", false);
+		mPlayerState = ePlayerState::Space;
+	}
+	void PlayerScript::rotatePlayerDirection(float angle)
+	{
+		// 4방위
+
+		// NORTH
+		if ((NORTH + 0.78) >= angle && (NORTH - 0.78) <= angle)
+			mPlayerDir = Vector2(0, 1);
+		// EAST
+		else if ((EAST + 0.78) >= angle && (EAST - 0.78) <= angle)
+			mPlayerDir = Vector2(1, 0);
+		// SOUTH
+		else if ((SOUTH + 0.78) >= angle && (SOUTH - 0.78) <= angle)
+			mPlayerDir = Vector2(0, -1);
+		// WEST
+		else
+			mPlayerDir = Vector2(-1, 0);
+
+	}
+	void PlayerScript::changePlayerDirection(Vector2 direction)
+	{
+		direction.Normalize();
+	}
+	void PlayerScript::playAnimation()
+	{
+		switch (mPlayerState)
+		{
+		case js::PlayerScript::ePlayerState::Idle:
+		{
+			// 방향에 따라서 애니메이션 재생
 		}
-		return false;
+			break;
+		case js::PlayerScript::ePlayerState::Move:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::LBtn:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::RBtn:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::Space:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::Q:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::F:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		case js::PlayerScript::ePlayerState::R:
+		{
+			// 방향에 따라서 애니메이션 재생
+		}
+			break;
+		}
 	}
-
-	void PlayerScript::comboReset(lArcanaInfo& info)
+	void PlayerScript::changeState(ePlayerState changeState)
 	{
-		// 조건 초기화
-		info.SetAble(false);			// 평타 쿨다운 조건
-		info.comboProcess = false;		// 콤보 진행 조건
-		info.comboDelay = false;		// 콤보 대기시간 초기화
-		// 변수 초기화
-		info.comboCurrentValidTime = 0.0f;
-		info.comboCurrentDelayTime = 0.0f;
-		info.curComboCount = 0;
+		mPlayerState = changeState;
 	}
-
 }

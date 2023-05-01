@@ -157,6 +157,9 @@
     <Filter Include="Content\Objects &amp; Scripts\Creature\Projectile">
       <UniqueIdentifier>{3f7c23e1-931e-468c-8b1e-a086ee2b8192}</UniqueIdentifier>
     </Filter>
+    <Filter Include="API\Common\IncludeHeader">
+      <UniqueIdentifier>{2916e6ce-4ff3-45aa-817a-5c262c2d6ca8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -508,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="jsProjectileScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectComponents.h">
+      <Filter>API\Common\IncludeHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

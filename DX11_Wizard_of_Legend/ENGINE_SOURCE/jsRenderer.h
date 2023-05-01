@@ -10,6 +10,7 @@
 #include "jsLight.h"
 #include "jsStructuredBuffer.h"
 #include "jsPlayerScript.h"
+
 using namespace js::math;
 using namespace js::graphics;
 

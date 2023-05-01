@@ -112,15 +112,6 @@ enum class eProjectileState
 	Active,
 	Disabled,
 };
-enum class eArcanaType
-{
-	BasicArcana,		// 기본공격에 해당, 낮은 경직도
-	DashArcana,			// 대시공격에 해당
-	StandardArcana,		// 일반기술에 해당, 중간 경직도
-	SignatureArcana,	// 특수기술에 해당, 높은 경직도, 마나를 채울경우 쿨다운 초기화 및 강화됨
-};
-// 아르카나 처음부터 설계하기
-#pragma region Arcana
 enum class eArcanaCategory
 {
 	Melee,
@@ -128,6 +119,60 @@ enum class eArcanaCategory
 	Dash,
 	End,
 };
+enum class eArcanaType
+{
+	BasicArcana,		// 기본공격에 해당, 낮은 경직도
+	DashArcana,			// 대시공격에 해당
+	StandardArcana,		// 일반기술에 해당, 중간 경직도
+	SignatureArcana,	// 특수기술에 해당, 높은 경직도, 마나를 채울경우 쿨다운 초기화 및 강화됨
+};
+enum class eArcanaName
+{
+	// basic
+	WindSlash,
+	EarthKnuckles,
+	// dash
+	AirBurst,
+	// standard & signature
+	ShearingChain,
+	ObsidianCascade,
+	DragonArc,
+	ExplodingFireball,
+	IceSpear,
+	CardicePrime,
+};
+enum class ePlayerMotion
+{
+	Dash,
+	Basic,
+	Backhand,
+	Forehand,
+	GroundSlam,
+	AOE,
+	Kick,
+};
+enum class eInventorySlot
+{
+	arcanaBasic,
+	arcanaDash,
+	arcanaSignature,
+	arcanaStandardA,
+	arcanaStandardB,
+	arcanaStandardC,
+	arcanaStandardD,
+};
+enum class ePlayerBindSlot
+{
+	None,
+	LBtn,
+	RBtn,
+	Space,
+	Q,
+	F,
+	R,
+	End,
+};
+
 struct ArcanaStat
 {
 	float	damage;						// 피해량
@@ -146,18 +191,19 @@ public:
 };
 struct ArcanaInfo
 {
-	std::wstring	arcanaName;		// 애니메이션 이름
+	eArcanaName		name;
 	eArcanaCategory category;		// 근거리, 원거리 구분
 	eArcanaType		type;			// 스킬 타입
-	bool			cooldownReady;	// 재사용 준비됨
-	
+	ePlayerMotion	motion;
+	ePlayerBindSlot slot;
+	bool			cooldownReady;	// 재사용 준비됨	
 	float			cooldownTime;	// 스킬 쿨다운
 	float			currentTime;
 	
 public:
 	ArcanaInfo()
-		: category(eArcanaCategory::Melee), arcanaName{}, cooldownReady(true)
-		, cooldownTime(0.0f), currentTime(0.0f)
+		: name(eArcanaName::WindSlash), category(eArcanaCategory::Melee), type(eArcanaType::BasicArcana)
+		, motion(ePlayerMotion::Basic), slot(ePlayerBindSlot::None), cooldownReady(true), cooldownTime(0.0f), currentTime(0.0f)
 	{}
 };
 
@@ -173,7 +219,7 @@ public:
 		: arcanaStat(nullptr), arcanaInfo(nullptr)
 	{}
 };
-#pragma endregion
+
 enum class eRelic
 {
 	ComboGloves,
@@ -185,19 +231,79 @@ struct Relic
 {
 	eRelic name;
 };
+
 struct Inventory
 {
 	std::vector<Relic*> relics;
 	Arcana* arcanaBasic;
 	Arcana* arcanaDash;
+	Arcana* arcanaSignature;
 	Arcana* arcanaStandardA;
 	Arcana* arcanaStandardB;
 	Arcana* arcanaStandardC;
 	Arcana* arcanaStandardD;
-	Arcana* arcanaSignature;
 
+public:
 	Inventory()
-		:relics{}, arcanaBasic(nullptr), arcanaDash(nullptr),
-		arcanaStandardA(nullptr), arcanaStandardB(nullptr), arcanaStandardC(nullptr), arcanaStandardD(nullptr), arcanaSignature(nullptr)
+		: relics{}, arcanaBasic(nullptr), arcanaDash(nullptr), arcanaSignature(nullptr)
+		, arcanaStandardA(nullptr), arcanaStandardB(nullptr), arcanaStandardC(nullptr), arcanaStandardD(nullptr)
 	{}
+
+	// 슬롯과 아르카나를 입력하면 해당 아르카나를 인벤토리에 등록함
+	Arcana* SwapArcana(eInventorySlot slot, Arcana* other)
+	{
+		// 입력한 아르카나를 해당 슬롯에 해당하는 아르카나와 교체하고 기존 아르카나를 반환함
+		switch (slot)
+		{
+		case eInventorySlot::arcanaBasic:
+		{
+			Arcana* temp = arcanaBasic;
+			arcanaBasic = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaDash:
+		{
+			Arcana* temp = arcanaDash;
+			arcanaDash = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaSignature:
+		{
+			Arcana* temp = arcanaSignature;
+			arcanaSignature = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaStandardA:
+		{
+			Arcana* temp = arcanaStandardA;
+			arcanaStandardA = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaStandardB:
+		{
+			Arcana* temp = arcanaStandardB;
+			arcanaStandardB = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaStandardC:
+		{
+			Arcana* temp = arcanaStandardC;
+			arcanaStandardC = other;
+			return temp;
+		}
+			break;
+		case eInventorySlot::arcanaStandardD:
+		{
+			Arcana* temp = arcanaStandardD;
+			arcanaStandardD = other;
+			return temp;
+		}
+			break;
+		}
+	}
 };

@@ -37,8 +37,7 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 				
-		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
-		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
+		
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -54,15 +53,12 @@ namespace js
 		virtual void addEvents()override;
 		
 	public:
-		PlayerInfo GetPlayerInfo() { return mInfo; }
+		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
+		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
+		
 		
 
 	private:
-
-		void initializeArcana(lArcanaInfo& skill, elArcanaCategory category, elArcanaType arcanaType, elStagger stagger
-			, float damage, float moveSpeed, float spellRange, float cooldown
-			, int mMaxComboCount, float mComboValidTime, float mComboDelayTime);
-
 		void Idle();
 		void Move();
 		void LBtn();
@@ -72,74 +68,43 @@ namespace js
 		void F();
 		void R();
 
-		void setIdle() { playAnimation(eState::Idle); }
-		void setMove() { mState = eState::Move; }
-
-
 	private:
 		void calculateMouseDirection();
 		float calculateRotateAngle();
-		void setPlayerDirection(float angle);
-
 		int findProjectilePool();
 		void projectileRotates(ArcanaScript* target, float angle);
 
+		void playerRush();		// 공격시 약진
+		void addForceDash();	// 대시 이동
 
-		void playAnimation(eState changeState);
-		void playBasicMotion();
+		// 예정
+		void rotatePlayerDirection(float angle);
+		void changePlayerDirection(Vector2 direction);
+		void changeState(ePlayerState changeState);
+		void playAnimation();
+		
+		// 보류
+		void playComboAnimation();
 		void playDashMotion();
 
-		void playerRush();	// 공격시 약진
-		void addForce();	// 대시 이동
-		
-		
-		
-		// 레거시
-		void AA();
-		void Skill();
-		void Dash();
-		void Special();
-		void Ultimate();
-		void setAA() { mState = eState::AA; }
-		void setSkill() { mState = eState::Skill; }
-		void setDash() { mState = eState::Dash; }
-		void setSpecial() { mState = eState::Special; }
-		void setUltimate() { mState = eState::Ultimate; }
-
-		void cooldown();
-		void comboCooldown(lArcanaInfo& info);
-		void skillProcess();
-		void shoot(lArcanaInfo& info);
-
-		
-
-		// 딜레이 초과시 false 반환
-		bool comboCountOutCheck(lArcanaInfo& info);
-		bool comboValidOutCheck(lArcanaInfo& info);
-
-		
-		void comboReset(lArcanaInfo& info);
-
 	private:
-		Vector2 mMoveDir;		// 8방향
-		Vector2 mMouseDir;
-		std::vector<ArcanaScript*> mProjectiles;
+		Vector2 mMouseDir;			// 마우스 위치
+		Vector2 mPlayerDir;			// 플레이어 위치 (8방향)
 		ePlayerState mPlayerState;
+
+		std::vector<ArcanaScript*> mProjectiles;	// 투사체
 
 		// 아르카나, 렐릭이 들어있어요
 		Inventory mInventory;
 
+		// 데이터 전달 테스트용
+		Arcana* mTempArcana;
 
-
-		// 레거시
-		eState mState;
-		PlayerInfo mInfo;
-
-		lArcanaInfo	mAA;
-		lArcanaInfo	mSkill;
-		lArcanaInfo	mDash;
-		lArcanaInfo	mSpecial;
-		lArcanaInfo	mUltimate;
-		bool mBasicAnimationType;	// 2가지 모션을 번갈아 적용하는 용도
+		Arcana* mLBtn;
+		Arcana* mRBtn;
+		Arcana* mSpace;
+		Arcana* mQ;
+		Arcana* mF;
+		Arcana* mR;
 	};
 }
