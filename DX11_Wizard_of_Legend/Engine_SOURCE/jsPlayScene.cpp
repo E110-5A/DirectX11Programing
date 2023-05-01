@@ -17,14 +17,8 @@
 #include "jsSpriteRenderer.h"
 #include "jsTransform.h"
 
-#include "jsAnimator.h"
 
-#include "jsPlayer.h"
-#include "jsPlayerScript.h"
-#include "jsRigidbody.h"
-#include "jsArcanaScript.h"
-
-#include "jsMonsterScript.h"
+#include "GameObjectsAndScripts.h"
 
 namespace js
 {
@@ -42,22 +36,13 @@ namespace js
 	{
 		//Player Obj & Projectile Obj Pool
 		{
-			Player* obj = object::Instantiate<Player>(eLayerType::Player, this);
+			Player* obj = object::InstantiateGameObject<Player>(eLayerType::Player, this);
 			obj->OnPause();
 			obj->SetName(L"Player");
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
-			tr->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-			obj->AddComponent<Collider2D>();
-			obj->AddComponent<Animator>();
-			obj->AddComponent<Rigidbody>();
-			SpriteRenderer* sr = obj->AddComponent<SpriteRenderer>();
-			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 
+			// 카메라 관련 예외처리
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 			renderer::player = playerScript;
-
 			std::vector<Script*> camScripts = renderer::mainCameraObject->GetScripts();
 			CameraScript* cameraScript = dynamic_cast<CameraScript*>(camScripts[0]);
 
@@ -69,15 +54,9 @@ namespace js
 			// 투사체 생성
 			for (int index = 0; index < PROJECTILE_POOL; ++index)
 			{
-				GameObject* projecObj = object::Instantiate<GameObject>(eLayerType::PlayerProjectile, this);
+				GameObject* projecObj = object::InstantiateGameObject<GameObject>(eLayerType::PlayerProjectile, this);
 				projecObj->OnPause();
 				projecObj->SetName(L"projectile");
-				projecObj->AddComponent<Collider2D>();
-				projecObj->AddComponent<Animator>();
-				projecObj->AddComponent<Rigidbody>();
-				SpriteRenderer* projecSr = projecObj->AddComponent<SpriteRenderer>();
-				projecSr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-				projecSr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);
 				playerScript->SetProjectileID(index);
@@ -86,18 +65,10 @@ namespace js
 		
 		// Monster
 		{
-			GameObject* monsterObj = object::Instantiate<GameObject>(eLayerType::Monster, this);
+			GameObject* monsterObj = object::InstantiateGameObject<GameObject>(eLayerType::Monster, this);
 			monsterObj->SetName(L"monster");
-			monsterObj->AddComponent<Collider2D>();
-			monsterObj->AddComponent<Animator>();
-			monsterObj->AddComponent<Rigidbody>();
-
 			Transform* tr = monsterObj->GetComponent<Transform>();
 			tr->SetPosition(Vector3(1.0f, 0.0f, 1.0f));
-
-			SpriteRenderer* sr = monsterObj->AddComponent<SpriteRenderer>();
-			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
 			monsterObj->AddComponent<MonsterScript>();
 
 		}

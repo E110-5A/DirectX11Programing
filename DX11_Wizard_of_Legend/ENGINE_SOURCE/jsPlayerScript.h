@@ -98,13 +98,13 @@ namespace js
 		Inventory mInventory;
 
 		// 데이터 전달 테스트용
-		Arcana* mTempArcana;
+		Arcana mTempArcana;
 
-		Arcana* mLBtn;
-		Arcana* mRBtn;
-		Arcana* mSpace;
-		Arcana* mQ;
-		Arcana* mF;
-		Arcana* mR;
+		Arcana mLBtn;
+		Arcana mRBtn;
+		Arcana mSpace;
+		Arcana mQ;
+		Arcana mF;
+		Arcana mR;
 	};
 }

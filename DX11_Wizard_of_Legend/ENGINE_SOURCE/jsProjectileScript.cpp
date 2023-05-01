@@ -2,13 +2,11 @@
 #include "jsObject.h"
 namespace js
 {
-	
-	
-	
-	
 	ProjectileScript::ProjectileScript()
-		: mRigidbody(nullptr)
-		, mTransform(nullptr)
+		: mTransform(nullptr)
+		, mRigidbody(nullptr)
+		, mAnimator(nullptr)
+		, mAnimationDir(Vector2::Zero)
 	{
 	}
 	ProjectileScript::~ProjectileScript()
@@ -16,8 +14,10 @@ namespace js
 	}
 	void ProjectileScript::Initialize()
 	{
-		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		mTransform = GetOwner()->GetComponent<Transform>();
+		mTransform	= GetOwner()->GetComponent<Transform>();
+		mRigidbody	= GetOwner()->AddComponent<Rigidbody>();
+		mAnimator	= GetOwner()->AddComponent<Animator>();
+		GetOwner()->AddComponent<Collider2D>();
 	}
 	void ProjectileScript::Update()
 	{

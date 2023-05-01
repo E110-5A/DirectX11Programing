@@ -160,7 +160,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h" />
-    <ClInclude Include="ObjectComponents.h" />
+    <ClInclude Include="GameObjectComponents.h" />
+    <ClInclude Include="GameObjectsAndScripts.h" />
     <ClInclude Include="jsAnimation.h" />
     <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />

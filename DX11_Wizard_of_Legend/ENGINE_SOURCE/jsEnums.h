@@ -34,7 +34,6 @@ namespace js::enums
 		None,
 		Transform,
 		Camera,
-		Mesh,
 		Collider,
 		Rigidbody,
 		MeshRenerer,

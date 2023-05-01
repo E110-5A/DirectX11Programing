@@ -9,10 +9,9 @@
 #include "jsTransform.h"
 #include "jsMeshRenderer.h"
 
-#include "jsGridScript.h"
 #include "jsFadeScript.h"
-
 #include "jsMouseScript.h"
+
 namespace js
 {
 	TitleScene::TitleScene()

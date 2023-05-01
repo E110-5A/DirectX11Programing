@@ -512,7 +512,10 @@
     <ClInclude Include="jsProjectileScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectComponents.h">
+    <ClInclude Include="GameObjectComponents.h">
+      <Filter>API\Common\IncludeHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectsAndScripts.h">
       <Filter>API\Common\IncludeHeader</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,31 @@
 #pragma once
+#include "jsSceneManager.h"
 #include "jsScene.h"
 #include "jsLayer.h"
 #include "jsGameObject.h"
-#include "jsSceneManager.h"
-#include "jsTransform.h"
+#include "jsSpriteRenderer.h"
+#include "GameObjectComponents.h"
 
 namespace js::object
 {
+	template <typename T>
+	static T* InstantiateGameObject(enums::eLayerType type, Scene* scene)
+	{
+		T* obj = new T();										// ÀÌ‹š Transform Ãß°¡µÊ
+		Layer& layer = scene->GetLayer(type);
+		layer.AddGameObject(obj);
+		GameObject* gameObj = dynamic_cast<GameObject*>(obj);
+		if (nullptr != gameObj)
+		{
+			gameObj->SetLayerType(type);
+			gameObj->Initialize();
+		}
+		SpriteRenderer* sr = gameObj->AddComponent<SpriteRenderer>();
+		sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
+		return obj;
+	}
+
 	template <typename T>
 	static T* Instantiate(enums::eLayerType type)
 	{

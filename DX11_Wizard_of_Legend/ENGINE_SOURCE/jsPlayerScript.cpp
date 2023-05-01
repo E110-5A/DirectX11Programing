@@ -58,33 +58,37 @@ namespace js
 
 	void PlayerScript::Initialize()
 	{
+		CreatureScript::Initialize();
 		initializeHealthStat(200.0f, 200.0f, 0.1f, 3.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 
 		createAnimation();
 		addEvents();
-		
-		ArcanaInfo* tempInfo	= new ArcanaInfo();
-		tempInfo->name			= eArcanaName::WindSlash;
-		tempInfo->category		= eArcanaCategory::Melee;
-		tempInfo->type			= eArcanaType::BasicArcana;
-		tempInfo->motion		= ePlayerMotion::Basic;
-		tempInfo->cooldownReady = true;
-		tempInfo->cooldownTime	= 0.6f;
-		tempInfo->currentTime	= 0.0f;
 
-		ArcanaStat* tempStat = new ArcanaStat();
-		tempStat->damage 							 = 11.0f;
-		tempStat->stagger							 = 3.0f;
-		tempStat->moveSpeed							 = 0.0f;
-		tempStat->spellRange						 = 0.0f;
-		tempStat->projectileDelayTime				 = 0.0f;
-		tempStat->projectileCurrentDelayTime		 = 0.0f;
-		tempStat->maxProjectile						 = 1;
-		tempStat->curProjectile						 = 0;
+		// 임시 아르카나 생성
+		{
+			ArcanaInfo* tempInfo = new ArcanaInfo();
+			tempInfo->name = eArcanaName::WindSlash;
+			tempInfo->category = eArcanaCategory::Melee;
+			tempInfo->type = eArcanaType::BasicArcana;
+			tempInfo->motion = ePlayerMotion::Basic;
+			tempInfo->cooldownReady = true;
+			tempInfo->cooldownTime = 0.6f;
+			tempInfo->currentTime = 0.0f;
 
-		mTempArcana->arcanaInfo = tempInfo;
-		mTempArcana->arcanaStat = tempStat;
+			ArcanaStat* tempStat = new ArcanaStat();
+			tempStat->damage = 11.0f;
+			tempStat->stagger = 3.0f;
+			tempStat->moveSpeed = 0.0f;
+			tempStat->spellRange = 0.0f;
+			tempStat->projectileDelayTime = 0.0f;
+			tempStat->projectileCurrentDelayTime = 0.0f;
+			tempStat->maxProjectile = 1;
+			tempStat->curProjectile = 0;
+
+			mTempArcana.arcanaInfo = tempInfo;
+			mTempArcana.arcanaStat = tempStat;
+		}
 
 	}
 	

@@ -1,8 +1,6 @@
 #pragma once
 #include "jsScript.h"
-#include "jsCollider2D.h"
-#include "jsRigidbody.h"
-#include "jsTransform.h"
+#include "GameObjectComponents.h"
 
 // ∫§≈Õ πÊ«‚
 #define V2DOWN 0,-1
@@ -62,15 +60,12 @@ namespace js
 		virtual void FallCollision(Script* target);
 
 
-
-
-
-
 	protected:
-		Rigidbody* mRigidbody;
-		Transform* mTransform;
+		Transform*	mTransform;
+		Rigidbody*	mRigidbody;
+		Animator*	mAnimator;
 
-		HealthStat mHealthStat;
+		HealthStat	mHealthStat;
 		OffenceStat mOffenceStat;
 
 	protected:

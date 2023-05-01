@@ -1,17 +1,17 @@
 #include "jsCreatureScript.h"
 
-// component
-#include "jsRigidbody.h"
-#include "jsTransform.h"
-
 // object
 #include "jsObject.h"
-
 
 namespace js
 {
 	CreatureScript::CreatureScript()
-		:mAnimationDir(Vector2(V2RIGHT))
+		: mAnimationDir(Vector2(V2RIGHT))
+		, mRigidbody(nullptr)
+		, mTransform(nullptr)
+		, mAnimator(nullptr)
+		, mHealthStat{}
+		, mOffenceStat{}
 	{
 	}
 	CreatureScript::~CreatureScript()
@@ -19,8 +19,10 @@ namespace js
 	}
 	void CreatureScript::Initialize()
 	{
-		mRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		mTransform = GetOwner()->GetComponent<Transform>();
+		mTransform	= GetOwner()->GetComponent<Transform>();
+		mRigidbody	= GetOwner()->AddComponent<Rigidbody>();
+		mAnimator	= GetOwner()->AddComponent<Animator>();
+		GetOwner()->AddComponent<Collider2D>();
 	}
 	void CreatureScript::Update()
 	{

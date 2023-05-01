@@ -218,6 +218,11 @@ public:
 	Arcana()
 		: arcanaStat(nullptr), arcanaInfo(nullptr)
 	{}
+	~Arcana()
+	{
+		delete arcanaStat;
+		delete arcanaInfo;
+	}
 };
 
 enum class eRelic
@@ -248,7 +253,16 @@ public:
 		: relics{}, arcanaBasic(nullptr), arcanaDash(nullptr), arcanaSignature(nullptr)
 		, arcanaStandardA(nullptr), arcanaStandardB(nullptr), arcanaStandardC(nullptr), arcanaStandardD(nullptr)
 	{}
-
+	~Inventory()
+	{
+		delete arcanaBasic;
+		delete arcanaDash;
+		delete arcanaSignature;
+		delete arcanaStandardA;
+		delete arcanaStandardB;
+		delete arcanaStandardC;
+		delete arcanaStandardD;
+	}
 	// 슬롯과 아르카나를 입력하면 해당 아르카나를 인벤토리에 등록함
 	Arcana* SwapArcana(eInventorySlot slot, Arcana* other)
 	{

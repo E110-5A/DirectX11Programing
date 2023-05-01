@@ -1,8 +1,6 @@
 #pragma once
 #include "jsScript.h"
-#include "jsCollider2D.h"
-#include "jsRigidbody.h"
-#include "jsTransform.h"
+#include "GameObjectComponents.h"
 
 namespace js
 {
@@ -39,15 +37,16 @@ namespace js
 		// 충돌 관련 함수
 	protected:
 		virtual void Hit(Script* target);
-
 		virtual void WallCollision(Script* target);
 
 	protected:
-		Rigidbody* mRigidbody;
-		Transform* mTransform;
-		lArcanaStat* mArcanaStat;
+		Transform*		mTransform;
+		Rigidbody*		mRigidbody;
+		Animator*		mAnimator;
 
+
+		lArcanaStat*	mArcanaStat;
 	protected:
-		Vector2 mAnimationDir;
+		Vector2			mAnimationDir;
 	};
 }
