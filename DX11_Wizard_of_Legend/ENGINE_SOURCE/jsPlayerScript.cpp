@@ -39,7 +39,6 @@ namespace js
 {
 	PlayerScript::PlayerScript()
 		: mPlayerState(ePlayerState::Idle)
-		, mPlayerDir(Vector2(V2DOWN))
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}
 		, mTempArcana()
@@ -87,6 +86,15 @@ namespace js
 			mTempArcana.arcanaStat = tempStat;
 		}
 
+		// 만들어진 아르카나 인벤토리에 등록
+		{
+			mInventory.AddArcana(&mTempArcana);
+		}
+		// 인벤토리에 등록된 아르카나를 스킬 슬롯에 넣기
+		{
+			// PlayerScript에서 인벤토리에 있는 아르카나를 맵핑하는 함수가 필요할듯
+		}
+		int a = 0;
 	}
 	
 #pragma region 초기화

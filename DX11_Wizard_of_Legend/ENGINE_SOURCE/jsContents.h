@@ -263,6 +263,51 @@ public:
 		delete arcanaStandardC;
 		delete arcanaStandardD;
 	}
+	void AddArcana(Arcana* other)
+	{
+		// 아르카나 타입을 봐서 추가함
+
+		// 기존 아르카나가 있으면 스왑함
+		// Basic
+		if (eArcanaType::BasicArcana == other->arcanaInfo->type)
+		{
+			if (nullptr == arcanaBasic)
+				arcanaBasic = other;
+			else
+				SwapArcana(eInventorySlot::arcanaBasic, other);
+		}
+		
+		// Dash
+		if (eArcanaType::DashArcana == other->arcanaInfo->type)
+		{
+			if (nullptr == arcanaDash)
+				arcanaDash = other;
+			else
+				SwapArcana(eInventorySlot::arcanaDash, other);
+		}
+		// signature
+		if (eArcanaType::SignatureArcana == other->arcanaInfo->type)
+		{
+			if (nullptr == arcanaSignature)
+				arcanaSignature = other;
+			else
+				SwapArcana(eInventorySlot::arcanaSignature, other);
+		}
+		// Standard 빈공간이 있으면 채우고, 빈공간이 없다면 D아르카나와 스왑
+		if (eArcanaType::StandardArcana == other->arcanaInfo->type)
+		{
+			if (nullptr == arcanaStandardA)
+				arcanaStandardA = other;
+			else if (nullptr == arcanaStandardB)
+				arcanaStandardB = other;
+			else if (nullptr == arcanaStandardC)
+				arcanaStandardC = other;
+			else if (nullptr == arcanaStandardD)
+				arcanaStandardD = other;
+			else
+				SwapArcana(eInventorySlot::arcanaStandardD, other);
+		}
+	}
 	// 슬롯과 아르카나를 입력하면 해당 아르카나를 인벤토리에 등록함
 	Arcana* SwapArcana(eInventorySlot slot, Arcana* other)
 	{
