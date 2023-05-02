@@ -43,12 +43,9 @@ namespace js
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}
 		, mTempArcana()
-		, mLBtn()
-		, mRBtn()
-		, mSpace()
-		, mQ()
-		, mF()
-		, mR()
+		, mLBtn(), mRBtn(), mSpace(), mQ(), mF(), mR()
+		, mYDir(eAxisValue::None)
+		, mXDir(eAxisValue::None)
 	{
 	}
 		
@@ -129,33 +126,33 @@ namespace js
 		}
 		// Basic
 		{
-			animator->Create(L"PlayerBackhandDown", texture, Vector2(0.0f, 435.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
+			animator->Create(L"PlayerBackhandDown"	, texture, Vector2(0.0f, 435.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
 			animator->Create(L"PlayerBackhandRight", texture, Vector2(0.0f, 483.0f),	defaultSize, Vector2::Zero, 9,  0.04f);
-			animator->Create(L"PlayerBackhandLeft", texture, Vector2(0.0f, 531.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
-			animator->Create(L"PlayerBackhandUp", texture, Vector2(0.0f, 579.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
-			animator->Create(L"PlayerForehandDown", texture, Vector2(0.0f, 628.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
+			animator->Create(L"PlayerBackhandLeft"	, texture, Vector2(0.0f, 531.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
+			animator->Create(L"PlayerBackhandUp"	, texture, Vector2(0.0f, 579.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
+			animator->Create(L"PlayerForehandDown"	, texture, Vector2(0.0f, 628.0f),		defaultSize, Vector2::Zero, 9,  0.04f);
 			animator->Create(L"PlayerForehandRight", texture, Vector2(0.0f, 676.0f),	defaultSize, Vector2::Zero, 8,  0.04f);
-			animator->Create(L"PlayerForehandLeft", texture, Vector2(0.0f, 724.0f),		defaultSize, Vector2::Zero, 8,  0.04f);
-			animator->Create(L"PlayerForehandUp", texture, Vector2(0.0f, 772.0f),		defaultSize, Vector2::Zero, 12, 0.04f);
+			animator->Create(L"PlayerForehandLeft"	, texture, Vector2(0.0f, 724.0f),		defaultSize, Vector2::Zero, 8,  0.04f);
+			animator->Create(L"PlayerForehandUp"	, texture, Vector2(0.0f, 772.0f),		defaultSize, Vector2::Zero, 12, 0.04f);
 		}
 		// Slam
 		{
-			animator->Create(L"PlayerGroundSlamDown", texture, Vector2(0.0f, 821.0f), defaultSize, Vector2::Zero, 10, 0.1f);
-			animator->Create(L"PlayerGroundSlamUp", texture, Vector2(0.0f, 869.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+			animator->Create(L"PlayerGroundSlamDown"	, texture, Vector2(0.0f, 821.0f), defaultSize, Vector2::Zero, 10, 0.1f);
+			animator->Create(L"PlayerGroundSlamUp"		, texture, Vector2(0.0f, 869.0f), defaultSize, Vector2::Zero, 10, 0.1f);
 		}
 		// AOE
 		{
-			animator->Create(L"PlayerAOEDown", texture, Vector2(0.0f, 918.0f),	defaultSize, Vector2::Zero, 9, 0.085f);
-			animator->Create(L"PlayerAOERight", texture, Vector2(0.0f, 966.0f), defaultSize, Vector2::Zero, 12, 0.07f);
-			animator->Create(L"PlayerAOELeft", texture, Vector2(0.0f, 1014.0f), defaultSize, Vector2::Zero, 12, 0.07f);
-			animator->Create(L"PlayerAOEUp", texture, Vector2(0.0f, 1062.0f),	defaultSize, Vector2::Zero, 11, 0.07f);
+			animator->Create(L"PlayerAOEDown"	, texture, Vector2(0.0f, 918.0f),	defaultSize, Vector2::Zero, 9, 0.085f);
+			animator->Create(L"PlayerAOERight"	, texture, Vector2(0.0f, 966.0f), defaultSize, Vector2::Zero, 12, 0.07f);
+			animator->Create(L"PlayerAOELeft"	, texture, Vector2(0.0f, 1014.0f), defaultSize, Vector2::Zero, 12, 0.07f);
+			animator->Create(L"PlayerAOEUp"	, texture, Vector2(0.0f, 1062.0f),	defaultSize, Vector2::Zero, 11, 0.07f);
 		}
 		// Kick
 		{
-			animator->Create(L"PlayerKickDown", texture, Vector2(0.0f, 1159.0f),	defaultSize, Vector2::Zero, 11, 0.06f);
-			animator->Create(L"PlayerKickLeft", texture, Vector2(0.0f, 1255.0f),	defaultSize, Vector2::Zero, 9, 0.07f);
+			animator->Create(L"PlayerKickDown"	, texture, Vector2(0.0f, 1159.0f),	defaultSize, Vector2::Zero, 11, 0.06f);
+			animator->Create(L"PlayerKickLeft"	, texture, Vector2(0.0f, 1255.0f),	defaultSize, Vector2::Zero, 9, 0.07f);
 			animator->Create(L"PlayerKickRight", texture, Vector2(0.0f, 1207.0f),	defaultSize, Vector2::Zero, 9, 0.07f);
-			animator->Create(L"PlayerKickUp", texture, Vector2(0.0f, 1303.0f),		defaultSize, Vector2::Zero, 8, 0.07f);
+			animator->Create(L"PlayerKickUp"	, texture, Vector2(0.0f, 1303.0f),		defaultSize, Vector2::Zero, 8, 0.07f);
 		}
 		animator->Play(L"PlayerIdleDown");
 	}
@@ -226,6 +223,8 @@ namespace js
 
 	void PlayerScript::Update()
 	{
+		calculateMouseDirection();
+		calculatePlayerDirection();
 		switch (mPlayerState)
 		{
 		case js::PlayerScript::ePlayerState::Idle:
@@ -269,7 +268,6 @@ namespace js
 		}
 			break;
 		}
-
 	}
 	void PlayerScript::Render()
 	{
@@ -305,34 +303,38 @@ namespace js
 		if (Input::GetKey(eKeyCode::S))
 		{
 			// 방향 전환
+			changePlayerDirection(eAxisValue::Down, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::Move);
 			// 애니메이션 재생	
-			mPlayerState = ePlayerState::Move;
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			// 방향 전환
+			changePlayerDirection(eAxisValue::Up, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::Move);
 			// 애니메이션 재생	
-			mPlayerState = ePlayerState::Move;
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
 			// 방향 전환
+			changePlayerDirection(eAxisValue::Down, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::Move);
 			// 애니메이션 재생	
-			mPlayerState = ePlayerState::Move;
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
 			// 방향 전환
+			changePlayerDirection(eAxisValue::Up, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::Move);
 			// 애니메이션 재생	
-			mPlayerState = ePlayerState::Move;
+			playAnimation();
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN)) 
@@ -350,8 +352,8 @@ namespace js
 		if (Input::GetKey(eKeyCode::Q))
 		{
 		}
-
 	}
+
 	void PlayerScript::Move()
 	{
 		// 이동 로직
@@ -360,72 +362,109 @@ namespace js
 			Vector3 pos = mTransform->GetPosition();
 			pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			mPlayerDir = Vector2(V2DOWN);
+			changePlayerDirection(eAxisValue::Down, true);
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			mPlayerDir = Vector2(V2RIGHT);
+			changePlayerDirection(eAxisValue::Up, false);
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			mPlayerDir = Vector2(V2LEFT);
+			changePlayerDirection(eAxisValue::Down, false);
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			mPlayerDir = Vector2(V2UP);
+			changePlayerDirection(eAxisValue::Up, true);
 		}
 
-		//// 애니메이션
-		//if (Input::GetKey(eKeyCode::LBTN))
-		//{
-		//	
-		//}
-		//if (Input::GetKey(eKeyCode::RBTN))
-		//{
-		//	
-		//}
-		//if (Input::GetKey(eKeyCode::SPACE))
-		//{
-		//	
-		//}
-		//if (Input::GetKey(eKeyCode::F))
-		//{
-		//	
-		//}
-		//if (Input::GetKey(eKeyCode::Q))
-		//{
-		//	
-		//}
+		if (Input::GetKey(eKeyCode::LBTN))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::LBtn);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::RBTN))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::RBtn);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::SPACE))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::Space);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::F))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::F);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::Q))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::Q);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::R))
+		{
+			// 상태 바꾸기
+			changeState(ePlayerState::R);
+			// 애니메이션 재생	
+			playAnimation();
+		}
 
-		//if (Input::GetKeyUp(eKeyCode::S))
-		//{
-		//	animator->Play(L"PlayerIdleDown");
-		//	mPlayerState = ePlayerState::Idle;
-		//}
-		//if (Input::GetKeyUp(eKeyCode::D))
-		//{
-		//	animator->Play(L"PlayerIdleRight");
-		//	mPlayerState = ePlayerState::Idle;
-		//}
-		//if (Input::GetKeyUp(eKeyCode::A))
-		//{
-		//	animator->Play(L"PlayerIdleLeft");
-		//	mPlayerState = ePlayerState::Idle;
-		//}
-		//if (Input::GetKeyUp(eKeyCode::W))
-		//{
-		//	animator->Play(L"PlayerIdleUp");
-		//	mPlayerState = ePlayerState::Idle;
-		//}
+		if (Input::GetKeyUp(eKeyCode::S))
+		{
+			// 방향 전환
+			changePlayerDirection(eAxisValue::Down, true);
+			// 상태 바꾸기
+			changeState(ePlayerState::Idle);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKeyUp(eKeyCode::D))
+		{
+			// 방향 전환
+			changePlayerDirection(eAxisValue::Up, false);
+			// 상태 바꾸기
+			changeState(ePlayerState::Idle);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKeyUp(eKeyCode::A))
+		{
+			// 방향 전환
+			changePlayerDirection(eAxisValue::Down, false);
+			// 상태 바꾸기
+			changeState(ePlayerState::Idle);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKeyUp(eKeyCode::W))
+		{
+			// 방향 전환
+			changePlayerDirection(eAxisValue::Up, true);
+			// 상태 바꾸기
+			changeState(ePlayerState::Idle);
+			// 애니메이션 재생	
+			playAnimation();
+		}
 
 	}
 
@@ -470,6 +509,30 @@ namespace js
 		float angle = atan2(mMouseDir.y, mMouseDir.x) - atan2(myTr->Up().y, myTr->Up().x);
 		return angle;
 	}
+	void PlayerScript::calculatePlayerDirection()
+	{
+		int x = 0;
+		int y = 0;
+
+		if (eAxisValue::None == mXDir)
+			x = 0;
+		if (eAxisValue::None == mYDir)
+			y = 0;
+
+		if (eAxisValue::Up == mXDir)
+			x = 1;
+		if (eAxisValue::Up == mYDir)
+			y = 1;
+		if (eAxisValue::Down == mXDir)
+			x = -1;
+		if (eAxisValue::Down == mYDir)
+			y = -1;
+
+		Vector2 curDir(x, y);
+		curDir.Normalize();
+		mCurrentDirection = curDir;
+	}
+
 	int PlayerScript::findProjectilePool()
 	{
 		for (int index = 0; index < PROJECTILE_POOL; ++index)
@@ -490,6 +553,49 @@ namespace js
 		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
 		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 	}
+
+
+	void PlayerScript::rotatePlayerDirection(float angle)
+	{
+		// NORTH
+		if ((NORTH + 0.78) >= angle && (NORTH - 0.78) <= angle)
+			mAnimationDirection = Vector2(0, 1);
+		// EAST
+		else if ((EAST + 0.78) >= angle && (EAST - 0.78) <= angle)
+			mAnimationDirection = Vector2(1, 0);
+		// SOUTH
+		else if ((SOUTH + 0.78) >= angle && (SOUTH - 0.78) <= angle)
+			mAnimationDirection = Vector2(0, -1);
+		// WEST
+		else
+			mAnimationDirection = Vector2(-1, 0);
+	}
+	void PlayerScript::changePlayerDirection(eAxisValue direction, bool isYAxis)
+	{
+		// AnimationDirection을 변경하고, XDir, YDir 값을 변경함
+		if (isYAxis)
+		{
+			if (eAxisValue::Up == direction)
+				mAnimationDirection = Vector2(0, 1);
+			if (eAxisValue::Down == direction)
+				mAnimationDirection = Vector2(0, -1);
+
+			if (direction != mYDir && eAxisValue::None != mYDir)
+				mYDir = eAxisValue::None;
+		}
+		else
+		{
+			if (eAxisValue::Up == direction)
+				mAnimationDirection = Vector2(1, 0);
+			if (eAxisValue::Down == direction)
+				mAnimationDirection = Vector2(-1, 0);
+
+			if (direction != mXDir && eAxisValue::None != mXDir)
+				mXDir = eAxisValue::None;
+		}
+	}
+
+	
 	void PlayerScript::playerRush()
 	{
 		// 이동
@@ -499,120 +605,157 @@ namespace js
 	void PlayerScript::addForceDash()
 	{
 		Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-		rigidbody->SetVelocity(mPlayerDir * 56);
+		rigidbody->SetVelocity(mCurrentDirection * 56);
 	}
 
-	// 일단 보류
-	void PlayerScript::playComboAnimation()
-	{
-		/*Animator* animator = GetOwner()->GetComponent<Animator>();
-		if (true == mBasicAnimationType)
-		{
-			if (Vector2(V2DOWN) == mPlayerDir)
-				animator->Play(L"PlayerBackhandDown");
-			if (Vector2(V2RIGHT) == mPlayerDir)
-				animator->Play(L"PlayerBackhandRight");
-			if (Vector2(V2LEFT) == mPlayerDir)
-				animator->Play(L"PlayerBackhandLeft");
-			if (Vector2(V2UP) == mPlayerDir)
-				animator->Play(L"PlayerBackhandUp");
-			mBasicAnimationType = false;
-		}
-		else
-		{
-			if (Vector2(V2DOWN) == mPlayerDir)
-				animator->Play(L"PlayerForehandDown");
-			if (Vector2(V2RIGHT) == mPlayerDir)
-				animator->Play(L"PlayerForehandRight");
-			if (Vector2(V2LEFT) == mPlayerDir)
-				animator->Play(L"PlayerForehandLeft");
-			if (Vector2(V2UP) == mPlayerDir)
-				animator->Play(L"PlayerForehandUp");
-			mBasicAnimationType = true;
-		}*/
-	}
-	void PlayerScript::playDashMotion()
-	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		mPlayerDir.Normalize();
-		if (Vector2(V2DOWN) == mPlayerDir)
-			animator->Play(L"PlayerDashDown", false);
-		if (Vector2(V2RIGHT) == mPlayerDir)
-			animator->Play(L"PlayerDashRight", false);
-		if (Vector2(V2LEFT) == mPlayerDir)
-			animator->Play(L"PlayerDashLeft", false);
-		if (Vector2(V2UP) == mPlayerDir)
-			animator->Play(L"PlayerDashUp", false);
-		mPlayerState = ePlayerState::Space;
-	}
-	void PlayerScript::rotatePlayerDirection(float angle)
-	{
-		// 4방위
-
-		// NORTH
-		if ((NORTH + 0.78) >= angle && (NORTH - 0.78) <= angle)
-			mPlayerDir = Vector2(0, 1);
-		// EAST
-		else if ((EAST + 0.78) >= angle && (EAST - 0.78) <= angle)
-			mPlayerDir = Vector2(1, 0);
-		// SOUTH
-		else if ((SOUTH + 0.78) >= angle && (SOUTH - 0.78) <= angle)
-			mPlayerDir = Vector2(0, -1);
-		// WEST
-		else
-			mPlayerDir = Vector2(-1, 0);
-
-	}
-	void PlayerScript::changePlayerDirection(Vector2 direction)
-	{
-		direction.Normalize();
-	}
+#pragma region 애니메이션 실행함수
 	void PlayerScript::playAnimation()
 	{
 		switch (mPlayerState)
 		{
 		case js::PlayerScript::ePlayerState::Idle:
 		{
-			// 방향에 따라서 애니메이션 재생
+			playIdleAnimation();
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::Move:
 		{
-			// 방향에 따라서 애니메이션 재생
+			playMoveAnimation();
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::LBtn:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mLBtn.arcanaInfo->motion);
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::RBtn:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mRBtn.arcanaInfo->motion);
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::Space:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mSpace.arcanaInfo->motion);
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::Q:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mQ.arcanaInfo->motion);
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::F:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mF.arcanaInfo->motion);
 		}
-			break;
+		break;
 		case js::PlayerScript::ePlayerState::R:
 		{
-			// 방향에 따라서 애니메이션 재생
+			findAnimation(mR.arcanaInfo->motion);
 		}
-			break;
+		break;
 		}
 	}
+	void PlayerScript::findAnimation(ePlayerMotion motion)
+	{
+		if (ePlayerMotion::Basic == motion)
+			playBasicAnimation();
+		if (ePlayerMotion::Dash == motion)
+			playDashAnimation();
+		if (ePlayerMotion::GroundSlam == motion)
+			playGroundSlamAnimation();
+		if (ePlayerMotion::AOE == motion)
+			playAOEAnimation();
+		if (ePlayerMotion::Kick == motion)
+			playKickAnimation();
+	}
+	void PlayerScript::playIdleAnimation()
+	{
+		if (Vector2(V2DOWN) == mAnimationDirection)
+			mAnimator->Play(L"PlayerIdleDown");
+		if (Vector2(V2RIGHT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerIdleRight");
+		if (Vector2(V2LEFT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerIdleLeft");
+		if (Vector2(V2UP) == mAnimationDirection)
+			mAnimator->Play(L"PlayerIdleUp");
+	}
+	void PlayerScript::playMoveAnimation()
+	{
+		if (Vector2(V2DOWN) == mAnimationDirection)
+			mAnimator->Play(L"PlayerRunDown");
+		if (Vector2(V2RIGHT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerRunRight");
+		if (Vector2(V2LEFT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerRunLeft");
+		if (Vector2(V2UP) == mAnimationDirection)
+			mAnimator->Play(L"PlayerRunUp");
+	}
+	void PlayerScript::playBasicAnimation()
+	{
+		if (true == mBasicAnimationType)
+		{
+			if (Vector2(V2DOWN) == mAnimationDirection)
+				mAnimator->Play(L"PlayerBackhandDown", false);
+			if (Vector2(V2RIGHT) == mAnimationDirection)
+				mAnimator->Play(L"PlayerBackhandRight", false);
+			if (Vector2(V2LEFT) == mAnimationDirection)
+				mAnimator->Play(L"PlayerBackhandLeft", false);
+			if (Vector2(V2UP) == mAnimationDirection)
+				mAnimator->Play(L"PlayerBackhandUp", false);
+			mBasicAnimationType = false;
+		}
+		else
+		{
+			if (Vector2(V2DOWN) == mAnimationDirection)
+				mAnimator->Play(L"PlayerForehandDown", false);
+			if (Vector2(V2RIGHT) == mAnimationDirection)
+				mAnimator->Play(L"PlayerForehandRight", false);
+			if (Vector2(V2LEFT) == mAnimationDirection)
+				mAnimator->Play(L"PlayerForehandLeft", false);
+			if (Vector2(V2UP) == mAnimationDirection)
+				mAnimator->Play(L"PlayerForehandUp", false);
+			mBasicAnimationType = true;
+		}
+	}
+	void PlayerScript::playGroundSlamAnimation()
+	{
+		mAnimator->Play(L"PlayerGroundSlamDown", false);
+	}
+	void PlayerScript::playAOEAnimation()
+	{
+		if (Vector2(V2DOWN) == mAnimationDirection)
+			mAnimator->Play(L"PlayerAOEDown", false);
+		if (Vector2(V2RIGHT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerAOERight", false);
+		if (Vector2(V2LEFT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerAOELeft", false);
+		if (Vector2(V2UP) == mAnimationDirection)
+			mAnimator->Play(L"PlayerAOEUp", false);
+	}		
+	void PlayerScript::playKickAnimation()
+	{
+		if (Vector2(V2DOWN) == mAnimationDirection)
+			mAnimator->Play(L"PlayerKickDown", false);
+		if (Vector2(V2RIGHT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerKickRight", false);
+		if (Vector2(V2LEFT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerKickLeft", false);
+		if (Vector2(V2UP) == mAnimationDirection)
+			mAnimator->Play(L"PlayerKickUp", false);
+	}
+	void PlayerScript::playDashAnimation()
+	{
+		if (Vector2(V2DOWN) == mAnimationDirection)
+			mAnimator->Play(L"PlayerDashDown", false);
+		if (Vector2(V2RIGHT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerDashRight", false);
+		if (Vector2(V2LEFT) == mAnimationDirection)
+			mAnimator->Play(L"PlayerDashLeft", false);
+		if (Vector2(V2UP) == mAnimationDirection)
+			mAnimator->Play(L"PlayerDashUp", false);
+	}
+#pragma endregion
+
 	void PlayerScript::changeState(ePlayerState changeState)
 	{
 		mPlayerState = changeState;

@@ -6,17 +6,6 @@ namespace js
 	class PlayerScript : public CreatureScript
 	{
 	public:
-		enum class eState
-		{
-			Idle,
-			Move,
-			AA,
-			Skill,
-			Dash,
-			Special,
-			Ultimate,
-			End,
-		};
 		enum class ePlayerState
 		{
 			Idle,
@@ -29,15 +18,19 @@ namespace js
 			R,		// 스탠다드
 			End,
 		};
-		
+		enum eAxisValue
+		{
+			Up,
+			None,
+			Down,
+		};
+
 		PlayerScript();
 		virtual ~PlayerScript();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
 		virtual void Render() override;
-				
-		
 
 		virtual void OnCollisionEnter(Collider2D* collider) override;
 		virtual void OnCollisionStay(Collider2D* collider) override;
@@ -56,8 +49,6 @@ namespace js
 		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
 		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
 		
-		
-
 	private:
 		void Idle();
 		void Move();
@@ -70,34 +61,47 @@ namespace js
 
 	private:
 		void calculateMouseDirection();
+		void calculatePlayerDirection();
 		float calculateRotateAngle();
+
 		int findProjectilePool();
 		void projectileRotates(ArcanaScript* target, float angle);
 
-		void playerRush();		// 공격시 약진
-		void addForceDash();	// 대시 이동
-
-		// 예정
+		void playerRush();
+		void addForceDash();
+				
 		void rotatePlayerDirection(float angle);
-		void changePlayerDirection(Vector2 direction);
+		void changePlayerDirection(eAxisValue value, bool isYAxis);
 		void changeState(ePlayerState changeState);
-		void playAnimation();
+
+#pragma region 애니메이션 함수
+		void playAnimation();		
+		void findAnimation(ePlayerMotion motion);
 		
-		// 보류
-		void playComboAnimation();
-		void playDashMotion();
+		void playIdleAnimation();
+		void playMoveAnimation();
+		void playBasicAnimation();
+		void playGroundSlamAnimation();
+		void playAOEAnimation();
+		void playKickAnimation();
+		void playDashAnimation();
+#pragma endregion
 
 	private:
-		Vector2 mMouseDir;			// 마우스 위치
-		Vector2 mPlayerDir;			// 플레이어 위치 (8방향)
+		Vector2 mMouseDir;
 		ePlayerState mPlayerState;
 
-		std::vector<ArcanaScript*> mProjectiles;	// 투사체
+		// 이동관련 변수
+		Vector2		mCurrentDirection;
+		Vector2		mAnimationDirection;
+		eAxisValue	mYDir;
+		eAxisValue	mXDir;
 
-		// 아르카나, 렐릭이 들어있어요
+	private:
+		std::vector<ArcanaScript*> mProjectiles;
+
 		Inventory mInventory;
 
-		// 데이터 전달 테스트용
 		Arcana mTempArcana;
 
 		Arcana mLBtn;
@@ -106,5 +110,8 @@ namespace js
 		Arcana mQ;
 		Arcana mF;
 		Arcana mR;
+
+	private:
+		bool		mBasicAnimationType;
 	};
 }
