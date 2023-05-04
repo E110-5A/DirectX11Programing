@@ -220,8 +220,16 @@ public:
 	{}
 	~Arcana()
 	{
-		delete arcanaStat;
-		delete arcanaInfo;
+		if (nullptr != arcanaStat)
+		{
+			delete arcanaStat;
+			arcanaStat = nullptr;
+		}
+		if (nullptr != arcanaInfo)
+		{
+			delete arcanaInfo;
+			arcanaInfo = nullptr;
+		}
 	}
 };
 
@@ -255,13 +263,47 @@ public:
 	{}
 	~Inventory()
 	{
-		delete arcanaBasic;
-		delete arcanaDash;
-		delete arcanaSignature;
-		delete arcanaStandardA;
-		delete arcanaStandardB;
-		delete arcanaStandardC;
-		delete arcanaStandardD;
+		if (nullptr != arcanaBasic)
+		{
+			delete arcanaBasic;
+			arcanaBasic = nullptr;
+		}
+		if (nullptr != arcanaDash)
+		{
+			delete arcanaDash;
+			arcanaDash = nullptr;
+		}
+		
+		if (nullptr != arcanaSignature)
+		{
+			delete arcanaSignature;
+			arcanaSignature = nullptr;
+		}
+		
+		if (nullptr != arcanaStandardA)
+		{
+			delete arcanaStandardA;
+			arcanaStandardA = nullptr;
+		}
+		
+		if (nullptr != arcanaStandardB)
+		{
+			delete arcanaStandardB;
+			arcanaStandardB = nullptr;
+		}
+		
+		if (nullptr != arcanaStandardC)
+		{
+			delete arcanaStandardC;
+			arcanaStandardC = nullptr;
+		}
+		
+		if (nullptr != arcanaStandardD)
+		{
+			delete arcanaStandardD;
+			arcanaStandardD = nullptr;
+		}
+		
 	}
 	void AddArcana(Arcana* other)
 	{

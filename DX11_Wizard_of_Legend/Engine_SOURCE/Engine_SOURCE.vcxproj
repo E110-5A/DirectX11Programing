@@ -165,7 +165,6 @@
     <ClInclude Include="jsAnimation.h" />
     <ClInclude Include="jsAnimator.h" />
     <ClInclude Include="jsApplication.h" />
-    <ClInclude Include="jsArcanaObject.h" />
     <ClInclude Include="jsArcanaScript.h" />
     <ClInclude Include="jsBaseRenderer.h" />
     <ClInclude Include="jsButtonScript.h" />
@@ -227,7 +226,6 @@
     <ClCompile Include="jsAnimation.cpp" />
     <ClCompile Include="jsAnimator.cpp" />
     <ClCompile Include="jsApplication.cpp" />
-    <ClCompile Include="jsArcanaObject.cpp" />
     <ClCompile Include="jsArcanaScript.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
     <ClCompile Include="jsButtonScript.cpp" />

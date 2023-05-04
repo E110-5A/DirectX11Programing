@@ -8,11 +8,11 @@ namespace js
 	public:
 		enum class ePlayerState
 		{
-			Idle,
-			Move,
-			LBtn,	// 베이직
-			RBtn,	// 스탠다드
-			Space,	// 대시
+			IDLE,
+			MOVE,
+			LBTN,	// 베이직
+			RBTN,	// 스탠다드
+			SPACE,	// 대시
 			Q,		// 시그니처
 			F,		// 스탠다드
 			R,		// 스탠다드
@@ -45,6 +45,9 @@ namespace js
 		virtual void createAnimation()override;
 		virtual void addEvents()override;
 		
+	private:
+		void startingArcana();
+
 	public:
 		void AddProjectile(ArcanaScript* target) { mProjectiles.push_back(target); }
 		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
@@ -74,6 +77,9 @@ namespace js
 		void changePlayerDirection(eAxisValue value, bool isYAxis);
 		void changeState(ePlayerState changeState);
 
+	private:
+		void retIdle() { mPlayerState = ePlayerState::IDLE; playAnimation(); }
+
 #pragma region 애니메이션 함수
 		void playAnimation();		
 		void findAnimation(ePlayerMotion motion);
@@ -102,14 +108,7 @@ namespace js
 
 		Inventory mInventory;
 
-		Arcana mTempArcana;
-
-		Arcana mLBtn;
-		Arcana mRBtn;
-		Arcana mSpace;
-		Arcana mQ;
-		Arcana mF;
-		Arcana mR;
+		Arcana* mTempArcana;
 
 	private:
 		bool		mBasicAnimationType;

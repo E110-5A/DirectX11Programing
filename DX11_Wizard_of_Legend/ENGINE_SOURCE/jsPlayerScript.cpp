@@ -38,14 +38,15 @@
 namespace js
 {
 	PlayerScript::PlayerScript()
-		: mPlayerState(ePlayerState::Idle)
+		: mPlayerState(ePlayerState::IDLE)
 		, mMouseDir(Vector2::Zero)
 		, mProjectiles{}
-		, mTempArcana()
-		, mLBtn(), mRBtn(), mSpace(), mQ(), mF(), mR()
+		, mInventory()
 		, mYDir(eAxisValue::None)
 		, mXDir(eAxisValue::None)
+		, mBasicAnimationType(true)
 	{
+		
 	}
 		
 	PlayerScript::~PlayerScript()
@@ -60,41 +61,8 @@ namespace js
 
 		createAnimation();
 		addEvents();
-
-		// 임시 아르카나 생성
-		{
-			ArcanaInfo* tempInfo = new ArcanaInfo();
-			tempInfo->name = eArcanaName::WindSlash;
-			tempInfo->category = eArcanaCategory::Melee;
-			tempInfo->type = eArcanaType::BasicArcana;
-			tempInfo->motion = ePlayerMotion::Basic;
-			tempInfo->cooldownReady = true;
-			tempInfo->cooldownTime = 0.6f;
-			tempInfo->currentTime = 0.0f;
-
-			ArcanaStat* tempStat = new ArcanaStat();
-			tempStat->damage = 11.0f;
-			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 0.0f;
-			tempStat->spellRange = 0.0f;
-			tempStat->projectileDelayTime = 0.0f;
-			tempStat->projectileCurrentDelayTime = 0.0f;
-			tempStat->maxProjectile = 1;
-			tempStat->curProjectile = 0;
-
-			mTempArcana.arcanaInfo = tempInfo;
-			mTempArcana.arcanaStat = tempStat;
-		}
-
-		// 만들어진 아르카나 인벤토리에 등록
-		{
-			mInventory.AddArcana(&mTempArcana);
-		}
-		// 인벤토리에 등록된 아르카나를 스킬 슬롯에 넣기
-		{
-			// PlayerScript에서 인벤토리에 있는 아르카나를 맵핑하는 함수가 필요할듯
-		}
-		int a = 0;
+		
+		startingArcana();
 	}
 	
 #pragma region 초기화
@@ -174,57 +142,168 @@ namespace js
 		//animator->GetEndEvent(L"Idle") = std::bind(&PlayerScript::End, this);
 		//animator->GetActionEvent(L"Idle", 1) = std::bind(&PlayerScript::End, this);
 		}
-		//// Dash (setIdle, addForce)
-		//{
-		//	animator->GetActionEvent(L"PlayerDashDown", 3) = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetActionEvent(L"PlayerDashRight", 3) = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetActionEvent(L"PlayerDashLeft", 3) = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetActionEvent(L"PlayerDashUp", 3) = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::addForceDash, this);
-		//	animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::addForceDash, this);
-		//	animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::addForceDash, this);
-		//	animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::addForceDash, this);
-		//}
-		//// Basic (setIdle, playerRush)
-		//{
-		//	animator->GetCompleteEvent(L"PlayerBackhandDown")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerBackhandRight")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerBackhandLeft")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerBackhandUp")		= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetActionEvent(L"PlayerBackhandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerBackhandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerBackhandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
 
-		//	animator->GetCompleteEvent(L"PlayerForehandDown")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerForehandRight")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerForehandLeft")	= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerForehandUp")		= std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetActionEvent(L"PlayerForehandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerForehandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
-		//	animator->GetActionEvent(L"PlayerForehandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
+		// Dash (setIdle, addForce)
+		{
+			animator->GetActionEvent(L"PlayerDashDown", 3)	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetActionEvent(L"PlayerDashRight", 3)	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetActionEvent(L"PlayerDashLeft", 3)	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetActionEvent(L"PlayerDashUp", 3)		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::addForceDash, this);
+			animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::addForceDash, this);
+			animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::addForceDash, this);
+			animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::addForceDash, this);
+		}
+		
+		// Basic (setIdle, playerRush)
+		{
+			animator->GetCompleteEvent(L"PlayerBackhandDown")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerBackhandRight")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerBackhandLeft")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerBackhandUp")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetActionEvent(L"PlayerBackhandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerBackhandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerBackhandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
 
-		//}
-		//// GroundSlam (setIdle)
-		//{
-		//	animator->GetCompleteEvent(L"PlayerGroundSlamDown") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerGroundSlamUp") = std::bind(&PlayerScript::setIdle, this);
-		//}
-		//// AOE (setIdle)
-		//{
-		//	animator->GetCompleteEvent(L"PlayerAOEDown") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerAOERight") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerAOELeft") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerAOEUp") = std::bind(&PlayerScript::setIdle, this);
-		//}
-		//// Kick (setIdle)
-		//{
-		//	animator->GetCompleteEvent(L"PlayerKickDown") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerKickLeft") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerKickRight") = std::bind(&PlayerScript::setIdle, this);
-		//	animator->GetCompleteEvent(L"PlayerKickUp") = std::bind(&PlayerScript::setIdle, this);
-		//}
+			animator->GetCompleteEvent(L"PlayerForehandDown")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerForehandRight")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerForehandLeft")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerForehandUp")		= std::bind(&PlayerScript::retIdle, this);
+			animator->GetActionEvent(L"PlayerForehandDown", 3)	= std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerForehandLeft", 3)	= std::bind(&PlayerScript::playerRush, this);
+			animator->GetActionEvent(L"PlayerForehandUp", 3)	= std::bind(&PlayerScript::playerRush, this);
+		}
+		
+		// GroundSlam (setIdle)
+		{
+			animator->GetCompleteEvent(L"PlayerGroundSlamDown")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerGroundSlamUp")		= std::bind(&PlayerScript::retIdle, this);
+		}
+		
+		// AOE (setIdle)
+		{
+			animator->GetCompleteEvent(L"PlayerAOEDown")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerAOERight")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerAOELeft")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerAOEUp")		= std::bind(&PlayerScript::retIdle, this);
+		}
+		
+		// Kick (setIdle)
+		{
+			animator->GetCompleteEvent(L"PlayerKickDown")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerKickLeft")	= std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerKickRight") = std::bind(&PlayerScript::retIdle, this);
+			animator->GetCompleteEvent(L"PlayerKickUp")	= std::bind(&PlayerScript::retIdle, this);
+		}
+	}
+
+	void PlayerScript::startingArcana()
+	{
+		mInventory.arcanaBasic = new Arcana();
+		mInventory.arcanaDash = new Arcana();
+		mInventory.arcanaSignature = new Arcana();
+		mInventory.arcanaStandardA = new Arcana();
+		mInventory.arcanaStandardB = new Arcana();
+		mInventory.arcanaStandardC = new Arcana();
+		mInventory.arcanaStandardD = new Arcana();
+		// arcanaBasic
+		{
+			ArcanaInfo* tempInfo = new ArcanaInfo();
+			tempInfo->name = eArcanaName::WindSlash;
+			tempInfo->category = eArcanaCategory::Melee;
+			tempInfo->type = eArcanaType::BasicArcana;
+			tempInfo->motion = ePlayerMotion::Basic;
+			tempInfo->cooldownReady = true;
+			tempInfo->cooldownTime = 0.6f;
+			tempInfo->currentTime = 0.0f;
+
+			ArcanaStat* tempStat = new ArcanaStat();
+			tempStat->damage = 11.0f;
+			tempStat->stagger = 3.0f;
+			tempStat->moveSpeed = 0.0f;
+			tempStat->spellRange = 0.0f;
+			tempStat->projectileDelayTime = 0.0f;
+			tempStat->projectileCurrentDelayTime = 0.0f;
+			tempStat->maxProjectile = 1;
+			tempStat->curProjectile = 0;
+
+			mInventory.arcanaBasic->arcanaInfo = tempInfo;
+			mInventory.arcanaBasic->arcanaStat = tempStat;
+		}
+		// arcanaDash
+		{
+			ArcanaInfo* tempInfo = new ArcanaInfo();
+			tempInfo->name = eArcanaName::WindSlash;
+			tempInfo->category = eArcanaCategory::Melee;
+			tempInfo->type = eArcanaType::BasicArcana;
+			tempInfo->motion = ePlayerMotion::Basic;
+			tempInfo->cooldownReady = true;
+			tempInfo->cooldownTime = 0.6f;
+			tempInfo->currentTime = 0.0f;
+
+			ArcanaStat* tempStat = new ArcanaStat();
+			tempStat->damage = 11.0f;
+			tempStat->stagger = 3.0f;
+			tempStat->moveSpeed = 0.0f;
+			tempStat->spellRange = 0.0f;
+			tempStat->projectileDelayTime = 0.0f;
+			tempStat->projectileCurrentDelayTime = 0.0f;
+			tempStat->maxProjectile = 1;
+			tempStat->curProjectile = 0;
+
+			mInventory.arcanaDash->arcanaInfo = tempInfo;
+			mInventory.arcanaDash->arcanaStat = tempStat;
+		}
+		// arcanaSignature
+		{
+			ArcanaInfo* tempInfo = new ArcanaInfo();
+			tempInfo->name = eArcanaName::ExplodingFireball;
+			tempInfo->category = eArcanaCategory::Projectile;
+			tempInfo->type = eArcanaType::SignatureArcana;
+			tempInfo->motion = ePlayerMotion::AOE;
+			tempInfo->cooldownReady = true;
+			tempInfo->cooldownTime = 0.6f;
+			tempInfo->currentTime = 0.0f;
+
+			ArcanaStat* tempStat = new ArcanaStat();
+			tempStat->damage = 11.0f;
+			tempStat->stagger = 3.0f;
+			tempStat->moveSpeed = 0.0f;
+			tempStat->spellRange = 0.0f;
+			tempStat->projectileDelayTime = 0.0f;
+			tempStat->projectileCurrentDelayTime = 0.0f;
+			tempStat->maxProjectile = 1;
+			tempStat->curProjectile = 0;
+
+			mInventory.arcanaSignature->arcanaInfo = tempInfo;
+			mInventory.arcanaSignature->arcanaStat = tempStat;
+		}
+		// arcanaStandardA
+		{
+			ArcanaInfo* tempInfo = new ArcanaInfo();
+			tempInfo->name = eArcanaName::DragonArc;
+			tempInfo->category = eArcanaCategory::Projectile;
+			tempInfo->type = eArcanaType::StandardArcana;
+			tempInfo->motion = ePlayerMotion::Basic;
+			tempInfo->cooldownReady = true;
+			tempInfo->cooldownTime = 0.6f;
+			tempInfo->currentTime = 0.0f;
+
+			ArcanaStat* tempStat = new ArcanaStat();
+			tempStat->damage = 11.0f;
+			tempStat->stagger = 3.0f;
+			tempStat->moveSpeed = 0.0f;
+			tempStat->spellRange = 0.0f;
+			tempStat->projectileDelayTime = 0.0f;
+			tempStat->projectileCurrentDelayTime = 0.0f;
+			tempStat->maxProjectile = 1;
+			tempStat->curProjectile = 0;
+
+			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
+			mInventory.arcanaStandardA->arcanaStat = tempStat;
+		}
 	}
 
 #pragma endregion
@@ -235,27 +314,27 @@ namespace js
 		calculatePlayerDirection();
 		switch (mPlayerState)
 		{
-		case js::PlayerScript::ePlayerState::Idle:
+		case js::PlayerScript::ePlayerState::IDLE:
 		{
 			Idle();
 		}
 			break;
-		case js::PlayerScript::ePlayerState::Move:
+		case js::PlayerScript::ePlayerState::MOVE:
 		{
 			Move();
 		}
 			break;
-		case js::PlayerScript::ePlayerState::LBtn:
+		case js::PlayerScript::ePlayerState::LBTN:
 		{
 			LBtn();
 		}
 			break;
-		case js::PlayerScript::ePlayerState::RBtn:
+		case js::PlayerScript::ePlayerState::RBTN:
 		{
 			RBtn();
 		}
 			break;
-		case js::PlayerScript::ePlayerState::Space:
+		case js::PlayerScript::ePlayerState::SPACE:
 		{
 			Space();
 		}
@@ -276,6 +355,7 @@ namespace js
 		}
 			break;
 		}
+		
 	}
 	void PlayerScript::Render()
 	{
@@ -304,7 +384,7 @@ namespace js
 	void PlayerScript::Action()
 	{
 	}
-#pragma endregion 
+#pragma endregion
 
 	void PlayerScript::Idle()
 	{
@@ -313,7 +393,7 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, true);
 			// 상태 바꾸기
-			changeState(ePlayerState::Move);
+			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -322,7 +402,7 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, false);
 			// 상태 바꾸기
-			changeState(ePlayerState::Move);
+			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -331,7 +411,7 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, false);
 			// 상태 바꾸기
-			changeState(ePlayerState::Move);
+			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -340,28 +420,79 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, true);
 			// 상태 바꾸기
-			changeState(ePlayerState::Move);
+			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN)) 
 		{
+			if (nullptr == mInventory.arcanaBasic->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::LBTN);
+			// 애니메이션 재생	
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::RBTN))
 		{
+			if (nullptr == mInventory.arcanaStandardA->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::RBTN);
+			// 애니메이션 재생	
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
+			// 상태 바꾸기
+			changeState(ePlayerState::SPACE);
+			// 애니메이션 재생	
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::F))
 		{
+			if (nullptr == mInventory.arcanaStandardB->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::F);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		if (Input::GetKey(eKeyCode::R))
+		{
+			if (nullptr == mInventory.arcanaStandardC->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::R);
+			// 애니메이션 재생	
+			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::Q))
 		{
+			if (nullptr == mInventory.arcanaSignature->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::Q);
+			// 애니메이션 재생	
+			playAnimation();
 		}
 	}
-
 	void PlayerScript::Move()
 	{
 		// 이동 로직
@@ -396,53 +527,79 @@ namespace js
 
 		if (Input::GetKey(eKeyCode::LBTN))
 		{
+			if (nullptr == mInventory.arcanaBasic->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
 			// 상태 바꾸기
-			changeState(ePlayerState::LBtn);
+			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::RBTN))
 		{
+			if (nullptr == mInventory.arcanaStandardA->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
 			// 상태 바꾸기
-			changeState(ePlayerState::RBtn);
+			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
 			// 상태 바꾸기
-			changeState(ePlayerState::Space);
+			changeState(ePlayerState::SPACE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::F))
 		{
+			if (nullptr == mInventory.arcanaStandardB->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
 			playAnimation();
 		}
-		if (Input::GetKey(eKeyCode::Q))
-		{
-			// 상태 바꾸기
-			changeState(ePlayerState::Q);
-			// 애니메이션 재생	
-			playAnimation();
-		}
 		if (Input::GetKey(eKeyCode::R))
 		{
+			if (nullptr == mInventory.arcanaStandardC->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
 			playAnimation();
 		}
+		if (Input::GetKey(eKeyCode::Q))
+		{
+			if (nullptr == mInventory.arcanaSignature->arcanaInfo)
+				return;
+			// 방향 전환
+			float angle = calculateRotateAngle();
+			rotatePlayerDirection(angle);
+			// 상태 바꾸기
+			changeState(ePlayerState::Q);
+			// 애니메이션 재생	
+			playAnimation();
+		}
+		
 
 		if (Input::GetKeyUp(eKeyCode::S))
 		{
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, true);
 			// 상태 바꾸기
-			changeState(ePlayerState::Idle);
+			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -451,7 +608,7 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, false);
 			// 상태 바꾸기
-			changeState(ePlayerState::Idle);
+			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -460,7 +617,7 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, false);
 			// 상태 바꾸기
-			changeState(ePlayerState::Idle);
+			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
@@ -469,33 +626,27 @@ namespace js
 			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, true);
 			// 상태 바꾸기
-			changeState(ePlayerState::Idle);
+			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 
 	}
-
 	void PlayerScript::LBtn()
 	{
 	}
-
 	void PlayerScript::RBtn()
 	{
 	}
-
 	void PlayerScript::Space()
 	{
 	}
-
 	void PlayerScript::Q()
 	{
 	}
-
 	void PlayerScript::F()
 	{
 	}
-
 	void PlayerScript::R()
 	{
 	}
@@ -588,8 +739,11 @@ namespace js
 			if (eAxisValue::Down == direction)
 				mAnimationDirection = Vector2(0, -1);
 
+			// Y값이 0이 아니고, 입력된 값과 현재 값이 반대인경우 = 정지상태가 아닌 상황에서 W랑 S가 같이 눌린경우
 			if (direction != mYDir && eAxisValue::None != mYDir)
 				mYDir = eAxisValue::None;
+			else
+				mYDir = direction;
 		}
 		else
 		{
@@ -600,6 +754,8 @@ namespace js
 
 			if (direction != mXDir && eAxisValue::None != mXDir)
 				mXDir = eAxisValue::None;
+			else
+				mXDir = direction;
 		}
 	}
 
@@ -621,44 +777,44 @@ namespace js
 	{
 		switch (mPlayerState)
 		{
-		case js::PlayerScript::ePlayerState::Idle:
+		case js::PlayerScript::ePlayerState::IDLE:
 		{
 			playIdleAnimation();
 		}
 		break;
-		case js::PlayerScript::ePlayerState::Move:
+		case js::PlayerScript::ePlayerState::MOVE:
 		{
 			playMoveAnimation();
 		}
 		break;
-		case js::PlayerScript::ePlayerState::LBtn:
+		case js::PlayerScript::ePlayerState::LBTN:
 		{
-			findAnimation(mLBtn.arcanaInfo->motion);
+			findAnimation(mInventory.arcanaBasic->arcanaInfo->motion);
 		}
 		break;
-		case js::PlayerScript::ePlayerState::RBtn:
+		case js::PlayerScript::ePlayerState::RBTN:
 		{
-			findAnimation(mRBtn.arcanaInfo->motion);
+			findAnimation(mInventory.arcanaStandardA->arcanaInfo->motion);
 		}
 		break;
-		case js::PlayerScript::ePlayerState::Space:
+		case js::PlayerScript::ePlayerState::SPACE:
 		{
-			findAnimation(mSpace.arcanaInfo->motion);
+			playDashAnimation();
 		}
 		break;
 		case js::PlayerScript::ePlayerState::Q:
 		{
-			findAnimation(mQ.arcanaInfo->motion);
+			findAnimation(mInventory.arcanaSignature->arcanaInfo->motion);
 		}
 		break;
 		case js::PlayerScript::ePlayerState::F:
 		{
-			findAnimation(mF.arcanaInfo->motion);
+			findAnimation(mInventory.arcanaStandardB->arcanaInfo->motion);
 		}
 		break;
 		case js::PlayerScript::ePlayerState::R:
 		{
-			findAnimation(mR.arcanaInfo->motion);
+			findAnimation(mInventory.arcanaStandardC->arcanaInfo->motion);
 		}
 		break;
 		}
