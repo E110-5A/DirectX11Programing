@@ -89,7 +89,7 @@ namespace js
 		void OnPause() { if (mIsDontChangeState) return; mState = eGlobalState::Paused; }
 		void OnDeath() { if (mIsDontChangeState) return; mState = eGlobalState::Dead; }
 		eGlobalState GetState() { return mState; }
-				
+		
 		bool IsDontDestroy() { return mIsDontDestroy; }
 		void DontDestroy(bool enable = true) { mIsDontDestroy = enable; }
 		bool IsDontChangeState() { return mIsDontChangeState; }

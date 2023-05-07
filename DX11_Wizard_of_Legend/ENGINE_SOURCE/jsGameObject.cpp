@@ -95,6 +95,7 @@ namespace js
 		}
 	}
 
+	// Paused 상태의 오브젝트는 렌더 안함
 	void GameObject::Render()
 	{
 		if (eGlobalState::Paused == mState)

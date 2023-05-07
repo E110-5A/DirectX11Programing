@@ -32,7 +32,7 @@ namespace js
 	protected:
 		virtual void createAnimation() {};
 		virtual void addEvents() {};
-		virtual void ActiveProjectile() {};
+		
 
 		// 충돌 관련 함수
 	protected:

@@ -63,6 +63,19 @@ namespace js
 		void R();
 
 	private:
+		void skillProcess();
+
+		void skillCooldown();
+		void CooldownCheck(Arcana* target);
+		
+		void skillExcute();
+		bool delayCheck(Arcana* target);
+		bool countCheck(Arcana* target);
+		void arcanaCompleteCheck(Arcana* target);
+		ArcanaScript* redeployProjectiles(Arcana* target);
+		void shoot(Arcana* target);
+
+	private:
 		void calculateMouseDirection();
 		void calculatePlayerDirection();
 		float calculateRotateAngle();
@@ -105,12 +118,10 @@ namespace js
 
 	private:
 		std::vector<ArcanaScript*> mProjectiles;
-
 		Inventory mInventory;
-
-		Arcana* mTempArcana;
 
 	private:
 		bool		mBasicAnimationType;
+		bool		mIsProjectileRight;
 	};
 }

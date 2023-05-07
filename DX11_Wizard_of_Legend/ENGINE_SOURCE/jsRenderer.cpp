@@ -123,7 +123,7 @@ namespace js::renderer
 			circleVertexs.push_back(vtx);
 		}
 		indexes.clear();
-		for (size_t point = 0; point < iSlice - 2; ++point)
+		for (size_t point = 0; point < static_cast<unsigned long long>(iSlice) - 2; ++point)
 		{
 			indexes.push_back(UINT(point + 1));
 		}
@@ -421,7 +421,7 @@ namespace js::renderer
 		debugShader->SetRSState(eRSType::SolidNone);
 		debugShader->SetDSState(eDSType::NoWrite);
 		debugShader->SetBSState(eBSType::AlphaBlend);
-		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		debugShader->SetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 		Resources::Insert<Shader>(L"DebugShader", debugShader);
 #pragma endregion
 #pragma region PaintShader
@@ -483,6 +483,8 @@ namespace js::renderer
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
+		Resources::Load<Texture>(L"DragonArc", L"Player\\Arcana\\DragonArc.png");
+		
 #pragma endregion
 	}
 

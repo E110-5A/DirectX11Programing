@@ -7,7 +7,7 @@
 namespace js
 {
 	CameraScript::CameraScript()
-		: Script()
+		: mFollowTarget(nullptr)
 	{
 	}
 
@@ -57,10 +57,10 @@ namespace js
 		if (GameObject::Active != mFollowTarget->GetState())
 			return;
 
-		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Transform* cameraTr = GetOwner()->GetComponent<Transform>();
 		Transform* targetTr = mFollowTarget->GetComponent<Transform>();
 		Vector3 targetPosition = targetTr->GetPosition();
 
-		myTr->SetPosition(targetPosition);
+		cameraTr->SetPosition(targetPosition);
 	}
 }

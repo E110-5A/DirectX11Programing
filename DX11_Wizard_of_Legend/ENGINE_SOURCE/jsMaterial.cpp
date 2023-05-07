@@ -65,7 +65,6 @@ namespace js::graphics
             mTexture[(UINT)slot]->BindShaderResource(eShaderStage::CS, 0);
         }
         
-
         ConstantBuffer* pCB = renderer::constantBuffers[(UINT)eCBType::Material];
         pCB->SetData(&mCB);
         pCB->Bind(eShaderStage::VS);

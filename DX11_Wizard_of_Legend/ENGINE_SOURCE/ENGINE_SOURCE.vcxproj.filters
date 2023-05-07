@@ -315,9 +315,6 @@
     <ClCompile Include="jsPlayerScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
     </ClCompile>
-    <ClCompile Include="jsArcanaObject.cpp">
-      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
-    </ClCompile>
     <ClCompile Include="jsCreatureScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature</Filter>
     </ClCompile>
@@ -499,9 +496,6 @@
     </ClInclude>
     <ClInclude Include="jsPlayerScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="jsArcanaObject.h">
-      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
     </ClInclude>
     <ClInclude Include="jsCreatureScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature</Filter>

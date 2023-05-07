@@ -27,30 +27,55 @@ namespace js
 		virtual void End() override;
 		virtual void Action() override;
 
+	protected:
+		virtual void createAnimation() override;
+		virtual void addEvents() override;
+
+	public:
 		void SetSpellID(int id) { mSpellID = id; }
-		void ActiveArcana(lArcanaStat& skillInfo, float power);
+		Arcana* GetArcana() { return mArcana; }
 
-		eArcanaState GetArcanaState() { return mArcanaState; }
-		lArcanaStat* GetArcanaInfo() { return mArcanaStat; }
-
-		float GetTotalDamage() { return mArcanaStat->damage * mPower; }
+	public:
+		void ActiveArcana(Arcana* arcana, bool isRight);
+		eArcanaState IsActiveProjectile() { return mArcanaState; }
 
 	private:
-		void createAnimation();
-		void addEvents();
-		void bindAnimation();
+		void playAnimation();
 
-		void move();
+		void projectileProcess();
+		void projectileEndCheck();
+		void projectileMove();
+
+		void projectileSleep();
+
+		void disableProjectile();
+
+
+
+
 
 		void endConditionMelee();
 		void endConditionProjectile();
+
+#pragma region legacy
+	public:
+		void lActiveArcana(lArcanaStat& skillInfo, float power);
+		lArcanaStat* GetArcanaInfo() { return mArcanaStat; }
+
+		float GetTotalDamage() { return mArcanaStat->damage * mPower; }
+		void lbindAnimation();
+		void lmove();
+#pragma endregion
 
 	private:
 		int mSpellID;
 		//ArcanaInfo*	mArcanaInfo;
 		eArcanaState mArcanaState;
-		Vector3 mStartPos;
 
 		float mPower;
+
+	private:
+		Arcana* mArcana;
+		bool	mIsRight;
 	};
 }

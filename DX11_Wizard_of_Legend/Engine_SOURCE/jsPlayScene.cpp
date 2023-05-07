@@ -39,7 +39,8 @@ namespace js
 			Player* obj = object::InstantiateGameObject<Player>(eLayerType::Player, this);
 			obj->OnPause();
 			obj->SetName(L"Player");
-
+			Transform* objTr = obj->GetComponent<Transform>();
+			objTr->SetScale(Vector3(1.5f, 1.5f, 1.5f));
 			// 카메라 관련 예외처리
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 			renderer::player = playerScript;
@@ -57,6 +58,9 @@ namespace js
 				GameObject* projecObj = object::InstantiateGameObject<GameObject>(eLayerType::PlayerProjectile, this);
 				projecObj->OnPause();
 				projecObj->SetName(L"projectile");
+				Transform* projecTr = projecObj->GetComponent<Transform>(); 
+				projecTr->SetParent(objTr);
+				projecTr->SetScale(Vector3(1.2f, 1.2f, 1.2f));
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);
 				playerScript->SetProjectileID(index);
@@ -97,7 +101,7 @@ namespace js
 
 		// Temp Background Tile
 		{
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+			/*GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
 			obj->SetName(L"PlayBG");
 
 			Transform* tr = obj->GetComponent<Transform>();
@@ -108,7 +112,7 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
 			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
-			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PlayBackGround"));
+			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PlayBackGround"));*/
 		}
 
 		Scene::Initialize();

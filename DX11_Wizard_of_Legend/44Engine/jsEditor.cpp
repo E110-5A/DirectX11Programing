@@ -12,14 +12,20 @@ namespace js
 {	
 	void Editor::Initialize()
 	{
+		// 카메라 설정?
+
+
+
 		// 충돌체의 종류 갯수만큼 디버그 객체 생성
 		mDebugObjects.resize((UINT)eColliderType::End);
 
+		// DebugRect Object
 		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();		
 		MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
 		renderer->SetMesh(Resources::Find<Mesh>(L"DebugRectMesh"));
 		renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
 
+		// DebugCircle Object
 		mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
 		renderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
 		renderer->SetMesh(Resources::Find<Mesh>(L"DebugCircleMesh"));
@@ -67,24 +73,26 @@ namespace js
 	{
 		DebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
 
+		// Tr
 		Transform* debugTr = debugObj->GetComponent<Transform>();
 		debugTr->SetPosition(mesh.position);
 		debugTr->SetRotation(mesh.rotatation);
-
-
+		// Tr->Collider
 		if (mesh.type == eColliderType::Rect)
 			debugTr->SetScale(mesh.scale);
-		else
+		if (mesh.type == eColliderType::Circle)
 			debugTr->SetScale(Vector3(mesh.radius));
 
+		// Camera Update
 		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>();
 		Camera* camera = renderer::mainCamera;
-
-		debugTr->FixedUpdate();
-
+		
 		Camera::SetGpuViewMatrix(renderer::mainCamera->GetGpuViewMatrix());
 		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetGpuProjectionMatrix());
 
+		debugTr->FixedUpdate();
+		
+		// Final Render
 		debugObj->Render();
 	}
 	void Editor::Run()

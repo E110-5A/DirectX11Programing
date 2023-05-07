@@ -59,7 +59,7 @@ namespace js
 	{
 		ArcanaScript* projectile = dynamic_cast<ArcanaScript*>(target);
 		// 상대의 공격 관련 정보를 가져옴
-		float totalDamage = projectile->GetTotalDamage();
+		//float totalDamage = projectile->GetTotalDamage();
 
 		Vector3 myPosition = mTransform->GetPosition();
 

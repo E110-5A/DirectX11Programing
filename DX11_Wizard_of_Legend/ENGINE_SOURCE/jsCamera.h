@@ -26,13 +26,19 @@ namespace js
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		void CreateViewMatrix();
-		void CreateProjectionMatrix();
+		// 카메라를 js::renderer에 등록시킴
 		void RegisterCameraInRenderer();
 
-		void TurnLayerMask(eLayerType layer, bool enable = true);
+	public:
+		void CreateViewMatrix();
+		void CreateProjectionMatrix();
+
+
+#pragma region LayerMaskSet
+		void TurnLayerMask(eLayerType layer, bool enable = true) { mLayerMasks.set((UINT)layer, enable); }
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
+#pragma endregion 
 
 		void SetProjectionType(eProjectionType type) { mType = type; }
 		float GetScale() { return mScale; }
@@ -40,11 +46,13 @@ namespace js
 		Matrix& GetProjectionMatrix() { return mProjection; }
 
 	private:
+#pragma region Render Func
 		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
 		void renderTransparent();
 		void pushGameObjectToRenderingModes(GameObject* gameObj);
+#pragma endregion
 
 	private:
 		static Matrix View;

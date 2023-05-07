@@ -17,7 +17,6 @@ namespace js
 		{
 			if (comp == nullptr)
 				continue;
-
 			comp->FixedUpdate();
 		}
 	}

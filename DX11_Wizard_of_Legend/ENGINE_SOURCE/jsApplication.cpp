@@ -55,7 +55,6 @@ namespace js
 		graphicDevice->AdjustViewPorts();
 
 		renderer::Render();
-		CollisionManager::Render();
 	}
 
 	void Application::Destroy()

@@ -18,7 +18,7 @@ namespace js
 
 	Camera::Camera()
 		: Component(eComponentType::Camera)
-		, mType(eProjectionType::Perspective)
+		, mType(eProjectionType::Orthographic)
 		, mAspectRatio(1.0f)
 		, mNear(1.0f)
 		, mFar(1000.0f)
@@ -35,12 +35,10 @@ namespace js
 	{
 		RegisterCameraInRenderer();
 	}
-
 	void Camera::Update()
 	{
 
 	}
-
 	void Camera::FixedUpdate()
 	{
 		CreateViewMatrix();
@@ -48,7 +46,6 @@ namespace js
 
 		RegisterCameraInRenderer();
 	}
-
 	void Camera::Render()
 	{
 		View = mView;
@@ -56,25 +53,30 @@ namespace js
 
 		sortGameObjects();
 
-		// 씬에서 각각 분류된 오브젝트를 렌더링 호출함
 		renderOpaque();
 		renderCutout();
 		renderTransparent();
 	}
 
+	void Camera::RegisterCameraInRenderer()
+	{
+		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
+		renderer::cameras[(UINT)type].push_back(this);
+	}
+
+
 	void Camera::CreateViewMatrix()
 	{
-		Transform* tr = GetOwner()->GetComponent<Transform>();
-		Vector3 pos = tr->GetPosition();
+		Transform* myTr = GetOwner()->GetComponent<Transform>();
+		Vector3 myPos = myTr->GetPosition();
 
-		// Crate Translate view matrix
+		// Create Translate view matrix
 		mView = Matrix::Identity;
-		mView *= Matrix::CreateTranslation(-pos);
-		//회전 정보
-
-		Vector3 up = tr->Up();
-		Vector3 right = tr->Right();
-		Vector3 foward = tr->Foward();
+		mView *= Matrix::CreateTranslation(-myPos);
+		
+		Vector3 up = myTr->Up();
+		Vector3 right = myTr->Right();
+		Vector3 foward = myTr->Foward();
 
 		Matrix viewRotate;
 		viewRotate._11 = right.x; viewRotate._12 = up.x; viewRotate._13 = foward.x;
@@ -95,31 +97,17 @@ namespace js
 
 		if (mType == eProjectionType::Perspective)
 		{
-			mProjection = Matrix::CreatePerspectiveFieldOfViewLH
-			(
-				XM_2PI / 6.0f
-				, mAspectRatio
-				, mNear
-				, mFar
-			);
+			mProjection 
+				= Matrix::CreatePerspectiveFieldOfViewLH(XM_2PI / 6.0f, mAspectRatio, mNear, mFar);
 		}
 		else
 		{
-			mProjection = Matrix::CreateOrthographicLH(width / 100.0f, height / 100.0f, mNear, mFar);
+			mProjection 
+				= Matrix::CreateOrthographicLH(width / 100.0f, height / 100.0f, mNear, mFar);
 		}
 	}
 
-	void Camera::RegisterCameraInRenderer()
-	{
-		eSceneType type = SceneManager::GetActiveScene()->GetSceneType();
-		renderer::cameras[(UINT)type].push_back(this);
-	}
-
-	void Camera::TurnLayerMask(eLayerType layer, bool enable)
-	{
-		mLayerMasks.set((UINT)layer, enable);
-	}
-
+#pragma region Render Func
 	void Camera::sortGameObjects()
 	{
 		mOpaqueGameObjects.clear();
@@ -143,7 +131,6 @@ namespace js
 			}
 		}
 	}
-
 	void Camera::renderOpaque()
 	{
 		for (GameObject* obj : mOpaqueGameObjects)
@@ -154,7 +141,6 @@ namespace js
 			obj->Render();
 		}
 	}
-
 	void Camera::renderCutout()
 	{
 		for (GameObject* obj : mCutoutGameObjects)
@@ -165,7 +151,6 @@ namespace js
 			obj->Render();
 		}
 	}
-
 	void Camera::renderTransparent()
 	{
 		for (GameObject* obj : mTransparentGameObjects)
@@ -176,7 +161,6 @@ namespace js
 			obj->Render();
 		}
 	}
-
 	void Camera::pushGameObjectToRenderingModes(GameObject* gameObj)
 	{
 		BaseRenderer* renderer
@@ -206,4 +190,5 @@ namespace js
 			break;
 		}
 	}
+#pragma endregion
 }

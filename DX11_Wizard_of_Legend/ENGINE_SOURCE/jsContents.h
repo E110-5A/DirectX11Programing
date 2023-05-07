@@ -115,7 +115,7 @@ enum class eProjectileState
 enum class eArcanaCategory
 {
 	Melee,
-	Projectile,
+	Range,
 	Dash,
 	End,
 };
@@ -128,6 +128,7 @@ enum class eArcanaType
 };
 enum class eArcanaName
 {
+	None,
 	// basic
 	WindSlash,
 	EarthKnuckles,
@@ -179,31 +180,34 @@ struct ArcanaStat
 	float	stagger;					// 경직수치
 	float	moveSpeed;					// 투사체 속도
 	float	spellRange;					// 투사체 사거리
-	float	projectileDelayTime;		// 콤보 딜레이 시간
-	float	projectileCurrentDelayTime;
-	int		maxProjectile;				// 투사체 개수
-	int		curProjectile;
+
 public:
 	ArcanaStat()
-		: damage(0.0f), stagger(0.0f), moveSpeed(0.0f), spellRange(0.0f), 
-		projectileDelayTime(0.0f), projectileCurrentDelayTime(0.0f), maxProjectile(0), curProjectile(0)
+		: damage(0.0f), stagger(0.0f), moveSpeed(0.0f), spellRange(0.0f)
 	{}
 };
 struct ArcanaInfo
 {
 	eArcanaName		name;
-	eArcanaCategory category;		// 근거리, 원거리 구분
-	eArcanaType		type;			// 스킬 타입
+	eArcanaCategory category;					// 근거리, 원거리 구분
+	eArcanaType		type;						// 스킬 타입
 	ePlayerMotion	motion;
 	ePlayerBindSlot slot;
-	bool			cooldownReady;	// 재사용 준비됨	
-	float			cooldownTime;	// 스킬 쿨다운
-	float			currentTime;
-	
+	float			cooldownTime;				// 스킬 쿨다운
+	float			currentCooldownTime;
+	float			delayTime;					// 콤보 딜레이 시간
+	float			currentDelayTime;
+	int				maxCount;					// 투사체 개수
+	int				curCount;
+	bool			cooldownReady;				// 스킬 시전 조건 (false 인 경우 플레이어 State 변경을 막음)
+	bool			begin;						// 스킬 진행 조건 (true 인 경우 스킬이 진행됨)
+	bool			complete;					// 스킬 사용 조건 (true 인 경우 더이상 스킬이 진행안됨)
+
 public:
 	ArcanaInfo()
-		: name(eArcanaName::WindSlash), category(eArcanaCategory::Melee), type(eArcanaType::BasicArcana)
-		, motion(ePlayerMotion::Basic), slot(ePlayerBindSlot::None), cooldownReady(true), cooldownTime(0.0f), currentTime(0.0f)
+		: name(eArcanaName::WindSlash), category(eArcanaCategory::Melee), type(eArcanaType::BasicArcana), motion(ePlayerMotion::Basic), slot(ePlayerBindSlot::None)
+		, cooldownTime(0.0f), currentCooldownTime(0.0f), delayTime(0.0f), currentDelayTime(0.0f)
+		, maxCount(0), curCount(0), cooldownReady(true), begin(false), complete(false)
 	{}
 };
 
