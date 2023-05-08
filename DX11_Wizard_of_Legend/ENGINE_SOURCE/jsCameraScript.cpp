@@ -58,9 +58,12 @@ namespace js
 			return;
 
 		Transform* cameraTr = GetOwner()->GetComponent<Transform>();
+		Vector3 cameraPos = cameraTr->GetPosition();
+
 		Transform* targetTr = mFollowTarget->GetComponent<Transform>();
 		Vector3 targetPosition = targetTr->GetPosition();
 
-		cameraTr->SetPosition(targetPosition);
+		cameraPos = Vector3(targetPosition.x, targetPosition.y, cameraPos.z);
+		cameraTr->SetPosition(cameraPos);
 	}
 }

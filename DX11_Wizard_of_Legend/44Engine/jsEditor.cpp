@@ -86,9 +86,9 @@ namespace js
 		// Camera Update
 		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>();
 		Camera* camera = renderer::mainCamera;
-		
-		Camera::SetGpuViewMatrix(renderer::mainCamera->GetGpuViewMatrix());
-		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetGpuProjectionMatrix());
+		Matrix viewM = renderer::mainCamera->GetViewMatrix();
+		Camera::SetGpuViewMatrix(viewM);
+		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetProjectionMatrix());
 
 		debugTr->FixedUpdate();
 		
