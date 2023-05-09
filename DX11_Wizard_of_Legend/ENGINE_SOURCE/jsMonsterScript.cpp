@@ -44,46 +44,13 @@ namespace js
 
 		if (eLayerType::PlayerProjectile == otherType)
 		{
-			Hit(otherScript[0]);
+			CreatureScript::Hit(otherScript[0]);
 		}
-		if (eLayerType::Wall == otherType)
+		if (eLayerType::Wall == otherType 
+			|| eLayerType::FallArea == otherType)
 		{
-			CreatureScript::WallCollision(otherScript[0]);
+			CreatureScript::Blocked(otherScript[0]);
 		}
-		if (eLayerType::Fall == otherType)
-		{
-			CreatureScript::FallCollision(otherScript[0]);
-		}
-	}
-	void MonsterScript::Hit(Script* target)
-	{
-		ArcanaScript* projectile = dynamic_cast<ArcanaScript*>(target);
-		// 상대의 공격 관련 정보를 가져옴
-		//float totalDamage = projectile->GetTotalDamage();
-
-		Vector3 myPosition = mTransform->GetPosition();
-
-		Vector3 targetPosition = projectile->GetTransform()->GetPosition();
-		Vector3 dir = myPosition - targetPosition ;
-		dir.Normalize();
-
-		// 자기 자신에게 피해를 줌
-		//mMonsterStat.curHp -= totalDamage;
-
-		// 방향 구하기
-
-		// 넉백하기
-		knockback(dir);
-	}
-	void MonsterScript::knockback(Vector3 dir)
-	{
-		Vector2 totalDir = Vector2(dir.x, dir.y);
-
-
-		Vector2 knockBack = mRigidbody->GetVelocity();
-		// 방향 * 위력
-		knockBack = totalDir * 100;
-		mRigidbody->AddForce(knockBack);
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)
 	{

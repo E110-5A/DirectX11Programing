@@ -14,38 +14,39 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-		virtual void OnCollisionEnter(Collider2D* collider) override;
-		virtual void OnCollisionStay(Collider2D* collider) override;
-		virtual void OnCollisionExit(Collider2D* collider) override;
-
+	public:
+#pragma region virtual ETC Events 
+		virtual void OnCollisionEnter(Collider2D* collider) override {};
+		virtual void OnCollisionStay(Collider2D* collider) override {};
+		virtual void OnCollisionExit(Collider2D* collider) override {};
 		virtual void Start() override {};
 		virtual void Complete() override {};
 		virtual void End()override {};
 		virtual void Action()override {};
+#pragma endregion
 
-		// 멤버 반환 함수
+		
 	public:
-		Rigidbody* GetRigidbody() { return mRigidbody; }
+#pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
-
-		// 초기화 관련 함수
+#pragma endregion
+		
 	protected:
+#pragma region initalize Projectile Info
 		virtual void createAnimation() {};
 		virtual void addEvents() {};
-		
+#pragma endregion
 
-		// 충돌 관련 함수
 	protected:
+#pragma region Collision Object Func
 		virtual void Hit(Script* target);
 		virtual void WallCollision(Script* target);
+#pragma endregion
 
 	protected:
 		Transform*		mTransform;
-		Rigidbody*		mRigidbody;
 		Animator*		mAnimator;
 
-
-		lArcanaStat*	mArcanaStat;
 	protected:
 		Vector2			mAnimationDir;
 	};

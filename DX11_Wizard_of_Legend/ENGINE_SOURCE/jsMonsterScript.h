@@ -37,9 +37,6 @@ namespace js
 
 	protected:
 		virtual void createAnimation() override;
-
-		virtual void Hit(Script* target) override;
-		virtual void knockback(Vector3 dir) override;
 	private:
 	};
 }
