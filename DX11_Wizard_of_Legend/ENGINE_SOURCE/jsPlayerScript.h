@@ -53,6 +53,7 @@ namespace js
 		void SetProjectileID(int id) { mProjectiles[id]->SetSpellID(id); }
 		
 	private:
+#pragma region State
 		void Idle();
 		void Move();
 		void LBtn();
@@ -61,38 +62,46 @@ namespace js
 		void Q();
 		void F();
 		void R();
+#pragma endregion
 
 	private:
+#pragma region Skill Func
 		void skillProcess();
-
 		void skillCooldown();
-		void CooldownCheck(Arcana* target);
-		
 		void skillExcute();
+		
+		void CooldownCheck(Arcana* target);
 		bool delayCheck(Arcana* target);
 		bool countCheck(Arcana* target);
 		void arcanaCompleteCheck(Arcana* target);
+		
 		ArcanaScript* redeployProjectiles(Arcana* target);
 		void shoot(Arcana* target);
-
-	private:
-		void calculateMouseDirection();
-		void calculatePlayerDirection();
-		float calculateRotateAngle();
-
 		int findProjectilePool();
 		void projectileRotates(ArcanaScript* target, float angle);
+#pragma endregion
 
+	private:
+#pragma region Utility Func
+		void	calculateMouseDirection();
+		void	calculatePlayerDirection();
+		float	calculateRotateAngle();
+		void	calculateAnimationDirection(float angle);
+#pragma endregion
+
+	private:
+#pragma region State Func
+		// 아래 2개 고장남
 		void playerRush();
 		void addForceDash();
 				
-		void rotatePlayerDirection(float angle);
 		void changePlayerDirection(eAxisValue value, bool isYAxis);
 		void changeState(ePlayerState changeState);
 
-	private:
 		void retIdle() { mPlayerState = ePlayerState::IDLE; playAnimation(); }
+#pragma endregion
 
+	private:
 #pragma region 애니메이션 함수
 		void playAnimation();		
 		void findAnimation(ePlayerMotion motion);

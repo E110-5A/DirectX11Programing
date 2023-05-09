@@ -9,7 +9,6 @@
 
 #include "jsTransform.h"
 #include "jsAnimator.h"
-#include "jsRigidbody.h"
 #include "jsArcanaScript.h"
 
 
@@ -45,6 +44,7 @@ namespace js
 		, mYDir(eAxisValue::None)
 		, mXDir(eAxisValue::None)
 		, mBasicAnimationType(true)
+		, mIsProjectileRight(true)
 	{
 
 	}
@@ -225,7 +225,7 @@ namespace js
 			ArcanaStat* tempStat = new ArcanaStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 0.0f;
+			tempStat->moveSpeed = 1.0f;
 			tempStat->spellRange = 0.0f;
 
 			mInventory.arcanaBasic->arcanaInfo = tempInfo;
@@ -300,8 +300,8 @@ namespace js
 			ArcanaStat* tempStat = new ArcanaStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 6.0f;
-			tempStat->spellRange = 5.0f;
+			tempStat->moveSpeed = 6.5f;
+			tempStat->spellRange = 7.0f;
 
 			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
 			mInventory.arcanaStandardA->arcanaStat = tempStat;
@@ -456,7 +456,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			mInventory.arcanaBasic->arcanaInfo->cooldownReady = false;
 			mInventory.arcanaBasic->arcanaInfo->begin = true;
@@ -471,7 +471,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			mInventory.arcanaStandardA->arcanaInfo->cooldownReady = false;
 			mInventory.arcanaStandardA->arcanaInfo->begin = true;
@@ -493,7 +493,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			mInventory.arcanaStandardB->arcanaInfo->cooldownReady = false;
 			mInventory.arcanaStandardB->arcanaInfo->begin = true;
@@ -508,7 +508,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			mInventory.arcanaStandardC->arcanaInfo->cooldownReady = false;
 			mInventory.arcanaStandardC->arcanaInfo->begin = true;
@@ -523,7 +523,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			mInventory.arcanaSignature->arcanaInfo->cooldownReady = false;
 			mInventory.arcanaSignature->arcanaInfo->begin = true;
@@ -571,7 +571,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
@@ -584,7 +584,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생	
@@ -604,7 +604,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
@@ -617,7 +617,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
@@ -630,7 +630,7 @@ namespace js
 				return;
 			// 방향 전환
 			float angle = calculateRotateAngle();
-			rotatePlayerDirection(angle);
+			calculateAnimationDirection(angle);
 			// 상태 바꾸기
 			changeState(ePlayerState::Q);
 			// 애니메이션 재생	
@@ -851,11 +851,6 @@ namespace js
 		}
 	}
 
-
-	void PlayerScript::shoot(Arcana* target)
-	{
-		redeployProjectiles(target)->ActiveArcana(target, mIsProjectileRight);
-	}
 	ArcanaScript* PlayerScript::redeployProjectiles(Arcana* target)
 	{
 		// 유효한 투사체 찾기
@@ -872,14 +867,38 @@ namespace js
 		if (eArcanaName::DragonArc == target->arcanaInfo->name)
 		{
 			// 회전한 투사체 기준으로 cos pos.y 를 변경한 기믹 적용하기
-			mProjectiles[index]->GetTransform()->SetPosition(mTransform->GetPosition());
+			mProjectiles[index]->SetStartPos(mTransform->GetPosition());
 		}
 		else
 		{
-			mProjectiles[index]->GetTransform()->SetPosition(mTransform->GetPosition());
+			mProjectiles[index]->SetStartPos(mTransform->GetPosition());
 		}
 
 		return mProjectiles[index];
+	}
+	void PlayerScript::shoot(Arcana* target)
+	{
+		redeployProjectiles(target)->ActiveArcana(target, mIsProjectileRight);
+	}
+	int PlayerScript::findProjectilePool()
+	{
+		for (int index = 0; index < PROJECTILE_POOL; ++index)
+		{
+			// 없으면 다음으로
+			if (nullptr == mProjectiles[index])
+				continue;
+			// 사용중이면 다음으로
+			if (eArcanaState::Disabled == mProjectiles[index]->IsActiveProjectile())
+			{
+				return index;
+			}
+		}
+		return -1;
+	}
+	void PlayerScript::projectileRotates(ArcanaScript* target, float angle)
+	{
+		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
+		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 	}
 	
 	void PlayerScript::calculateMouseDirection()
@@ -921,30 +940,7 @@ namespace js
 		curDir.Normalize();
 		mCurrentDirection = curDir;
 	}
-
-	int PlayerScript::findProjectilePool()
-	{
-		for (int index = 0; index < PROJECTILE_POOL; ++index)
-		{
-			// 없으면 다음으로
-			if (nullptr == mProjectiles[index])
-				continue;
-			// 사용중이면 다음으로
-			if (eArcanaState::Disabled == mProjectiles[index]->IsActiveProjectile())
-			{
-				return index;
-			}
-		}
-		return -1;
-	}
-	void PlayerScript::projectileRotates(ArcanaScript* target, float angle)
-	{
-		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
-		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
-	}
-
-
-	void PlayerScript::rotatePlayerDirection(float angle)
+	void PlayerScript::calculateAnimationDirection(float angle)
 	{
 		// NORTH
 		if ((NORTH + 0.78) >= angle && (NORTH - 0.78) <= angle)
@@ -959,6 +955,7 @@ namespace js
 		else
 			mAnimationDirection = Vector2(-1, 0);
 	}
+
 	void PlayerScript::changePlayerDirection(eAxisValue direction, bool isYAxis)
 	{
 		// AnimationDirection을 변경하고, XDir, YDir 값을 변경함
@@ -989,17 +986,18 @@ namespace js
 		}
 	}
 
-	
+	void PlayerScript::changeState(ePlayerState changeState)
+	{
+		mPlayerState = changeState;
+	}
+	// 안씀
 	void PlayerScript::playerRush()
 	{
-		// 이동
-		Rigidbody* myRigidbody = GetOwner()->GetComponent<Rigidbody>();
-		myRigidbody->SetVelocity(mMouseDir * 11.0f);
+		//mTransform->SetPosition(Vector3(mMouseDir.x, mMouseDir.y, 1.0f) * 1.0f);
 	}
 	void PlayerScript::addForceDash()
 	{
-		Rigidbody* rigidbody = GetOwner()->GetComponent<Rigidbody>();
-		rigidbody->SetVelocity(mCurrentDirection * 56);
+		//mTransform->SetPosition(Vector3(mCurrentDirection.x, mCurrentDirection.y, 1.0f) * 1);
 	}
 
 #pragma region 애니메이션 실행함수
@@ -1150,8 +1148,4 @@ namespace js
 	}
 #pragma endregion
 
-	void PlayerScript::changeState(ePlayerState changeState)
-	{
-		mPlayerState = changeState;
-	}
 }

@@ -28,7 +28,6 @@ namespace js
 		void SetRotation(Vector3 rotation) { mRotation = rotation; };
 		void SetScale(Vector3 scale) { mScale = scale; };
 
-		Vector3 GetChildPosition() { return mChildPosition; }
 
 		Vector3 Foward() { return mFoward; }
 		Vector3 Right() { return mRight; }
@@ -46,6 +45,5 @@ namespace js
 		Vector3 mScale;
 		Matrix mWorld;
 
-		Vector3 mChildPosition;
 	};
 }

@@ -32,12 +32,12 @@ namespace js
 		virtual void addEvents() override;
 
 	public:
-		void SetSpellID(int id) { mSpellID = id; }
-		Arcana* GetArcana() { return mArcana; }
+		void			SetSpellID(int id) { mSpellID = id; }
+		eArcanaState	IsActiveProjectile() { return mArcanaState; }
+		void			SetStartPos(Vector3 ownerPos) { mStartPos = ownerPos; }
 
 	public:
 		void ActiveArcana(Arcana* arcana, bool isRight);
-		eArcanaState IsActiveProjectile() { return mArcanaState; }
 
 	private:
 		void playAnimation();
@@ -46,7 +46,7 @@ namespace js
 		void projectileEndCheck();
 		void projectileMove();
 
-		void projectileSleep();
+		void resetProjectile();
 
 		void disableProjectile();
 
@@ -58,24 +58,17 @@ namespace js
 		void endConditionProjectile();
 
 #pragma region legacy
-	public:
-		void lActiveArcana(lArcanaStat& skillInfo, float power);
-		lArcanaStat* GetArcanaInfo() { return mArcanaStat; }
-
-		float GetTotalDamage() { return mArcanaStat->damage * mPower; }
-		void lbindAnimation();
-		void lmove();
 #pragma endregion
 
 	private:
-		int mSpellID;
-		//ArcanaInfo*	mArcanaInfo;
+		int mSpellID;		
 		eArcanaState mArcanaState;
-
-		float mPower;
-
-	private:
 		Arcana* mArcana;
 		bool	mIsRight;
+
+
+	private:
+		Vector3 mStartPos;
+		float mPower;
 	};
 }
