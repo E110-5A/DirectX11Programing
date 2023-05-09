@@ -79,7 +79,7 @@ namespace js
 
 		// Skill & Health HUD
 		{
-			GameObject* healthHUD = object::Instantiate<Player>(eLayerType::UI, this);
+			GameObject* healthHUD = object::Instantiate<GameObject>(eLayerType::UI, this);
 			healthHUD->SetName(L"HealthHUD");
 			Transform* healthTr = healthHUD->GetComponent<Transform>();
 			healthTr->SetPosition(Vector3(-3.3f, 3.8f, 1.0f));
@@ -88,7 +88,7 @@ namespace js
 			healthMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			healthMr->SetMaterial(Resources::Find<Material>(L"HealthHUDMaterial"));
 
-			GameObject* skillHUD = object::Instantiate<Player>(eLayerType::UI, this);
+			GameObject* skillHUD = object::Instantiate<GameObject>(eLayerType::UI, this);
 			skillHUD->SetName(L"SkillHUD");
 			Transform* skillTr = skillHUD->GetComponent<Transform>();
 			skillTr->SetPosition(Vector3(-3.3f, -2.5f, 1.0f));

@@ -1,6 +1,7 @@
 #include "jsInput.h"
 #include "jsApplication.h"
 #include "jsGraphicDevice_DX11.h"
+#include "jsRenderer.h"
 
 extern js::Application application;
 namespace js
@@ -8,9 +9,7 @@ namespace js
 	std::vector<Input::Key> Input::mKeys;
 	math::Vector3 Input::mMousePosition = Vector3::Zero;
 	Vector3 Input::mMouseWorldPosition = Vector3::Zero;
-	Matrix Input::mDebugView = Matrix::Identity;
-	Matrix Input::mDebugProjection = Matrix::Identity;
-
+	Vector3 Input::mMouseUIPosition = Vector3::Zero;
 	int ASCII[(UINT)eKeyCode::END] =
 	{
 		//Alphabet
@@ -101,13 +100,37 @@ namespace js
 	}
 	void Input::CalculateMouseMatrix()
 	{
-		// 단위행렬
-		Matrix normalMatrix = Matrix::Identity;
-		// viewport 가져오기
-		D3D11_VIEWPORT deviceViewport = graphics::GetDevice()->GetViewPort();
-		Viewport viewport = Viewport(deviceViewport.TopLeftX, deviceViewport.TopLeftY, deviceViewport.Width, deviceViewport.Height, deviceViewport.MinDepth, deviceViewport.MaxDepth);
-		// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
-		viewport.Unproject(mMousePosition, renderer::mainCamera->GetGpuProjectionMatrix(), renderer::mainCamera->GetGpuViewMatrix(), normalMatrix, mMouseWorldPosition);
+		if (renderer::mainCamera)
+		{
+			// 단위행렬
+			Matrix worldMatrix = Matrix::Identity;
+			// viewport 가져오기
+			D3D11_VIEWPORT deviceViewport = graphics::GetDevice()->GetViewPort();
+			Viewport viewport =
+				Viewport(deviceViewport.TopLeftX, deviceViewport.TopLeftY
+					, deviceViewport.Width, deviceViewport.Height, deviceViewport.MinDepth, deviceViewport.MaxDepth);
 
+			// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
+			Matrix projMatrix = renderer::mainCamera->GetProjectionMatrix();
+			Matrix viewMatrix = renderer::mainCamera->GetViewMatrix();
+
+			viewport.Unproject(mMousePosition, projMatrix, viewMatrix, worldMatrix, mMouseWorldPosition);
+		}
+		if (renderer::uiCamera)
+		{
+			// 단위행렬
+			Matrix worldMatrix = Matrix::Identity;
+			// viewport 가져오기
+			D3D11_VIEWPORT deviceViewport = graphics::GetDevice()->GetViewPort();
+			Viewport viewport =
+				Viewport(deviceViewport.TopLeftX, deviceViewport.TopLeftY
+					, deviceViewport.Width, deviceViewport.Height, deviceViewport.MinDepth, deviceViewport.MaxDepth);
+
+			// 뷰포트부터 월드좌표까지 역행렬을 적용해서 마우스 위치 구하기
+			Matrix projMatrix = renderer::uiCamera->GetProjectionMatrix();
+			Matrix viewMatrix = renderer::uiCamera->GetViewMatrix();
+
+			viewport.Unproject(mMousePosition, projMatrix, viewMatrix, worldMatrix, mMouseUIPosition);
+		}
 	}	
 }

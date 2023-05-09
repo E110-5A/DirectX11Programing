@@ -19,6 +19,7 @@ namespace js::renderer
 	StructuredBuffer* lightsBuffer = nullptr;
 
 	Camera* mainCamera = nullptr;
+	Camera* uiCamera = nullptr;
 	GameObject* mainCameraObject = nullptr;
 	FadeScript* fade = nullptr;
 	PlayerScript* player = nullptr;

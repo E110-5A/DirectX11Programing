@@ -59,6 +59,7 @@ namespace js
 		
 		static void CalculateMouseMatrix();
 		static Vector3& GetMouseWorldPosition() { return mMouseWorldPosition; }
+		static Vector3& GetMouseUIPosition() { return mMouseUIPosition; }
 	
 
 		//GetKey()		키를 누르는 시간만큼 true를 반환
@@ -70,24 +71,18 @@ namespace js
 		static __forceinline bool GetKeyUp(eKeyCode keyCode) { return mKeys[static_cast<UINT>(keyCode)].eState == eKeyState::UP; }
 		
 
-		// 디버깅용 (확인 마치면 지울것)
-	public:
-		Matrix& GetView() { return mDebugView; }
-		Matrix& GetProjection() { return mDebugProjection; }
-
 	private:
 		Input() = delete;
 		~Input() = delete;
 
 	private:
 		static std::vector<Key> mKeys;
+
+		// 스크린 좌표계
 		static Vector3 mMousePosition;
+		// 월드 좌표계
 		static Vector3 mMouseWorldPosition;
-
-		// 디버깅용 (확인 마치면 지울것)
-	private:
-		static Matrix mDebugView;
-		static Matrix mDebugProjection;
-
+		// UI 좌표
+		static Vector3 mMouseUIPosition;
 	};
 }

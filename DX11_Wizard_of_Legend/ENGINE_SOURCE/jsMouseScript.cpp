@@ -17,7 +17,7 @@ namespace js
 	void MouseScript::Update()
 	{
 		Transform* myTransform = GetOwner()->GetComponent<Transform>();
-		Vector3 mousePosition = Input::GetMouseWorldPosition();
+		Vector3 mousePosition = Input::GetMouseUIPosition();
 		myTransform->SetPosition(mousePosition);
 	}
 	void MouseScript::FixedUpdate()

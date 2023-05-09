@@ -58,14 +58,13 @@ namespace js
 			GameObject* mouseObj = object::Instantiate<GameObject>(eLayerType::UI, this);
 			mouseObj->SetName(L"MouseObject");
 			Transform* mouseTr = mouseObj->GetComponent<Transform>();
-
+			mouseTr->SetScale(Vector3(0.7f, 0.7f, 1.0f));
 			MeshRenderer* mouseMr = mouseObj->AddComponent<MeshRenderer>();
 			mouseMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			mouseMr->SetMaterial(Resources::Find<Material>(L"MouseMaterial"));
 			object::DontDestroyOnLoad(mouseObj);
 			MouseScript* mouseScript = mouseObj->AddComponent<MouseScript>();
 		}
-
 
 		// UI Cam
 		{
@@ -78,6 +77,7 @@ namespace js
 			uiCamCamera->SetProjectionType(Camera::Orthographic);
 			uiCamObj->AddComponent<CameraScript>();
 			object::DontDestroyOnLoad(uiCamObj);
+			uiCamera = uiCamCamera;
 		}
 
 		//// Fade Obj

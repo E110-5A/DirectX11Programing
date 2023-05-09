@@ -90,6 +90,7 @@ namespace js::renderer
 
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
+	extern Camera* uiCamera;
 	extern GameObject* mainCameraObject;
 	extern FadeScript* fade;
 	extern PlayerScript* player;
