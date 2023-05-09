@@ -868,10 +868,15 @@ namespace js
 			mIsProjectileRight = true;
 		else
 			mIsProjectileRight = false;
-		// 위치 설정		
+		// 위치 설정
 		if (eArcanaName::DragonArc == target->arcanaInfo->name)
 		{
-			// 회전한 투사체 기준으로 cos pos.y 를 변경한 기믹 적용하기			
+			// 회전한 투사체 기준으로 cos pos.y 를 변경한 기믹 적용하기
+			mProjectiles[index]->GetTransform()->SetPosition(mTransform->GetPosition());
+		}
+		else
+		{
+			mProjectiles[index]->GetTransform()->SetPosition(mTransform->GetPosition());
 		}
 
 		return mProjectiles[index];

@@ -13,6 +13,7 @@ namespace js
 		, mRotation(Vector3::Zero)
 		, mPosition(Vector3::One)
 		, mParent(nullptr)
+		, mChildPosition(Vector3::Zero)
 	{
 		
 	}

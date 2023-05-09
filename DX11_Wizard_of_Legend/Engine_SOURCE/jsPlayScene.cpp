@@ -40,7 +40,7 @@ namespace js
 			obj->OnPause();
 			obj->SetName(L"Player");
 			Transform* objTr = obj->GetComponent<Transform>();
-			objTr->SetScale(Vector3(1.5f, 1.5f, 1.5f));
+			objTr->SetScale(Vector3(1.2f, 1.2f, 1.2f));
 			// 카메라 관련 예외처리
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 			renderer::player = playerScript;
@@ -59,7 +59,6 @@ namespace js
 				projecObj->OnPause();
 				projecObj->SetName(L"projectile");
 				Transform* projecTr = projecObj->GetComponent<Transform>(); 
-				projecTr->SetParent(objTr);
 				projecTr->SetScale(Vector3(1.2f, 1.2f, 1.2f));
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);

@@ -12,35 +12,35 @@ namespace js
 {	
 	void Editor::Initialize()
 	{
-		// 카메라 설정?
-
-
-
-		// 충돌체의 종류 갯수만큼 디버그 객체 생성
+		// 충돌체의 종류만큼 디버그 객체 생성
 		mDebugObjects.resize((UINT)eColliderType::End);
 
-		// DebugRect Object
-		mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();		
-		MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
-		renderer->SetMesh(Resources::Find<Mesh>(L"DebugRectMesh"));
-		renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
+		// new Debug Object
+		{
+			// Rect
+			mDebugObjects[(UINT)eColliderType::Rect] = new DebugObject();
+			MeshRenderer* renderer = mDebugObjects[(UINT)eColliderType::Rect]->AddComponent<MeshRenderer>();
+			renderer->SetMesh(Resources::Find<Mesh>(L"DebugRectMesh"));
+			renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
 
-		// DebugCircle Object
-		mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
-		renderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
-		renderer->SetMesh(Resources::Find<Mesh>(L"DebugCircleMesh"));
-		renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
+			// Circle
+			mDebugObjects[(UINT)eColliderType::Circle] = new DebugObject();
+			renderer = mDebugObjects[(UINT)eColliderType::Circle]->AddComponent<MeshRenderer>();
+			renderer->SetMesh(Resources::Find<Mesh>(L"DebugCircleMesh"));
+			renderer->SetMaterial(Resources::Find<Material>(L"DebugMaterial"));
+		}
 
 		// Grid Object
-		EditorObject* gridObject = new EditorObject();
-		MeshRenderer* gridMr = gridObject->AddComponent<MeshRenderer>();
-		gridMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
-		GridScript* gridScript = gridObject->AddComponent<GridScript>();
-		gridScript->SetCamera(mainCamera);
+		{
+			EditorObject* gridObject = new EditorObject();
+			MeshRenderer* gridMr = gridObject->AddComponent<MeshRenderer>();
+			gridMr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+			gridMr->SetMaterial(Resources::Find<Material>(L"GridMaterial"));
+			GridScript* gridScript = gridObject->AddComponent<GridScript>();
+			gridScript->SetCamera(mainCamera);
 
-		mEditorObjects.push_back(gridObject);
-
+			mEditorObjects.push_back(gridObject);
+		}
 	}
 	void Editor::Update()
 	{
