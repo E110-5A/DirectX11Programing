@@ -24,8 +24,9 @@ namespace js
 		virtual void End()override {};
 		virtual void Action()override {};
 #pragma endregion
-
-		
+		void TestAnimation();
+		void TurnTest() { mTesting = true; }
+		void Testing();
 	public:
 #pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
@@ -49,5 +50,8 @@ namespace js
 
 	protected:
 		Vector2			mAnimationDir;
+
+	private:
+		bool			mTesting;
 	};
 }

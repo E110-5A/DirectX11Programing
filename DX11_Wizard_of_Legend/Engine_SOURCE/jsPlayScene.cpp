@@ -59,14 +59,13 @@ namespace js
 				projecObj->OnPause();
 				projecObj->SetName(L"projectile");
 				Transform* projecTr = projecObj->GetComponent<Transform>(); 
-				projecTr->SetScale(Vector3(1.2f, 1.2f, 1.2f));
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
 				playerScript->AddProjectile(arcana);
 				playerScript->SetProjectileID(index);
 			}
 		}
 		
-		// Monster
+		// Monster & Projectile Obj
 		{
 			GameObject* monsterObj = object::InstantiateGameObject<GameObject>(eLayerType::Monster, this);
 			monsterObj->SetName(L"monster");
@@ -74,6 +73,11 @@ namespace js
 			tr->SetPosition(Vector3(1.0f, 0.0f, 1.0f));
 			monsterObj->AddComponent<MonsterScript>();
 
+			GameObject* projecObj = object::InstantiateGameObject<GameObject>(eLayerType::MonsterProjectile, this);
+			projecObj->SetName(L"projectile");
+			Transform* projecTr = projecObj->GetComponent<Transform>();
+			ProjectileScript* testScript = projecObj->AddComponent<ProjectileScript>();
+			testScript->TurnTest();
 		}
 
 		// Skill & Health HUD
@@ -100,18 +104,18 @@ namespace js
 
 		// Temp Background Tile
 		{
-			/*GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
-			obj->SetName(L"PlayBG");
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+			obj->SetName(L"Background");
 
 			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetScale(Vector3(16.0f, 9.0f, 1.0f));
+			tr->SetScale(Vector3(77.6f, 77.6f, 1.0f) * 0.3f);
 
 			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
 			sr->SetName(L"BackgroundRenderer");
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
 			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
-			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PlayBackGround"));*/
+			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
 		}
 
 		Scene::Initialize();
@@ -149,6 +153,7 @@ namespace js
 	{
 		//fade->FadeIn();
 		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::MonsterProjectile);
 		renderer::player->GetOwner()->OnActive();
 	}
 

@@ -43,20 +43,25 @@ namespace js
 		mOffenceStat.criticalChance = criticalChance;
 		mOffenceStat.criticalDamage = criticalDamage;
 	}
-	void CreatureScript::Hit(Script* target)
+	void CreatureScript::Hit(ProjectileScript* target)
 	{
 		TakeDamage(target);
 		Knockback(target);
 	}
-	void CreatureScript::TakeDamage(Script* target)
+	void CreatureScript::TakeDamage(ProjectileScript* target)
 	{
 		// 채력 깎기
 
 		// 스테거 적용
-		// Suppressed? subdue?
 	}
-	void CreatureScript::Knockback(Script* target)
+	void CreatureScript::Knockback(ProjectileScript* target)
 	{
+		// 대상과 내 위치의 간격으로 방향벡터를 구하기
+		Vector3 projectilePos = target->GetTransform()->GetPosition();
+		Vector3 powerDir = projectilePos - mTransform->GetPosition();
+		powerDir.Normalize();
+
+		mTransform->SetPosition(powerDir * 1.1f);
 	}
 	void CreatureScript::Blocked(Script* target)
 	{

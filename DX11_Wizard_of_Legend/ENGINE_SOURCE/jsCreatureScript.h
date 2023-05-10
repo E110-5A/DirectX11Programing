@@ -64,9 +64,9 @@ namespace js
 
 	protected:
 #pragma region Collision Object Func
-		virtual void Hit(Script* target);
-		virtual void TakeDamage(Script* target);
-		virtual void Knockback(Script* target);
+		virtual void Hit(ProjectileScript* target);
+		virtual void TakeDamage(ProjectileScript* target);
+		virtual void Knockback(ProjectileScript* target);
 
 		// 벽이나 낭떠러지? 인 경우 움직임을 막음
 		virtual void Blocked(Script* target);

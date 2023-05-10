@@ -39,17 +39,18 @@ namespace js
 	void MonsterScript::OnCollisionEnter(Collider2D* collider)
 	{
 		// 누구인지 확인하기
-		eLayerType otherType = collider->GetOwner()->GetLayerType();
-		std::vector<Script*> otherScript = collider->GetOwner()->GetScripts();
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
 
-		if (eLayerType::PlayerProjectile == otherType)
+		if (eLayerType::PlayerProjectile == targetType)
 		{
-			CreatureScript::Hit(otherScript[0]);
+			ProjectileScript* projectile = dynamic_cast<ProjectileScript*>(targetScript[0]);
+			CreatureScript::Hit(projectile);
 		}
-		if (eLayerType::Wall == otherType 
-			|| eLayerType::FallArea == otherType)
+		if (eLayerType::Wall == targetType
+			|| eLayerType::FallArea == targetType)
 		{
-			CreatureScript::Blocked(otherScript[0]);
+			CreatureScript::Blocked(targetScript[0]);
 		}
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)

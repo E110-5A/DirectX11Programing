@@ -388,6 +388,20 @@ namespace js
 #pragma region 충돌 및 이벤트
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
+		// 누구인지 확인하기
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
+
+		if (eLayerType::PlayerProjectile == targetType)
+		{
+			ProjectileScript* projectile = dynamic_cast<ProjectileScript*>(targetScript[0]);
+			CreatureScript::Hit(projectile);
+		}
+		if (eLayerType::Wall == targetType
+			|| eLayerType::FallArea == targetType)
+		{																					    
+			CreatureScript::Blocked(targetScript[0]);
+		}																					    
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{

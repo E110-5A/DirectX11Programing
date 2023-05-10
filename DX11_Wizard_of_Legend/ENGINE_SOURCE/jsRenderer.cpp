@@ -450,10 +450,7 @@ namespace js::renderer
 	void LoadTexture()
 	{
 #pragma region Sample
-		Resources::Load<Texture>(L"SmileTexture", L"Smile.png");
 		Resources::Load<Texture>(L"DefaultSprite", L"DefaultSprite.png");
-		Resources::Load<Texture>(L"LightSprite", L"Light.png");
-		Resources::Load<Texture>(L"HPBarTexture", L"HPBar.png");
 		Resources::Load<Texture>(L"CartoonSmoke", L"particle\\CartoonSmoke.png");
 		Resources::Load<Texture>(L"noise_01", L"noise\\noise_01.png");
 		Resources::Load<Texture>(L"noise_02", L"noise\\noise_02.png");
@@ -468,6 +465,11 @@ namespace js::renderer
 
 #pragma endregion
 #pragma region STATIC Texture
+
+		// Stage
+		Resources::Load<Texture>(L"HomeStage", L"homeStage.png");
+
+
 		// LogoScene
 		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
 		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
@@ -492,11 +494,11 @@ namespace js::renderer
 	void LoadMaterial()
 	{
 #pragma region sample
-		std::shared_ptr<Material> material = std::make_shared<Material>();
-		material->SetRenderingMode(eRenderingMode::Transparent);
-		material->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PaintTexture"));
-		material->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		Resources::Insert<Material>(L"RectMaterial", material);
+		std::shared_ptr<Material> paintMaterial = std::make_shared<Material>();
+		paintMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		paintMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"PaintTexture"));
+		paintMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
+		Resources::Insert<Material>(L"RectMaterial", paintMaterial);
 
 		// Sprite
 		std::shared_ptr<Material> spriteMaterial = std::make_shared<Material>();
@@ -504,13 +506,6 @@ namespace js::renderer
 		spriteMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		spriteMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"DefaultSprite"));
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
-
-		// png testing Light Sprite
-		std::shared_ptr<Material> lightMaterial = std::make_shared<Material>();
-		lightMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		lightMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
-		lightMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"LightSprite"));
-		Resources::Insert<Material>(L"LightMaterial", lightMaterial);
 
 #pragma endregion
 
