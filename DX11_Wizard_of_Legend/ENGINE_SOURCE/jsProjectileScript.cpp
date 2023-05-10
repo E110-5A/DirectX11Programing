@@ -39,7 +39,6 @@ namespace js
 		if (true == mTesting)
 		{
 			mAnimator->Play(L"Test");
-			mTransform->SetPosition(Vector3(1.5f, 1.5f, 1.0f));
 		}
 	}
 

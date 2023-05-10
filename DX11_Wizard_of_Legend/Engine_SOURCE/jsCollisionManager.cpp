@@ -134,17 +134,17 @@ namespace js
 	}
 	bool CollisionManager::Intersect(Collider2D* left, Collider2D* right)
 	{
-		int a = 0;
+		bool ret = true;
 		if (eColliderType::Rect == left->GetType() && eColliderType::Rect == right->GetType())
 		{
-			RectCollision(left, right);
+			ret = RectCollision(left, right);
 		}
 		else if (eColliderType::Circle == left->GetType() && eColliderType::Circle == right->GetType())
 		{
-			CircleCollision(left, right);
+			ret = CircleCollision(left, right);
 		}
 
-		return true;
+		return ret;
 	}
 	bool CollisionManager::RectCollision(Collider2D* left, Collider2D* right)
 	{

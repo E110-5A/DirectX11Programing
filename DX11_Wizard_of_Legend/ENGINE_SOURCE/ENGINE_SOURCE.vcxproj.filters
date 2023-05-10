@@ -252,7 +252,7 @@
     <ClCompile Include="jsConstantBuffer.cpp">
       <Filter>Graphics\Buffer</Filter>
     </ClCompile>
-    <ClCompile Include="jsPlayScene.cpp">
+    <ClCompile Include="jsHomeScene.cpp">
       <Filter>Content\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="jsTitleScene.cpp">
@@ -323,6 +323,18 @@
     </ClCompile>
     <ClCompile Include="jsProjectileScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="jsStage01.cpp">
+      <Filter>Content\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="jsStage01Boss.cpp">
+      <Filter>Content\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="jsStage02.cpp">
+      <Filter>Content\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="jsStage02Boss.cpp">
+      <Filter>Content\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,7 +437,7 @@
     <ClInclude Include="jsConstantBuffer.h">
       <Filter>Graphics\Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="jsPlayScene.h">
+    <ClInclude Include="jsHomeScene.h">
       <Filter>Content\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="jsTitleScene.h">
@@ -511,6 +523,18 @@
     </ClInclude>
     <ClInclude Include="GameObjectsAndScripts.h">
       <Filter>API\Common\IncludeHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStage01Boss.h">
+      <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStage01.h">
+      <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStage02.h">
+      <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStage02Boss.h">
+      <Filter>Content\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

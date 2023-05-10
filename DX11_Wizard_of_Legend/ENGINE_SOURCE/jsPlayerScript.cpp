@@ -392,7 +392,7 @@ namespace js
 		eLayerType targetType = collider->GetOwner()->GetLayerType();
 		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
 
-		if (eLayerType::PlayerProjectile == targetType)
+		if (eLayerType::MonsterProjectile == targetType)
 		{
 			ProjectileScript* projectile = dynamic_cast<ProjectileScript*>(targetScript[0]);
 			CreatureScript::Hit(projectile);
@@ -405,9 +405,23 @@ namespace js
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
+
+		if (eLayerType::MonsterProjectile == targetType)
+		{
+			int a = 0;
+		}
 	}
 	void PlayerScript::OnCollisionExit(Collider2D* collider)
 	{
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
+
+		if (eLayerType::MonsterProjectile == targetType)
+		{
+			int a = 0;
+		}
 	}
 
 	void PlayerScript::Start()

@@ -70,12 +70,13 @@ namespace js
 			GameObject* monsterObj = object::InstantiateGameObject<GameObject>(eLayerType::Monster, this);
 			monsterObj->SetName(L"monster");
 			Transform* tr = monsterObj->GetComponent<Transform>();
-			tr->SetPosition(Vector3(1.0f, 0.0f, 1.0f));
+			tr->SetPosition(Vector3(2.0f, 0.0f, 1.0f));
 			monsterObj->AddComponent<MonsterScript>();
 
 			GameObject* projecObj = object::InstantiateGameObject<GameObject>(eLayerType::MonsterProjectile, this);
-			projecObj->SetName(L"projectile");
+			projecObj->SetName(L"P_Mon");
 			Transform* projecTr = projecObj->GetComponent<Transform>();
+			projecTr->SetPosition(Vector3(-3.0f, 2.5f, 1.0f));
 			ProjectileScript* testScript = projecObj->AddComponent<ProjectileScript>();
 			testScript->TurnTest();
 		}
@@ -104,7 +105,7 @@ namespace js
 
 		// Temp Background Tile
 		{
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+			/*GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
 			obj->SetName(L"Background");
 
 			Transform* tr = obj->GetComponent<Transform>();
@@ -115,7 +116,7 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
 			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
-			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
+			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));*/
 		}
 
 		Scene::Initialize();

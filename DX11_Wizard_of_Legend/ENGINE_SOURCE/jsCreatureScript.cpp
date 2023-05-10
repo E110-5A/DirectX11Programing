@@ -58,10 +58,13 @@ namespace js
 	{
 		// 대상과 내 위치의 간격으로 방향벡터를 구하기
 		Vector3 projectilePos = target->GetTransform()->GetPosition();
-		Vector3 powerDir = projectilePos - mTransform->GetPosition();
+		Vector3 powerDir = mTransform->GetPosition() - projectilePos;
+		float powerDirZ = powerDir.z;
 		powerDir.Normalize();
+		powerDir.z = powerDirZ;
+		Vector3 destPos = mTransform->GetPosition() + powerDir * 0.2f;
 
-		mTransform->SetPosition(powerDir * 1.1f);
+		mTransform->SetPosition(destPos);
 	}
 	void CreatureScript::Blocked(Script* target)
 	{

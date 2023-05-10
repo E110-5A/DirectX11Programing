@@ -55,6 +55,13 @@ namespace js
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)
 	{
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
+
+		if (eLayerType::PlayerProjectile == targetType)
+		{
+			int a = 0;
+		}
 	}
 
 	void MonsterScript::OnCollisionExit(Collider2D* collider)
