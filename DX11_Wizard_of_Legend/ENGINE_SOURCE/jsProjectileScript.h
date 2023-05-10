@@ -41,7 +41,8 @@ namespace js
 	protected:
 #pragma region Collision Object Func
 		virtual void Hit(Script* target);
-		virtual void WallCollision(Script* target);
+		virtual void Disappear(Script* target);
+		virtual void Boom(Script* target);
 #pragma endregion
 
 	protected:

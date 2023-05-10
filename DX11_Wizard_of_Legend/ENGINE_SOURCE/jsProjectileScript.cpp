@@ -45,7 +45,10 @@ namespace js
 	void ProjectileScript::Hit(Script* target)
 	{
 	}
-	void ProjectileScript::WallCollision(Script* target)
+	void ProjectileScript::Disappear(Script* target)
+	{
+	}
+	void ProjectileScript::Boom(Script* target)
 	{
 	}
 }

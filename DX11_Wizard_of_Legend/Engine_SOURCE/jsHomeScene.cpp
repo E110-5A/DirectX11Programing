@@ -105,7 +105,7 @@ namespace js
 
 		// Temp Background Tile
 		{
-			/*GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
 			obj->SetName(L"Background");
 
 			Transform* tr = obj->GetComponent<Transform>();
@@ -116,7 +116,7 @@ namespace js
 			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
 			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
-			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));*/
+			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
 		}
 
 		Scene::Initialize();
