@@ -2,8 +2,11 @@
 
 #include "jsLogoScene.h"
 #include "jsTitleScene.h"
-#include "jsPlayScene.h"
-
+#include "jsHomeScene.h"
+#include "jsStage01.h"
+#include "jsStage01Boss.h"
+#include "jsStage02.h"
+#include "jsStage02Boss.h"
 
 
 namespace js
@@ -19,8 +22,16 @@ namespace js
 		mScenes[(UINT)eSceneType::Logo]->SetName(L"LogoScene");
 		mScenes[(UINT)eSceneType::Title] = new TitleScene();
 		mScenes[(UINT)eSceneType::Title]->SetName(L"TitleScene");
-		mScenes[(UINT)eSceneType::Play] = new PlayScene();
-		mScenes[(UINT)eSceneType::Play]->SetName(L"PlayScene");
+		mScenes[(UINT)eSceneType::Home] = new HomeScene();
+		mScenes[(UINT)eSceneType::Home]->SetName(L"HomeScene");
+		mScenes[(UINT)eSceneType::Stage01] = new Stage01Scene();
+		mScenes[(UINT)eSceneType::Stage01]->SetName(L"Stage01Scene");
+		mScenes[(UINT)eSceneType::Stage01Boss] = new Stage01BossScene();
+		mScenes[(UINT)eSceneType::Stage01Boss]->SetName(L"Stage01BossScene");
+		mScenes[(UINT)eSceneType::Stage02] = new Stage02BossScene();
+		mScenes[(UINT)eSceneType::Stage02]->SetName(L"Stage02Scene");
+		mScenes[(UINT)eSceneType::Stage02Boss] = new Stage02Scene();
+		mScenes[(UINT)eSceneType::Stage02Boss]->SetName(L"Stage02BossScene");
 
 		mActiveScene = mScenes[(UINT)eSceneType::Logo];
 

@@ -97,7 +97,7 @@ namespace js
 	{
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
 		{
-			mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+			mTransform->SetScale(Vector3(2.0f, 1.5f, 1.0f));
 			mAnimator->Play(L"WindSlash", false);
 		}
 		else if (eArcanaName::DragonArc == mArcana->arcanaInfo->name)
@@ -134,7 +134,7 @@ namespace js
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
 		{
 			Vector3 movePos = mStartPos;
-			movePos += mTransform->Up() * mArcana->arcanaStat->moveSpeed * 0.6f;
+			movePos += mTransform->Up() * mArcana->arcanaStat->moveSpeed * 0.3f;
 			mTransform->SetPosition(movePos);
 		}
 		else if (eArcanaName::DragonArc == mArcana->arcanaInfo->name)

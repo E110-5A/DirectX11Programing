@@ -56,7 +56,7 @@ namespace js
 	{
 		if (Input::GetKeyDown(eKeyCode::N))
 		{
-			SceneManager::LoadScene(eSceneType::Play);
+			SceneManager::LoadScene(eSceneType::Home);
 		}
 		/*if (Input::GetKeyDown(eKeyCode::N))
 		{

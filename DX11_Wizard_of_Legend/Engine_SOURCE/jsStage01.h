@@ -3,11 +3,11 @@
 
 namespace js
 {
-	class PlayScene : public Scene
+	class Stage01Scene : public Scene
 	{
 	public:
-		PlayScene();
-		virtual ~PlayScene();
+		Stage01Scene();
+		virtual ~Stage01Scene();
 
 		virtual void Initialize() override;
 		virtual void Update() override;
@@ -16,7 +16,5 @@ namespace js
 
 		virtual void OnEnter() override;
 		virtual void OnExit() override;
-
-	private:
 	};
 }

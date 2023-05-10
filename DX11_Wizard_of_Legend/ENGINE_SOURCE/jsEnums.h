@@ -6,7 +6,11 @@ namespace js::enums
 	{
 		Logo,
 		Title,
-		Play,
+		Home,
+		Stage01,
+		Stage01Boss,
+		Stage02,
+		Stage02Boss,
 		End,
 	};
 

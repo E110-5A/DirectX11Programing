@@ -1,4 +1,4 @@
-#include "jsPlayScene.h"
+#include "jsHomeScene.h"
 
 #include "jsInput.h"
 #include "jsRenderer.h"
@@ -22,17 +22,17 @@
 
 namespace js
 {
-	PlayScene::PlayScene()
-		: Scene(eSceneType::Play)
+	HomeScene::HomeScene()
+		: Scene(eSceneType::Home)
 	{
 		
 	}
 
-	PlayScene::~PlayScene()
+	HomeScene::~HomeScene()
 	{
 	}
 
-	void PlayScene::Initialize()
+	void HomeScene::Initialize()
 	{
 		//Player Obj & Projectile Obj Pool
 		{
@@ -121,7 +121,7 @@ namespace js
 		Scene::Initialize();
 	}
 
-	void PlayScene::Update()
+	void HomeScene::Update()
 	{
 		/*if (Input::GetKeyDown(eKeyCode::N))
 		{
@@ -139,17 +139,17 @@ namespace js
 		Scene::Update();
 	}
 
-	void PlayScene::FixedUpdate()
+	void HomeScene::FixedUpdate()
 	{
 		Scene::FixedUpdate();
 	}
 
-	void PlayScene::Render()
+	void HomeScene::Render()
 	{
 		Scene::Render();
 	}
 
-	void PlayScene::OnEnter()
+	void HomeScene::OnEnter()
 	{
 		//fade->FadeIn();
 		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
@@ -157,7 +157,7 @@ namespace js
 		renderer::player->GetOwner()->OnActive();
 	}
 
-	void PlayScene::OnExit()
+	void HomeScene::OnExit()
 	{
 
 	}
