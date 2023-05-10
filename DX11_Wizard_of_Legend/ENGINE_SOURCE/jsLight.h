@@ -17,7 +17,9 @@ namespace js
 
 		graphics::LightAttribute GetLightAttribute() { return mAttribute; }
 
+		// ¹à±â
 		void SetDiffuse(Vector4 diffuse) { mAttribute.diffuse = diffuse; }
+		// »ö»ó
 		void SetAmbient(Vector4 ambient) { mAttribute.ambient = ambient; }
 		void SetLightType(eLightType type) { mAttribute.lightType = type; }
 		void SetRadius(float radius) { mAttribute.radius = radius; }

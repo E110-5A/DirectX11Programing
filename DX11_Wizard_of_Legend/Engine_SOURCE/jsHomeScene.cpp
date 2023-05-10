@@ -17,6 +17,7 @@
 #include "jsSpriteRenderer.h"
 #include "jsTransform.h"
 
+#include "jsLight.h"
 
 #include "GameObjectsAndScripts.h"
 
@@ -119,6 +120,15 @@ namespace js
 			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
 		}
 
+		{
+			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+			obj->SetName(L"testLight");
+			Light* light = obj->AddComponent<Light>();
+			light->SetLightType(eLightType::Point);
+			light->SetRadius(15.0f);
+			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			light->SetAmbient(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+		}
 		Scene::Initialize();
 	}
 

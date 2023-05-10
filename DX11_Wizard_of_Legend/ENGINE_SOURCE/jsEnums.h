@@ -85,9 +85,9 @@ namespace js::enums
 
 	enum class eLightType
 	{
-		Directional,
-		Point,
-		Spot,
+		Directional,	// 전체
+		Point,			// 구 범위
+		Spot,			// 방사형
 		End,
 	};
 
