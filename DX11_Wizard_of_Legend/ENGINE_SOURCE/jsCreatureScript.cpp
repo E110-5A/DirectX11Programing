@@ -1,5 +1,6 @@
 #include "jsCreatureScript.h"
 
+#include "jsTime.h"
 // object
 #include "jsObject.h"
 
@@ -11,6 +12,12 @@ namespace js
 		, mAnimator(nullptr)
 		, mHealthStat{}
 		, mOffenceStat{}
+		, mStuned(false)
+		, mStunTime(0.0f)
+		, mStunCurrentTime(0.0f)
+		, mKnockbacked(false)
+		, mKnockbackCheckTime(0.0f)
+		, mKnockbackCheckCurrentTime(0.0f)
 	{
 	}
 	CreatureScript::~CreatureScript()
@@ -21,18 +28,15 @@ namespace js
 		mTransform	= GetOwner()->GetComponent<Transform>();
 		mAnimator	= GetOwner()->AddComponent<Animator>();
 		mCollider	= GetOwner()->AddComponent<Collider2D>();
+		mKnockbackCheckTime = 0.4f;
 	}
 	void CreatureScript::Update()
 	{
-		if (0 >= mHealthStat.curResistance)
-		{
-
-		}
+		KnocbackResistance();
 	}
 	void CreatureScript::Render()
 	{
 	}
-
 
 	void CreatureScript::initializeHealthStat(float maxHp, float regHp, float moveSpeed, float resistance)
 	{
@@ -50,39 +54,62 @@ namespace js
 		mOffenceStat.criticalChance = criticalChance;
 		mOffenceStat.criticalDamage = criticalDamage;
 	}
-	bool CreatureScript::StunStateCheck()
+	void CreatureScript::StunStateCheck()
 	{
+		// 조건
 		if (0 >= mHealthStat.curResistance)
-			return true;
-		else
-			return false;
+			mStuned = true;
+		
+		if (true == mStuned)
+		{
+			mStunCurrentTime += Time::DeltaTime();
+			if (mStunCurrentTime >= mStunTime)
+			{
+				mStunCurrentTime = 0.0f;
+				mStuned = false;
+			}
+		}
+		
+	}
+	void CreatureScript::KnocbackResistance()
+	{
+		if (true == mKnockbacked)
+		{
+			mKnockbackCheckCurrentTime += Time::DeltaTime();
+			if (mKnockbackCheckCurrentTime >= mKnockbackCheckTime)
+			{
+				mKnockbackCheckCurrentTime = 0;
+				mKnockbacked = false;
+			}
+		}
 	}
 	void CreatureScript::Hit(ProjectileScript* target)
 	{
 		TakeDamage(target);
-		Knockback(target);
+		DoKnockback(target);
 	}
 	void CreatureScript::TakeDamage(ProjectileScript* target)
 	{
 		// 채력 깎기
-
+		mHealthStat.curHp -= target->GetProjectileStat().damage;
 		// 스테거 적용
 		float stagger = target->GetProjectileStat().stagger;
 		mHealthStat.curResistance -= stagger;
 	}
-	void CreatureScript::Knockback(ProjectileScript* target)
+	void CreatureScript::DoKnockback(ProjectileScript* target)
 	{
 		// 넉백 저항상태가 아니라면
-
-		// 대상과 내 위치의 간격으로 방향벡터를 구하기
-		Vector3 projectilePos = target->GetTransform()->GetPosition();
-		Vector3 powerDir = mTransform->GetPosition() - projectilePos;
-		float powerDirZ = powerDir.z;
-		powerDir.Normalize();
-		powerDir.z = powerDirZ;
-		Vector3 destPos = mTransform->GetPosition() + powerDir * 0.2f;
-
-		mTransform->SetPosition(destPos);
+		if (false == mKnockbacked)
+		{
+			Vector3 projectilePos = target->GetTransform()->GetPosition();
+			Vector3 powerDir = mTransform->GetPosition() - projectilePos;
+			float powerDirZ = powerDir.z;
+			powerDir.Normalize();
+			powerDir.z = powerDirZ;
+			Vector3 destPos = mTransform->GetPosition() + powerDir * 0.2f;
+			mTransform->SetPosition(destPos);
+			mKnockbacked = true;
+		}
 	}
 	void CreatureScript::Blocked(Script* target)
 	{

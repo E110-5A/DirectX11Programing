@@ -55,7 +55,7 @@ namespace js
 	void PlayerScript::Initialize()
 	{
 		CreatureScript::Initialize();
-		initializeHealthStat(200.0f, 200.0f, 0.1f, 3.0f);
+		initializeHealthStat(200.0f, 0.1f, 3.0f, 30.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 
 		createAnimation();
@@ -347,6 +347,7 @@ namespace js
 #pragma endregion
 	void PlayerScript::Update()
 	{
+		//CreatureScript::Update();
 		calculateMouseDirection();
 		calculatePlayerDirection();
 		switch (mPlayerState)

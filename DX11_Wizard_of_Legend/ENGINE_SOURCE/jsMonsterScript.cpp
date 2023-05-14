@@ -21,11 +21,12 @@ namespace js
 	{
 		CreatureScript::Initialize();
 		createAnimation();
-		initializeHealthStat(20.0f, 20.0f, 0.1f, 2.0f);
+		initializeHealthStat(20.0f, 0.1f, 2.0f, 15.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 	}
 	void MonsterScript::Update()
 	{
+		CreatureScript::Update();
 		// 행동 쿨다운
 
 		// 상태 변경

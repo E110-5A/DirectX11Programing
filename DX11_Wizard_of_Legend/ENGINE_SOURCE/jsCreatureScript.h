@@ -66,7 +66,10 @@ namespace js
 
 	protected:
 #pragma region Object State Func
-		virtual bool StunStateCheck();
+		// 이건 미완
+		virtual void StunStateCheck();
+		virtual void KnocbackResistance();
+
 
 #pragma endregion
 
@@ -74,7 +77,7 @@ namespace js
 #pragma region Object Collision Func
 		virtual void Hit(ProjectileScript* target);
 		virtual void TakeDamage(ProjectileScript* target);
-		virtual void Knockback(ProjectileScript* target);
+		virtual void DoKnockback(ProjectileScript* target);
 
 		// 벽이나 낭떠러지? 인 경우 움직임을 막음
 		virtual void Blocked(Script* target);
@@ -93,9 +96,14 @@ namespace js
 	protected:
 		Vector2 mAnimationDir;
 
-
 	protected:
-		float mStunTime;
-		float mStunCurrentTime;
+		float	mStunTime;
+		float	mStunCurrentTime;
+		bool	mStuned;
+
+		float	mKnockbackCheckTime;
+		float	mKnockbackCheckCurrentTime;
+
+		bool	mKnockbacked;
 	};
 }
