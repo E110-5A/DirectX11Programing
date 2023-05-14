@@ -35,7 +35,7 @@ namespace js
 		virtual void Render() override;
 
 	public:
-#pragma region virtual ETC Events 
+#pragma region virtual ETC Events
 		virtual void OnCollisionEnter(Collider2D* collider) override {};
 		virtual void OnCollisionStay(Collider2D* collider) override {};
 		virtual void OnCollisionExit(Collider2D* collider) override {};
@@ -57,7 +57,7 @@ namespace js
 	protected:
 #pragma region initalize Creature Info
 		// float maxHp, float curHp, float regHp, float moveSpeed
-		virtual void initializeHealthStat(float maxHp, float curHp, float regHp,float moveSpeed);
+		virtual void initializeHealthStat(float maxHp, float regHp,float moveSpeed, float resistance);
 		// float power, float criticalChance, float criticalDamage
 		virtual void initializeOffenceStat(float power, float criticalChance, float criticalDamage);
 		virtual void createAnimation() {};
@@ -65,7 +65,13 @@ namespace js
 #pragma endregion
 
 	protected:
-#pragma region Collision Object Func
+#pragma region Object State Func
+		virtual bool StunStateCheck();
+
+#pragma endregion
+
+	protected:
+#pragma region Object Collision Func
 		virtual void Hit(ProjectileScript* target);
 		virtual void TakeDamage(ProjectileScript* target);
 		virtual void Knockback(ProjectileScript* target);
@@ -86,5 +92,10 @@ namespace js
 
 	protected:
 		Vector2 mAnimationDir;
+
+
+	protected:
+		float mStunTime;
+		float mStunCurrentTime;
 	};
 }

@@ -24,24 +24,38 @@ namespace js
 	}
 	void CreatureScript::Update()
 	{
+		if (0 >= mHealthStat.curResistance)
+		{
+
+		}
 	}
 	void CreatureScript::Render()
 	{
 	}
 
 
-	void CreatureScript::initializeHealthStat(float maxHp, float curHp, float regHp, float moveSpeed)
+	void CreatureScript::initializeHealthStat(float maxHp, float regHp, float moveSpeed, float resistance)
 	{
 		mHealthStat.maxHp = maxHp;
-		mHealthStat.curHp = curHp;
+		mHealthStat.curHp = maxHp;
 		mHealthStat.regHp = regHp;
 		mHealthStat.moveSpeed = moveSpeed;
+		mHealthStat.maxResistance = resistance;
+		mHealthStat.curResistance = resistance;
+		mHealthStat.standing = true;
 	}
 	void CreatureScript::initializeOffenceStat(float power, float criticalChance, float criticalDamage)
 	{
 		mOffenceStat.power = power;
 		mOffenceStat.criticalChance = criticalChance;
 		mOffenceStat.criticalDamage = criticalDamage;
+	}
+	bool CreatureScript::StunStateCheck()
+	{
+		if (0 >= mHealthStat.curResistance)
+			return true;
+		else
+			return false;
 	}
 	void CreatureScript::Hit(ProjectileScript* target)
 	{
@@ -53,9 +67,13 @@ namespace js
 		// 채력 깎기
 
 		// 스테거 적용
+		float stagger = target->GetProjectileStat().stagger;
+		mHealthStat.curResistance -= stagger;
 	}
 	void CreatureScript::Knockback(ProjectileScript* target)
 	{
+		// 넉백 저항상태가 아니라면
+
 		// 대상과 내 위치의 간격으로 방향벡터를 구하기
 		Vector3 projectilePos = target->GetTransform()->GetPosition();
 		Vector3 powerDir = mTransform->GetPosition() - projectilePos;

@@ -32,9 +32,9 @@ namespace js
 		virtual void addEvents() override;
 
 	public:
-		void			SetSpellID(int id) { mSpellID = id; }
-		eArcanaState	IsActiveProjectile() { return mArcanaState; }
-		void			SetStartPos(Vector3 ownerPos) { mStartPos = ownerPos; }
+		void				SetSpellID(int id) { mSpellID = id; }
+		eProjectileState 	IsActiveProjectile() { return mArcanaState; }
+		void				SetStartPos(Vector3 ownerPos) { mStartPos = ownerPos; }
 
 	public:
 		void ActiveArcana(Arcana* arcana, bool isRight);
@@ -56,7 +56,7 @@ namespace js
 
 	private:
 		int mSpellID;		
-		eArcanaState mArcanaState;
+		eProjectileState mArcanaState;
 		Arcana* mArcana;
 		bool	mIsRight;
 

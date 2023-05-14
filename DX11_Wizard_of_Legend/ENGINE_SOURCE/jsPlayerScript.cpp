@@ -200,136 +200,148 @@ namespace js
 	void PlayerScript::startingArcana()
 	{
 		mInventory.arcanaBasic = new Arcana();
-		mInventory.arcanaDash = new Arcana();
-		mInventory.arcanaSignature = new Arcana();
-		mInventory.arcanaStandardA = new Arcana();
-		mInventory.arcanaStandardB = new Arcana();
-		mInventory.arcanaStandardC = new Arcana();
-		mInventory.arcanaStandardD = new Arcana();
-		// arcanaBasic
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
 			tempInfo->name = eArcanaName::WindSlash;
 			tempInfo->category = eArcanaCategory::Melee;
 			tempInfo->type = eArcanaType::BasicArcana;
 			tempInfo->motion = ePlayerMotion::Basic;
-			tempInfo->cooldownReady = true;
-			tempInfo->complete = false;
-			tempInfo->cooldownTime = 0.6f;
-			tempInfo->currentCooldownTime = 0.0f;
-			tempInfo->delayTime = 0.0f;
-			tempInfo->currentDelayTime = 0.0f;
-			tempInfo->maxCount = 1;
-			tempInfo->curCount = 0;
 
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			tempConditionValue->cooldownReady = true;
+			tempConditionValue->begin = false;
+			tempConditionValue->complete = false;
+			tempConditionValue->cooldownTime = 0.6f;
+			tempConditionValue->currentCooldownTime = 0.0f;
+			tempConditionValue->delayTime = 0.0f;
+			tempConditionValue->currentDelayTime = 0.0f;
+			tempConditionValue->maxCount = 1;
+			tempConditionValue->curCount = 0;
+
+			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 1.0f;
-			tempStat->spellRange = 0.0f;
+			tempStat->speed = 1.0f;
+			tempStat->range = 0.0f;
 
 			mInventory.arcanaBasic->arcanaInfo = tempInfo;
-			mInventory.arcanaBasic->arcanaStat = tempStat;
+			mInventory.arcanaBasic->projectileStat = tempStat;
+			mInventory.arcanaBasic->conditionValue = tempConditionValue;
 		}
-		// arcanaDash
+		mInventory.arcanaDash = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
 			tempInfo->name = eArcanaName::None;
 			tempInfo->category = eArcanaCategory::Melee;
 			tempInfo->type = eArcanaType::BasicArcana;
 			tempInfo->motion = ePlayerMotion::Basic;
-			tempInfo->cooldownReady = true;
-			tempInfo->complete = false;
-			tempInfo->cooldownTime = 5.0f;
-			tempInfo->currentCooldownTime = 0.0f;
-			tempInfo->delayTime = 0.0f;
-			tempInfo->currentDelayTime = 0.0f;
-			tempInfo->maxCount = 1;
-			tempInfo->curCount = 0;
 
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			tempConditionValue->cooldownReady = true;
+			tempConditionValue->complete = false;
+			tempConditionValue->cooldownTime = 5.0f;
+			tempConditionValue->currentCooldownTime = 0.0f;
+			tempConditionValue->delayTime = 0.0f;
+			tempConditionValue->currentDelayTime = 0.0f;
+			tempConditionValue->maxCount = 1;
+			tempConditionValue->curCount = 0;
+
+			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 12.0f;
-			tempStat->spellRange = 0.0f;
+			tempStat->speed = 12.0f;
+			tempStat->range = 0.0f;
 
 			mInventory.arcanaDash->arcanaInfo = tempInfo;
-			mInventory.arcanaDash->arcanaStat = tempStat;
+			mInventory.arcanaDash->projectileStat = tempStat;
+			mInventory.arcanaDash->conditionValue = tempConditionValue;
 		}
-		// arcanaSignature
+		mInventory.arcanaSignature = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
 			tempInfo->name = eArcanaName::ExplodingFireball;
 			tempInfo->category = eArcanaCategory::Range;
 			tempInfo->type = eArcanaType::SignatureArcana;
 			tempInfo->motion = ePlayerMotion::AOE;
-			tempInfo->cooldownReady = true;
-			tempInfo->complete = false;
-			tempInfo->cooldownTime = 0.6f;
-			tempInfo->currentCooldownTime = 0.0f;
-			tempInfo->delayTime = 0.0f;
-			tempInfo->currentDelayTime = 0.0f;
-			tempInfo->maxCount = 1;
-			tempInfo->curCount = 0;
 
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			tempConditionValue->cooldownReady = true;
+			tempConditionValue->complete = false;
+			tempConditionValue->cooldownTime = 0.6f;
+			tempConditionValue->currentCooldownTime = 0.0f;
+			tempConditionValue->delayTime = 0.0f;
+			tempConditionValue->currentDelayTime = 0.0f;
+			tempConditionValue->maxCount = 1;
+			tempConditionValue->curCount = 0;
+
+			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 0.0f;
-			tempStat->spellRange = 0.0f;
+			tempStat->speed = 0.0f;
+			tempStat->range = 0.0f;
 
 			mInventory.arcanaSignature->arcanaInfo = tempInfo;
-			mInventory.arcanaSignature->arcanaStat = tempStat;
+			mInventory.arcanaSignature->projectileStat = tempStat;
+			mInventory.arcanaSignature->conditionValue = tempConditionValue;
 		}
-		// arcanaStandardA
+		mInventory.arcanaStandardA = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
 			tempInfo->name = eArcanaName::DragonArc;
 			tempInfo->category = eArcanaCategory::Range;
 			tempInfo->type = eArcanaType::StandardArcana;
 			tempInfo->motion = ePlayerMotion::Basic;
-			tempInfo->cooldownReady = true;
-			tempInfo->complete = false;
-			tempInfo->cooldownTime = 2.5f;
-			tempInfo->currentCooldownTime = 0.0f;
-			tempInfo->delayTime = 0.12f;
-			tempInfo->currentDelayTime = 0.0f;
-			tempInfo->maxCount = 6;
-			tempInfo->curCount = 0;
 
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			tempConditionValue->cooldownReady = true;
+			tempConditionValue->complete = false;
+			tempConditionValue->cooldownTime = 2.5f;
+			tempConditionValue->currentCooldownTime = 0.0f;
+			tempConditionValue->delayTime = 0.12f;
+			tempConditionValue->currentDelayTime = 0.0f;
+			tempConditionValue->maxCount = 6;
+			tempConditionValue->curCount = 0;
+					
+			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->moveSpeed = 6.5f;
-			tempStat->spellRange = 7.0f;
+			tempStat->speed = 6.5f;
+			tempStat->range = 7.0f;
 
 			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
-			mInventory.arcanaStandardA->arcanaStat = tempStat;
+			mInventory.arcanaStandardA->projectileStat = tempStat;
+			mInventory.arcanaStandardA->conditionValue = tempConditionValue;
 		}
-		// arcanaStandardB
+		mInventory.arcanaStandardB = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			ProjectileStat* tempStat = new ProjectileStat();
 
 			mInventory.arcanaStandardB->arcanaInfo = tempInfo;
-			mInventory.arcanaStandardB->arcanaStat = tempStat;
+			mInventory.arcanaStandardB->projectileStat = tempStat;
+			mInventory.arcanaStandardB->conditionValue = tempConditionValue;
 		}
-		// arcanaStandardC
+		mInventory.arcanaStandardC = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			ProjectileStat* tempStat = new ProjectileStat();
 
 			mInventory.arcanaStandardC->arcanaInfo = tempInfo;
-			mInventory.arcanaStandardC->arcanaStat = tempStat;
+			mInventory.arcanaStandardC->projectileStat = tempStat;
+			mInventory.arcanaStandardC->conditionValue = tempConditionValue;
 		}
-		// arcanaStandardD
+		mInventory.arcanaStandardD = new Arcana();
 		{
 			ArcanaInfo* tempInfo = new ArcanaInfo();
-			ArcanaStat* tempStat = new ArcanaStat();
+			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
+			ProjectileStat* tempStat = new ProjectileStat();
 
 			mInventory.arcanaStandardD->arcanaInfo = tempInfo;
-			mInventory.arcanaStandardD->arcanaStat = tempStat;
-		}
+			mInventory.arcanaStandardD->projectileStat = tempStat;
+			mInventory.arcanaStandardD->conditionValue = tempConditionValue;
+		}		
 	}
 
 #pragma endregion
@@ -478,7 +490,7 @@ namespace js
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN)
-			&& true == mInventory.arcanaBasic->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaBasic->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaBasic->arcanaInfo)
 				return;
@@ -486,14 +498,14 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
-			mInventory.arcanaBasic->arcanaInfo->cooldownReady = false;
-			mInventory.arcanaBasic->arcanaInfo->begin = true;
+			mInventory.arcanaBasic->conditionValue->cooldownReady = false;
+			mInventory.arcanaBasic->conditionValue->begin = true;
 			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::RBTN)
-			&& true == mInventory.arcanaStandardA->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardA->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardA->arcanaInfo)
 				return;
@@ -501,8 +513,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
-			mInventory.arcanaStandardA->arcanaInfo->cooldownReady = false;
-			mInventory.arcanaStandardA->arcanaInfo->begin = true;
+			mInventory.arcanaStandardA->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardA->conditionValue->begin = true;
 			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생
 			playAnimation();
@@ -515,7 +527,7 @@ namespace js
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::F)
-			&& true == mInventory.arcanaStandardB->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardB->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardB->arcanaInfo)
 				return;
@@ -523,14 +535,14 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
-			mInventory.arcanaStandardB->arcanaInfo->cooldownReady = false;
-			mInventory.arcanaStandardB->arcanaInfo->begin = true;
+			mInventory.arcanaStandardB->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardB->conditionValue->begin = true;
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::R)
-			&& true == mInventory.arcanaStandardC->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardC->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardC->arcanaInfo)
 				return;
@@ -538,14 +550,14 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
-			mInventory.arcanaStandardC->arcanaInfo->cooldownReady = false;
-			mInventory.arcanaStandardC->arcanaInfo->begin = true;
+			mInventory.arcanaStandardC->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardC->conditionValue->begin = true;
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::Q)
-			&& true == mInventory.arcanaSignature->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaSignature->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaSignature->arcanaInfo)
 				return;
@@ -553,8 +565,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
-			mInventory.arcanaSignature->arcanaInfo->cooldownReady = false;
-			mInventory.arcanaSignature->arcanaInfo->begin = true;
+			mInventory.arcanaSignature->conditionValue->cooldownReady = false;
+			mInventory.arcanaSignature->conditionValue->begin = true;
 			changeState(ePlayerState::Q);
 			// 애니메이션 재생	
 			playAnimation();
@@ -593,7 +605,7 @@ namespace js
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN)
-			&& true == mInventory.arcanaBasic->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaBasic->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaBasic->arcanaInfo)
 				return;
@@ -606,7 +618,7 @@ namespace js
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::RBTN)
-			&& true == mInventory.arcanaStandardA->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardA->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardA->arcanaInfo)
 				return;
@@ -626,7 +638,7 @@ namespace js
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::F)
-			&& true == mInventory.arcanaStandardB->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardB->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardB->arcanaInfo)
 				return;
@@ -639,7 +651,7 @@ namespace js
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::R)
-			&& true == mInventory.arcanaStandardC->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaStandardC->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaStandardC->arcanaInfo)
 				return;
@@ -652,7 +664,7 @@ namespace js
 			playAnimation();
 		}
 		if (Input::GetKey(eKeyCode::Q)
-			&& true == mInventory.arcanaSignature->arcanaInfo->cooldownReady)
+			&& true == mInventory.arcanaSignature->conditionValue->cooldownReady)
 		{
 			if (nullptr == mInventory.arcanaSignature->arcanaInfo)
 				return;
@@ -759,83 +771,45 @@ namespace js
 	void PlayerScript::CooldownCheck(Arcana* target)
 	{
 		// 쿨다운 완료상태가 아니라면
-		if (false == target->arcanaInfo->cooldownReady)
+		if (false == target->conditionValue->cooldownReady)
 		{
-			target->arcanaInfo->currentCooldownTime += Time::DeltaTime();
-			if (target->arcanaInfo->currentCooldownTime >= target->arcanaInfo->cooldownTime)
+			target->conditionValue->currentCooldownTime += Time::DeltaTime();
+			if (target->conditionValue->currentCooldownTime >= target->conditionValue->cooldownTime)
 			{
-				target->arcanaInfo->cooldownReady = true;
-				target->arcanaInfo->complete = false;
-				target->arcanaInfo->currentCooldownTime = 0;
+				target->conditionValue->cooldownReady = true;
+				target->conditionValue->complete = false;
+				target->conditionValue->currentCooldownTime = 0;
 			}
 		}
 	}
 
 	void PlayerScript::skillExcute()
 	{
-		if (true == mInventory.arcanaBasic->arcanaInfo->begin)
+		if (true == mInventory.arcanaBasic->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaBasic);
 
-		if (true == mInventory.arcanaStandardA->arcanaInfo->begin)
+		if (true == mInventory.arcanaStandardA->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaStandardA);
 
-		if (true == mInventory.arcanaDash->arcanaInfo->begin)
+		if (true == mInventory.arcanaDash->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaDash);
 
-		if (true == mInventory.arcanaSignature->arcanaInfo->begin)
+		if (true == mInventory.arcanaSignature->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaSignature);
 
-		if (true == mInventory.arcanaStandardB->arcanaInfo->begin)
+		if (true == mInventory.arcanaStandardB->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaStandardB);
 
-		if (true == mInventory.arcanaStandardC->arcanaInfo->begin)
+		if (true == mInventory.arcanaStandardC->conditionValue->begin)
 			arcanaCompleteCheck(mInventory.arcanaStandardC);
-
-		/*switch (mPlayerState)
-		{
-		case js::PlayerScript::ePlayerState::LBTN:
-		{
-			arcanaCompleteCheck(mInventory.arcanaBasic);
-		}
-		break;
-		case js::PlayerScript::ePlayerState::RBTN:
-		{
-			arcanaCompleteCheck(mInventory.arcanaStandardA);
-		}
-		break;
-		case js::PlayerScript::ePlayerState::SPACE:
-		{
-			if (true == mInventory.arcanaDash->arcanaInfo->cooldownReady)
-			{
-				mInventory.arcanaDash->arcanaInfo->cooldownReady = false;
-				arcanaCompleteCheck(mInventory.arcanaDash);
-			}
-		}
-		break;
-		case js::PlayerScript::ePlayerState::Q:
-		{
-			arcanaCompleteCheck(mInventory.arcanaSignature);
-		}
-		break;
-		case js::PlayerScript::ePlayerState::F:
-		{
-			arcanaCompleteCheck(mInventory.arcanaStandardB);
-		}
-		break;
-		case js::PlayerScript::ePlayerState::R:
-		{
-			arcanaCompleteCheck(mInventory.arcanaStandardC);
-		}
-		break;
-		}*/
 	}
 	bool PlayerScript::delayCheck(Arcana* target)
 	{
 		// 스킬사용 종료가 아니라면
-		if (false == target->arcanaInfo->complete)
+		if (false == target->conditionValue->complete)
 		{
-			target->arcanaInfo->currentDelayTime += Time::DeltaTime();
-			if (target->arcanaInfo->currentDelayTime >= target->arcanaInfo->delayTime)
+			target->conditionValue->currentDelayTime += Time::DeltaTime();
+			if (target->conditionValue->currentDelayTime >= target->conditionValue->delayTime)
 			{
 				return true;
 			}
@@ -848,12 +822,12 @@ namespace js
 	bool PlayerScript::countCheck(Arcana* target)
 	{
 		// 최대 개수를 넘기면
-		if (target->arcanaInfo->curCount >= target->arcanaInfo->maxCount)
+		if (target->conditionValue->curCount >= target->conditionValue->maxCount)
 		{
-			target->arcanaInfo->curCount = 0;
-			target->arcanaInfo->complete = true;
-			target->arcanaInfo->cooldownReady = false;
-			target->arcanaInfo->begin = false;
+			target->conditionValue->curCount = 0;
+			target->conditionValue->complete = true;
+			target->conditionValue->cooldownReady = false;
+			target->conditionValue->begin = false;
 
 			return false;
 		}
@@ -865,7 +839,7 @@ namespace js
 	void PlayerScript::arcanaCompleteCheck(Arcana* target)
 	{
 		// 스킬사용이 완료된경우 ret
-		if (true == target->arcanaInfo->complete)
+		if (true == target->conditionValue->complete)
 			return;
 		
 		if (true == countCheck(target))
@@ -873,8 +847,8 @@ namespace js
 			if (true == delayCheck(target))
 			{
 				shoot(target);
-				++target->arcanaInfo->curCount;
-				target->arcanaInfo->currentDelayTime = 0.0f;
+				++target->conditionValue->curCount;
+				target->conditionValue->currentDelayTime = 0.0f;
 			}
 		}
 	}
@@ -916,7 +890,7 @@ namespace js
 			if (nullptr == mProjectiles[index])
 				continue;
 			// 사용중이면 다음으로
-			if (eArcanaState::Disabled == mProjectiles[index]->IsActiveProjectile())
+			if (eProjectileState::Disabled == mProjectiles[index]->IsActiveProjectile())
 			{
 				return index;
 			}

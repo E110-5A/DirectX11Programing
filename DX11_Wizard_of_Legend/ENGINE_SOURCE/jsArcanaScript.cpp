@@ -10,7 +10,7 @@ namespace js
 {
 	ArcanaScript::ArcanaScript()
 		: mSpellID(-1)
-		, mArcanaState(eArcanaState::Disabled)
+		, mArcanaState(eProjectileState::Disabled)
 		, mArcana(nullptr)
 		, mIsRight(true)
 		, mStartPos(Vector3(0.0f, 0.0f, 0.0f))
@@ -114,7 +114,7 @@ namespace js
 	void ArcanaScript::ActiveArcana(Arcana* arcana, bool isRight)
 	{
 		mArcana = arcana;
-		mArcanaState = eArcanaState::Active;
+		mArcanaState = eProjectileState::Active;
 		mIsRight = isRight;
 		mTransform->SetPosition(mStartPos);
 		GetOwner()->OnActive();
@@ -147,7 +147,7 @@ namespace js
 		endConditionRangeProjectile();
 
 		// Disable 상태라면
-		if (eArcanaState::Disabled == mArcanaState)
+		if (eProjectileState::Disabled == mArcanaState)
 		{
 			resetProjectile();
 		}
@@ -158,13 +158,13 @@ namespace js
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
 		{
 			Vector3 movePos = mStartPos;
-			movePos += mTransform->Up() * mArcana->arcanaStat->moveSpeed * 0.3f;
+			movePos += mTransform->Up() * mArcana->projectileStat->speed * 0.3f;
 			mTransform->SetPosition(movePos);
 		}
 		else if (eArcanaName::DragonArc == mArcana->arcanaInfo->name)
 		{
 			Vector3 pos = mTransform->GetPosition(); 
-			pos += mTransform->Up() * mArcana->arcanaStat->moveSpeed * Time::DeltaTime();
+			pos += mTransform->Up() * mArcana->projectileStat->speed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
 			// cos 방향 기믹 추가하기
 		}
@@ -181,7 +181,7 @@ namespace js
 	// 종료 함수
 	void ArcanaScript::completedMeleeProjectile()
 	{
-		mArcanaState = eArcanaState::Disabled;
+		mArcanaState = eProjectileState::Disabled;
 	}
 	void ArcanaScript::endConditionRangeProjectile()
 	{
@@ -193,9 +193,9 @@ namespace js
 			// 일정거리 이동하면 종료
 			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();
 			
-			if (mArcana->arcanaStat->spellRange <= Vector3::Distance(mStartPos, currentPos))
+			if (mArcana->projectileStat->range <= Vector3::Distance(mStartPos, currentPos))
 			{
-				mArcanaState = eArcanaState::Disabled;
+				mArcanaState = eProjectileState::Disabled;
 			}
 		}
 	}

@@ -91,6 +91,12 @@ namespace js
 			// 이전 충돌정보가 없음
 			if (false == iter->second)
 			{
+				// 만약 둘중 하나가 비활성 상태라면 Exit호출
+				if (GameObject::eGlobalState::Paused == left->GetOwner()->GetState()
+					|| GameObject::eGlobalState::Paused == right->GetOwner()->GetState())
+				{
+					return;
+				}
 				CallEnterCollision(left, right, iter);
 			}
 			// 이전 충돌 정보가 있음

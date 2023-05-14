@@ -3,121 +3,67 @@
 
 #define PROJECTILE_POOL 64
 
-// contents enum
-enum class elStagger
-{
-	Light,
-	Normal,
-	Heave,
-};
-enum class eArcanaState
-{
-	Active,
-	Disabled,
-};
-enum class elArcanaType
-{
-	AA,
-	Skill,
-	Dash,
-	Special,
-	Ultimate,
-	End,
-};
-enum class elArcanaCategory
-{
-	Melee,
-	Projectile,
-	Dash,
-	End,
-};
-
-struct lArcanaStat
-{
-	elArcanaCategory category;	// 근거리, 원거리 구분
-	elArcanaType arcanaType;		// 스킬 타입 구분
-	elStagger stagger;			// 경직도 구분
-	float damage;
-	float moveSpeed;
-	float spellRange;			// 원거리 기술 사거리
-
-public:
-	lArcanaStat()
-		: category(elArcanaCategory::Melee), arcanaType(elArcanaType::AA), stagger(elStagger::Light)
-		, damage(0.0f), moveSpeed(0.0f), spellRange(0.0f)
-	{}
-};
-struct lArcanaInfo
-{
-	// arcana Script에서 사용
-	lArcanaStat spellStat;
-
-	// player Script 에서 사용
-	// 기본
-	bool cooldownReady;				// 재사용 준비됨
-	float cooldownTime;				// 스킬 쿨다운
-	float currentTime;
-
-	// 연계기	
-	bool comboDelay;				// 콤보 딜레이	
-	bool comboProcess;				// 콤보 진행	
-	int maxComboCount;				// 콤보 횟수
-	int curComboCount;
-	float comboValidTime;			// 콤보 유지 시간
-	float comboCurrentValidTime;
-	float comboDelayTime;			// 콤보 딜레이 시간
-	float comboCurrentDelayTime;
-
-public:
-	lArcanaInfo()
-		: spellStat{}, cooldownReady(true), cooldownTime(0.0f), currentTime(0.0f)
-		, comboDelay(false), comboProcess(false), maxComboCount(0), curComboCount(0)
-		, comboValidTime(0.0f), comboCurrentValidTime(0.0f), comboDelayTime(0.0f), comboCurrentDelayTime(0.0f)
-	{
-	}
-	void SetAble(bool trigger) { cooldownReady = trigger; }
-};
 
 #pragma region Creature Stat
 struct HealthStat
 {
-	float maxHp;
-	float curHp;
-	float regHp;	// 채력 재생
-	float moveSpeed;
+	float	curHp;
+	float	maxHp;
+	float	regHp;			// 채력 재생
+	float	moveSpeed;
+	float	curResistance;	// 경직 저항 수치 : 0 이되면 기절함
+	float	maxResistance;
+	bool	standing;		// 넉백 저항?
 };
 struct OffenceStat
 {
-	float power;	// 피해량 증가 비율 | default = 1.0
-	float criticalChance;
+	float power;			// 피해량 증가 비율 | default = 1.0
+	float criticalChance;	
 	float criticalDamage;
 };
 #pragma endregion
 
-// 없어도 될듯?
-struct PlayerInfo
-{
-	int level;
-	float maxExp;
-	float curExp;
-	float gold;
-};
-
-
-//=========================================================================================\\
-
-// 투사체 상태 (On, Off)
+#pragma region Projectile
 enum class eProjectileState
 {
 	Active,
 	Disabled,
 };
+struct ProjectileStat
+{
+	float	damage;			// 피해량
+	float	stagger;		// 경직수치
+	float	speed;			// 투사체 속도
+	float	range;			// 투사체 사거리
+public:
+	ProjectileStat()
+		: damage(0.0f), stagger(0.0f), speed(0.0f), range(0.0f)
+	{}
+};
+struct ProjectileConditionValue
+{
+	float			cooldownTime;				// 스킬 쿨다운
+	float			currentCooldownTime;
+	float			delayTime;					// 콤보 딜레이 시간
+	float			currentDelayTime;
+	int				maxCount;					// 투사체 개수
+	int				curCount;
+	bool			cooldownReady;				// 스킬 시전 조건 (false 인 경우 플레이어 State 변경을 막음)
+	bool			begin;						// 스킬 진행 조건 (true 인 경우 스킬이 진행됨)
+	bool			complete;					// 스킬 사용 조건 (true 인 경우 더이상 스킬이 진행안됨)
+public:
+	ProjectileConditionValue()
+		: cooldownTime(0.0f), currentCooldownTime(0.0f), delayTime(0.0f), currentDelayTime(0.0f)
+		, maxCount(0), curCount(0), cooldownReady(true), begin(false), complete(false)
+	{}
+};
+#pragma endregion
+#pragma region Arcana
 enum class eArcanaCategory
 {
 	Melee,
 	Range,
 	Dash,
-	End,
 };
 enum class eArcanaType
 {
@@ -173,19 +119,6 @@ enum class ePlayerBindSlot
 	R,
 	End,
 };
-
-struct ArcanaStat
-{
-	float	damage;						// 피해량
-	float	stagger;					// 경직수치
-	float	moveSpeed;					// 투사체 속도
-	float	spellRange;					// 투사체 사거리
-
-public:
-	ArcanaStat()
-		: damage(0.0f), stagger(0.0f), moveSpeed(0.0f), spellRange(0.0f)
-	{}
-};
 struct ArcanaInfo
 {
 	eArcanaName		name;
@@ -193,49 +126,43 @@ struct ArcanaInfo
 	eArcanaType		type;						// 스킬 타입
 	ePlayerMotion	motion;
 	ePlayerBindSlot slot;
-	float			cooldownTime;				// 스킬 쿨다운
-	float			currentCooldownTime;
-	float			delayTime;					// 콤보 딜레이 시간
-	float			currentDelayTime;
-	int				maxCount;					// 투사체 개수
-	int				curCount;
-	bool			cooldownReady;				// 스킬 시전 조건 (false 인 경우 플레이어 State 변경을 막음)
-	bool			begin;						// 스킬 진행 조건 (true 인 경우 스킬이 진행됨)
-	bool			complete;					// 스킬 사용 조건 (true 인 경우 더이상 스킬이 진행안됨)
 
 public:
 	ArcanaInfo()
-		: name(eArcanaName::WindSlash), category(eArcanaCategory::Melee), type(eArcanaType::BasicArcana), motion(ePlayerMotion::Basic), slot(ePlayerBindSlot::None)
-		, cooldownTime(0.0f), currentCooldownTime(0.0f), delayTime(0.0f), currentDelayTime(0.0f)
-		, maxCount(0), curCount(0), cooldownReady(true), begin(false), complete(false)
+		: name(eArcanaName::WindSlash), category(eArcanaCategory::Melee), type(eArcanaType::BasicArcana)
+		, motion(ePlayerMotion::Basic), slot(ePlayerBindSlot::None)
 	{}
 };
-
-// 책과 상인은 모든 Arcana의 정보를 가지고 있음
-// 플레이어는 책과 상인으로부터 Arcana 정보를 인수인계받아 스킬키에 바인딩함
-// 일단 플레이어가 몇개를 알고있게 만들예정
 struct Arcana
 {
-	ArcanaStat* arcanaStat;
-	ArcanaInfo* arcanaInfo;
+	ArcanaInfo*					arcanaInfo;
+	ProjectileStat*				projectileStat;
+	ProjectileConditionValue*	conditionValue;
+
 public:
 	Arcana()
-		: arcanaStat(nullptr), arcanaInfo(nullptr)
+		: arcanaInfo(nullptr), projectileStat(nullptr), conditionValue(nullptr)
 	{}
 	~Arcana()
 	{
-		if (nullptr != arcanaStat)
-		{
-			delete arcanaStat;
-			arcanaStat = nullptr;
-		}
 		if (nullptr != arcanaInfo)
 		{
 			delete arcanaInfo;
 			arcanaInfo = nullptr;
 		}
+		if (nullptr != projectileStat)
+		{
+			delete projectileStat;
+			projectileStat = nullptr;
+		}		
+		if (nullptr != conditionValue)
+		{
+			delete conditionValue;
+			conditionValue = nullptr;
+		}
 	}
 };
+#pragma endregion
 
 enum class eRelic
 {

@@ -24,13 +24,20 @@ namespace js
 		virtual void End()override {};
 		virtual void Action()override {};
 #pragma endregion
+
+#pragma region test Fucn
 		void TestAnimation();
 		void TurnTest() { mTesting = true; }
 		void Testing();
+#pragma endregion
+
 	public:
 #pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
+		Animator* GetAnimator() { return mAnimator; }
 		Collider2D* GetCollider() { return mCollider; }
+		
+		ProjectileStat GetProjectileStat() { return mProjectileStat; }
 #pragma endregion
 		
 	protected:
@@ -53,7 +60,7 @@ namespace js
 
 	protected:
 		Vector2			mAnimationDir;
-
+		ProjectileStat	mProjectileStat;
 	private:
 		bool			mTesting;
 	};
