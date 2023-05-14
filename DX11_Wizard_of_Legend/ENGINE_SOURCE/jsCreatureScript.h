@@ -48,6 +48,8 @@ namespace js
 	public:
 #pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
+		Collider2D* GetCollider() { return mCollider; }
+
 		OffenceStat GetOffenceStat() { return mOffenceStat; }
 		HealthStat GetHealthStat() { return mHealthStat; }
 #pragma endregion
@@ -77,6 +79,7 @@ namespace js
 	protected:
 		Transform*	mTransform;
 		Animator*	mAnimator;
+		Collider2D* mCollider;
 
 		HealthStat	mHealthStat;
 		OffenceStat mOffenceStat;

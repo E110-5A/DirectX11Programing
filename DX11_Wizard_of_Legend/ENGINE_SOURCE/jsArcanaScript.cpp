@@ -11,6 +11,10 @@ namespace js
 	ArcanaScript::ArcanaScript()
 		: mSpellID(-1)
 		, mArcanaState(eArcanaState::Disabled)
+		, mArcana(nullptr)
+		, mIsRight(true)
+		, mStartPos(Vector3(0.0f, 0.0f, 0.0f))
+		, mTargetCollider(nullptr)
 		, mPower(0.0f)
 	{	
 	}
@@ -29,16 +33,7 @@ namespace js
 
 	void ArcanaScript::Update()
 	{
-		// 비활성시 오브젝트::정지상태
-		if (eArcanaState::Disabled == mArcanaState)
-			GetOwner()->OnPause();
-
 		projectileProcess();
-
-		//// 비활성 조건 체크
-		//endConditionProjectile();
-		//// 작동 함수
-		//move();
 	}
 	void ArcanaScript::FixedUpdate()
 	{
@@ -46,10 +41,42 @@ namespace js
 	void ArcanaScript::Render()
 	{
 	}
+#pragma region Initalize
+	void ArcanaScript::createAnimation()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
 
+		Vector2 defaultSize = Vector2(48.0f, 48.0f);
+		// 리소스 가져와서 생성
+		std::shared_ptr<Texture> windSlash = Resources::Find<Texture>(L"WindSlash");
+		std::shared_ptr<Texture> fireArrow = Resources::Find<Texture>(L"FireArrow");
+		std::shared_ptr<Texture> dragonArc = Resources::Find<Texture>(L"DragonArc");
+		//DragonArc.png
+		animator->Create(L"WindSlash", windSlash, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
+		animator->Create(L"FireArrow", fireArrow, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
+		animator->Create(L"DragonArcRight", dragonArc, Vector2(0.0f, 0.0f), Vector2(36.0f, 48.0), Vector2::Zero, 1, 0.1f);
+		animator->Create(L"DragonArcLeft", dragonArc, Vector2(36.0f, 0.0f), Vector2(36.0f, 48.0), Vector2::Zero, 1, 0.1f);
+	}
+
+	void ArcanaScript::addEvents()
+	{
+		Animator* animator = GetOwner()->GetComponent<Animator>();
+		// Melee
+		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::completedMeleeProjectile, this);
+
+		// Projectile
+	}
+#pragma endregion
 #pragma region Collision
 	void ArcanaScript::OnCollisionEnter(Collider2D* collider)
 	{
+		eLayerType targetType = collider->GetOwner()->GetLayerType();
+
+		if (eLayerType::Monster == targetType)
+		{
+			mTargetCollider = collider;
+		}
+		
 	}
 	void ArcanaScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -83,6 +110,7 @@ namespace js
 	}	
 #pragma endregion
 
+#pragma region ArcanaSetting
 	void ArcanaScript::ActiveArcana(Arcana* arcana, bool isRight)
 	{
 		mArcana = arcana;
@@ -92,7 +120,6 @@ namespace js
 		GetOwner()->OnActive();
 		playAnimation();
 	}
-
 	void ArcanaScript::playAnimation()
 	{
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
@@ -108,18 +135,16 @@ namespace js
 				mAnimator->Play(L"DragonArcLeft");
 		}
 	}
+#pragma endregion
 
 	void ArcanaScript::projectileProcess()
 	{
 		projectileEndCheck();
 		projectileMove();
 	}
-
 	void ArcanaScript::projectileEndCheck()
 	{
-		// Melee 타입인 경우, 애니메이션 재생이 끝나면 조건에 해당함
-		// Range 타입인 경우, 사거리를 벗어나면 조건에 해당함
-		endConditionProjectile();
+		endConditionRangeProjectile();
 
 		// Disable 상태라면
 		if (eArcanaState::Disabled == mArcanaState)
@@ -128,7 +153,6 @@ namespace js
 		}
 
 	}
-
 	void ArcanaScript::projectileMove()
 	{
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
@@ -145,56 +169,21 @@ namespace js
 			// cos 방향 기믹 추가하기
 		}
 	}
-
 	void ArcanaScript::resetProjectile()
 	{
-		// 비활성 상태
-		mArcanaState = eArcanaState::Disabled;
 		// 위치 초기화
 		mTransform->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
 		mTransform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-	}
 
-	void ArcanaScript::disableProjectile()
-	{		
 		GetOwner()->OnPause();
 	}
 
-#pragma region Initalize
-	void ArcanaScript::createAnimation()
-	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-
-		Vector2 defaultSize = Vector2(48.0f, 48.0f);
-		// 리소스 가져와서 생성
-		std::shared_ptr<Texture> windSlash = Resources::Find<Texture>(L"WindSlash");
-		std::shared_ptr<Texture> fireArrow = Resources::Find<Texture>(L"FireArrow");
-		std::shared_ptr<Texture> dragonArc = Resources::Find<Texture>(L"DragonArc");
-		//DragonArc.png
-		animator->Create(L"WindSlash", windSlash, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
-		animator->Create(L"FireArrow", fireArrow, Vector2(0.0f, 0.0f), defaultSize, Vector2::Zero, 9, 0.08f);
-		animator->Create(L"DragonArcRight", dragonArc, Vector2(0.0f, 0.0f), Vector2(36.0f, 48.0), Vector2::Zero, 1, 0.1f);
-		animator->Create(L"DragonArcLeft", dragonArc, Vector2(36.0f, 0.0f), Vector2(36.0f, 48.0), Vector2::Zero, 1, 0.1f);
-	}
-
-	void ArcanaScript::addEvents()
-	{
-		Animator* animator = GetOwner()->GetComponent<Animator>();
-		// Melee
-		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::endConditionMelee, this);
-
-		// Projectile
-	}
-#pragma endregion
-	
-
 	// 종료 함수
-	void ArcanaScript::endConditionMelee()
+	void ArcanaScript::completedMeleeProjectile()
 	{
 		mArcanaState = eArcanaState::Disabled;
 	}
-
-	void ArcanaScript::endConditionProjectile()
+	void ArcanaScript::endConditionRangeProjectile()
 	{
 		if (nullptr == mArcana)
 			return;

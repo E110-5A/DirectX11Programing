@@ -29,6 +29,13 @@ namespace js
 
 		static bool RectCollision(Collider2D* left, Collider2D* right);
 		static bool CircleCollision(Collider2D* left, Collider2D* right);
+
+
+	public:
+		static void CallEnterCollision(Collider2D* left, Collider2D* right, std::map<UINT64, bool>::iterator iter);
+		static void CallStayCollision(Collider2D* left, Collider2D* right);
+		static void CallExitCollision(Collider2D* left, Collider2D* right, std::map<UINT64, bool>::iterator iter);
+
 	private:
 		static std::bitset<(UINT)eLayerType::End> mLayerCollisionMatrix[(UINT)eLayerType::End];
 		static std::map<UINT64, bool> mCollisionMap;

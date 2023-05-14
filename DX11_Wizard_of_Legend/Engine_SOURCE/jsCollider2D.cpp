@@ -29,11 +29,14 @@ namespace js
 	}
 	void Collider2D::FixedUpdate()
 	{
+		// 스케일 값
 		Vector3 scale = mTransform->GetScale();
 		scale *= Vector3(mSize.x, mSize.y, 1.0f);
 
+		// 회전 값
 		Vector3 rotation = mTransform->GetRotation();
 
+		// 위치 값
 		Vector3 position = mTransform->GetPosition();
 		Vector3 colliderPos = position + Vector3(mCenter.x, mCenter.y, 0.0f);
 		mPosition = colliderPos;
@@ -44,7 +47,6 @@ namespace js
 		rotationMatrix = Matrix::CreateRotationX(rotation.x);
 		rotationMatrix *= Matrix::CreateRotationY(rotation.y);
 		rotationMatrix *= Matrix::CreateRotationZ(rotation.z);
-
 		Matrix positionMatrix;
 		positionMatrix.Translation(Vector3(colliderPos.x, colliderPos.y, colliderPos.z));
 

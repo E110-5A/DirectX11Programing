@@ -53,14 +53,14 @@ namespace js
 
 		for (GameObject* left : lefts)
 		{
-			if (GameObject::Active != left->GetState())
-				continue;
+			/*if (GameObject::Active != left->GetState())
+				continue;*/
 			if (nullptr == left->GetComponent<Collider2D>())
 				continue;
 			for (GameObject* right : rights)
 			{
-				if (GameObject::Active != right->GetState())
-					continue;
+				/*if (GameObject::Active != right->GetState())
+					continue;*/
 				if (nullptr == right->GetComponent<Collider2D>())
 					continue;
 				if (left == right)
@@ -86,49 +86,33 @@ namespace js
 		}
 
 		if (Intersect(left, right))
+			// 충돌함
 		{
+			// 이전 충돌정보가 없음
 			if (false == iter->second)
 			{
-				if (left->IsTrigger())
-					left->OnTriggerEnter(right);
-				else
-					left->OnCollisionEnter(right);
-
-				if (right->IsTrigger())
-					right->OnTriggerEnter(left);
-				else
-					right->OnCollisionEnter(left);
-
-				iter->second = true;
+				CallEnterCollision(left, right, iter);
 			}
+			// 이전 충돌 정보가 있음
 			else
 			{
-				if (left->IsTrigger())
-					left->OnTriggerStay(right);
-				else
-					left->OnCollisionStay(right);
+				// 만약 둘중 하나가 비활성 상태라면 Exit호출
+				if (GameObject::eGlobalState::Paused == left->GetOwner()->GetState()
+					|| GameObject::eGlobalState::Paused == right->GetOwner()->GetState())
+				{
+					CallExitCollision(left, right, iter);
+				}
 
-				if (right->IsTrigger())
-					right->OnTriggerStay(left);
-				else
-					right->OnCollisionStay(left);
+				CallStayCollision(left, right);
 			}
 		}
 		else
-		{
+			// 충돌 안함
+		{			
+			// 이전 충돌정보가 있음
 			if (iter->second == true)
 			{
-				if (left->IsTrigger())
-					left->OnTriggerExit(right);
-				else
-					left->OnCollisionExit(right);
-
-				if (right->IsTrigger())
-					right->OnTriggerExit(left);
-				else
-					right->OnCollisionExit(left);
-
-				iter->second = false;
+				CallExitCollision(left, right, iter);
 			}
 		}
 	}
@@ -248,5 +232,45 @@ namespace js
 			return true;
 
 		return false;
+	}
+	void CollisionManager::CallEnterCollision(Collider2D* left, Collider2D* right, std::map<UINT64, bool>::iterator iter)
+	{
+		if (left->IsTrigger())
+			left->OnTriggerEnter(right);
+		else
+			left->OnCollisionEnter(right);
+
+		if (right->IsTrigger())
+			right->OnTriggerEnter(left);
+		else
+			right->OnCollisionEnter(left);
+
+		iter->second = true;
+	}
+	void CollisionManager::CallStayCollision(Collider2D* left, Collider2D* right)
+	{
+		if (left->IsTrigger())
+			left->OnTriggerStay(right);
+		else
+			left->OnCollisionStay(right);
+
+		if (right->IsTrigger())
+			right->OnTriggerStay(left);
+		else
+			right->OnCollisionStay(left);
+	}
+	void CollisionManager::CallExitCollision(Collider2D* left, Collider2D* right, std::map<UINT64, bool>::iterator iter)
+	{
+		if (left->IsTrigger())
+			left->OnTriggerExit(right);
+		else
+			left->OnCollisionExit(right);
+
+		if (right->IsTrigger())
+			right->OnTriggerExit(left);
+		else
+			right->OnCollisionExit(left);
+
+		iter->second = false;
 	}
 }

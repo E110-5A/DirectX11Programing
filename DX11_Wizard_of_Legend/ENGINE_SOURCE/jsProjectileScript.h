@@ -30,6 +30,7 @@ namespace js
 	public:
 #pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
+		Collider2D* GetCollider() { return mCollider; }
 #pragma endregion
 		
 	protected:
@@ -48,6 +49,7 @@ namespace js
 	protected:
 		Transform*		mTransform;
 		Animator*		mAnimator;
+		Collider2D*		mCollider;
 
 	protected:
 		Vector2			mAnimationDir;

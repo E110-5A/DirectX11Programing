@@ -17,7 +17,7 @@ namespace js
 	{
 		mTransform	= GetOwner()->GetComponent<Transform>();
 		mAnimator	= GetOwner()->AddComponent<Animator>();
-		GetOwner()->AddComponent<Collider2D>();
+		mCollider = GetOwner()->AddComponent<Collider2D>();
 		TestAnimation();
 	}
 	void ProjectileScript::Update()
