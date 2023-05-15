@@ -339,6 +339,9 @@
     <ClCompile Include="jsStage02Boss.cpp">
       <Filter>Content\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="jsStageManager.cpp">
+      <Filter>StageManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -538,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="jsStage02Boss.h">
       <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStageManager.h">
+      <Filter>StageManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
