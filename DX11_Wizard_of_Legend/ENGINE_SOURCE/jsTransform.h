@@ -34,7 +34,14 @@ namespace js
 		Vector3 Up() { return mUp; }
 
 		Matrix& GetWorldMatrix() { return mWorld; }
-
+	public:
+		void ShakeCamera();
+		void SetOscillation(float oscillationPower, float time)
+		{
+			mShakeCamera = true;
+			mOscillationPower = oscillationPower;
+			mShakeTime = time;
+		}
 	private:
 		Transform* mParent;
 		Vector3 mFoward;
@@ -45,5 +52,11 @@ namespace js
 		Vector3 mScale;
 		Matrix mWorld;
 
+	private:
+		bool mShakeCamera;
+		Vector3 mOscillationPosition;
+		float mOscillationPower;
+		float mShakeTime;
+		float mCurrentShakeTime;
 	};
 }

@@ -26,27 +26,27 @@ namespace js
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
 
-		// 카메라를 js::renderer에 등록시킴
-		void RegisterCameraInRenderer();
-
 	public:
+#pragma region CameraTick Func
+		void RegisterCameraInRenderer();
 		void CreateViewMatrix();
 		void CreateProjectionMatrix();
-
-
-#pragma region LayerMaskSet
+#pragma endregion
+	public:
+#pragma region LayerMaskSet Func
 		void TurnLayerMask(eLayerType layer, bool enable = true) { mLayerMasks.set((UINT)layer, enable); }
 		void EnableLayerMasks() { mLayerMasks.set(); }
 		void DisableLayerMasks() { mLayerMasks.reset(); }
-#pragma endregion 
-
+#pragma endregion
+	public:
+#pragma region TransformMatrix Func
 		void SetProjectionType(eProjectionType type) { mType = type; }
 		float GetScale() { return mScale; }
 		Matrix& GetViewMatrix() { return mView; }
 		Matrix& GetProjectionMatrix() { return mProjection; }
-
+#pragma endregion
 	private:
-#pragma region Render Func
+#pragma region RenderObjects Func
 		void sortGameObjects();
 		void renderOpaque();
 		void renderCutout();
@@ -55,6 +55,7 @@ namespace js
 #pragma endregion
 
 	private:
+#pragma region RenderTransform Member
 		static Matrix View;
 		static Matrix Projection;
 
@@ -67,10 +68,12 @@ namespace js
 		float mNear;
 		float mFar;
 		float mScale;
-
+#pragma endregion
+#pragma region RenderObjects Member
 		std::bitset<(UINT)eLayerType::End> mLayerMasks;
 		std::vector<GameObject*> mOpaqueGameObjects;
 		std::vector<GameObject*> mCutoutGameObjects;
 		std::vector<GameObject*> mTransparentGameObjects;
+#pragma endregion
 	};
 }

@@ -160,6 +160,9 @@
     <Filter Include="API\Common\IncludeHeader">
       <UniqueIdentifier>{2916e6ce-4ff3-45aa-817a-5c262c2d6ca8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StageManager">
+      <UniqueIdentifier>{4684bbf5-099b-4939-be51-0b128bb2211f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
