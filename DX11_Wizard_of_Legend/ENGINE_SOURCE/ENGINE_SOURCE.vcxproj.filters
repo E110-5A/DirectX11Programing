@@ -160,6 +160,9 @@
     <Filter Include="API\Common\IncludeHeader">
       <UniqueIdentifier>{2916e6ce-4ff3-45aa-817a-5c262c2d6ca8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StageManager">
+      <UniqueIdentifier>{4684bbf5-099b-4939-be51-0b128bb2211f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -335,6 +338,9 @@
     </ClCompile>
     <ClCompile Include="jsStage02Boss.cpp">
       <Filter>Content\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="jsStageManager.cpp">
+      <Filter>StageManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="jsStage02Boss.h">
       <Filter>Content\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="jsStageManager.h">
+      <Filter>StageManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
