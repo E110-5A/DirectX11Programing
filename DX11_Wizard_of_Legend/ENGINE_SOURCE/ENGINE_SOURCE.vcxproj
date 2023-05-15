@@ -219,6 +219,7 @@
     <ClInclude Include="jsStage01Boss.h" />
     <ClInclude Include="jsStage02.h" />
     <ClInclude Include="jsStage02Boss.h" />
+    <ClInclude Include="jsStageManager.h" />
     <ClInclude Include="jsStructuredBuffer.h" />
     <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTime.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="jsStage01Boss.cpp" />
     <ClCompile Include="jsStage02.cpp" />
     <ClCompile Include="jsStage02Boss.cpp" />
+    <ClCompile Include="jsStageManager.cpp" />
     <ClCompile Include="jsStructuredBuffer.cpp" />
     <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTime.cpp" />
