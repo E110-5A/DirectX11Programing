@@ -13,10 +13,19 @@
 
 
 // 벡터 방향
-#define V2DOWN 0,-1
-#define V2RIGHT 1,0
-#define V2LEFT -1,0
-#define V2UP 0,1
+#define V2DOWN		0,-1
+#define V2RIGHT		1,0
+#define V2LEFT		-1,0
+#define V2UP		0,1
+
+#define V2W			-1.0f	,0
+#define V2NW		-0.7f	,0.7f
+#define V2N			0		,1.0f
+#define V2NE		0.7f	,0.7f
+#define V2E			1.0f	,0
+#define V2SE		0.7f	,-0.7f
+#define V2S			0		,-1.0f
+#define V2SW		-0.7f	,-0.7f
 
 // 라디안 방향
 
@@ -147,10 +156,10 @@ namespace js
 			animator->GetActionEvent(L"PlayerDashRight", 3) = std::bind(&PlayerScript::retIdle, this);
 			animator->GetActionEvent(L"PlayerDashLeft", 3) = std::bind(&PlayerScript::retIdle, this);
 			animator->GetActionEvent(L"PlayerDashUp", 3) = std::bind(&PlayerScript::retIdle, this);
-			animator->GetStartEvent(L"PlayerDashDown") = std::bind(&PlayerScript::addForceDash, this);
-			animator->GetStartEvent(L"PlayerDashRight") = std::bind(&PlayerScript::addForceDash, this);
-			animator->GetStartEvent(L"PlayerDashLeft") = std::bind(&PlayerScript::addForceDash, this);
-			animator->GetStartEvent(L"PlayerDashUp") = std::bind(&PlayerScript::addForceDash, this);
+			animator->GetStartEvent(L"PlayerDashDown")		= std::bind(&PlayerScript::dashForce, this);
+			animator->GetStartEvent(L"PlayerDashRight")	= std::bind(&PlayerScript::dashForce, this);
+			animator->GetStartEvent(L"PlayerDashLeft")		= std::bind(&PlayerScript::dashForce, this);
+			animator->GetStartEvent(L"PlayerDashUp")		= std::bind(&PlayerScript::dashForce, this);
 		}
 
 		// Basic (setIdle, playerRush)
@@ -159,19 +168,19 @@ namespace js
 			animator->GetCompleteEvent(L"PlayerBackhandRight") = std::bind(&PlayerScript::retIdle, this);
 			animator->GetCompleteEvent(L"PlayerBackhandLeft") = std::bind(&PlayerScript::retIdle, this);
 			animator->GetCompleteEvent(L"PlayerBackhandUp") = std::bind(&PlayerScript::retIdle, this);
-			animator->GetActionEvent(L"PlayerBackhandDown", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandLeft", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerBackhandUp", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerBackhandDown", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerBackhandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerBackhandLeft", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerBackhandUp", 3) = std::bind(&PlayerScript::playerRush, this);
 
 			animator->GetCompleteEvent(L"PlayerForehandDown") = std::bind(&PlayerScript::retIdle, this);
 			animator->GetCompleteEvent(L"PlayerForehandRight") = std::bind(&PlayerScript::retIdle, this);
 			animator->GetCompleteEvent(L"PlayerForehandLeft") = std::bind(&PlayerScript::retIdle, this);
 			animator->GetCompleteEvent(L"PlayerForehandUp") = std::bind(&PlayerScript::retIdle, this);
-			animator->GetActionEvent(L"PlayerForehandDown", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandLeft", 3) = std::bind(&PlayerScript::playerRush, this);
-			animator->GetActionEvent(L"PlayerForehandUp", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerForehandDown", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerForehandRight", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerForehandLeft", 3) = std::bind(&PlayerScript::playerRush, this);
+			// animator->GetActionEvent(L"PlayerForehandUp", 3) = std::bind(&PlayerScript::playerRush, this);
 		}
 
 		// GroundSlam (setIdle)
@@ -239,7 +248,7 @@ namespace js
 			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
 			tempConditionValue->cooldownReady = true;
 			tempConditionValue->complete = false;
-			tempConditionValue->cooldownTime = 5.0f;
+			tempConditionValue->cooldownTime = 1.0f;
 			tempConditionValue->currentCooldownTime = 0.0f;
 			tempConditionValue->delayTime = 0.0f;
 			tempConditionValue->currentDelayTime = 0.0f;
@@ -347,7 +356,7 @@ namespace js
 #pragma endregion
 	void PlayerScript::Update()
 	{
-		//CreatureScript::Update();
+		CreatureScript::Update();
 		calculateMouseDirection();
 		calculatePlayerDirection();
 		switch (mPlayerState)
@@ -456,7 +465,7 @@ namespace js
 		if (Input::GetKey(eKeyCode::S))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, true);
+			changePlayerDirection(eAxisValue::Down, true, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
@@ -465,7 +474,7 @@ namespace js
 		if (Input::GetKey(eKeyCode::D))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, false);
+			changePlayerDirection(eAxisValue::Up, false, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
@@ -474,7 +483,7 @@ namespace js
 		if (Input::GetKey(eKeyCode::A))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, false);
+			changePlayerDirection(eAxisValue::Down, false, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
@@ -483,7 +492,7 @@ namespace js
 		if (Input::GetKey(eKeyCode::W))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, true);
+			changePlayerDirection(eAxisValue::Up, true, false);
 			// 상태 바꾸기
 			changeState(ePlayerState::MOVE);
 			// 애니메이션 재생	
@@ -523,6 +532,8 @@ namespace js
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
 			// 상태 바꾸기
+			mInventory.arcanaDash->conditionValue->cooldownReady = false;
+			mInventory.arcanaDash->conditionValue->begin = true;
 			changeState(ePlayerState::SPACE);
 			// 애니메이션 재생	
 			playAnimation();
@@ -581,28 +592,28 @@ namespace js
 			Vector3 pos = mTransform->GetPosition();
 			pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Down, true);
+			changePlayerDirection(eAxisValue::Down, true, false);
 		}
 		if (Input::GetKey(eKeyCode::D))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Up, false);
+			changePlayerDirection(eAxisValue::Up, false, false);
 		}
 		if (Input::GetKey(eKeyCode::A))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Down, false);
+			changePlayerDirection(eAxisValue::Down, false, false);
 		}
 		if (Input::GetKey(eKeyCode::W))
 		{
 			Vector3 pos = mTransform->GetPosition();
 			pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Up, true);
+			changePlayerDirection(eAxisValue::Up, true, false);
 		}
 
 		if (Input::GetKey(eKeyCode::LBTN)
@@ -614,6 +625,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
+			mInventory.arcanaBasic->conditionValue->cooldownReady = false;
+			mInventory.arcanaBasic->conditionValue->begin = true;
 			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
 			playAnimation();
@@ -627,6 +640,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
+			mInventory.arcanaStandardA->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardA->conditionValue->begin = true;
 			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생	
 			playAnimation();
@@ -634,6 +649,8 @@ namespace js
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
 			// 상태 바꾸기
+			mInventory.arcanaDash->conditionValue->cooldownReady = false;
+			mInventory.arcanaDash->conditionValue->begin = true;
 			changeState(ePlayerState::SPACE);
 			// 애니메이션 재생	
 			playAnimation();
@@ -647,6 +664,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
+			mInventory.arcanaStandardB->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardB->conditionValue->begin = true;
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
 			playAnimation();
@@ -660,6 +679,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
+			mInventory.arcanaStandardC->conditionValue->cooldownReady = false;
+			mInventory.arcanaStandardC->conditionValue->begin = true;
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
 			playAnimation();
@@ -673,6 +694,8 @@ namespace js
 			float angle = calculateRotateAngle();
 			calculateAnimationDirection(angle);
 			// 상태 바꾸기
+			mInventory.arcanaSignature->conditionValue->cooldownReady = false;
+			mInventory.arcanaSignature->conditionValue->begin = true;
 			changeState(ePlayerState::Q);
 			// 애니메이션 재생	
 			playAnimation();
@@ -682,7 +705,7 @@ namespace js
 		if (Input::GetKeyUp(eKeyCode::S))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, true);
+			changePlayerDirection(eAxisValue::Down, true, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
@@ -691,7 +714,7 @@ namespace js
 		if (Input::GetKeyUp(eKeyCode::D))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, false);
+			changePlayerDirection(eAxisValue::Up, false, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
@@ -700,7 +723,7 @@ namespace js
 		if (Input::GetKeyUp(eKeyCode::A))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, false);
+			changePlayerDirection(eAxisValue::Down, false, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
@@ -709,7 +732,7 @@ namespace js
 		if (Input::GetKeyUp(eKeyCode::W))
 		{
 			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, true);
+			changePlayerDirection(eAxisValue::Up, true, true);
 			// 상태 바꾸기
 			changeState(ePlayerState::IDLE);
 			// 애니메이션 재생	
@@ -903,6 +926,28 @@ namespace js
 		Transform* targetTr = target->GetOwner()->GetComponent<Transform>();
 		targetTr->SetRotation(Vector3(0.0f, 0.0f, angle));
 	}
+		
+
+#define V2W			-1.0f	,0
+#define V2NW		-0.7f	,0.7f
+#define V2N			0		,1.0f
+#define V2NE		0.7f	,0.7f
+#define V2E			1.0f	,0
+#define V2SE		0.7f	,-0.7f
+#define V2S			0		,-1.0f
+#define V2SW		-0.7f	,-0.7f
+	void PlayerScript::dashForce()
+	{
+		// 이동방향 구하기
+		if (Vector2::Zero == mCurrentDirection)
+		{
+			mRigidbody->SetVelocity(mAnimationDirection* 52.50f);
+		}
+		else
+		{
+			mRigidbody->SetVelocity(mCurrentDirection * 52.50f);
+		}		
+	}
 	
 	void PlayerScript::calculateMouseDirection()
 	{
@@ -959,7 +1004,7 @@ namespace js
 			mAnimationDirection = Vector2(-1, 0);
 	}
 
-	void PlayerScript::changePlayerDirection(eAxisValue direction, bool isYAxis)
+	void PlayerScript::changePlayerDirection(eAxisValue direction, bool isYAxis, bool isKeyUp)
 	{
 		// AnimationDirection을 변경하고, XDir, YDir 값을 변경함
 		if (isYAxis)
@@ -974,6 +1019,9 @@ namespace js
 				mYDir = eAxisValue::None;
 			else
 				mYDir = direction;
+
+			if (true == isKeyUp)
+				mYDir = eAxisValue::None;
 		}
 		else
 		{
@@ -982,26 +1030,22 @@ namespace js
 			if (eAxisValue::Down == direction)
 				mAnimationDirection = Vector2(-1, 0);
 
+			// 만약 현재 방향의 반대키가 눌리면 0이 되어야함!
 			if (direction != mXDir && eAxisValue::None != mXDir)
 				mXDir = eAxisValue::None;
 			else
 				mXDir = direction;
+
+			// 방향은 있는데 키를 때서 멈춰야 하는 경우
+			if (true == isKeyUp)
+				mXDir = eAxisValue::None;
 		}
 	}
 
 	void PlayerScript::changeState(ePlayerState changeState)
 	{
 		mPlayerState = changeState;
-	}
-	// 안씀
-	void PlayerScript::playerRush()
-	{
-		//mTransform->SetPosition(Vector3(mMouseDir.x, mMouseDir.y, 1.0f) * 1.0f);
-	}
-	void PlayerScript::addForceDash()
-	{
-		//mTransform->SetPosition(Vector3(mCurrentDirection.x, mCurrentDirection.y, 1.0f) * 1);
-	}
+	}	
 
 #pragma region 애니메이션 실행함수
 	void PlayerScript::playAnimation()
@@ -1150,5 +1194,4 @@ namespace js
 			mAnimator->Play(L"PlayerDashUp", false);
 	}
 #pragma endregion
-
 }

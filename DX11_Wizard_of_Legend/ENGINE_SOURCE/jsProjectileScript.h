@@ -59,7 +59,7 @@ namespace js
 		Collider2D*		mCollider;
 
 	protected:
-		Vector2			mAnimationDir;
+		Vector2			mAnimationDirection;
 		ProjectileStat	mProjectileStat;
 	private:
 		bool			mTesting;

@@ -6,7 +6,7 @@ namespace js
 	ProjectileScript::ProjectileScript()
 		: mTransform(nullptr)
 		, mAnimator(nullptr)
-		, mAnimationDir(Vector2::Zero)
+		, mAnimationDirection(Vector2::Zero)
 		, mTesting(false)
 	{
 	}

@@ -79,6 +79,10 @@ namespace js
 		void shoot(Arcana* target);
 		int findProjectilePool();
 		void projectileRotates(ArcanaScript* target, float angle);
+
+		void dashForce();
+
+
 #pragma endregion
 
 	private:
@@ -91,11 +95,7 @@ namespace js
 
 	private:
 #pragma region State Func
-		// 아래 2개 고장남
-		void playerRush();
-		void addForceDash();
-				
-		void changePlayerDirection(eAxisValue value, bool isYAxis);
+		void changePlayerDirection(eAxisValue value, bool isYAxis, bool isKeyUp);
 		void changeState(ePlayerState changeState);
 
 		void retIdle() { mPlayerState = ePlayerState::IDLE; playAnimation(); }
@@ -121,7 +121,6 @@ namespace js
 
 		// 이동관련 변수
 		Vector2		mCurrentDirection;
-		Vector2		mAnimationDirection;
 		eAxisValue	mYDir;
 		eAxisValue	mXDir;
 

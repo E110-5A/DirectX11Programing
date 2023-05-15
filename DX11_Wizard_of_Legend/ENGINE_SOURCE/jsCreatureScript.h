@@ -49,6 +49,7 @@ namespace js
 #pragma region global Member Class & Struct 
 		Transform* GetTransform() { return mTransform; }
 		Collider2D* GetCollider() { return mCollider; }
+		Rigidbody* GetRigidbody() { return mRigidbody; }
 
 		OffenceStat GetOffenceStat() { return mOffenceStat; }
 		HealthStat GetHealthStat() { return mHealthStat; }
@@ -89,12 +90,13 @@ namespace js
 		Transform*	mTransform;
 		Animator*	mAnimator;
 		Collider2D* mCollider;
+		Rigidbody*	mRigidbody;
 
 		HealthStat	mHealthStat;
 		OffenceStat mOffenceStat;
 
 	protected:
-		Vector2 mAnimationDir;
+		Vector2 mAnimationDirection;
 
 	protected:
 		float	mStunTime;

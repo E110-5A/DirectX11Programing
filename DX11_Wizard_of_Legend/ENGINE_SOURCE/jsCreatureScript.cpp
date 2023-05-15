@@ -1,13 +1,11 @@
 #include "jsCreatureScript.h"
 
-#include "jsTime.h"
-// object
 #include "jsObject.h"
 
 namespace js
 {
 	CreatureScript::CreatureScript()
-		: mAnimationDir(Vector2(V2RIGHT))
+		: mAnimationDirection(Vector2(V2RIGHT))
 		, mTransform(nullptr)
 		, mAnimator(nullptr)
 		, mHealthStat{}
@@ -28,7 +26,8 @@ namespace js
 		mTransform	= GetOwner()->GetComponent<Transform>();
 		mAnimator	= GetOwner()->AddComponent<Animator>();
 		mCollider	= GetOwner()->AddComponent<Collider2D>();
-		mKnockbackCheckTime = 0.4f;
+		mRigidbody	= GetOwner()->AddComponent<Rigidbody>();
+		mKnockbackCheckTime = 0.15f;
 	}
 	void CreatureScript::Update()
 	{
@@ -101,14 +100,17 @@ namespace js
 		// 넉백 저항상태가 아니라면
 		if (false == mKnockbacked)
 		{
+			mKnockbacked = true;
+			// 방향 구하기
 			Vector3 projectilePos = target->GetTransform()->GetPosition();
 			Vector3 powerDir = mTransform->GetPosition() - projectilePos;
 			float powerDirZ = powerDir.z;
 			powerDir.Normalize();
 			powerDir.z = powerDirZ;
-			Vector3 destPos = mTransform->GetPosition() + powerDir * 0.2f;
-			mTransform->SetPosition(destPos);
-			mKnockbacked = true;
+			// 거리 구하기
+			// Vector3 destPos = mTransform->GetPosition() + powerDir * 0.2f;
+			// mTransform->SetPosition(destPos);
+			mRigidbody->AddForce(Vector2(powerDir.x, powerDir.y) * 70.0f);
 		}
 	}
 	void CreatureScript::Blocked(Script* target)

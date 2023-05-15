@@ -2,9 +2,14 @@
 #include "jsSceneManager.h"
 #include "jsScene.h"
 #include "jsLayer.h"
+#include "jsTime.h"
+
 #include "jsGameObject.h"
 #include "jsSpriteRenderer.h"
+
+
 #include "GameObjectComponents.h"
+
 
 namespace js::object
 {
