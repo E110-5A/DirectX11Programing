@@ -1,54 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="High Level Interface">
-      <UniqueIdentifier>{ef2cc17f-dc8c-4713-acb5-11a43c435929}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{84407bf0-b431-49e7-b0cd-167e818415ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource">
-      <UniqueIdentifier>{767d4264-e56a-430c-8c2d-f49d85c35b59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{976687b1-0493-449e-87e3-f6bf27d49c71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{68d11966-8044-4e2a-abef-cc0a1a1642f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Mesh">
-      <UniqueIdentifier>{5ddde7d6-5dbf-4474-8ff2-f014eaefe47e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Shader">
-      <UniqueIdentifier>{f6d54454-faa4-4b11-8592-0408c79bef47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Manager">
-      <UniqueIdentifier>{566c056d-bc1c-4a66-9874-1eb8b38721ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Material">
-      <UniqueIdentifier>{b120460a-4944-428f-b9a0-e7253c288eab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Texture">
-      <UniqueIdentifier>{2e19c4b5-25ef-434b-bb7c-23ab21873a44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Script">
-      <UniqueIdentifier>{bd5eb4ff-9f54-4ada-b23b-dd4130c98faf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Base">
-      <UniqueIdentifier>{2bf45b05-0f71-4108-ade3-0f445677916d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Prefab">
-      <UniqueIdentifier>{3af2aa79-2a7b-4d76-a7a5-4cad4408c08b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Buffer">
-      <UniqueIdentifier>{e4ba78d8-760a-4f86-bc52-4e0b1889b409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Base\Manager">
-      <UniqueIdentifier>{ed02c5d8-b13c-4afe-85b6-3e56a722014f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Base\Layer">
-      <UniqueIdentifier>{1e71bc42-a7cc-46d6-9577-a9d25d0f359c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API">
       <UniqueIdentifier>{fe38d4cf-e628-4bef-bc8d-6fa213c324a8}</UniqueIdentifier>
     </Filter>
@@ -64,68 +16,11 @@
     <Filter Include="API\Time">
       <UniqueIdentifier>{d5cea299-11de-49f8-9c0c-c110056dd303}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Component">
-      <UniqueIdentifier>{d54e1d46-871f-40f8-ad58-0a2d4ec246e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Script">
-      <UniqueIdentifier>{5d1a9b1c-e367-41ff-827a-0670e743acf2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Transform">
-      <UniqueIdentifier>{33646287-989c-4565-ad3c-77fa53030165}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Renderer">
-      <UniqueIdentifier>{6cbbc9fb-29a5-4e89-a66a-edbeee8d0a1a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Camera">
-      <UniqueIdentifier>{d5d09f34-c98b-40e4-9959-3f7e7df27f01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Collider">
-      <UniqueIdentifier>{d06af49b-e291-48f5-a152-57cdfccac101}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Collider\Manager">
-      <UniqueIdentifier>{fa4faab8-07ef-4c3e-9f62-39b3d8374c2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Collider\2D">
-      <UniqueIdentifier>{e6c3dc2a-8578-4ba0-abef-b180bbd898a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Collider\3D">
-      <UniqueIdentifier>{ef70ba73-24b0-4f3d-ba69-e9bc4d1c96dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Animator">
-      <UniqueIdentifier>{462c899b-d697-4c1e-a1a1-8cd73bc7838f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Renderer">
-      <UniqueIdentifier>{f2d38e5b-5248-43e0-b712-e484a165f414}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Base">
-      <UniqueIdentifier>{3e1b9ea3-f096-4868-a797-85222d04a523}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Light">
-      <UniqueIdentifier>{c36a64dd-b5fc-41f0-960f-192e6a13eb6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content">
       <UniqueIdentifier>{bfee7126-f21d-492b-a001-1f37fb5c2f8e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Content\Scenes">
       <UniqueIdentifier>{7bd2a06f-987b-4ff0-87bd-c8402f13cca9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Rigidbody">
-      <UniqueIdentifier>{524fd677-0155-4e3c-9512-e74a57082133}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\ComputeShader">
-      <UniqueIdentifier>{702d56f9-1ec3-49a3-81c4-862710f6bdd1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\ComputeShader\PaintShader">
-      <UniqueIdentifier>{b54d7db5-1771-417c-a776-6fe2b72eb0f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\ComputeShader\ParticleShader">
-      <UniqueIdentifier>{c9c54e19-d1b8-4fd8-ad2c-18e5b55142cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Base">
-      <UniqueIdentifier>{932f9eb6-3cce-4242-959a-6bce4a96bf97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Base">
-      <UniqueIdentifier>{cab0e444-78f1-404f-bfe7-3ab6dd6dea45}</UniqueIdentifier>
     </Filter>
     <Filter Include="Content\Objects &amp; Scripts">
       <UniqueIdentifier>{a8bb0890-11ae-4669-8132-d6f2439e459b}</UniqueIdentifier>
@@ -160,13 +55,109 @@
     <Filter Include="API\Common\IncludeHeader">
       <UniqueIdentifier>{2916e6ce-4ff3-45aa-817a-5c262c2d6ca8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StageManager">
+    <Filter Include="API\GameObject">
+      <UniqueIdentifier>{68d11966-8044-4e2a-abef-cc0a1a1642f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component">
+      <UniqueIdentifier>{d54e1d46-871f-40f8-ad58-0a2d4ec246e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Script">
+      <UniqueIdentifier>{5d1a9b1c-e367-41ff-827a-0670e743acf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Transform">
+      <UniqueIdentifier>{33646287-989c-4565-ad3c-77fa53030165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Renderer">
+      <UniqueIdentifier>{6cbbc9fb-29a5-4e89-a66a-edbeee8d0a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Camera">
+      <UniqueIdentifier>{d5d09f34-c98b-40e4-9959-3f7e7df27f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Collider">
+      <UniqueIdentifier>{d06af49b-e291-48f5-a152-57cdfccac101}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Collider\Manager">
+      <UniqueIdentifier>{fa4faab8-07ef-4c3e-9f62-39b3d8374c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Collider\2D">
+      <UniqueIdentifier>{e6c3dc2a-8578-4ba0-abef-b180bbd898a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Collider\3D">
+      <UniqueIdentifier>{ef70ba73-24b0-4f3d-ba69-e9bc4d1c96dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Animator">
+      <UniqueIdentifier>{462c899b-d697-4c1e-a1a1-8cd73bc7838f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Light">
+      <UniqueIdentifier>{c36a64dd-b5fc-41f0-960f-192e6a13eb6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Rigidbody">
+      <UniqueIdentifier>{524fd677-0155-4e3c-9512-e74a57082133}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Component\Base">
+      <UniqueIdentifier>{932f9eb6-3cce-4242-959a-6bce4a96bf97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\GameObject\Base">
+      <UniqueIdentifier>{cab0e444-78f1-404f-bfe7-3ab6dd6dea45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Graphics">
+      <UniqueIdentifier>{84407bf0-b431-49e7-b0cd-167e818415ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Graphics\Buffer">
+      <UniqueIdentifier>{e4ba78d8-760a-4f86-bc52-4e0b1889b409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Graphics\Renderer">
+      <UniqueIdentifier>{f2d38e5b-5248-43e0-b712-e484a165f414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Graphics\Base">
+      <UniqueIdentifier>{3e1b9ea3-f096-4868-a797-85222d04a523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource">
+      <UniqueIdentifier>{767d4264-e56a-430c-8c2d-f49d85c35b59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Mesh">
+      <UniqueIdentifier>{5ddde7d6-5dbf-4474-8ff2-f014eaefe47e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Shader">
+      <UniqueIdentifier>{f6d54454-faa4-4b11-8592-0408c79bef47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Manager">
+      <UniqueIdentifier>{566c056d-bc1c-4a66-9874-1eb8b38721ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Material">
+      <UniqueIdentifier>{b120460a-4944-428f-b9a0-e7253c288eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Texture">
+      <UniqueIdentifier>{2e19c4b5-25ef-434b-bb7c-23ab21873a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Script">
+      <UniqueIdentifier>{bd5eb4ff-9f54-4ada-b23b-dd4130c98faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\Prefab">
+      <UniqueIdentifier>{3af2aa79-2a7b-4d76-a7a5-4cad4408c08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\ComputeShader">
+      <UniqueIdentifier>{702d56f9-1ec3-49a3-81c4-862710f6bdd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\ComputeShader\PaintShader">
+      <UniqueIdentifier>{b54d7db5-1771-417c-a776-6fe2b72eb0f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Resource\ComputeShader\ParticleShader">
+      <UniqueIdentifier>{c9c54e19-d1b8-4fd8-ad2c-18e5b55142cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\Scene">
+      <UniqueIdentifier>{976687b1-0493-449e-87e3-f6bf27d49c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\StageManager">
       <UniqueIdentifier>{4684bbf5-099b-4939-be51-0b128bb2211f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\High Level Interface">
+      <UniqueIdentifier>{ef2cc17f-dc8c-4713-acb5-11a43c435929}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
-      <Filter>High Level Interface</Filter>
+      <Filter>API\High Level Interface</Filter>
     </ClCompile>
     <ClCompile Include="jsMath.cpp">
       <Filter>API\Common\Math</Filter>
@@ -181,79 +172,70 @@
       <Filter>API\Common</Filter>
     </ClCompile>
     <ClCompile Include="jsResource.cpp">
-      <Filter>Resource</Filter>
+      <Filter>API\Resource</Filter>
     </ClCompile>
     <ClCompile Include="jsRenderer.cpp">
-      <Filter>Graphics\Renderer</Filter>
+      <Filter>API\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="jsMesh.cpp">
-      <Filter>Resource\Mesh</Filter>
+      <Filter>API\Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="jsShader.cpp">
-      <Filter>Resource\Shader</Filter>
+      <Filter>API\Resource\Shader</Filter>
     </ClCompile>
     <ClCompile Include="jsResources.cpp">
-      <Filter>Resource\Manager</Filter>
+      <Filter>API\Resource\Manager</Filter>
     </ClCompile>
     <ClCompile Include="jsMaterial.cpp">
-      <Filter>Resource\Material</Filter>
+      <Filter>API\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="jsTexture.cpp">
-      <Filter>Resource\Texture</Filter>
+      <Filter>API\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="jsScript.cpp">
-      <Filter>GameObject\Component\Script</Filter>
+      <Filter>API\GameObject\Component\Script</Filter>
     </ClCompile>
     <ClCompile Include="jsTransform.cpp">
-      <Filter>GameObject\Component\Transform</Filter>
+      <Filter>API\GameObject\Component\Transform</Filter>
     </ClCompile>
     <ClCompile Include="jsMeshRenderer.cpp">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="jsCamera.cpp">
-      <Filter>GameObject\Component\Camera</Filter>
+      <Filter>API\GameObject\Component\Camera</Filter>
     </ClCompile>
     <ClCompile Include="jsSpriteRenderer.cpp">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="jsGridScript.cpp">
-      <Filter>Resource\Script</Filter>
-    </ClCompile>
-    <ClCompile Include="jsLayer.cpp">
-      <Filter>Scene\Base\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="jsScene.cpp">
-      <Filter>Scene\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="jsSceneManager.cpp">
-      <Filter>Scene\Base\Manager</Filter>
+      <Filter>API\Resource\Script</Filter>
     </ClCompile>
     <ClCompile Include="jsCollisionManager.cpp">
-      <Filter>GameObject\Component\Collider\Manager</Filter>
+      <Filter>API\GameObject\Component\Collider\Manager</Filter>
     </ClCompile>
     <ClCompile Include="jsPrefab.cpp">
-      <Filter>Resource\Prefab</Filter>
+      <Filter>API\Resource\Prefab</Filter>
     </ClCompile>
     <ClCompile Include="jsCollider.cpp">
-      <Filter>GameObject\Component\Collider\Manager</Filter>
+      <Filter>API\GameObject\Component\Collider\Manager</Filter>
     </ClCompile>
     <ClCompile Include="jsCollider2D.cpp">
-      <Filter>GameObject\Component\Collider\2D</Filter>
+      <Filter>API\GameObject\Component\Collider\2D</Filter>
     </ClCompile>
     <ClCompile Include="jsCollider3D.cpp">
-      <Filter>GameObject\Component\Collider\3D</Filter>
+      <Filter>API\GameObject\Component\Collider\3D</Filter>
     </ClCompile>
     <ClCompile Include="jsFadeScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Fade</Filter>
     </ClCompile>
     <ClCompile Include="jsAnimation.cpp">
-      <Filter>GameObject\Component\Animator</Filter>
+      <Filter>API\GameObject\Component\Animator</Filter>
     </ClCompile>
     <ClCompile Include="jsAnimator.cpp">
-      <Filter>GameObject\Component\Animator</Filter>
+      <Filter>API\GameObject\Component\Animator</Filter>
     </ClCompile>
     <ClCompile Include="jsConstantBuffer.cpp">
-      <Filter>Graphics\Buffer</Filter>
+      <Filter>API\Graphics\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="jsHomeScene.cpp">
       <Filter>Content\Scenes</Filter>
@@ -262,16 +244,16 @@
       <Filter>Content\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="jsBaseRenderer.cpp">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="jsGraphicDevice_DX11.cpp">
-      <Filter>Graphics\Base</Filter>
+      <Filter>API\Graphics\Base</Filter>
     </ClCompile>
     <ClCompile Include="jsLight.cpp">
-      <Filter>GameObject\Component\Light</Filter>
+      <Filter>API\GameObject\Component\Light</Filter>
     </ClCompile>
     <ClCompile Include="jsStructuredBuffer.cpp">
-      <Filter>Graphics\Buffer</Filter>
+      <Filter>API\Graphics\Buffer</Filter>
     </ClCompile>
     <ClCompile Include="jsCameraScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Camera</Filter>
@@ -292,28 +274,28 @@
       <Filter>Content\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="jsRigidbody.cpp">
-      <Filter>GameObject\Component\Rigidbody</Filter>
+      <Filter>API\GameObject\Component\Rigidbody</Filter>
     </ClCompile>
     <ClCompile Include="jsComputeShader.cpp">
-      <Filter>Resource\ComputeShader</Filter>
+      <Filter>API\Resource\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="jsPaintShader.cpp">
-      <Filter>Resource\ComputeShader\PaintShader</Filter>
+      <Filter>API\Resource\ComputeShader\PaintShader</Filter>
     </ClCompile>
     <ClCompile Include="jsArcanaScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
     </ClCompile>
     <ClCompile Include="jsParticleShader.cpp">
-      <Filter>Resource\ComputeShader\ParticleShader</Filter>
+      <Filter>API\Resource\ComputeShader\ParticleShader</Filter>
     </ClCompile>
     <ClCompile Include="jsParticleSystem.cpp">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="jsComponent.cpp">
-      <Filter>GameObject\Component\Base</Filter>
+      <Filter>API\GameObject\Component\Base</Filter>
     </ClCompile>
     <ClCompile Include="jsGameObject.cpp">
-      <Filter>GameObject\Base</Filter>
+      <Filter>API\GameObject\Base</Filter>
     </ClCompile>
     <ClCompile Include="jsPlayerScript.cpp">
       <Filter>Content\Objects &amp; Scripts\Creature\Player</Filter>
@@ -340,7 +322,16 @@
       <Filter>Content\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="jsStageManager.cpp">
-      <Filter>StageManager</Filter>
+      <Filter>API\StageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="jsScene.cpp">
+      <Filter>API\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jsLayer.cpp">
+      <Filter>API\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="jsSceneManager.cpp">
+      <Filter>API\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -348,7 +339,7 @@
       <Filter>API\Common</Filter>
     </ClInclude>
     <ClInclude Include="jsApplication.h">
-      <Filter>High Level Interface</Filter>
+      <Filter>API\High Level Interface</Filter>
     </ClInclude>
     <ClInclude Include="jsMath.h">
       <Filter>API\Common\Math</Filter>
@@ -363,7 +354,7 @@
       <Filter>API\Common</Filter>
     </ClInclude>
     <ClInclude Include="jsResource.h">
-      <Filter>Resource</Filter>
+      <Filter>API\Resource</Filter>
     </ClInclude>
     <ClInclude Include="jsEngine.h">
       <Filter>API\Common</Filter>
@@ -372,76 +363,67 @@
       <Filter>API\Common</Filter>
     </ClInclude>
     <ClInclude Include="jsRenderer.h">
-      <Filter>Graphics\Renderer</Filter>
+      <Filter>API\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="jsMesh.h">
-      <Filter>Resource\Mesh</Filter>
+      <Filter>API\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="jsShader.h">
-      <Filter>Resource\Shader</Filter>
+      <Filter>API\Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="jsResources.h">
-      <Filter>Resource\Manager</Filter>
+      <Filter>API\Resource\Manager</Filter>
     </ClInclude>
     <ClInclude Include="jsMaterial.h">
-      <Filter>Resource\Material</Filter>
+      <Filter>API\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="jsTexture.h">
-      <Filter>Resource\Texture</Filter>
+      <Filter>API\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="jsScript.h">
-      <Filter>GameObject\Component\Script</Filter>
+      <Filter>API\GameObject\Component\Script</Filter>
     </ClInclude>
     <ClInclude Include="jsTransform.h">
-      <Filter>GameObject\Component\Transform</Filter>
+      <Filter>API\GameObject\Component\Transform</Filter>
     </ClInclude>
     <ClInclude Include="jsMeshRenderer.h">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="jsCamera.h">
-      <Filter>GameObject\Component\Camera</Filter>
+      <Filter>API\GameObject\Component\Camera</Filter>
     </ClInclude>
     <ClInclude Include="jsSpriteRenderer.h">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="jsGridScript.h">
-      <Filter>Resource\Script</Filter>
-    </ClInclude>
-    <ClInclude Include="jsLayer.h">
-      <Filter>Scene\Base\Layer</Filter>
-    </ClInclude>
-    <ClInclude Include="jsScene.h">
-      <Filter>Scene\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="jsSceneManager.h">
-      <Filter>Scene\Base\Manager</Filter>
+      <Filter>API\Resource\Script</Filter>
     </ClInclude>
     <ClInclude Include="jsCollisionManager.h">
-      <Filter>GameObject\Component\Collider\Manager</Filter>
+      <Filter>API\GameObject\Component\Collider\Manager</Filter>
     </ClInclude>
     <ClInclude Include="jsPrefab.h">
-      <Filter>Resource\Prefab</Filter>
+      <Filter>API\Resource\Prefab</Filter>
     </ClInclude>
     <ClInclude Include="jsCollider.h">
-      <Filter>GameObject\Component\Collider\Manager</Filter>
+      <Filter>API\GameObject\Component\Collider\Manager</Filter>
     </ClInclude>
     <ClInclude Include="jsCollider3D.h">
-      <Filter>GameObject\Component\Collider\3D</Filter>
+      <Filter>API\GameObject\Component\Collider\3D</Filter>
     </ClInclude>
     <ClInclude Include="jsCollider2D.h">
-      <Filter>GameObject\Component\Collider\2D</Filter>
+      <Filter>API\GameObject\Component\Collider\2D</Filter>
     </ClInclude>
     <ClInclude Include="jsFadeScript.h">
       <Filter>Content\Objects &amp; Scripts\Fade</Filter>
     </ClInclude>
     <ClInclude Include="jsAnimation.h">
-      <Filter>GameObject\Component\Animator</Filter>
+      <Filter>API\GameObject\Component\Animator</Filter>
     </ClInclude>
     <ClInclude Include="jsAnimator.h">
-      <Filter>GameObject\Component\Animator</Filter>
+      <Filter>API\GameObject\Component\Animator</Filter>
     </ClInclude>
     <ClInclude Include="jsConstantBuffer.h">
-      <Filter>Graphics\Buffer</Filter>
+      <Filter>API\Graphics\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="jsHomeScene.h">
       <Filter>Content\Scenes</Filter>
@@ -450,19 +432,19 @@
       <Filter>Content\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="jsBaseRenderer.h">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="jsGraphicDevice_DX11.h">
-      <Filter>Graphics\Base</Filter>
+      <Filter>API\Graphics\Base</Filter>
     </ClInclude>
     <ClInclude Include="jsGraphics.h">
-      <Filter>Graphics\Base</Filter>
+      <Filter>API\Graphics\Base</Filter>
     </ClInclude>
     <ClInclude Include="jsLight.h">
-      <Filter>GameObject\Component\Light</Filter>
+      <Filter>API\GameObject\Component\Light</Filter>
     </ClInclude>
     <ClInclude Include="jsStructuredBuffer.h">
-      <Filter>Graphics\Buffer</Filter>
+      <Filter>API\Graphics\Buffer</Filter>
     </ClInclude>
     <ClInclude Include="jsCameraScript.h">
       <Filter>Content\Objects &amp; Scripts\Camera</Filter>
@@ -483,31 +465,31 @@
       <Filter>Content\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="jsRigidbody.h">
-      <Filter>GameObject\Component\Rigidbody</Filter>
+      <Filter>API\GameObject\Component\Rigidbody</Filter>
     </ClInclude>
     <ClInclude Include="jsComputeShader.h">
-      <Filter>Resource\ComputeShader</Filter>
+      <Filter>API\Resource\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="jsPaintShader.h">
-      <Filter>Resource\ComputeShader\PaintShader</Filter>
+      <Filter>API\Resource\ComputeShader\PaintShader</Filter>
     </ClInclude>
     <ClInclude Include="jsArcanaScript.h">
       <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
     </ClInclude>
     <ClInclude Include="jsParticleShader.h">
-      <Filter>Resource\ComputeShader\ParticleShader</Filter>
+      <Filter>API\Resource\ComputeShader\ParticleShader</Filter>
     </ClInclude>
     <ClInclude Include="jsParticleSystem.h">
-      <Filter>GameObject\Component\Renderer</Filter>
+      <Filter>API\GameObject\Component\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="jsComponent.h">
-      <Filter>GameObject\Component\Base</Filter>
+      <Filter>API\GameObject\Component\Base</Filter>
     </ClInclude>
     <ClInclude Include="jsGameObject.h">
-      <Filter>GameObject\Base</Filter>
+      <Filter>API\GameObject\Base</Filter>
     </ClInclude>
     <ClInclude Include="jsObject.h">
-      <Filter>GameObject\Base</Filter>
+      <Filter>API\GameObject\Base</Filter>
     </ClInclude>
     <ClInclude Include="jsContents.h">
       <Filter>API\Common</Filter>
@@ -543,7 +525,16 @@
       <Filter>Content\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="jsStageManager.h">
-      <Filter>StageManager</Filter>
+      <Filter>API\StageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="jsScene.h">
+      <Filter>API\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jsLayer.h">
+      <Filter>API\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="jsSceneManager.h">
+      <Filter>API\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
