@@ -154,6 +154,9 @@
     <Filter Include="API\High Level Interface">
       <UniqueIdentifier>{ef2cc17f-dc8c-4713-acb5-11a43c435929}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Tile &amp; ENV">
+      <UniqueIdentifier>{858e0c2e-885b-47cb-94f9-a116fb8c4fbf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -333,6 +336,7 @@
     <ClCompile Include="jsSceneManager.cpp">
       <Filter>API\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="jsTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -536,6 +540,7 @@
     <ClInclude Include="jsSceneManager.h">
       <Filter>API\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="jsTile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl">

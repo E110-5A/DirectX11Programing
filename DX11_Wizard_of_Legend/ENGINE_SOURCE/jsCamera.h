@@ -53,6 +53,8 @@ namespace js
 		void renderTransparent();
 		void pushGameObjectToRenderingModes(GameObject* gameObj);
 #pragma endregion
+		void CameraOscillation();
+		void TurnOnCameraShake();
 
 	private:
 #pragma region RenderTransform Member
@@ -75,5 +77,10 @@ namespace js
 		std::vector<GameObject*> mCutoutGameObjects;
 		std::vector<GameObject*> mTransparentGameObjects;
 #pragma endregion
+
+		// 카메라 진동 조건용 bool 변수 하나
+		// 진도와 유지시간용 float 변수 여러개
+		// Transform 정보
+		// position 기록용 vector3 변수 하나
 	};
 }
