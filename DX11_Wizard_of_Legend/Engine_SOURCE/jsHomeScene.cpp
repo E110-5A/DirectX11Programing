@@ -61,6 +61,7 @@ namespace js
 				projecObj->SetName(L"projectile");
 				Transform* projecTr = projecObj->GetComponent<Transform>(); 
 				ArcanaScript* arcana = projecObj->AddComponent<ArcanaScript>();
+				arcana->PickASide(false);
 				playerScript->AddProjectile(arcana);
 				playerScript->SetProjectileID(index);
 			}
@@ -79,7 +80,14 @@ namespace js
 			Transform* projecTr = projecObj->GetComponent<Transform>();
 			projecTr->SetPosition(Vector3(-3.0f, 2.5f, 1.0f));
 			ProjectileScript* testScript = projecObj->AddComponent<ProjectileScript>();
+			testScript->PickASide(true);
 			testScript->TurnTest();
+			ProjectileStat stat;
+			stat.damage = 1000.0f;
+			stat.stagger = 10.0f;
+			stat.speed = 10.0f;
+			stat.range = 10.0f;
+			testScript->SetProjectileStat(stat);
 		}
 
 		// Skill & Health HUD
