@@ -28,7 +28,6 @@ namespace js
 
 	void Transform::Update()
 	{
-		ShakeCamera();
 	}
 
 	void Transform::FixedUpdate()
@@ -44,14 +43,7 @@ namespace js
 
 		Matrix position;
 
-		if (false == mShakeCamera)
-		{
-			position.Translation(mPosition);
-		}
-		else
-		{
-			position.Translation(mOscillationPosition);
-		}
+		position.Translation(mPosition);
 
 		mWorld = scale * rotation * position;
 
@@ -85,19 +77,5 @@ namespace js
 		cb->Bind(eShaderStage::GS);
 		cb->Bind(eShaderStage::PS);
 		cb->Bind(eShaderStage::CS);
-	}
-	void Transform::ShakeCamera()
-	{
-		if (false == mShakeCamera)
-			return;
-		if (mCurrentShakeTime >= mShakeTime)
-		{
-			mCurrentShakeTime = 0.0f;
-			mShakeCamera = false;
-		}
-		// Do
-		float oscillation = cos(Time::DeltaTime()) * mOscillationPower;
-
-		mOscillationPosition = Vector3(mPosition.x + oscillation, mPosition.y + oscillation, mPosition.z);
 	}
 }

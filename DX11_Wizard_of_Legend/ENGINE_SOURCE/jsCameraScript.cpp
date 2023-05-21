@@ -21,16 +21,20 @@ namespace js
 
 	void CameraScript::Update()
 	{
-		FollowTarget();
+		CameraProcess();
 	}
 	void CameraScript::Render()
 	{
 	}
+	void CameraScript::CameraProcess()
+	{
+		FollowTarget();
+		CameraShake();
+	}
 	void CameraScript::FollowTarget()
 	{
-		if (nullptr == mFollowTarget)
-			return;
-		if (GameObject::Active != mFollowTarget->GetState())
+		if (nullptr == mFollowTarget
+			|| GameObject::Active != mFollowTarget->GetState())
 			return;
 
 		Transform* cameraTr = GetOwner()->GetComponent<Transform>();
@@ -41,5 +45,31 @@ namespace js
 
 		cameraPos = Vector3(targetPosition.x, targetPosition.y, cameraPos.z);
 		cameraTr->SetPosition(cameraPos);
+	}
+	void CameraScript::CameraShake()
+	{
+		if (false == mShakeCamera)
+			return;
+
+		if (mCurrentShakeTime >= mShakeTime)
+		{
+			mCurrentShakeTime = 0.0f;
+			mShakeCamera = false;
+		}
+		else
+		{
+			mCurrentShakeTime += Time::DeltaTime();
+		}
+
+		// Do
+		float oscillationX = cos(mCurrentShakeTime * mOscillationPower);
+		float oscillationY = sin(mCurrentShakeTime * mOscillationPower);
+
+		Transform* CamTr = GetOwner()->GetComponent<Transform>();
+		Vector3 position = CamTr->GetPosition();
+		Vector3  oscillationPosition = Vector3(position.x + oscillationX / 25.0f, position.y + oscillationY / 25.0f, position.z);
+
+		Transform* cameraTr = GetOwner()->GetComponent<Transform>();
+		cameraTr->SetPosition(oscillationPosition);
 	}
 }

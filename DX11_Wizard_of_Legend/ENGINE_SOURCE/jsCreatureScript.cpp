@@ -2,6 +2,7 @@
 
 #include "jsObject.h"
 #include "jsRenderer.h"
+#include "jsCameraScript.h"
 
 namespace js
 {
@@ -87,8 +88,9 @@ namespace js
 	{
 		TakeDamage(target);
 		DoKnockback(target);
-		Transform* cameraTr = renderer::mainCamera->GetOwner()->GetComponent<Transform>();
-		cameraTr->SetOscillation(100.0f, 10.0f);
+		std::vector<Script*> camera = renderer::mainCamera->GetOwner()->GetScripts();
+		CameraScript* cameraScript = dynamic_cast<CameraScript*>(camera[0]);
+		cameraScript->SetOscillation(70.0f, 0.150f);
 	}
 	void CreatureScript::TakeDamage(ProjectileScript* target)
 	{
