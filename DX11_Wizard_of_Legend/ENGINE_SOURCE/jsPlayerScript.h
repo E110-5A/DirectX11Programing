@@ -132,5 +132,6 @@ namespace js
 		bool		mArcanaUsing;
 		bool		mBasicAnimationType;
 		bool		mIsProjectileRight;
+		float		mArcanaStartAngle;
 	};
 }
