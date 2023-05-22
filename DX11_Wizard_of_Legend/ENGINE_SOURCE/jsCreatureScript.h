@@ -74,7 +74,7 @@ namespace js
 
 #pragma endregion
 
-	public:
+	protected:
 #pragma region Object Collision Func
 		virtual void Hit(ProjectileScript* target);
 		virtual void TakeDamage(ProjectileScript* target);

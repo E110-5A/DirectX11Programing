@@ -10,6 +10,7 @@ namespace js
 {
 	ArcanaScript::ArcanaScript()
 		: mSpellID(-1)
+		, mArcanaState(eProjectileState::Disabled)
 		, mArcana(nullptr)
 		, mIsRight(true)
 		, mStartPos(Vector3(0.0f, 0.0f, 0.0f))
@@ -32,8 +33,7 @@ namespace js
 
 	void ArcanaScript::Update()
 	{
-		ProjectileScript::Update();
-		ProjectileProcess();
+		projectileProcess();
 	}
 	void ArcanaScript::FixedUpdate()
 	{
@@ -62,7 +62,7 @@ namespace js
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		// Melee
-		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ProjectileScript::Disappear, this);
+		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::completedMeleeProjectile, this);
 
 		// Projectile
 	}
@@ -114,7 +114,7 @@ namespace js
 	void ArcanaScript::ActiveArcana(Arcana* arcana, bool isRight)
 	{
 		mArcana = arcana;
-		mProjectileAble = true;
+		mArcanaState = eProjectileState::Active;
 		mIsRight = isRight;
 		mTransform->SetPosition(mStartPos);
 		GetOwner()->OnActive();
@@ -137,29 +137,23 @@ namespace js
 	}
 #pragma endregion
 
-	void ArcanaScript::ProjectileProcess()
+	void ArcanaScript::projectileProcess()
 	{
-		ProjectileScript::ProjectileEndCheck();
-		arcanaEndCheck();
-		arcanaMove();
+		projectileEndCheck();
+		projectileMove();
 	}
-	void ArcanaScript::arcanaEndCheck()
+	void ArcanaScript::projectileEndCheck()
 	{
-		if (nullptr == mArcana)
-			return;
+		endConditionRangeProjectile();
 
-		if (eArcanaCategory::Range == mArcana->arcanaInfo->category)
+		// Disable 상태라면
+		if (eProjectileState::Disabled == mArcanaState)
 		{
-			// 일정거리 이동하면 종료
-			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();
-
-			if (mArcana->projectileStat->range <= Vector3::Distance(mStartPos, currentPos))
-			{
-				ProjectileScript::Disappear();
-			}
+			resetProjectile();
 		}
+
 	}
-	void ArcanaScript::arcanaMove()
+	void ArcanaScript::projectileMove()
 	{
 		if (eArcanaName::WindSlash == mArcana->arcanaInfo->name)
 		{
@@ -177,12 +171,32 @@ namespace js
 	}
 	void ArcanaScript::resetProjectile()
 	{
+		// 위치 초기화
+		mTransform->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
+		mTransform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
+
 		GetOwner()->OnPause();
 	}
 
 	// 종료 함수
 	void ArcanaScript::completedMeleeProjectile()
 	{
-		ProjectileScript::Disappear();
+		mArcanaState = eProjectileState::Disabled;
+	}
+	void ArcanaScript::endConditionRangeProjectile()
+	{
+		if (nullptr == mArcana)
+			return;
+		
+		if (eArcanaCategory::Range == mArcana->arcanaInfo->category)
+		{
+			// 일정거리 이동하면 종료
+			Vector3 currentPos = GetOwner()->GetComponent<Transform>()->GetPosition();
+			
+			if (mArcana->projectileStat->range <= Vector3::Distance(mStartPos, currentPos))
+			{
+				mArcanaState = eProjectileState::Disabled;
+			}
+		}
 	}
 }

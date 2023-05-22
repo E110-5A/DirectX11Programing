@@ -910,9 +910,11 @@ namespace js
 	{
 		for (int index = 0; index < PROJECTILE_POOL; ++index)
 		{
+			// 없으면 다음으로
 			if (nullptr == mProjectiles[index])
 				continue;
-			if (false == mProjectiles[index]->GetProjectileEnable())
+			// 사용중이면 다음으로
+			if (eProjectileState::Disabled == mProjectiles[index]->IsActiveProjectile())
 			{
 				return index;
 			}
