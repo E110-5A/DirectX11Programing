@@ -129,6 +129,7 @@ namespace js
 		Inventory mInventory;
 
 	private:
+		bool		mArcanaUsing;
 		bool		mBasicAnimationType;
 		bool		mIsProjectileRight;
 	};

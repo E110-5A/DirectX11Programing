@@ -52,6 +52,7 @@ namespace js
 		, mInventory()
 		, mYDir(eAxisValue::None)
 		, mXDir(eAxisValue::None)
+		, mArcanaUsing(false)
 		, mBasicAnimationType(true)
 		, mIsProjectileRight(true)
 	{
@@ -462,43 +463,46 @@ namespace js
 
 	void PlayerScript::Idle()
 	{
-		if (Input::GetKey(eKeyCode::S))
+		if (false == mArcanaUsing)
 		{
-			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, true, false);
-			// 상태 바꾸기
-			changeState(ePlayerState::MOVE);
-			// 애니메이션 재생	
-			playAnimation();
+			if (Input::GetKey(eKeyCode::S))
+			{
+				// 방향 전환
+				changePlayerDirection(eAxisValue::Down, true, false);
+				// 상태 바꾸기
+				changeState(ePlayerState::MOVE);
+				// 애니메이션 재생	
+				playAnimation();
+			}
+			if (Input::GetKey(eKeyCode::D))
+			{
+				// 방향 전환
+				changePlayerDirection(eAxisValue::Up, false, false);
+				// 상태 바꾸기
+				changeState(ePlayerState::MOVE);
+				// 애니메이션 재생	
+				playAnimation();
+			}
+			if (Input::GetKey(eKeyCode::A))
+			{
+				// 방향 전환
+				changePlayerDirection(eAxisValue::Down, false, false);
+				// 상태 바꾸기
+				changeState(ePlayerState::MOVE);
+				// 애니메이션 재생	
+				playAnimation();
+			}
+			if (Input::GetKey(eKeyCode::W))
+			{
+				// 방향 전환
+				changePlayerDirection(eAxisValue::Up, true, false);
+				// 상태 바꾸기
+				changeState(ePlayerState::MOVE);
+				// 애니메이션 재생	
+				playAnimation();
+			}
 		}
-		if (Input::GetKey(eKeyCode::D))
-		{
-			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, false, false);
-			// 상태 바꾸기
-			changeState(ePlayerState::MOVE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
-		if (Input::GetKey(eKeyCode::A))
-		{
-			// 방향 전환
-			changePlayerDirection(eAxisValue::Down, false, false);
-			// 상태 바꾸기
-			changeState(ePlayerState::MOVE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
-		if (Input::GetKey(eKeyCode::W))
-		{
-			// 방향 전환
-			changePlayerDirection(eAxisValue::Up, true, false);
-			// 상태 바꾸기
-			changeState(ePlayerState::MOVE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
-
+		
 		if (Input::GetKey(eKeyCode::LBTN)
 			&& true == mInventory.arcanaBasic->conditionValue->cooldownReady)
 		{
@@ -510,6 +514,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaBasic->conditionValue->cooldownReady = false;
 			mInventory.arcanaBasic->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
 			playAnimation();
@@ -525,6 +530,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardA->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardA->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생
 			playAnimation();
@@ -549,6 +555,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardB->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardB->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
 			playAnimation();
@@ -564,6 +571,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardC->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardC->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
 			playAnimation();
@@ -579,6 +587,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaSignature->conditionValue->cooldownReady = false;
 			mInventory.arcanaSignature->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::Q);
 			// 애니메이션 재생	
 			playAnimation();
@@ -587,34 +596,38 @@ namespace js
 	void PlayerScript::Move()
 	{
 		// 이동 로직
-		if (Input::GetKey(eKeyCode::S))
+		if (false == mArcanaUsing)
 		{
-			Vector3 pos = mTransform->GetPosition();
-			pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Down, true, false);
+			if (Input::GetKey(eKeyCode::S))
+			{
+				Vector3 pos = mTransform->GetPosition();
+				pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+				mTransform->SetPosition(pos);
+				changePlayerDirection(eAxisValue::Down, true, false);
+			}
+			if (Input::GetKey(eKeyCode::D))
+			{
+				Vector3 pos = mTransform->GetPosition();
+				pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+				mTransform->SetPosition(pos);
+				changePlayerDirection(eAxisValue::Up, false, false);
+			}
+			if (Input::GetKey(eKeyCode::A))
+			{
+				Vector3 pos = mTransform->GetPosition();
+				pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+				mTransform->SetPosition(pos);
+				changePlayerDirection(eAxisValue::Down, false, false);
+			}
+			if (Input::GetKey(eKeyCode::W))
+			{
+				Vector3 pos = mTransform->GetPosition();
+				pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+				mTransform->SetPosition(pos);
+				changePlayerDirection(eAxisValue::Up, true, false);
+			}
 		}
-		if (Input::GetKey(eKeyCode::D))
-		{
-			Vector3 pos = mTransform->GetPosition();
-			pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Up, false, false);
-		}
-		if (Input::GetKey(eKeyCode::A))
-		{
-			Vector3 pos = mTransform->GetPosition();
-			pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Down, false, false);
-		}
-		if (Input::GetKey(eKeyCode::W))
-		{
-			Vector3 pos = mTransform->GetPosition();
-			pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-			mTransform->SetPosition(pos);
-			changePlayerDirection(eAxisValue::Up, true, false);
-		}
+		
 
 		if (Input::GetKey(eKeyCode::LBTN)
 			&& true == mInventory.arcanaBasic->conditionValue->cooldownReady)
@@ -627,6 +640,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaBasic->conditionValue->cooldownReady = false;
 			mInventory.arcanaBasic->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::LBTN);
 			// 애니메이션 재생	
 			playAnimation();
@@ -642,6 +656,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardA->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardA->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::RBTN);
 			// 애니메이션 재생	
 			playAnimation();
@@ -666,6 +681,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardB->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardB->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::F);
 			// 애니메이션 재생	
 			playAnimation();
@@ -681,6 +697,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaStandardC->conditionValue->cooldownReady = false;
 			mInventory.arcanaStandardC->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::R);
 			// 애니메이션 재생	
 			playAnimation();
@@ -696,6 +713,7 @@ namespace js
 			// 상태 바꾸기
 			mInventory.arcanaSignature->conditionValue->cooldownReady = false;
 			mInventory.arcanaSignature->conditionValue->begin = true;
+			mArcanaUsing = true;
 			changeState(ePlayerState::Q);
 			// 애니메이션 재생	
 			playAnimation();
@@ -852,6 +870,7 @@ namespace js
 			target->conditionValue->complete = true;
 			target->conditionValue->cooldownReady = false;
 			target->conditionValue->begin = false;
+			mArcanaUsing = false;
 
 			return false;
 		}
