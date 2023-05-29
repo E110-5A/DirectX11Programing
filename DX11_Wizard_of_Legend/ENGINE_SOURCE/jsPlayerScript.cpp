@@ -55,6 +55,7 @@ namespace js
 		, mArcanaUsing(false)
 		, mBasicAnimationType(true)
 		, mIsProjectileRight(true)
+		, mArcanaStartAngle(0.0f)
 	{
 
 	}
@@ -411,40 +412,13 @@ namespace js
 #pragma region 충돌 및 이벤트
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
-		// 누구인지 확인하기
-		eLayerType targetType = collider->GetOwner()->GetLayerType();
-		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
-
-		if (eLayerType::MonsterProjectile == targetType)
-		{
-			ProjectileScript* projectile = dynamic_cast<ProjectileScript*>(targetScript[0]);
-			CreatureScript::Hit(projectile);
-		}
-		if (eLayerType::Wall == targetType
-			|| eLayerType::FallArea == targetType)
-		{																					    
-			CreatureScript::Blocked(targetScript[0]);
-		}																					    
+		FindTargetType(collider);		
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
-	{
-		eLayerType targetType = collider->GetOwner()->GetLayerType();
-		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
-
-		if (eLayerType::MonsterProjectile == targetType)
-		{
-			int a = 0;
-		}
+	{		
 	}
 	void PlayerScript::OnCollisionExit(Collider2D* collider)
 	{
-		eLayerType targetType = collider->GetOwner()->GetLayerType();
-		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
-
-		if (eLayerType::MonsterProjectile == targetType)
-		{
-			int a = 0;
-		}
 	}
 
 	void PlayerScript::Start()
@@ -845,8 +819,9 @@ namespace js
 	}
 	bool PlayerScript::delayCheck(Arcana* target)
 	{
-		// 스킬사용 종료가 아니라면
-		if (false == target->conditionValue->complete)
+		if (true == target->conditionValue->complete)
+			return true;
+		else
 		{
 			target->conditionValue->currentDelayTime += Time::DeltaTime();
 			if (target->conditionValue->currentDelayTime >= target->conditionValue->delayTime)
@@ -930,7 +905,11 @@ namespace js
 			if (nullptr == mProjectiles[index])
 				continue;
 			// 사용중이면 다음으로
-			if (eProjectileState::Disabled == mProjectiles[index]->IsActiveProjectile())
+			/*if (eProjectileState::Disabled == mProjectiles[index]->IsActiveProjectile())
+			{
+				return index;
+			}*/
+			if (false == mProjectiles[index]->GetProjectileAbled())
 			{
 				return index;
 			}
@@ -973,8 +952,8 @@ namespace js
 	}
 	void PlayerScript::calculatePlayerDirection()
 	{
-		int x = 0;
-		int y = 0;
+		float x = 0;
+		float y = 0;
 
 		if (eAxisValue::None == mXDir)
 			x = 0;

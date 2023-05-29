@@ -14,7 +14,6 @@ namespace js
 		, mArcana(nullptr)
 		, mIsRight(true)
 		, mStartPos(Vector3(0.0f, 0.0f, 0.0f))
-		, mTargetCollider(nullptr)
 		, mPower(0.0f)
 	{	
 	}
@@ -70,13 +69,7 @@ namespace js
 #pragma region Collision
 	void ArcanaScript::OnCollisionEnter(Collider2D* collider)
 	{
-		eLayerType targetType = collider->GetOwner()->GetLayerType();
-
-		if (eLayerType::Monster == targetType)
-		{
-			mTargetCollider = collider;
-		}
-		
+		FindTargetType(collider);
 	}
 	void ArcanaScript::OnCollisionStay(Collider2D* collider)
 	{
@@ -110,11 +103,12 @@ namespace js
 	}	
 #pragma endregion
 
-#pragma region ArcanaSetting
+#pragma region Player Call
 	void ArcanaScript::ActiveArcana(Arcana* arcana, bool isRight)
 	{
 		mArcana = arcana;
-		mArcanaState = eProjectileState::Active;
+		mArcanaState = eProjectileState::Active;	// 추후에 bool값으로 변경
+		mProjectileAbled = true;
 		mIsRight = isRight;
 		mTransform->SetPosition(mStartPos);
 		GetOwner()->OnActive();
@@ -147,11 +141,14 @@ namespace js
 		endConditionRangeProjectile();
 
 		// Disable 상태라면
-		if (eProjectileState::Disabled == mArcanaState)
+		//if (eProjectileState::Disabled == mArcanaState)		// 추후에 bool값으로 변경
+		//{
+		//	resetProjectile();
+		//}
+		if (false == mProjectileAbled)
 		{
 			resetProjectile();
 		}
-
 	}
 	void ArcanaScript::projectileMove()
 	{
@@ -181,7 +178,8 @@ namespace js
 	// 종료 함수
 	void ArcanaScript::completedMeleeProjectile()
 	{
-		mArcanaState = eProjectileState::Disabled;
+		mArcanaState = eProjectileState::Disabled;		// bool로 변경
+		mProjectileAbled = false;
 	}
 	void ArcanaScript::endConditionRangeProjectile()
 	{
@@ -195,7 +193,8 @@ namespace js
 			
 			if (mArcana->projectileStat->range <= Vector3::Distance(mStartPos, currentPos))
 			{
-				mArcanaState = eProjectileState::Disabled;
+				mArcanaState = eProjectileState::Disabled;		// bool로 변경
+				mProjectileAbled = false;
 			}
 		}
 	}

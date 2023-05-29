@@ -36,12 +36,13 @@ namespace js
 		eProjectileState 	IsActiveProjectile() { return mArcanaState; }
 		void				SetStartPos(Vector3 ownerPos) { mStartPos = ownerPos; }
 
+#pragma region Player Call
 	public:
 		void ActiveArcana(Arcana* arcana, bool isRight);
-
 	private:
 		void playAnimation();
-
+#pragma endregion
+	private:
 		void projectileProcess();
 		void projectileEndCheck();
 		void projectileMove();
@@ -56,22 +57,13 @@ namespace js
 
 	private:
 		int mSpellID;		
-		eProjectileState mArcanaState;
+		eProjectileState mArcanaState;		// 안사용할거임
 		Arcana* mArcana;
 		bool	mIsRight;
 
 
 	private:
 		Vector3 mStartPos;
-		Collider2D* mTargetCollider;
 		float mPower;
 	};
 }
-
-/*근접 투사체가 충돌후 exit 호출이 되지 않음
-* 근접 투사체를 계속 맞춰도 대상에게 타격 판정이 뜨지 않음
-* exit를 강제로 뜨게 해야할듯
-* 
-* collisionEnter에서 부딧친 대상을 멤버변수로 기록한 다음에
-* 애니메이션 종료조건으로 exit를 호출하도록 한다
-*/

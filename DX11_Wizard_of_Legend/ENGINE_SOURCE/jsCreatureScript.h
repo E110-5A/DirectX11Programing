@@ -34,8 +34,8 @@ namespace js
 		virtual void Update() override;
 		virtual void Render() override;
 
-	public:
 #pragma region virtual ETC Events
+	public:
 		virtual void OnCollisionEnter(Collider2D* collider) override {};
 		virtual void OnCollisionStay(Collider2D* collider) override {};
 		virtual void OnCollisionExit(Collider2D* collider) override {};
@@ -45,8 +45,8 @@ namespace js
 		virtual void Action()override {};
 #pragma endregion
 
-	public:
 #pragma region global Member Class & Struct 
+	public:
 		Transform* GetTransform() { return mTransform; }
 		Collider2D* GetCollider() { return mCollider; }
 		Rigidbody* GetRigidbody() { return mRigidbody; }
@@ -55,8 +55,8 @@ namespace js
 		HealthStat GetHealthStat() { return mHealthStat; }
 #pragma endregion
 
-	protected:
 #pragma region initalize Creature Info
+	protected:
 		// float maxHp, float curHp, float regHp, float moveSpeed
 		virtual void initializeHealthStat(float maxHp, float regHp,float moveSpeed, float resistance);
 		// float power, float criticalChance, float criticalDamage
@@ -74,16 +74,30 @@ namespace js
 
 #pragma endregion
 
-	protected:
 #pragma region Object Collision Func
-		virtual void Hit(ProjectileScript* target);
-		virtual void TakeDamage(ProjectileScript* target);
-		virtual void DoKnockback(ProjectileScript* target);
+	public:
+		virtual void FindTargetType(Collider2D* collider);
+		virtual void CollisionOther(Script* target);
 
+		virtual void CollisionByWall(Script* target);
+		virtual void CollisionByENV(Script* target);
+		virtual void CollisionByTrap(Script* target);
+		
+		virtual void Damaged(ProjectileScript* target);
+	protected:
+		virtual void TakeDamage(ProjectileScript* target);
+		virtual void Knockback(ProjectileScript* target);
+
+		
+		
 		// 벽이나 낭떠러지? 인 경우 움직임을 막음
 		virtual void Blocked(Script* target);
 		// 추락함
 		virtual void Fall(Script* target);
+
+
+
+
 #pragma endregion
 
 	protected:

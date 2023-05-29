@@ -181,6 +181,7 @@
     <ClInclude Include="jsEngine.h" />
     <ClInclude Include="jsEntity.h" />
     <ClInclude Include="jsEnums.h" />
+    <ClInclude Include="jsENVScript.h" />
     <ClInclude Include="jsFadeScript.h" />
     <ClInclude Include="jsGameObject.h" />
     <ClInclude Include="jsGraphicDevice_DX11.h" />
@@ -246,6 +247,7 @@
     <ClCompile Include="jsConstantBuffer.cpp" />
     <ClCompile Include="jsCreatureScript.cpp" />
     <ClCompile Include="jsEntity.cpp" />
+    <ClCompile Include="jsENVScript.cpp" />
     <ClCompile Include="jsFadeScript.cpp" />
     <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />

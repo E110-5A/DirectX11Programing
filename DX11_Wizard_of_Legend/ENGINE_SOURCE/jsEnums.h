@@ -22,6 +22,8 @@ namespace js::enums
 		Background,
 		Tile,
 		Wall,
+		Trap,
+		ENV,
 		Platform,
 		FallArea,
 		Monster,
@@ -31,7 +33,7 @@ namespace js::enums
 
 		Particle,
 		UI,
-		End = 16,
+		End,
 	};
 
 	enum class eComponentType

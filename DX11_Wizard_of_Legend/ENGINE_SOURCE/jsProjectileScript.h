@@ -16,9 +16,9 @@ namespace js
 
 	public:
 #pragma region virtual ETC Events 
-		virtual void OnCollisionEnter(Collider2D* collider) override {};
-		virtual void OnCollisionStay(Collider2D* collider) override {};
-		virtual void OnCollisionExit(Collider2D* collider) override {};
+		virtual void OnCollisionEnter(Collider2D* collider) override;
+		virtual void OnCollisionStay(Collider2D* collider) override;
+		virtual void OnCollisionExit(Collider2D* collider) override;
 		virtual void Start() override {};
 		virtual void Complete() override {};
 		virtual void End()override {};
@@ -38,6 +38,8 @@ namespace js
 		Collider2D* GetCollider() { return mCollider; }
 		
 		ProjectileStat GetProjectileStat() { return mProjectileStat; }
+		bool GetProjectileAbled() { return mProjectileAbled; }
+
 #pragma endregion
 		
 	protected:
@@ -48,9 +50,17 @@ namespace js
 
 	protected:
 #pragma region Collision Object Func
-		virtual void Hit(Script* target);
-		virtual void Disappear(Script* target);
-		virtual void Boom(Script* target);
+		virtual void FindTargetType(Collider2D* collider);
+		virtual void CollisionOther(Script* target);
+
+		virtual void CollisionByProjectile(Script* target);
+		virtual void CollisionByCreature(Script* target);
+		virtual void CollisionByWall(Script* target);
+		virtual void CollisionByENV(Script* target);
+
+
+		virtual void ProjectileDamaged(float otherProjectile);
+		virtual void Disappear();
 #pragma endregion
 
 	protected:
@@ -61,6 +71,10 @@ namespace js
 	protected:
 		Vector2			mAnimationDirection;
 		ProjectileStat	mProjectileStat;
+	protected:
+		bool			mProjectileAbled;		// 투사체 활성화 여부
+		bool			mFriendly;				// 투사체가 어디 소속인지 확인용
+
 	private:
 		bool			mTesting;
 	};

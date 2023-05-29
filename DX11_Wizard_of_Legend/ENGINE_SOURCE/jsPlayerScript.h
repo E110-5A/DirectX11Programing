@@ -129,9 +129,9 @@ namespace js
 		Inventory mInventory;
 
 	private:
-		bool		mArcanaUsing;
-		bool		mBasicAnimationType;
-		bool		mIsProjectileRight;
-		float		mArcanaStartAngle;
+		bool		mArcanaUsing;					// 스킬 확인용 변수
+		bool		mBasicAnimationType;			// 연계 애니메이션 값
+		bool		mIsProjectileRight;				// 투사체 애니메이션 방향값
+		float		mArcanaStartAngle;				// 스킬 지정방향 고정값
 	};
 }

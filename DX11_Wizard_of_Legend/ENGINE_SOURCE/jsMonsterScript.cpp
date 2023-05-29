@@ -46,7 +46,7 @@ namespace js
 		if (eLayerType::PlayerProjectile == targetType)
 		{
 			ProjectileScript* projectile = dynamic_cast<ProjectileScript*>(targetScript[0]);
-			CreatureScript::Hit(projectile);
+			CreatureScript::Damaged(projectile);
 		}
 		if (eLayerType::Wall == targetType
 			|| eLayerType::FallArea == targetType)
