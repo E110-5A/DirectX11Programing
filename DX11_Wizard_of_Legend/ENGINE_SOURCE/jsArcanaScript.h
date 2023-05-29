@@ -33,7 +33,6 @@ namespace js
 
 	public:
 		void				SetSpellID(int id) { mSpellID = id; }
-		eProjectileState 	IsActiveProjectile() { return mArcanaState; }
 		void				SetStartPos(Vector3 ownerPos) { mStartPos = ownerPos; }
 
 #pragma region Player Call
@@ -49,18 +48,18 @@ namespace js
 
 		void resetProjectile();
 
-		void completedMeleeProjectile();
 		void endConditionRangeProjectile();
 
-#pragma region legacy
+#pragma region Collision Func
+		virtual void CollisionByProjectile(Script* target) override;
+		virtual void CollisionByCreature(Script* target) override;
+
 #pragma endregion
 
 	private:
 		int mSpellID;		
-		eProjectileState mArcanaState;		// 안사용할거임
 		Arcana* mArcana;
 		bool	mIsRight;
-
 
 	private:
 		Vector3 mStartPos;

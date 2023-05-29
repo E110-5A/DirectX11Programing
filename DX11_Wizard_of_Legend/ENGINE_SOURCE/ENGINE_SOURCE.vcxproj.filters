@@ -43,14 +43,8 @@
     <Filter Include="Content\Objects &amp; Scripts\Creature\Player">
       <UniqueIdentifier>{9df74ce7-be6d-45d1-b007-dd18aef8e316}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Objects &amp; Scripts\Creature\Player\Arcana">
-      <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Content\Objects &amp; Scripts\Creature\Monster">
       <UniqueIdentifier>{caae50a4-4b55-459b-b7c3-25f4036e9453}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Content\Objects &amp; Scripts\Creature\Projectile">
-      <UniqueIdentifier>{3f7c23e1-931e-468c-8b1e-a086ee2b8192}</UniqueIdentifier>
     </Filter>
     <Filter Include="API\Common\IncludeHeader">
       <UniqueIdentifier>{2916e6ce-4ff3-45aa-817a-5c262c2d6ca8}</UniqueIdentifier>
@@ -156,6 +150,12 @@
     </Filter>
     <Filter Include="Content\Objects &amp; Scripts\Tile &amp; ENV">
       <UniqueIdentifier>{858e0c2e-885b-47cb-94f9-a116fb8c4fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Projectile">
+      <UniqueIdentifier>{3f7c23e1-931e-468c-8b1e-a086ee2b8192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Objects &amp; Scripts\Projectile\Arcana">
+      <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -286,7 +286,7 @@
       <Filter>API\Resource\ComputeShader\PaintShader</Filter>
     </ClCompile>
     <ClCompile Include="jsArcanaScript.cpp">
-      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
+      <Filter>Content\Objects &amp; Scripts\Projectile\Arcana</Filter>
     </ClCompile>
     <ClCompile Include="jsParticleShader.cpp">
       <Filter>API\Resource\ComputeShader\ParticleShader</Filter>
@@ -310,7 +310,7 @@
       <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClCompile>
     <ClCompile Include="jsProjectileScript.cpp">
-      <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
+      <Filter>Content\Objects &amp; Scripts\Projectile</Filter>
     </ClCompile>
     <ClCompile Include="jsStage01.cpp">
       <Filter>Content\Scenes</Filter>
@@ -336,7 +336,12 @@
     <ClCompile Include="jsSceneManager.cpp">
       <Filter>API\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="jsTile.cpp" />
+    <ClCompile Include="jsTile.cpp">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
+    <ClCompile Include="jsENVScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommonInclude.h">
@@ -478,7 +483,7 @@
       <Filter>API\Resource\ComputeShader\PaintShader</Filter>
     </ClInclude>
     <ClInclude Include="jsArcanaScript.h">
-      <Filter>Content\Objects &amp; Scripts\Creature\Player\Arcana</Filter>
+      <Filter>Content\Objects &amp; Scripts\Projectile\Arcana</Filter>
     </ClInclude>
     <ClInclude Include="jsParticleShader.h">
       <Filter>API\Resource\ComputeShader\ParticleShader</Filter>
@@ -508,7 +513,7 @@
       <Filter>Content\Objects &amp; Scripts\Creature\Monster</Filter>
     </ClInclude>
     <ClInclude Include="jsProjectileScript.h">
-      <Filter>Content\Objects &amp; Scripts\Creature\Projectile</Filter>
+      <Filter>Content\Objects &amp; Scripts\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="GameObjectComponents.h">
       <Filter>API\Common\IncludeHeader</Filter>
@@ -540,7 +545,12 @@
     <ClInclude Include="jsSceneManager.h">
       <Filter>API\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="jsTile.h" />
+    <ClInclude Include="jsTile.h">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
+    <ClInclude Include="jsENVScript.h">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl">

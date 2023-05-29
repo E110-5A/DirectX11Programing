@@ -10,7 +10,6 @@ namespace js
 {
 	ArcanaScript::ArcanaScript()
 		: mSpellID(-1)
-		, mArcanaState(eProjectileState::Disabled)
 		, mArcana(nullptr)
 		, mIsRight(true)
 		, mStartPos(Vector3(0.0f, 0.0f, 0.0f))
@@ -61,7 +60,7 @@ namespace js
 	{
 		Animator* animator = GetOwner()->GetComponent<Animator>();
 		// Melee
-		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ArcanaScript::completedMeleeProjectile, this);
+		animator->GetCompleteEvent(L"WindSlash") = std::bind(&ProjectileScript::Disappear, this);
 
 		// Projectile
 	}
@@ -107,7 +106,6 @@ namespace js
 	void ArcanaScript::ActiveArcana(Arcana* arcana, bool isRight)
 	{
 		mArcana = arcana;
-		mArcanaState = eProjectileState::Active;	// 추후에 bool값으로 변경
 		mProjectileAbled = true;
 		mIsRight = isRight;
 		mTransform->SetPosition(mStartPos);
@@ -140,11 +138,6 @@ namespace js
 	{
 		endConditionRangeProjectile();
 
-		// Disable 상태라면
-		//if (eProjectileState::Disabled == mArcanaState)		// 추후에 bool값으로 변경
-		//{
-		//	resetProjectile();
-		//}
 		if (false == mProjectileAbled)
 		{
 			resetProjectile();
@@ -175,12 +168,6 @@ namespace js
 		GetOwner()->OnPause();
 	}
 
-	// 종료 함수
-	void ArcanaScript::completedMeleeProjectile()
-	{
-		mArcanaState = eProjectileState::Disabled;		// bool로 변경
-		mProjectileAbled = false;
-	}
 	void ArcanaScript::endConditionRangeProjectile()
 	{
 		if (nullptr == mArcana)
@@ -193,9 +180,45 @@ namespace js
 			
 			if (mArcana->projectileStat->range <= Vector3::Distance(mStartPos, currentPos))
 			{
-				mArcanaState = eProjectileState::Disabled;		// bool로 변경
 				mProjectileAbled = false;
 			}
+		}
+	}
+	void ArcanaScript::CollisionByProjectile(Script* target)
+	{
+		// 대상의 공격력 값을 가져옴
+		ProjectileScript* targetScript = dynamic_cast<ProjectileScript*>(target);
+		ProjectileStat targetStat = targetScript->GetProjectileStat(); 
+
+		// 내 투사체가 근접 타입인 경우
+		
+
+		if (mProjectileStat.damage <= targetStat.damage) 
+		{
+			// 내가 더 큰거니까 내 공격력을 깎고, 상대 투사체를 제거
+			ProjectileDamaged(targetStat.damage); 
+			targetScript->Disappear();
+		}
+		else
+		{
+			// 내가 작으니까 상대 공격력을 깎고, 내 투사체를 제거
+			targetScript->ProjectileDamaged(mProjectileStat.damage);
+			if (eArcanaCategory::Melee != mArcana->arcanaInfo->category)
+			{
+				Disappear();
+			}
+		}
+	}
+	void ArcanaScript::CollisionByCreature(Script* target)
+	{
+		// 대상에게 공격 호출시키기
+		CreatureScript* creature = dynamic_cast<CreatureScript*>(target);
+
+		// 피격 함수명 적절하게 변경해주기
+		creature->Damaged(this);
+		if (eArcanaCategory::Melee != mArcana->arcanaInfo->category)
+		{
+			Disappear();
 		}
 	}
 }

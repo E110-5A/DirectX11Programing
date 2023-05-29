@@ -42,14 +42,14 @@ namespace js
 
 #pragma endregion
 		
-	protected:
 #pragma region initalize Projectile Info
+	protected:
 		virtual void createAnimation() {};
 		virtual void addEvents() {};
 #pragma endregion
 
-	protected:
 #pragma region Collision Object Func
+	protected:
 		virtual void FindTargetType(Collider2D* collider);
 		virtual void CollisionOther(Script* target);
 
@@ -58,7 +58,7 @@ namespace js
 		virtual void CollisionByWall(Script* target);
 		virtual void CollisionByENV(Script* target);
 
-
+	public:
 		virtual void ProjectileDamaged(float otherProjectile);
 		virtual void Disappear();
 #pragma endregion
