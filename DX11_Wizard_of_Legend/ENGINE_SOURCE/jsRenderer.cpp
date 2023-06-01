@@ -487,7 +487,12 @@ namespace js::renderer
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
 		Resources::Load<Texture>(L"DragonArc", L"Player\\Arcana\\DragonArc.png");
-		
+
+		// TileSet
+		Resources::Load<Texture>(L"HomeTile",	L"TileSet\\HomeTile.png");
+		Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
+		Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
+		Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");
 #pragma endregion
 	}
 

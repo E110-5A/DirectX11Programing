@@ -102,9 +102,9 @@ namespace js
 
 	protected:
 		Transform*	mTransform;
-		Animator*	mAnimator;
 		Collider2D* mCollider;
 		Rigidbody*	mRigidbody;
+		Animator*	mAnimator;
 
 		HealthStat	mHealthStat;
 		OffenceStat mOffenceStat;

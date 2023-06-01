@@ -336,10 +336,13 @@
     <ClCompile Include="jsSceneManager.cpp">
       <Filter>API\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="jsTile.cpp">
+    <ClCompile Include="jsTileMap.cpp">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClCompile>
     <ClCompile Include="jsENVScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTile.cpp">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClCompile>
   </ItemGroup>
@@ -545,10 +548,13 @@
     <ClInclude Include="jsSceneManager.h">
       <Filter>API\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="jsTile.h">
+    <ClInclude Include="jsTileMap.h">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClInclude>
     <ClInclude Include="jsENVScript.h">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
+    <ClInclude Include="jsTile.h">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,5 @@
 #pragma once
-#include "jsEngine.h"
-
-
+#include "jsMath.h"
 
 namespace js
 {

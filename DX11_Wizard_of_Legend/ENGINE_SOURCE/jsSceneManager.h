@@ -15,7 +15,7 @@ namespace js
 
 		static void LoadScene(eSceneType type);
 		static Scene* GetActiveScene() { return mActiveScene; }
-
+		static Scene* GetScene(eSceneType type) { return mScenes[(UINT)type]; };
 		static void MoveDontDestoryObjects(eSceneType type);
 
 	private:

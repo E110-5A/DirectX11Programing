@@ -1,43 +1,82 @@
 #pragma once
-#include "jsComponent.h"
+#include "jsGameObject.h"
+#include "jsTexture.h"
+#include "GameObjectComponents.h"
+#include "jsScene.h"
+
 namespace js
 {
-	// 뭐를 상속받는지 모르겠음.. 아마 스크립트? 아니면 컴포넌트?
-	// 자세한건 유니티를 참고해서 만들면 될거같긴 함
-
-	/* 내생각에는
-* 타일이 이미지랑 충돌타입, 배경 오브젝트  이런걸 가지고 렌더링 돌려주는? 상상해봄
-*
-* 타일을 배열로 관리하면서 2차원 배열로 쫙 깔린 다음에 타일맵 객체가 일괄적으로 관리할 수 있도록
-* 타일 배치에 그리드 개념도 적용해서 하고싶음
-*/
-
-	// 그리드 객체는 사실 없어도 무방할듯 함
-	struct TileGrid
+	struct TileSet
 	{
-		float			size;
-		math::Vector2	location;		// (1,1)  (2,3) 이런식으로 깔리게 됨
+		Vector2 leftTop;		// 이미지 시작지점							index에 따라 다름
+		Vector2 spriteSize;		// 시작지점부터 잘라낼 가로 세로 픽셀 길이		32 x 32
+		Vector2 offset;			// 렌더링 조정 좌표							0 x 0
+		Vector2 atlasSize;		// 텍스쳐 이미지 크기							? x ?
+		float duration;			// 프레임 시간 간격							0.1
+
+		TileSet()
+			: leftTop(Vector2::Zero)
+			, spriteSize(Vector2::Zero)
+			, offset(Vector2::Zero)
+			, atlasSize(Vector2::Zero)
+			, duration(0.1f)
+		{}
 	};
 
-	class Tile : public Component
+	enum class eTileSet
+	{
+		Home,
+		Air,
+		Fire,
+		Ice,
+	};
+	enum class eTileCollider
+	{
+		Wall,
+		Platform,
+		FallArea,
+	};
+
+	class Tile : public GameObject
 	{
 	public:
 		Tile();
 		virtual ~Tile();
 
-		// 타일에 적용되는 기본적인 기능 함수
-		void TileGridProcess();
+		virtual void Initialize() override;
+		virtual void Update() override;
+		virtual void FixedUpdate() override;
+		virtual void Render() override;
 
-		// 이미지 렌더링하는 함수
+	public:
+		void Clear();
 
-		// 이미지 세팅하는 함수
+	public:
+		void PutInScene(Scene* scene) { scene->AddGameObject(this, eLayerType::Tile); }
 
-		// 충돌 판정?도 해야하나?
+		void SetAtlas(std::shared_ptr<Texture> atlas) { mAtlas = atlas; }
+		void SetColliderType(eTileCollider type) { mColliderType = type; }
+		void SetTileSetIndex(Vector2 index) { mTileSetIndex = index; }
 
+		void SetTileSize(Vector2 size) { mTileSize = size; }
+		void SetAtlasSize(Vector2 size) { mAtlasSize = size; }
+		void SetLocation(Vector2 location) { mLocation = location; }
+	public:
+		void BindShader();
+		
+	private:
+		Transform*	mTransform;			// 추후에 loaction에 따라 pos값이 바뀜
+		Animator*	mAnimator;			// 타일 이미지 렌더용 (TileRenderer를 따로 만들면 필요없긴함
+		Collider2D* mCollider;			// 충돌 영역
 
 	private:
+		std::shared_ptr<Texture>	mAtlas;
+		eTileCollider				mColliderType;
+		Vector2						mLocation;		// (1,1)  (2,3) 이런식으로 깔리게 됨
 
+	private:
+		Vector2						mTileSetIndex;
+		Vector2						mTileSize;
+		Vector2						mAtlasSize;
 	};
 }
-
-
