@@ -495,14 +495,13 @@ namespace js::renderer
 		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
 		// Object
 
-		// TileSet
-		Resources::Load<Texture>(L"DragonArc", L"TileSet\\DragonArc.png");
-		Resources::Load<Texture>(L"HomeTile", L"TileSet\\HomeTile.png");
-
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
 		Resources::Load<Texture>(L"DragonArc", L"Player\\Arcana\\DragonArc.png");
+
+		// TileSet
+		Resources::Load<Texture>(L"HomeTile", L"TileSet\\HomeTile.png");
 		//Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
 		//Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
 		//Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");
@@ -612,6 +611,12 @@ namespace js::renderer
 		objectMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		objectMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"ObjectMaterial", objectMaterial);
+#pragma endregion
+#pragma region Tile GameObject
+		std::shared_ptr<Material> tileMaterial = std::make_shared<Material>();
+		tileMaterial->SetRenderingMode(eRenderingMode::Transparent);
+		tileMaterial->SetShader(Resources::Find<Shader>(L"TileShaderShader"));
+		Resources::Insert<Material>(L"TileMaterial", tileMaterial);
 #pragma endregion
 	}
 

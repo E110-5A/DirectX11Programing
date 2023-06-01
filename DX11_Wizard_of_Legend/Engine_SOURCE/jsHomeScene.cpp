@@ -105,7 +105,7 @@ namespace js
 		}
 
 		// Temp Background Tile
-		{
+		/*{
 			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
 			obj->SetName(L"Background");
 
@@ -118,7 +118,7 @@ namespace js
 			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
 			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
 			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
-		}
+		}*/
 
 		// temp Lights test
 		{
@@ -144,11 +144,11 @@ namespace js
 		// lt
 		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(1.0f, 1.0f), eTileSet::Home, eTileCollider::Wall, Vector2(2.0f, 2.0f));
 		// rt
-		SceneManager::EditTile(eSceneType::Home, Vector2(10.0f, 0.0f), Vector2(11.0f, 10.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 2.0f));
+		SceneManager::EditTile(eSceneType::Home, Vector2(10.0f, 0.0f), Vector2(10.0f, 10.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 2.0f));
 		// lb
-		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 10.0f), Vector2(1.0f, 11.0f), eTileSet::Home, eTileCollider::Wall, Vector2(4.0f, 2.0f));
+		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 10.0f), Vector2(1.0f, 10.0f), eTileSet::Home, eTileCollider::Wall, Vector2(4.0f, 2.0f));
 		// rb
-		SceneManager::EditTile(eSceneType::Home, Vector2(10.0f, 10.0f), Vector2(11.0f, 11.0f), eTileSet::Home, eTileCollider::Wall, Vector2(5.0f, 2.0f));
+		SceneManager::EditTile(eSceneType::Home, Vector2(10.0f, 10.0f), Vector2(10.0f, 10.0f), eTileSet::Home, eTileCollider::Wall, Vector2(5.0f, 2.0f));
 	}
 
 	void HomeScene::Update()

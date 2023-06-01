@@ -28,6 +28,7 @@ namespace js
 	}
 	Tile::~Tile()
 	{
+		int a = 0;
 	}
 	void Tile::Initialize()
 	{
@@ -53,9 +54,12 @@ namespace js
 
 
 		// 컴포넌트 추가
-		mTransform = GetComponent<Transform>();
+		mTransform = AddComponent<Transform>();
 		mCollider = AddComponent<Collider2D>();
 		mTileRenderer = AddComponent<TileRenderer>();
+
+		mTileRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		mTileRenderer->SetMaterial(Resources::Find<Material>(L"TileMaterial"));
 	}
 	void Tile::Update()
 	{
