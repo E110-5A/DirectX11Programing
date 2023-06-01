@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BasicScripts.h" />
     <ClInclude Include="CommonInclude.h" />
     <ClInclude Include="GameObjectComponents.h" />
     <ClInclude Include="GameObjectsAndScripts.h" />
@@ -220,15 +221,16 @@
     <ClInclude Include="jsStage01Boss.h" />
     <ClInclude Include="jsStage02.h" />
     <ClInclude Include="jsStage02Boss.h" />
-    <ClInclude Include="jsStageManager.h" />
     <ClInclude Include="jsStructuredBuffer.h" />
     <ClInclude Include="jsTexture.h" />
     <ClInclude Include="jsTile.h" />
     <ClInclude Include="jsTileMap.h" />
+    <ClInclude Include="jsTileRenderer.h" />
     <ClInclude Include="jsTime.h" />
     <ClInclude Include="jsTitleScene.h" />
     <ClInclude Include="jsTransform.h" />
     <ClInclude Include="jsContents.h" />
+    <ClInclude Include="TileStruct.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsAnimation.cpp" />
@@ -285,11 +287,11 @@
     <ClCompile Include="jsStage01Boss.cpp" />
     <ClCompile Include="jsStage02.cpp" />
     <ClCompile Include="jsStage02Boss.cpp" />
-    <ClCompile Include="jsStageManager.cpp" />
     <ClCompile Include="jsStructuredBuffer.cpp" />
     <ClCompile Include="jsTexture.cpp" />
     <ClCompile Include="jsTile.cpp" />
     <ClCompile Include="jsTileMap.cpp" />
+    <ClCompile Include="jsTileRenderer.cpp" />
     <ClCompile Include="jsTime.cpp" />
     <ClCompile Include="jsTitleScene.cpp" />
     <ClCompile Include="jsTransform.cpp" />

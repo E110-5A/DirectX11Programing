@@ -2,10 +2,28 @@
 #include "jsConstantBuffer.h"
 #include "jsRenderer.h"
 #include "jsResources.h"
+#include "jsTileRenderer.h"
+
+
+
+
+
+
+
+
+
+
 
 namespace js
 {
 	Tile::Tile()
+		: mAtlas(nullptr)
+		, mTransform(nullptr)
+		, mCollider(nullptr)
+		, mTileRenderer(nullptr)
+		, mColliderType(eTileCollider::Platform)
+		, mLocation(Vector2::Zero)
+		, mTileSetIndex(Vector2::Zero)
 	{
 	}
 	Tile::~Tile()
@@ -13,49 +31,58 @@ namespace js
 	}
 	void Tile::Initialize()
 	{
-		// 레이어 설정
+		// 초기값
+		mAtlas = Resources::Find<Texture>(L"HomeTile");
+		mColliderType = eTileCollider::Platform;
+		mLocation = Vector2::Zero;
+
+		mTileSetIndex = Vector2::Zero;
+		mTileSize = Vector2(32.0f, 32.0f);
+		mTilesetSize = Vector2(192.0f, 320.0f);;
+
+		TileSet tile;
+		float width = (float)mAtlas->GetWidth();
+		float height = (float)mAtlas->GetHeight();
+		Vector2 lt = Vector2(mTileSetIndex * mTileSize);
+		lt = Vector2(lt.x / width, lt.y / height);
+
+		tile.leftTop = lt;
+		tile.tileSize = mTileSize;
+		tile.tilesetSize = mTilesetSize;
+		mTileInfo = tile;
+
+
 		// 컴포넌트 추가
 		mTransform = GetComponent<Transform>();
-		mAnimator = AddComponent<Animator>();
 		mCollider = AddComponent<Collider2D>();
+		mTileRenderer = AddComponent<TileRenderer>();
 	}
 	void Tile::Update()
 	{
 	}
 	void Tile::FixedUpdate()
 	{
-		BindShader();
 	}
 	void Tile::Render()
 	{
 	}
-	void Tile::Clear()
+	void Tile::EditTile(std::shared_ptr<Texture> atlas, eTileCollider tileCollider, Vector2 tileIndex, Vector2 tileSize, Vector2 tilesetSize)
 	{
-		mAtlas = Resources::Find<Texture>(L"HomeTile");
-		mColliderType = eTileCollider::Platform;
-		mLocation = Vector2::Zero;
-		
-		mTileSetIndex = Vector2::Zero;
-		mTileSize = Vector2(32.0f, 32.0f);
-		mAtlasSize = Vector2(192.0f, 320.0f);;
-	}
-	void Tile::BindShader()
-	{
-		// 텍스쳐를 레지스터 12번 슬롯에 바인딩
-		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+		mAtlas = atlas;
+		mColliderType = tileCollider;
+		mTileSetIndex = tileIndex;
 
-		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Animation];
+		TileSet tile;
+		float width = (float)atlas->GetWidth();
+		float height = (float)atlas->GetHeight();
+		Vector2 lt = Vector2(mTileSetIndex * tileSize);
+		lt = Vector2(lt.x / width, lt.y / height);
 
-		// 현재 재생중인 애니메이션의 프레임 정보를 전달
-		renderer::AnimationCB info = {};
-		info.animationType = (UINT)eAnimationType::SecondDimension;
+		tile.leftTop = lt;
+		tile.tileSize = tileSize;
+		tile.tilesetSize = tilesetSize;
+		mTileInfo = tile;
 
-		info.leftTop = mTileSetIndex * 32.0f;
-		info.spriteSize = mTileSize;
-		info.atlasSize = mAtlasSize;
-		info.offset = Vector2::Zero;
-
-		cb->SetData(&info);
-		cb->Bind(eShaderStage::PS);
+		mTileRenderer->SetTileInfo(tile);
 	}
 }

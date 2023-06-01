@@ -1,70 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="VS">
-      <UniqueIdentifier>{e4ffc9a5-db97-4c55-9a0f-fe426ac30dab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PS">
-      <UniqueIdentifier>{05dfe299-0ec7-45a3-b6f2-b0f424c08f82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CS">
-      <UniqueIdentifier>{384b4658-3105-4af5-aa58-fe52b3b9b0d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GS">
-      <UniqueIdentifier>{02be0897-61e7-46db-81b5-bd9a1a3d7356}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{4cf0e7d5-a41e-4fbf-8bc1-9f3c1aa40d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{3b350adb-b092-4743-9617-da7b07f01ced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Debug">
+      <UniqueIdentifier>{80244102-48e7-42ec-a0eb-9396533983f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Sprite">
+      <UniqueIdentifier>{2fa40729-1595-4d6f-be3b-1081d524221a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Triangle">
+      <UniqueIdentifier>{bcf83842-38cc-4fa9-83a8-2c76d1d912c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Grid">
+      <UniqueIdentifier>{fdd7c93e-4c8b-4bf3-935e-a02ce80ed6a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\UI">
+      <UniqueIdentifier>{c5774251-024a-4da6-976d-1f680137825f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute">
+      <UniqueIdentifier>{262496d3-3804-4825-a9cc-7d65e1ae77a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute\Paint">
+      <UniqueIdentifier>{9628a305-ba85-4cc6-a000-1b9a6288bc77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute\Particle">
+      <UniqueIdentifier>{d8e7d069-fa4b-4862-a7ed-1275878e4da8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compute\Fade">
+      <UniqueIdentifier>{868613c3-82d4-46b0-bf8d-eb6d683d856d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\Tile">
+      <UniqueIdentifier>{19aa6520-4cd5-4148-a07e-bdb6373fa40f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)TriangleVS.hlsl">
-      <Filter>VS</Filter>
+      <Filter>Renderer\Triangle</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)TrianglePS.hlsl">
-      <Filter>PS</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)SpriteVS.hlsl">
-      <Filter>VS</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl">
-      <Filter>PS</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)UserInterfacePS.hlsl">
-      <Filter>PS</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)UserInterfaceVS.hlsl">
-      <Filter>VS</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)GridVS.hlsl">
-      <Filter>VS</Filter>
+      <Filter>Renderer\Triangle</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl">
-      <Filter>PS</Filter>
+      <Filter>Renderer\Grid</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl">
-      <Filter>PS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)GridVS.hlsl">
+      <Filter>Renderer\Grid</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)DebugVS.hlsl">
-      <Filter>VS</Filter>
+      <Filter>Renderer\Debug</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)FadePS.hlsl">
-      <Filter>PS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl">
+      <Filter>Renderer\Debug</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
-      <Filter>CS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)UserInterfaceVS.hlsl">
+      <Filter>Renderer\UI</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
-      <Filter>CS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)UserInterfacePS.hlsl">
+      <Filter>Renderer\UI</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl">
-      <Filter>GS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpriteVS.hlsl">
+      <Filter>Renderer\Sprite</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl">
-      <Filter>PS</Filter>
+    <FxCompile Include="$(MSBuildThisFileDirectory)SpritePS.hlsl">
+      <Filter>Renderer\Sprite</Filter>
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl">
-      <Filter>VS</Filter>
+      <Filter>Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl">
+      <Filter>Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl">
+      <Filter>Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleCS.hlsl">
+      <Filter>Compute\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)FadePS.hlsl">
+      <Filter>Compute\Fade</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
+      <Filter>Compute\Paint</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)TilePS.hlsl">
+      <Filter>Renderer\Tile</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

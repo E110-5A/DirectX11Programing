@@ -2,8 +2,8 @@
 #include "jsBaseRenderer.h"
 #include "jsMesh.h"
 #include "jsMaterial.h"
+#include "TileStruct.h"
 
-// 아직 안쓰는 기능
 namespace js
 {
 	class TileRenderer : public BaseRenderer
@@ -16,7 +16,22 @@ namespace js
 		virtual void Update() override;
 		virtual void FixedUpdate() override;
 		virtual void Render() override;
-	private:
 
+		void SetTileInfo(Vector2 leftTop, Vector2 tileSize, Vector2 tilesetSize) 
+		{ 
+			mTileInfo.leftTop = leftTop; 
+			mTileInfo.tileSize = tileSize;
+			mTileInfo.tilesetSize = tilesetSize;
+		}
+		void SetTileInfo(TileSet& info) { mTileInfo = info; }
+		void SetTileSet(std::shared_ptr<Texture> texture) { mAtlas = texture; }
+
+	public:
+		void Clear();
+		void BindShader();
+
+	private:
+		std::shared_ptr<Texture>	mAtlas;
+		TileSet						mTileInfo;
 	};
 }

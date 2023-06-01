@@ -142,9 +142,6 @@
     <Filter Include="API\Scene">
       <UniqueIdentifier>{976687b1-0493-449e-87e3-f6bf27d49c71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="API\StageManager">
-      <UniqueIdentifier>{4684bbf5-099b-4939-be51-0b128bb2211f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="API\High Level Interface">
       <UniqueIdentifier>{ef2cc17f-dc8c-4713-acb5-11a43c435929}</UniqueIdentifier>
     </Filter>
@@ -324,9 +321,6 @@
     <ClCompile Include="jsStage02Boss.cpp">
       <Filter>Content\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="jsStageManager.cpp">
-      <Filter>API\StageManager</Filter>
-    </ClCompile>
     <ClCompile Include="jsScene.cpp">
       <Filter>API\Scene</Filter>
     </ClCompile>
@@ -336,10 +330,16 @@
     <ClCompile Include="jsSceneManager.cpp">
       <Filter>API\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="jsTile.cpp">
+    <ClCompile Include="jsTileMap.cpp">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClCompile>
     <ClCompile Include="jsENVScript.cpp">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTile.cpp">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
+    <ClCompile Include="jsTileRenderer.cpp">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClCompile>
   </ItemGroup>
@@ -533,9 +533,6 @@
     <ClInclude Include="jsStage02Boss.h">
       <Filter>Content\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="jsStageManager.h">
-      <Filter>API\StageManager</Filter>
-    </ClInclude>
     <ClInclude Include="jsScene.h">
       <Filter>API\Scene</Filter>
     </ClInclude>
@@ -545,11 +542,23 @@
     <ClInclude Include="jsSceneManager.h">
       <Filter>API\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="jsTile.h">
+    <ClInclude Include="jsTileMap.h">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
     </ClInclude>
     <ClInclude Include="jsENVScript.h">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
+    <ClInclude Include="jsTile.h">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
+    <ClInclude Include="jsTileRenderer.h">
+      <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClInclude>
+    <ClInclude Include="TileStruct.h">
+      <Filter>API\Common\IncludeHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicScripts.h">
+      <Filter>API\Common\IncludeHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

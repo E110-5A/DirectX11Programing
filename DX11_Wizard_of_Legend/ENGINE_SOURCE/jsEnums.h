@@ -43,7 +43,6 @@ namespace js::enums
 		Camera,
 		Collider,
 		Rigidbody,
-		Tile,
 		TileRenderer,
 		MeshRenerer,
 		SpriteRenderer,

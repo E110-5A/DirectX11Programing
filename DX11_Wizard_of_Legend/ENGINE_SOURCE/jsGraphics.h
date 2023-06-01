@@ -20,6 +20,7 @@
 #define CBSLOT_NUMBEROFLIGHT	5
 #define CBSLOT_PARTICLESYSTEM	6
 #define CBSLOT_NOISE			7
+#define CBSLOT_TILE				8
 
 using namespace js::math;
 namespace js::graphics
@@ -112,6 +113,7 @@ namespace js::graphics
 		Light,
 		ParticleSystem,
 		Noise,
+		Tile,
 		End,
 	};
 

@@ -24,6 +24,7 @@
 #define WEST		 1.57
 namespace js
 {
+	class ProjectileScript;
 	class CreatureScript : public Script
 	{
 	public:

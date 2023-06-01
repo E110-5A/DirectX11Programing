@@ -12,6 +12,7 @@
 namespace js
 {
 	std::vector<Scene*> SceneManager::mScenes = {};
+	std::vector<TileMap*> SceneManager::mTileMaps = {};
 	Scene* SceneManager::mActiveScene = nullptr;
 
 	void SceneManager::Initialize()
@@ -32,6 +33,16 @@ namespace js
 		mScenes[(UINT)eSceneType::Stage02]->SetName(L"Stage02Scene");
 		mScenes[(UINT)eSceneType::Stage02Boss] = new Stage02Scene();
 		mScenes[(UINT)eSceneType::Stage02Boss]->SetName(L"Stage02BossScene");
+
+		mTileMaps.resize((UINT)eSceneType::End);
+
+		mTileMaps[(UINT)eSceneType::Logo]			= new TileMap();
+		mTileMaps[(UINT)eSceneType::Title]			= new TileMap();
+		mTileMaps[(UINT)eSceneType::Home]			= new TileMap();
+		mTileMaps[(UINT)eSceneType::Stage01]		= new TileMap();
+		mTileMaps[(UINT)eSceneType::Stage01Boss]	= new TileMap();
+		mTileMaps[(UINT)eSceneType::Stage02]		= new TileMap();
+		mTileMaps[(UINT)eSceneType::Stage02Boss]	= new TileMap();
 
 		mActiveScene = mScenes[(UINT)eSceneType::Logo];
 
@@ -95,5 +106,18 @@ namespace js
 			eLayerType type = obj->GetLayerType();
 			mActiveScene->AddGameObject(obj, type);
 		}
+	}
+
+	void SceneManager::SetMapSize(eSceneType sceneType, Vector2 mapSize, Scene* scene)
+	{
+		mTileMaps[(UINT)sceneType]->SetMapSize(mapSize, scene);
+	}
+	void SceneManager::SetTileSize(eSceneType sceneType, Vector2 tileSize)
+	{
+		mTileMaps[(UINT)sceneType]->SetTileSize(tileSize);
+	}
+	void SceneManager::EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex)
+	{
+		mTileMaps[(UINT)sceneType]->EditTile(v1, v2, tileSet, tileCollider, tileIndex);
 	}
 }

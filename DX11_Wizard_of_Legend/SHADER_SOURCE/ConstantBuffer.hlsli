@@ -54,7 +54,9 @@ cbuffer ParticleSystem : register(b6)
     int padding;
 }
 
-//cbuffer noise : register(b7)
-//{
-//    float4 noiseSize;
-//}
+cbuffer Tile : register(b7)
+{
+    float2 tileLT;
+    float2 tileSize;
+    float2 tilesetSize;
+}

@@ -56,9 +56,9 @@ namespace js
 			{
 				events->mActionEvents[spriteIndex].mEvent();
 			}
-		}
-		
+		}		
 	}
+
 	void Animator::FixedUpdate()
 	{
 	}

@@ -88,6 +88,13 @@ namespace js::renderer
 		Vector4 noiseSize;
 	};
 
+	CBUFFER(TileCB, CBSLOT_TILE)
+	{
+		Vector2 tileLT;
+		Vector2 tileSize;
+		Vector2 tilesetSize;
+	};
+
 	extern Vertex vertexes[4];
 	extern Camera* mainCamera;
 	extern Camera* uiCamera;

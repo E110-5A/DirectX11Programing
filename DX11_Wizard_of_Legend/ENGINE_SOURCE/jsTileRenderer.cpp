@@ -7,6 +7,7 @@ namespace js
 {
 	TileRenderer::TileRenderer()
 		: BaseRenderer(eComponentType::TileRenderer)
+		, mTileInfo{}
 	{
 	}
 	TileRenderer::~TileRenderer()
@@ -27,18 +28,40 @@ namespace js
 
 		GetMaterial()->Bind();
 		GetMesh()->BindBuffer();
-
-		// Mesh에서 렌더하기 전에 Animation 텍스쳐 바인딩하기
-		// Animator 대신 Tile 컴포넌트에서 텍스쳐 바인딩?하기
-		Tile* tile = GetOwner()->GetComponent<Tile>();
-		if (tile)
-			tile->BindShader();
+				
+		BindShader();		// 셀프 셰이더 바인딩
 
 		GetMesh()->Render();
-
 		GetMaterial()->Clear();
 
-		if (animator)
-			animator->Clear();
+		Clear();			// 셀프 클리어
+	}
+
+	void TileRenderer::Clear()
+	{
+		Texture::Clear(12);
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Tile];
+		renderer::TileCB info = {};
+
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
+	}
+	void TileRenderer::BindShader()
+	{
+		// 텍스쳐를 레지스터 12번 슬롯에 바인딩
+		mAtlas->BindShaderResource(eShaderStage::PS, 12);
+
+		ConstantBuffer* cb = renderer::constantBuffers[(UINT)eCBType::Tile];
+
+		// 현재 재생중인 애니메이션의 프레임 정보를 전달
+		renderer::TileCB info = {};
+
+		info.tileLT = mTileInfo.tilesetSize;
+		info.tileSize = mTileInfo.tileSize;
+		info.tilesetSize = mTileInfo.leftTop;
+
+		cb->SetData(&info);
+		cb->Bind(eShaderStage::PS);
 	}
 }

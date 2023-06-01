@@ -207,6 +207,11 @@ namespace js::renderer
 			, particleShader->GetVSBlobBufferSize()
 			, particleShader->GetInputLayoutAddressOf());
 
+		std::shared_ptr<Shader> tileShader = Resources::Find<Shader>(L"TileShader");
+		GetDevice()->CreateInputLayout(arrLayoutDesc, 3
+			, tileShader->GetVSBlobBufferPointer()
+			, tileShader->GetVSBlobBufferSize()
+			, tileShader->GetInputLayoutAddressOf());
 #pragma endregion
 #pragma region sampler state
 		D3D11_SAMPLER_DESC samplerDesc = {};
@@ -371,6 +376,9 @@ namespace js::renderer
 		constantBuffers[(UINT)eCBType::Noise] = new ConstantBuffer(eCBType::Noise);
 		constantBuffers[(UINT)eCBType::Noise]->Create(sizeof(NoiseCB));
 
+		constantBuffers[(UINT)eCBType::Tile] = new ConstantBuffer(eCBType::Tile);
+		constantBuffers[(UINT)eCBType::Tile]->Create(sizeof(TileCB));
+
 #pragma endregion
 #pragma region Structured Buffers
 
@@ -445,6 +453,12 @@ namespace js::renderer
 		Resources::Insert<ParticleShader>(L"ParticleCS", particleCS);
 		particleCS->Create(L"ParticleCS.hlsl", "main");
 #pragma endregion
+#pragma region Tile Shader
+		std::shared_ptr<Shader> tileShader = std::make_shared<Shader>();
+		tileShader->Create(eShaderStage::VS, L"TriangleVS.hlsl", "main");
+		tileShader->Create(eShaderStage::PS, L"TilePS.hlsl", "main");
+		Resources::Insert<Shader>(L"TileShader", tileShader);
+#pragma endregion
 	}
 
 	void LoadTexture()
@@ -468,8 +482,6 @@ namespace js::renderer
 
 		// Stage
 		Resources::Load<Texture>(L"HomeStage", L"homeStage.png");
-
-
 		// LogoScene
 		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
 		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
@@ -483,16 +495,17 @@ namespace js::renderer
 		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
 		// Object
 
+		// TileSet
+		Resources::Load<Texture>(L"DragonArc", L"TileSet\\DragonArc.png");
+		Resources::Load<Texture>(L"HomeTile", L"TileSet\\HomeTile.png");
+
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
 		Resources::Load<Texture>(L"DragonArc", L"Player\\Arcana\\DragonArc.png");
-
-		// TileSet
-		Resources::Load<Texture>(L"HomeTile",	L"TileSet\\HomeTile.png");
-		Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
-		Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
-		Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");
+		//Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
+		//Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
+		//Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");
 #pragma endregion
 	}
 
@@ -513,7 +526,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"SpriteMaterial", spriteMaterial);
 
 #pragma endregion
-
 #pragma region UI
 		std::shared_ptr<Material> healthHUDMaterial = std::make_shared<Material>();
 		healthHUDMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -529,7 +541,6 @@ namespace js::renderer
 
 
 #pragma endregion
-
 #pragma region Grid
 		std::shared_ptr<Material> gridMaterial = std::make_shared<Material>();
 		gridMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -537,7 +548,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"GridMaterial", gridMaterial);
 
 #pragma endregion
-
 #pragma region Fade
 		std::shared_ptr<Material> fadeMaterial = std::make_shared<Material>();
 		fadeMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -546,7 +556,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"FadeMaterial", fadeMaterial);
 
 #pragma endregion
-
 #pragma region Debug
 		std::shared_ptr<Material> debugMaterial = std::make_shared<Material>();
 		debugMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -554,7 +563,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"DebugMaterial", debugMaterial);
 
 #pragma endregion
-
 #pragma region Particle
 		std::shared_ptr<Material> particleMaterial = std::make_shared<Material>();
 		particleMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -563,7 +571,6 @@ namespace js::renderer
 		Resources::Insert<Material>(L"ParticleMaterial", particleMaterial);
 
 #pragma endregion
-
 #pragma region Logo
 		std::shared_ptr<Material> logoMaterial = std::make_shared<Material>();
 		logoMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -579,7 +586,6 @@ namespace js::renderer
 		titleMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleMaterial", titleMaterial);
 #pragma endregion
-
 #pragma region Title Background
 		std::shared_ptr<Material> titleBGMaterial = std::make_shared<Material>();
 		titleBGMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -587,7 +593,6 @@ namespace js::renderer
 		titleBGMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"TitleBGMaterial", titleBGMaterial);
 #pragma endregion
-
 #pragma region Background
 		std::shared_ptr<Material> BGMaterial = std::make_shared<Material>();
 		BGMaterial->SetRenderingMode(eRenderingMode::Transparent);
@@ -602,14 +607,12 @@ namespace js::renderer
 		mouseMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"MouseMaterial", mouseMaterial);
 #pragma endregion
-
 #pragma region Animation GameObject
 		std::shared_ptr<Material> objectMaterial = std::make_shared<Material>();
 		objectMaterial->SetRenderingMode(eRenderingMode::Transparent);
 		objectMaterial->SetShader(Resources::Find<Shader>(L"SpriteShader"));
 		Resources::Insert<Material>(L"ObjectMaterial", objectMaterial);
 #pragma endregion
-
 	}
 
 	void Initialize()

@@ -15,11 +15,12 @@ namespace js
 		virtual ~TileMap();
 
 		void SetMapSize(Vector2 mapSize, Scene* scene);
-		void SetTileSize(Vector2 tileSize);
+		void SetTileSize(Vector2 tileSize) { mTileSize = tileSize; }
 		void EditTile(Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileSetIndex);
 		
 	private:
 		Vector2							mMapSize;
+		Vector2							mTileSize;
 		std::vector<std::vector<Tile>>	tiles;
 		
 		// 하드코딩

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define PROJECTILE_POOL 64
 
 
@@ -18,7 +17,7 @@ struct HealthStat
 struct OffenceStat
 {
 	float power;			// 피해량 증가 비율 | default = 1.0
-	float criticalChance;	
+	float criticalChance;
 	float criticalDamage;
 };
 #pragma endregion
@@ -135,9 +134,9 @@ public:
 };
 struct Arcana
 {
-	ArcanaInfo*					arcanaInfo;
-	ProjectileStat*				projectileStat;
-	ProjectileConditionValue*	conditionValue;
+	ArcanaInfo* arcanaInfo;
+	ProjectileStat* projectileStat;
+	ProjectileConditionValue* conditionValue;
 
 public:
 	Arcana()
@@ -154,7 +153,7 @@ public:
 		{
 			delete projectileStat;
 			projectileStat = nullptr;
-		}		
+		}
 		if (nullptr != conditionValue)
 		{
 			delete conditionValue;
@@ -204,37 +203,37 @@ public:
 			delete arcanaDash;
 			arcanaDash = nullptr;
 		}
-		
+
 		if (nullptr != arcanaSignature)
 		{
 			delete arcanaSignature;
 			arcanaSignature = nullptr;
 		}
-		
+
 		if (nullptr != arcanaStandardA)
 		{
 			delete arcanaStandardA;
 			arcanaStandardA = nullptr;
 		}
-		
+
 		if (nullptr != arcanaStandardB)
 		{
 			delete arcanaStandardB;
 			arcanaStandardB = nullptr;
 		}
-		
+
 		if (nullptr != arcanaStandardC)
 		{
 			delete arcanaStandardC;
 			arcanaStandardC = nullptr;
 		}
-		
+
 		if (nullptr != arcanaStandardD)
 		{
 			delete arcanaStandardD;
 			arcanaStandardD = nullptr;
 		}
-		
+
 	}
 	void AddArcana(Arcana* other)
 	{
@@ -249,7 +248,7 @@ public:
 			else
 				SwapArcana(eInventorySlot::arcanaBasic, other);
 		}
-		
+
 		// Dash
 		if (eArcanaType::DashArcana == other->arcanaInfo->type)
 		{
@@ -293,49 +292,49 @@ public:
 			arcanaBasic = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaDash:
 		{
 			Arcana* temp = arcanaDash;
 			arcanaDash = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaSignature:
 		{
 			Arcana* temp = arcanaSignature;
 			arcanaSignature = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaStandardA:
 		{
 			Arcana* temp = arcanaStandardA;
 			arcanaStandardA = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaStandardB:
 		{
 			Arcana* temp = arcanaStandardB;
 			arcanaStandardB = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaStandardC:
 		{
 			Arcana* temp = arcanaStandardC;
 			arcanaStandardC = other;
 			return temp;
 		}
-			break;
+		break;
 		case eInventorySlot::arcanaStandardD:
 		{
 			Arcana* temp = arcanaStandardD;
 			arcanaStandardD = other;
 			return temp;
 		}
-			break;
+		break;
 		}
 	}
 };
