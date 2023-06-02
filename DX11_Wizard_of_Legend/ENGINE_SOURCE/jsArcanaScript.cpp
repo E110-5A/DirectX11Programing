@@ -160,7 +160,7 @@ namespace js
 			mRotateValue += Time::DeltaTime();
 			Vector3 rotate = mTransform->GetRotation();
 			//							  회전주기 / 회전범위
-			rotate.z += cos(mRotateValue * 6.0f) / 240.0f;
+			rotate.z += cos(mRotateValue * 10.0f) / 240.0f;
 			mTransform->SetRotation(rotate);			
 		}
 	}

@@ -738,7 +738,10 @@ namespace js
 
 		
 		if (Vector2::Zero == mCurrentDirection)
+		{
 			changeState(ePlayerState::IDLE);
+			playAnimation();
+		}
 
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
@@ -783,7 +786,7 @@ namespace js
 			if (mSprintCheck >= mSprintTime)
 			{
 				mSprintReady = true;
-				mSprintSpeed = mHealthStat.moveSpeed * 1.7f;
+				mSprintSpeed = mHealthStat.moveSpeed * 1.81f;
 			}			
 		}		
 	}
