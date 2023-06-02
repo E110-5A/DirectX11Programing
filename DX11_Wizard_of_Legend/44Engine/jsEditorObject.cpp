@@ -5,6 +5,7 @@ namespace js
 	EditorObject::EditorObject()
 		: GameObject()
 	{
+		GameObject::Initialize();
 	}
 	EditorObject::~EditorObject()
 	{

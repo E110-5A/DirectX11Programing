@@ -18,8 +18,6 @@ namespace js
 		virtual void Render() override;
 
 	public:
-
-	public:
 		void PutInScene(Scene* scene) { scene->AddGameObject(this, eLayerType::Tile); }
 
 		void EditTile(std::shared_ptr<Texture> atlas, eTileCollider tileCollider, Vector2 tileIndex, Vector2 tileSize, Vector2 tilesetSize);
@@ -31,8 +29,11 @@ namespace js
 
 		eTileCollider GetTileColliderType() { return mColliderType; }
 				
+
+	public:
+		void SelfDelete() { delete this; }
+
 	private:
-		Transform*		mTransform;			// 추후에 loaction에 따라 pos값이 바뀜
 		Collider2D*		mCollider;			// 충돌 영역
 		TileRenderer*	mTileRenderer;		// 전용 렌더러
 

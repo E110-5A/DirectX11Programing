@@ -17,8 +17,8 @@
 namespace js
 {
 	Tile::Tile()
-		: mAtlas(nullptr)
-		, mTransform(nullptr)
+		: GameObject()
+		, mAtlas(nullptr)
 		, mCollider(nullptr)
 		, mTileRenderer(nullptr)
 		, mColliderType(eTileCollider::Platform)
@@ -32,6 +32,13 @@ namespace js
 	}
 	void Tile::Initialize()
 	{
+		mTransform = AddComponent<Transform>();
+		mCollider = AddComponent<Collider2D>();
+		mTileRenderer = AddComponent<TileRenderer>();
+
+		mTileRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		mTileRenderer->SetMaterial(Resources::Find<Material>(L"TileMaterial"));
+
 		// 초기값
 		mAtlas = Resources::Find<Texture>(L"HomeTile");
 		mColliderType = eTileCollider::Platform;
@@ -39,7 +46,7 @@ namespace js
 
 		mTileSetIndex = Vector2::Zero;
 		mTileSize = Vector2(32.0f, 32.0f);
-		mTilesetSize = Vector2(192.0f, 320.0f);;
+		mTilesetSize = Vector2(192.0f, 320.0f);
 
 		TileSet tile;
 		float width = (float)mAtlas->GetWidth();
@@ -50,16 +57,7 @@ namespace js
 		tile.leftTop = lt;
 		tile.tileSize = mTileSize;
 		tile.tilesetSize = mTilesetSize;
-		mTileInfo = tile;
-
-
-		// 컴포넌트 추가
-		mTransform = AddComponent<Transform>();
-		mCollider = AddComponent<Collider2D>();
-		mTileRenderer = AddComponent<TileRenderer>();
-
-		mTileRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-		mTileRenderer->SetMaterial(Resources::Find<Material>(L"TileMaterial"));
+		mTileInfo = tile;		
 	}
 	void Tile::Update()
 	{

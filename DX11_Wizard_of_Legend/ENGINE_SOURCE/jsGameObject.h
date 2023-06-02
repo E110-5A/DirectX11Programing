@@ -2,7 +2,7 @@
 #include "jsComponent.h"
 #include "jsScript.h"
 #include "jsEntity.h"
-
+#include "jsTransform.h"
 namespace js
 {
 	class GameObject : public Entity
@@ -100,6 +100,7 @@ namespace js
 
 	protected:
 		std::vector<Component*> mComponents;
+		Transform* mTransform;
 
 	private:
 		eGlobalState mState;

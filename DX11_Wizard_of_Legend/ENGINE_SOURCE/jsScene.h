@@ -28,6 +28,8 @@ namespace js
 
 		std::vector<GameObject*> GetDontDestroyGameObjects();
 
+	public:
+
 		void ObjectsActive();
 		void ObjectsPause();
 	protected:

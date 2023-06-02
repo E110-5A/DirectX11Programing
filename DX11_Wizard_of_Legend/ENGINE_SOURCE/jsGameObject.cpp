@@ -10,7 +10,6 @@ namespace js
 		, mIsDontChangeState(false)
 	{
 		mComponents.resize((UINT)eComponentType::End);
-		AddComponent(new Transform());
 	}
 
 	GameObject::~GameObject()
@@ -36,6 +35,7 @@ namespace js
 
 	void GameObject::Initialize()
 	{
+		mTransform = AddComponent<Transform>();
 	}
 
 	void GameObject::Update()

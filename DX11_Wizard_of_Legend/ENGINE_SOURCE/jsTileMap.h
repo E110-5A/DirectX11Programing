@@ -17,11 +17,11 @@ namespace js
 		void SetMapSize(Vector2 mapSize, Scene* scene);
 		void SetTileSize(Vector2 tileSize) { mTileSize = tileSize; }
 		void EditTile(Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileSetIndex);
-		
+		void ClearTiles();
 	private:
 		Vector2							mMapSize;
 		Vector2							mTileSize;
-		std::vector<std::vector<Tile>>	tiles;
+		std::vector<std::vector<Tile*>>	tiles;
 		
 		// 하드코딩
 		std::shared_ptr<Texture>		mHomeAtlas;

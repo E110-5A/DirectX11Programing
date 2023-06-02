@@ -79,6 +79,11 @@ namespace js
 			delete scene;
 			scene = nullptr;
 		}
+		for (TileMap* tileMap : mTileMaps)
+		{
+			delete tileMap;
+			tileMap = nullptr;
+		}
 	}
 
 	void SceneManager::LoadScene(eSceneType type)
@@ -120,4 +125,5 @@ namespace js
 	{
 		mTileMaps[(UINT)sceneType]->EditTile(v1, v2, tileSet, tileCollider, tileIndex);
 	}
+	
 }

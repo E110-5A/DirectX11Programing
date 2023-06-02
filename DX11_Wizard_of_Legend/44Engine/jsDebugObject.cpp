@@ -4,7 +4,7 @@ namespace js
 {
 	DebugObject::DebugObject()
 	{
-
+		GameObject::Initialize();
 	}
 	DebugObject::~DebugObject()
 	{
