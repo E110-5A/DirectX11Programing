@@ -56,6 +56,10 @@ namespace js
 		, mBasicAnimationType(true)
 		, mIsProjectileRight(true)
 		, mArcanaStartAngle(0.0f)
+		, mSprintReady(false)
+		, mSprintTime(1.5f)
+		, mSprintCheck(0.0f)
+		, mSprintSpeed(0.0f)
 	{
 
 	}
@@ -308,7 +312,7 @@ namespace js
 			tempConditionValue->complete = false;
 			tempConditionValue->cooldownTime = 2.5f;
 			tempConditionValue->currentCooldownTime = 0.0f;
-			tempConditionValue->delayTime = 0.12f;
+			tempConditionValue->delayTime = 0.3f;
 			tempConditionValue->currentDelayTime = 0.0f;
 			tempConditionValue->maxCount = 6;
 			tempConditionValue->curCount = 0;
@@ -316,8 +320,8 @@ namespace js
 			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->speed = 6.5f;
-			tempStat->range = 7.0f;
+			tempStat->speed = 7.75f;
+			tempStat->range = 9.0f;
 
 			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
 			mInventory.arcanaStandardA->projectileStat = tempStat;
@@ -405,6 +409,7 @@ namespace js
 		break;
 		}
 		skillProcess();
+		physicalProcess();
 	}
 	void PlayerScript::Render()
 	{
@@ -576,13 +581,20 @@ namespace js
 			if (Input::GetKey(eKeyCode::S))
 			{
 				Vector3 pos = mTransform->GetPosition();
-				pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+				if (true == mSprintReady)
+					pos += -mTransform->Up() * mSprintSpeed * Time::DeltaTime();
+				else
+					pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+
 				mTransform->SetPosition(pos);
 				changePlayerDirection(eAxisValue::Down, true, false);
 			}
 			if (Input::GetKey(eKeyCode::D))
 			{
 				Vector3 pos = mTransform->GetPosition();
+				if (true == mSprintReady)
+					pos += mTransform->Right() * mSprintSpeed * Time::DeltaTime();
+				else
 				pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
 				mTransform->SetPosition(pos);
 				changePlayerDirection(eAxisValue::Up, false, false);
@@ -590,17 +602,48 @@ namespace js
 			if (Input::GetKey(eKeyCode::A))
 			{
 				Vector3 pos = mTransform->GetPosition();
-				pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+				if (true == mSprintReady)
+					pos += -mTransform->Right() * mSprintSpeed * Time::DeltaTime();
+				else
+					pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+				
 				mTransform->SetPosition(pos);
 				changePlayerDirection(eAxisValue::Down, false, false);
 			}
 			if (Input::GetKey(eKeyCode::W))
 			{
 				Vector3 pos = mTransform->GetPosition();
-				pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+				if (true == mSprintReady)
+					pos += mTransform->Up() * mSprintSpeed * Time::DeltaTime();
+				else
+					pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+				
 				mTransform->SetPosition(pos);
 				changePlayerDirection(eAxisValue::Up, true, false);
 			}
+
+			// 방향전환 + 애니메이션 갱신
+			if (Input::GetKeyDown(eKeyCode::S))
+			{
+				changePlayerDirection(eAxisValue::Down, true, true);
+				playAnimation();
+			}
+			if (Input::GetKeyDown(eKeyCode::D))
+			{
+				changePlayerDirection(eAxisValue::Up, false, true);
+				playAnimation();
+			}
+			if (Input::GetKeyDown(eKeyCode::A))
+			{
+				changePlayerDirection(eAxisValue::Down, false, true);
+				playAnimation();
+			}
+			if (Input::GetKeyDown(eKeyCode::W))
+			{
+				changePlayerDirection(eAxisValue::Up, true, true);
+				playAnimation();
+			}
+
 			if (Input::GetKey(eKeyCode::LBTN)
 				&& true == mInventory.arcanaBasic->conditionValue->cooldownReady)
 			{
@@ -682,44 +725,21 @@ namespace js
 			playAnimation();
 		}
 		}
-		
+
+		// 방향 전환
 		if (Input::GetKeyUp(eKeyCode::S))
-		{
-			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, true, true);
-			// 상태 바꾸기
-			changeState(ePlayerState::IDLE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
 		if (Input::GetKeyUp(eKeyCode::D))
-		{
-			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, false, true);
-			// 상태 바꾸기
-			changeState(ePlayerState::IDLE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
 		if (Input::GetKeyUp(eKeyCode::A))
-		{
-			// 방향 전환
 			changePlayerDirection(eAxisValue::Down, false, true);
-			// 상태 바꾸기
-			changeState(ePlayerState::IDLE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
 		if (Input::GetKeyUp(eKeyCode::W))
-		{
-			// 방향 전환
 			changePlayerDirection(eAxisValue::Up, true, true);
-			// 상태 바꾸기
-			changeState(ePlayerState::IDLE);
-			// 애니메이션 재생	
-			playAnimation();
-		}
+
 		
+		if (Vector2::Zero == mCurrentDirection)
+			changeState(ePlayerState::IDLE);
+
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
 			// 상태 바꾸기
@@ -747,6 +767,25 @@ namespace js
 	}
 	void PlayerScript::R()
 	{
+	}
+
+	void PlayerScript::physicalProcess()
+	{
+		if (ePlayerState::MOVE != mPlayerState)
+		{
+			mSprintReady = false;
+			mSprintCheck = 0;
+			return;
+		}
+		if (false == mSprintReady)
+		{
+			mSprintCheck += Time::DeltaTime();
+			if (mSprintCheck >= mSprintTime)
+			{
+				mSprintReady = true;
+				mSprintSpeed = mHealthStat.moveSpeed * 1.7f;
+			}			
+		}		
 	}
 
 	void PlayerScript::skillProcess()
@@ -821,17 +860,14 @@ namespace js
 	{
 		if (true == target->conditionValue->complete)
 			return true;
+
 		else
 		{
 			target->conditionValue->currentDelayTime += Time::DeltaTime();
 			if (target->conditionValue->currentDelayTime >= target->conditionValue->delayTime)
-			{
 				return true;
-			}
 			else
-			{
 				return false;
-			}
 		}
 	}
 	bool PlayerScript::countCheck(Arcana* target)

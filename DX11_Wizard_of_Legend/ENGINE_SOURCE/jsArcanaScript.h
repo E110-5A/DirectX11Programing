@@ -64,5 +64,7 @@ namespace js
 	private:
 		Vector3 mStartPos;
 		float mPower;
+
+		float mRotateValue;
 	};
 }

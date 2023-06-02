@@ -157,6 +157,11 @@ namespace js
 			pos += mTransform->Up() * mArcana->projectileStat->speed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
 			// cos 방향 기믹 추가하기
+			mRotateValue += Time::DeltaTime();
+			Vector3 rotate = mTransform->GetRotation();
+			//							  회전주기 / 회전범위
+			rotate.z += cos(mRotateValue * 6.0f) / 240.0f;
+			mTransform->SetRotation(rotate);			
 		}
 	}
 	void ArcanaScript::resetProjectile()
@@ -164,7 +169,7 @@ namespace js
 		// 위치 초기화
 		mTransform->SetPosition(Vector3(0.0f, 0.0f, 1.0f));
 		mTransform->SetScale(Vector3(1.0f, 1.0f, 1.0f));
-
+		mRotateValue = 0.0f;
 		GetOwner()->OnPause();
 	}
 

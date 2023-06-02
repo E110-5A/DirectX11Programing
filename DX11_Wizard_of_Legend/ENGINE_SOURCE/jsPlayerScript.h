@@ -64,8 +64,12 @@ namespace js
 		void R();
 #pragma endregion
 
-	private:
+#pragma region Physical Func
+		void physicalProcess();
+#pragma endregion
+
 #pragma region Skill Func
+	private:
 		void skillProcess();
 		void skillCooldown();
 		void skillExcute();
@@ -85,16 +89,16 @@ namespace js
 
 #pragma endregion
 
-	private:
 #pragma region Utility Func
+	private:
 		void	calculateMouseDirection();
 		void	calculatePlayerDirection();
 		float	calculateRotateAngle();
 		void	calculateAnimationDirection(float angle);
 #pragma endregion
 
-	private:
 #pragma region State Func
+	private:
 		void changePlayerDirection(eAxisValue value, bool isYAxis, bool isKeyUp);
 		void changeState(ePlayerState changeState);
 
@@ -128,10 +132,18 @@ namespace js
 		std::vector<ArcanaScript*> mProjectiles;
 		Inventory mInventory;
 
+
 	private:
 		bool		mArcanaUsing;					// 스킬 확인용 변수
 		bool		mBasicAnimationType;			// 연계 애니메이션 값
 		bool		mIsProjectileRight;				// 투사체 애니메이션 방향값
 		float		mArcanaStartAngle;				// 스킬 지정방향 고정값
+
+	private:
+		bool		mSprintReady;
+		float		mSprintTime;
+		float		mSprintCheck;
+		float		mSprintSpeed;
+
 	};
 }
