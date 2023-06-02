@@ -615,7 +615,7 @@ namespace js::renderer
 #pragma region Tile GameObject
 		std::shared_ptr<Material> tileMaterial = std::make_shared<Material>();
 		tileMaterial->SetRenderingMode(eRenderingMode::Transparent);
-		tileMaterial->SetShader(Resources::Find<Shader>(L"TileShaderShader"));
+		tileMaterial->SetShader(Resources::Find<Shader>(L"TileShader"));
 		Resources::Insert<Material>(L"TileMaterial", tileMaterial);
 #pragma endregion
 	}

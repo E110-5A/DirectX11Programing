@@ -32,15 +32,15 @@ namespace js
 	}
 	void Tile::Initialize()
 	{
-		mTransform = AddComponent<Transform>();
+		GameObject::Initialize();
 		mCollider = AddComponent<Collider2D>();
 		mTileRenderer = AddComponent<TileRenderer>();
 
 		mTileRenderer->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
 		mTileRenderer->SetMaterial(Resources::Find<Material>(L"TileMaterial"));
-
-		// �ʱⰪ
 		mAtlas = Resources::Find<Texture>(L"HomeTile");
+		mTileRenderer->SetTileSet(mAtlas);
+
 		mColliderType = eTileCollider::Platform;
 		mLocation = Vector2::Zero;
 
@@ -61,12 +61,15 @@ namespace js
 	}
 	void Tile::Update()
 	{
+		GameObject::Update();
 	}
 	void Tile::FixedUpdate()
 	{
+		GameObject::FixedUpdate();
 	}
 	void Tile::Render()
 	{
+		GameObject::Render();
 	}
 	void Tile::EditTile(std::shared_ptr<Texture> atlas, eTileCollider tileCollider, Vector2 tileIndex, Vector2 tileSize, Vector2 tilesetSize)
 	{
@@ -86,5 +89,6 @@ namespace js
 		mTileInfo = tile;
 
 		mTileRenderer->SetTileInfo(tile);
+		mTransform->SetPosition(Vector3(mLocation.x, mLocation.y, 0.0f));
 	}
 }
