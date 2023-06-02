@@ -312,7 +312,7 @@ namespace js
 			tempConditionValue->complete = false;
 			tempConditionValue->cooldownTime = 2.5f;
 			tempConditionValue->currentCooldownTime = 0.0f;
-			tempConditionValue->delayTime = 0.3f;
+			tempConditionValue->delayTime = 0.2f;
 			tempConditionValue->currentDelayTime = 0.0f;
 			tempConditionValue->maxCount = 6;
 			tempConditionValue->curCount = 0;
@@ -320,8 +320,8 @@ namespace js
 			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->speed = 7.75f;
-			tempStat->range = 9.0f;
+			tempStat->speed = 8.75f;
+			tempStat->range = 7.2f;
 
 			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
 			mInventory.arcanaStandardA->projectileStat = tempStat;
@@ -746,8 +746,8 @@ namespace js
 		if (Input::GetKey(eKeyCode::SPACE))
 		{
 			// 상태 바꾸기
-			mInventory.arcanaDash->conditionValue->cooldownReady = false;
-			mInventory.arcanaDash->conditionValue->begin = true;
+		/*	mInventory.arcanaDash->conditionValue->cooldownReady = false;
+			mInventory.arcanaDash->conditionValue->begin = true;*/
 			changeState(ePlayerState::SPACE);
 			// 애니메이션 재생	
 			playAnimation();

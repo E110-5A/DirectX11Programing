@@ -109,6 +109,7 @@ namespace js
 		mProjectileAbled = true;
 		mIsRight = isRight;
 		mTransform->SetPosition(mStartPos);
+		mProjectileStat = *mArcana->projectileStat;
 		GetOwner()->OnActive();
 		playAnimation();
 	}
@@ -160,7 +161,7 @@ namespace js
 			mRotateValue += Time::DeltaTime();
 			Vector3 rotate = mTransform->GetRotation();
 			//							  회전주기 / 회전범위
-			rotate.z += cos(mRotateValue * 10.0f) / 240.0f;
+			rotate.z += cos(mRotateValue * 12.0f) / 120.0f;
 			mTransform->SetRotation(rotate);			
 		}
 	}

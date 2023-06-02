@@ -130,25 +130,25 @@ namespace js
 			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 			light->SetAmbient(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 		}
-		//SceneManager::SetMapSize(eSceneType::Home, Vector2(10.0f, 10.0f), this);
-		//// top 
-		//SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 0.0f), Vector2(8.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(1.0f, 0.0f));
-		//// bottom 
-		//SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 9.0f), Vector2(8.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(1.0f, 1.0f));
-		//// left 
-		//SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 1.0f), Vector2(0.0f, 8.0f), eTileSet::Home, eTileCollider::Wall, Vector2(2.0f, 1.0f));
-		//// right 
-		//SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 1.0f), Vector2(9.0f, 8.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 1.0f));
-		//// center
-		//SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 1.0f), Vector2(8.0f, 8.0f), eTileSet::Home, eTileCollider::Platform, Vector2(1.0f, 0.0f));
-		//// lt
-		//SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(2.0f, 2.0f));
-		//// rt
-		//SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 0.0f), Vector2(9.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 2.0f));
-		//// lb
-		//SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 9.0f), Vector2(0.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(4.0f, 2.0f));
-		//// rb
-		//SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 9.0f), Vector2(9.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(5.0f, 2.0f));
+		SceneManager::SetMapSize(eSceneType::Home, Vector2(10.0f, 10.0f), this);
+		// top 
+		SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 0.0f), Vector2(8.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(1.0f, 0.0f));
+		// bottom 
+		SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 9.0f), Vector2(8.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(1.0f, 1.0f));
+		// left 
+		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 1.0f), Vector2(0.0f, 8.0f), eTileSet::Home, eTileCollider::Wall, Vector2(2.0f, 1.0f));
+		// right 
+		SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 1.0f), Vector2(9.0f, 8.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 1.0f));
+		// center
+		SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 1.0f), Vector2(8.0f, 8.0f), eTileSet::Home, eTileCollider::Platform, Vector2(1.0f, 0.0f));
+		// lt
+		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(2.0f, 2.0f));
+		// rt
+		SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 0.0f), Vector2(9.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(3.0f, 2.0f));
+		// lb
+		SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 9.0f), Vector2(0.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(4.0f, 2.0f));
+		// rb
+		SceneManager::EditTile(eSceneType::Home, Vector2(9.0f, 9.0f), Vector2(9.0f, 9.0f), eTileSet::Home, eTileCollider::Wall, Vector2(5.0f, 2.0f));
 	}
 
 	void HomeScene::Update()
@@ -184,6 +184,7 @@ namespace js
 		//fade->FadeIn();
 		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::MonsterProjectile);
+		CollisionManager::CollisionLayerCheck(eLayerType::PlayerProjectile, eLayerType::MonsterProjectile);
 		renderer::player->GetOwner()->OnActive();
 	}
 

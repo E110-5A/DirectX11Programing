@@ -2,6 +2,7 @@
 #include "jsResources.h"
 #include "jsObject.h"
 #include "jsENVScript.h"
+#include "jsInput.h"
 namespace js
 {
 	ProjectileScript::ProjectileScript()
@@ -50,6 +51,7 @@ namespace js
 	{
 		std::shared_ptr<Texture> dragonArc = Resources::Find<Texture>(L"DragonArc");
 		mAnimator->Create(L"Test", dragonArc, Vector2(0.0f, 0.0f), Vector2(36.0f, 48.0), Vector2::Zero, 1, 0.1f);
+		
 	}
 
 	void ProjectileScript::Testing()
@@ -57,6 +59,10 @@ namespace js
 		if (true == mTesting)
 		{
 			mAnimator->Play(L"Test");
+		}
+		if (Input::GetKeyDown(eKeyCode::Y) && true == mTesting)
+		{
+			mProjectileStat.damage = 160.0f;
 		}
 	}
 
@@ -91,18 +97,13 @@ namespace js
 		ProjectileScript* targetScript = dynamic_cast<ProjectileScript*>(target);
 		ProjectileStat targetStat = targetScript->GetProjectileStat();
 
-		if (mProjectileStat.damage <= targetStat.damage)
-		{
-			// 내가 더 큰거니까 내 공격력을 깎고, 상대 투사체를 제거
-			ProjectileDamaged(targetStat.damage);
-			targetScript->Disappear();
-		}
-		else
-		{
-			// 내가 작으니까 상대 공격력을 깎고, 내 투사체를 제거
-			targetScript->ProjectileDamaged(mProjectileStat.damage);
+		ProjectileDamaged(targetStat.damage);
+		targetScript->ProjectileDamaged(mProjectileStat.damage);
+
+		if (0 >= mProjectileStat.damage)
 			Disappear();
-		}		
+		if (0 >= targetStat.damage)
+			targetScript->Disappear();
 	}
 
 	void ProjectileScript::CollisionByCreature(Script* target)
