@@ -1,6 +1,7 @@
 #pragma once
 #include "jsScene.h"
 #include "jsTileMap.h"
+#include "jsPlayer.h"
 
 namespace js
 {
@@ -21,14 +22,19 @@ namespace js
 
 #pragma region TileMap Func
 		static void SetMapSize(eSceneType sceneType, Vector2 mapSize, Scene* scene);
-		static void SetTileSize(eSceneType sceneType, Vector2 tileSize);
 		static void EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex);
+#pragma endregion
+
+#pragma region GameObject
+		static void SetPlayer(Player* player) { mPlayer = player; }
+		static Player* SetPlayer() { return mPlayer; }
 #pragma endregion
 
 	private:
 		static std::vector<Scene*>		mScenes;
 		static std::vector<TileMap*>	mTileMaps;
 		static Scene*					mActiveScene;
+		static Player*					mPlayer;
 
 	};
 }

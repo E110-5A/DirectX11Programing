@@ -130,7 +130,11 @@ namespace js
 			light->SetDiffuse(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 			light->SetAmbient(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 		}
+
 		SceneManager::SetMapSize(eSceneType::Home, Vector2(10.0f, 10.0f), this);
+
+		//SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), eTileSet::Home, eTileCollider::Platform, Vector2(1.0f, 0.0f));
+
 		// top 
 		SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 0.0f), Vector2(8.0f, 0.0f), eTileSet::Home, eTileCollider::Wall, Vector2(1.0f, 0.0f));
 		// bottom 

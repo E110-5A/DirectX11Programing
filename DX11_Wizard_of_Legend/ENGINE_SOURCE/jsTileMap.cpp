@@ -3,17 +3,11 @@
 namespace js
 {
 	TileMap::TileMap()
+		: mMapSize(Vector2::Zero)
 	{
-		// 여기서 리소스 가져옵니다
-		mHomeAtlas = Resources::Find<Texture>(L"HomeTile");
-		mAirAtlas  = Resources::Find<Texture>(L"AirTile");
-		mFireAtlas = Resources::Find<Texture>(L"FireTile");
-		mIceAtlas  = Resources::Find<Texture>(L"IceTile");
-		mTileSize = Vector2(32.0f, 32.0f);
 	}
 	TileMap::~TileMap()
 	{
-		tiles.clear();
 	}
 	void TileMap::SetMapSize(Vector2 mapSize, Scene* scene)
 	{
@@ -44,21 +38,7 @@ namespace js
 		{
 			for (int x = (int)v1.x; x <= (int)v2.x; ++x)
 			{
-				switch (tileSet)
-				{
-				case js::eTileSet::Home:
-					tiles[y][x]->EditTile(mHomeAtlas, tileCollider, tileIndex, mTileSize, Vector2(192.0f, 320.0f));
-					break;
-				case js::eTileSet::Air:
-					tiles[y][x]->EditTile(mHomeAtlas, tileCollider, tileIndex, mTileSize, Vector2(192.0f, 320.0f));
-					break;
-				case js::eTileSet::Fire:
-					tiles[y][x]->EditTile(mHomeAtlas, tileCollider, tileIndex, mTileSize, Vector2(192.0f, 320.0f));
-					break;
-				case js::eTileSet::Ice:
-					tiles[y][x]->EditTile(mHomeAtlas, tileCollider, tileIndex, mTileSize, Vector2(192.0f, 320.0f));
-					break;
-				}
+				tiles[y][x]->EditTile(tileSet, tileCollider, tileIndex);
 			}
 		}
 	}

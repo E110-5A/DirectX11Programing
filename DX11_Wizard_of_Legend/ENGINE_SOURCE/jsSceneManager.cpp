@@ -8,13 +8,12 @@
 #include "jsStage02.h"
 #include "jsStage02Boss.h"
 
-
 namespace js
 {
 	std::vector<Scene*> SceneManager::mScenes = {};
 	std::vector<TileMap*> SceneManager::mTileMaps = {};
 	Scene* SceneManager::mActiveScene = nullptr;
-
+	Player* SceneManager::mPlayer = nullptr;
 	void SceneManager::Initialize()
 	{
 		mScenes.resize((UINT)eSceneType::End);
@@ -116,10 +115,6 @@ namespace js
 	void SceneManager::SetMapSize(eSceneType sceneType, Vector2 mapSize, Scene* scene)
 	{
 		mTileMaps[(UINT)sceneType]->SetMapSize(mapSize, scene);
-	}
-	void SceneManager::SetTileSize(eSceneType sceneType, Vector2 tileSize)
-	{
-		mTileMaps[(UINT)sceneType]->SetTileSize(tileSize);
 	}
 	void SceneManager::EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex)
 	{

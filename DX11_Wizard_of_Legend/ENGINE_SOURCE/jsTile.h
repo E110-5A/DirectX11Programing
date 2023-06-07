@@ -20,9 +20,8 @@ namespace js
 	public:
 		void PutInScene(Scene* scene) { scene->AddGameObject(this, eLayerType::Tile); }
 
-		void EditTile(std::shared_ptr<Texture> atlas, eTileCollider tileCollider, Vector2 tileIndex, Vector2 tileSize, Vector2 tilesetSize);
+		void EditTile(eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex);
 
-		void SetAtlas(std::shared_ptr<Texture> atlas) { mAtlas = atlas; }
 		void SetColliderType(eTileCollider type) { mColliderType = type; }
 		void SetTileIndex(Vector2 index) { mTileSetIndex = index; }
 		void SetLocation(Vector2 location) { mLocation = location; }
@@ -31,22 +30,27 @@ namespace js
 				
 
 	public:
+		void InitTileAnimator();
+
+	public:
 		void SelfDelete() { delete this; }
 
 	private:
 		Collider2D*		mCollider;			// 충돌 영역
-		TileRenderer*	mTileRenderer;		// 전용 렌더러
+		Animator*		mAnimator;
 
 	private:
-		std::shared_ptr<Texture>	mAtlas;
 		eTileCollider				mColliderType;
 		Vector2						mLocation;		// (1,1)  (2,3) 이런식으로 깔리게 됨
 
 	private:
-		TileSet						mTileInfo;
 		Vector2						mTileSetIndex;
-
 		Vector2						mTileSize;
-		Vector2						mTilesetSize;
+
+	private:
+		std::shared_ptr<Texture>		mHomeAtlas;
+		std::shared_ptr<Texture>		mAirAtlas;
+		std::shared_ptr<Texture>		mFireAtlas;
+		std::shared_ptr<Texture>		mIceAtlas;
 	};
 }
