@@ -64,7 +64,6 @@ namespace js
 		renderer::cameras[(UINT)type].push_back(this);
 	}
 
-
 	void Camera::CreateViewMatrix()
 	{
 		Transform* myTr = GetOwner()->GetComponent<Transform>();
@@ -85,7 +84,6 @@ namespace js
 
 		mView *= viewRotate;
 	}
-
 	void Camera::CreateProjectionMatrix()
 	{
 		RECT winRect;
@@ -117,6 +115,7 @@ namespace js
 		Scene* scene = SceneManager::GetActiveScene();
 		for (size_t i = 0; i < (UINT)eLayerType::End; i++)
 		{
+			// 카메라에 유효한 레이어인 경우
 			if (mLayerMasks[i] == true)
 			{
 				Layer& layer = scene->GetLayer((eLayerType)i);
@@ -163,16 +162,11 @@ namespace js
 	}
 	void Camera::pushGameObjectToRenderingModes(GameObject* gameObj)
 	{
-		BaseRenderer* renderer
-			= gameObj->GetComponent<BaseRenderer>();
+		BaseRenderer* renderer = gameObj->GetComponent<BaseRenderer>();
 		if (renderer == nullptr)
 			return;
-
-		std::shared_ptr<Material> material = renderer->GetMaterial();
-		
-		/*if (material == nullptr)
-			continue;*/
-
+		// 렌더 모드에 따라서 각기 다른 queue에 등록함
+		std::shared_ptr<Material> material = renderer->GetMaterial();		
 		eRenderingMode mode = material->GetRenderingMode();
 
 		switch (mode)

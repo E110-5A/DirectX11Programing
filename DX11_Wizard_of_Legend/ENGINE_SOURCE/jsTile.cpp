@@ -43,7 +43,7 @@ namespace js
 		InitTileAnimator();
 
 		//mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-		mCollider->SetSize(Vector2(0.6f, 0.6f));
+		mCollider->SetSize(Vector2(0.65f, 0.65f));
 	}
 	void Tile::Update()
 	{

@@ -73,7 +73,7 @@ namespace js
 	{
 		DebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
 
-		// Debug Obj : Pos, Rotate, Scale
+		// Debug Obj : Pos, Rotate, Scale Renewal
 		Transform* debugTr = debugObj->GetComponent<Transform>();
 		debugTr->SetPosition(mesh.position);
 		debugTr->SetRotation(mesh.rotatation);
@@ -83,8 +83,8 @@ namespace js
 			debugTr->SetScale(Vector3(mesh.radius));
 		debugTr->FixedUpdate();
 
-		// Camera Update
-		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>();
+		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>(); // <- 하는일 없음
+		// Camera Update Renewal
 		Camera* camera = renderer::mainCamera;
 		Matrix viewM = renderer::mainCamera->GetViewMatrix();
 		Camera::SetGpuViewMatrix(viewM);

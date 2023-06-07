@@ -36,8 +36,10 @@ namespace js
 			Camera* cameraComp = cameraObj->AddComponent<Camera>();
 			cameraComp->SetName(L"MainCamera");
 			cameraComp->TurnLayerMask(eLayerType::UI, false);
-			cameraComp->SetProjectionType(Camera::Orthographic);
+			cameraComp->SetProjectionType(Camera::Perspective);
 			cameraObj->AddComponent<CameraScript>();
+			Transform* cameraTr = cameraObj->GetComponent<Transform>();
+			cameraTr->SetPosition( Vector3(1.0f, 1.0f, -6.5f) );
 			object::DontDestroyOnLoad(cameraObj);
 			mainCamera = cameraComp;
 			mainCameraObject = cameraObj;

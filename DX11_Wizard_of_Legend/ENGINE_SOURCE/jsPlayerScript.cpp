@@ -76,7 +76,8 @@ namespace js
 		createAnimation();
 		addEvents();
 		
-		mCollider->SetSize(Vector2(0.3f, 0.7f));
+		mCollider->SetSize(Vector2(0.4f, 0.35f));
+		mCollider->SetCenter(Vector2(0.0f, -0.25f));
 		startingArcana();
 	}
 #pragma region √ ±‚»≠
