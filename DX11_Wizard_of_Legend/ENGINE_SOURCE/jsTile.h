@@ -24,10 +24,10 @@ namespace js
 
 		void SetColliderType(eTileCollider type) { mColliderType = type; }
 		void SetTileIndex(Vector2 index) { mTileSetIndex = index; }
-		void SetLocation(Vector2 location) { mLocation = location; }
+		void SetLocation(Vector2 location);
 
 		eTileCollider GetTileColliderType() { return mColliderType; }
-				
+		
 
 	public:
 		void InitTileAnimator();

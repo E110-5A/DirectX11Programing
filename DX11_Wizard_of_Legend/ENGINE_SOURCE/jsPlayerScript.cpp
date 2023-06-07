@@ -70,12 +70,13 @@ namespace js
 	void PlayerScript::Initialize()
 	{
 		CreatureScript::Initialize();
-		initializeHealthStat(200.0f, 0.1f, 3.0f, 30.0f);
+		initializeHealthStat(200.0f, 0.1f, 4.0f, 30.0f);
 		initializeOffenceStat(1.0f, 5.0f, 1.7f);
 
 		createAnimation();
 		addEvents();
-
+		
+		mCollider->SetSize(Vector2(0.3f, 0.7f));
 		startingArcana();
 	}
 #pragma region 초기화
@@ -254,7 +255,7 @@ namespace js
 			ProjectileConditionValue* tempConditionValue = new ProjectileConditionValue();
 			tempConditionValue->cooldownReady = true;
 			tempConditionValue->complete = false;
-			tempConditionValue->cooldownTime = 1.0f;
+			tempConditionValue->cooldownTime = 3.0f;
 			tempConditionValue->currentCooldownTime = 0.0f;
 			tempConditionValue->delayTime = 0.0f;
 			tempConditionValue->currentDelayTime = 0.0f;
@@ -786,7 +787,7 @@ namespace js
 			if (mSprintCheck >= mSprintTime)
 			{
 				mSprintReady = true;
-				mSprintSpeed = mHealthStat.moveSpeed * 1.81f;
+				mSprintSpeed = mHealthStat.moveSpeed * 1.4f;
 			}			
 		}		
 	}
@@ -962,14 +963,14 @@ namespace js
 	}		
 	void PlayerScript::dashForce()
 	{
-		// 이동방향 구하기
+		// 정지상태라면 캐릭터 방향, 이동중이면 이동방향으로 대시
 		if (Vector2::Zero == mCurrentDirection)
 		{
-			mRigidbody->SetVelocity(mAnimationDirection* 52.50f);
+			mRigidbody->SetVelocity(mAnimationDirection* 70.0f);
 		}
 		else
 		{
-			mRigidbody->SetVelocity(mCurrentDirection * 52.50f);
+			mRigidbody->SetVelocity(mCurrentDirection * 70.0f);
 		}		
 	}
 	

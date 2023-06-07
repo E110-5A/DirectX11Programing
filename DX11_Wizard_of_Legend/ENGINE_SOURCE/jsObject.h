@@ -16,7 +16,7 @@ namespace js::object
 	template <typename T>
 	static T* InstantiateGameObject(enums::eLayerType type, Scene* scene)
 	{
-		T* obj = new T();										// ÀÌEo Transform Ãß°¡µÊ
+		T* obj = new T();										// ÀÌ¶§ Transform Ãß°¡µÊ
 		Layer& layer = scene->GetLayer(type);
 		layer.AddGameObject(obj);
 		GameObject* gameObj = dynamic_cast<GameObject*>(obj);

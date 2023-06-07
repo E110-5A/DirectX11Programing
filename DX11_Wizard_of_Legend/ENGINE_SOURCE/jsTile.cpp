@@ -4,15 +4,7 @@
 #include "jsResources.h"
 #include "jsTileRenderer.h"
 
-
-
-
-
-
-
-
-
-
+#include "jsSpriteRenderer.h"
 
 namespace js
 {
@@ -32,6 +24,10 @@ namespace js
 	void Tile::Initialize()
 	{
 		GameObject::Initialize();
+		SpriteRenderer* sr = AddComponent<SpriteRenderer>();
+		sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		sr->SetMaterial(Resources::Find<Material>(L"ObjectMaterial"));
+
 		mCollider = AddComponent<Collider2D>();
 		mAnimator = AddComponent<Animator>();
 
@@ -45,6 +41,9 @@ namespace js
 		mFireAtlas = Resources::Find<Texture>(L"FireTile");
 		mIceAtlas = Resources::Find<Texture>(L"IceTile");
 		InitTileAnimator();
+
+		//mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
+		mCollider->SetSize(Vector2(0.6f, 0.6f));
 	}
 	void Tile::Update()
 	{
@@ -60,6 +59,7 @@ namespace js
 	}
 	void Tile::EditTile(eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex)
 	{
+
 		std::wstring animatoinName;
 
 		switch (tileSet)
@@ -93,6 +93,13 @@ namespace js
 
 		SetColliderType(tileCollider);
 		mAnimator->Play(animatoinName, false);
+	}
+
+	void Tile::SetLocation(Vector2 location)
+	{
+		mLocation = location;
+		Vector2 scale = mCollider->GetSize();
+		mTransform->SetPosition( Vector3( mLocation.x* scale.x, mLocation.y * scale.y, 1.0f ) );
 	}
 
 	void Tile::InitTileAnimator()

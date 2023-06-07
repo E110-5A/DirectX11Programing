@@ -73,15 +73,15 @@ namespace js
 	{
 		DebugObject* debugObj = mDebugObjects[(UINT)mesh.type];
 
-		// Tr
+		// Debug Obj : Pos, Rotate, Scale
 		Transform* debugTr = debugObj->GetComponent<Transform>();
 		debugTr->SetPosition(mesh.position);
 		debugTr->SetRotation(mesh.rotatation);
-		// Tr->Collider
 		if (mesh.type == eColliderType::Rect)
 			debugTr->SetScale(mesh.scale);
 		if (mesh.type == eColliderType::Circle)
 			debugTr->SetScale(Vector3(mesh.radius));
+		debugTr->FixedUpdate();
 
 		// Camera Update
 		BaseRenderer* debugRenderer = debugObj->GetComponent<BaseRenderer>();
@@ -89,8 +89,6 @@ namespace js
 		Matrix viewM = renderer::mainCamera->GetViewMatrix();
 		Camera::SetGpuViewMatrix(viewM);
 		Camera::SetGpuProjectionMatrix(renderer::mainCamera->GetProjectionMatrix());
-
-		debugTr->FixedUpdate();
 		
 		// Final Render
 		debugObj->Render();

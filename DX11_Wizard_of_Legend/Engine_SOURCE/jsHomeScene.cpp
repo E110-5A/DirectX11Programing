@@ -41,7 +41,9 @@ namespace js
 			obj->OnPause();
 			obj->SetName(L"Player");
 			Transform* objTr = obj->GetComponent<Transform>();
-			objTr->SetScale(Vector3(1.2f, 1.2f, 1.2f));
+			
+			objTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
+
 			// 카메라 관련 예외처리
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 			renderer::player = playerScript;
@@ -104,20 +106,28 @@ namespace js
 			skillMr->SetMaterial(Resources::Find<Material>(L"SkillHUDMaterial"));
 		}
 
-		// Temp Background Tile
+		//// Temp Background Tile
+		//{
+		//	GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
+		//	obj->SetName(L"Background");
+
+		//	Transform* tr = obj->GetComponent<Transform>();
+		//	tr->SetScale(Vector3(77.6f, 77.6f, 1.0f) * 0.3f);
+
+		//	MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
+		//	sr->SetName(L"BackgroundRenderer");
+		//	sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
+		//	sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
+		//	std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
+		//	BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
+
+		//	mAnimator->Create(L"Home00", mHomeAtlas, Vector2(0.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
+		//	mAnimator->Create(L"Home10", mHomeAtlas, Vector2(32.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
+		//}
+
+		// renderTest Object
 		/*{
-			GameObject* obj = object::Instantiate<GameObject>(eLayerType::Background, this);
-			obj->SetName(L"Background");
-
-			Transform* tr = obj->GetComponent<Transform>();
-			tr->SetScale(Vector3(77.6f, 77.6f, 1.0f) * 0.3f);
-
-			MeshRenderer* sr = obj->AddComponent<MeshRenderer>();
-			sr->SetName(L"BackgroundRenderer");
-			sr->SetMesh(Resources::Find<Mesh>(L"RectMesh"));
-			sr->SetMaterial(Resources::Find<Material>(L"BGMaterial"));
-			std::shared_ptr<Material> BGMaterial = sr->GetMaterial();
-			BGMaterial->SetTexture(eTextureSlot::T0, Resources::Find<Texture>(L"HomeStage"));
+			GameObject obj = object::InstantiateGameObject<GameObject>()
 		}*/
 
 		// temp Lights test
