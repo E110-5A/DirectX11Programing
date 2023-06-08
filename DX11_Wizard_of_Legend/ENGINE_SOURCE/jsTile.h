@@ -22,11 +22,11 @@ namespace js
 
 		void EditTile(eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex);
 
-		void SetColliderType(eTileCollider type) { mColliderType = type; }
+		void SetColliderType(eTileCollider type) { mTileType = type; }
 		void SetTileIndex(Vector2 index) { mTileSetIndex = index; }
 		void SetLocation(Vector2 location);
 
-		eTileCollider GetTileColliderType() { return mColliderType; }
+		eTileCollider GetTileColliderType() { return mTileType; }
 		
 
 	public:
@@ -40,7 +40,7 @@ namespace js
 		Animator*		mAnimator;
 
 	private:
-		eTileCollider				mColliderType;
+		eTileCollider				mTileType;
 		Vector2						mLocation;		// (1,1)  (2,3) ÀÌ·±½ÄÀ¸·Î ±ò¸®°Ô µÊ
 
 	private:

@@ -22,7 +22,8 @@ namespace js
 
 #pragma region TileMap Func
 		static void SetMapSize(eSceneType sceneType, Vector2 mapSize, Scene* scene);
-		static void EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex);
+		// 0,0 = Left_Bottom
+		static void EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileCollider tileCollider, Vector2 tileIndex);
 #pragma endregion
 
 #pragma region GameObject

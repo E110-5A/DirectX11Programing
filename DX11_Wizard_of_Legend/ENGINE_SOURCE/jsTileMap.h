@@ -16,6 +16,11 @@ namespace js
 
 		void SetMapSize(Vector2 mapSize, Scene* scene);
 		void EditTile(Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileSetIndex);
+
+		void EditTileToRoom(Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+		void EditTileToHorizonTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+		void EditTileToVerticalTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+
 		void ClearTiles();
 	private:
 		Vector2							mMapSize;		// 타일 개수

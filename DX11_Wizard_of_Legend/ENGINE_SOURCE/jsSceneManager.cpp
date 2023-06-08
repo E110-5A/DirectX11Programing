@@ -116,9 +116,36 @@ namespace js
 	{
 		mTileMaps[(UINT)sceneType]->SetMapSize(mapSize, scene);
 	}
-	void SceneManager::EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex)
+	void SceneManager::EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileCollider tileCollider, Vector2 tileIndex)
 	{
-		mTileMaps[(UINT)sceneType]->EditTile(v1, v2, tileSet, tileCollider, tileIndex);
+		switch (sceneType)
+		{
+		case js::enums::eSceneType::Home:
+		{
+			mTileMaps[(UINT)sceneType]->EditTile(v1, v2, eTileSet::Home, tileCollider, tileIndex);
+		}
+			break;
+		case js::enums::eSceneType::Stage01:
+		{
+			mTileMaps[(UINT)sceneType]->EditTile(v1, v2, eTileSet::Home, tileCollider, tileIndex);
+		}
+			break;
+		case js::enums::eSceneType::Stage01Boss:
+		{
+			mTileMaps[(UINT)sceneType]->EditTile(v1, v2, eTileSet::Home, tileCollider, tileIndex);
+		}
+			break;
+		case js::enums::eSceneType::Stage02:
+		{
+			mTileMaps[(UINT)sceneType]->EditTile(v1, v2, eTileSet::Home, tileCollider, tileIndex);
+		}
+			break;
+		case js::enums::eSceneType::Stage02Boss:
+		{
+			mTileMaps[(UINT)sceneType]->EditTile(v1, v2, eTileSet::Home, tileCollider, tileIndex);
+		}
+			break;
+		}
 	}
 	
 }

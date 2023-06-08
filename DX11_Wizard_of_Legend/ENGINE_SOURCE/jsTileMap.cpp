@@ -43,13 +43,58 @@ namespace js
 		}
 	}
 
+	void TileMap::EditTileToRoom(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		{
+			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			{
+				// lb,  rb 찾기
+				// b, t 찾기
+				// l, r 찾기
+				// lt,  rt 찾기
+
+				// center 찾기
+			}
+		}
+	}
+
+	void TileMap::EditTileToHorizonTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		{
+			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			{
+				// lb,  rb 찾기
+				// b, t 찾기
+				// lt, rt 찾기
+
+				// center 찾기
+			}
+		}
+	}
+
+	void TileMap::EditTileToVerticalTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		{
+			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			{
+				// lb, rb 찾기
+				// l, r 찾기
+				// lt, rt 찾기
+
+				// center 찾기
+			}
+		}
+	}
+
 	void TileMap::ClearTiles()
 	{
 		for (int y = 0; y < mMapSize.y; ++y)
 		{
 			for (int x = 0; x < mMapSize.x; x++)
-			{
-				//tiles[y].erase(tiles[y].begin(), tiles[y].end());
+			{				
 				delete tiles[y][x];
 				tiles[y][x] = nullptr;
 			}

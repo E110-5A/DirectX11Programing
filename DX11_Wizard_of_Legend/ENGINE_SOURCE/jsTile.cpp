@@ -12,7 +12,7 @@ namespace js
 		: GameObject()
 		, mCollider(nullptr)
 		, mAnimator(nullptr)
-		, mColliderType(eTileCollider::Platform)
+		, mTileType(eTileCollider::Platform)
 		, mLocation(Vector2::Zero)
 		, mTileSize(Vector2::Zero)
 		, mTileSetIndex(Vector2::Zero)
@@ -31,7 +31,7 @@ namespace js
 		mCollider = AddComponent<Collider2D>();
 		mAnimator = AddComponent<Animator>();
 
-		mColliderType = eTileCollider::Platform;
+		mTileType = eTileCollider::Platform;
 		mLocation = Vector2::Zero;
 
 		mTileSize = Vector2(32.0f, 32.0f);
@@ -43,7 +43,7 @@ namespace js
 		InitTileAnimator();
 
 		//mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-		mCollider->SetSize(Vector2(0.65f, 0.65f));
+		mCollider->SetSize(Vector2(0.6f, 0.6f));
 	}
 	void Tile::Update()
 	{
