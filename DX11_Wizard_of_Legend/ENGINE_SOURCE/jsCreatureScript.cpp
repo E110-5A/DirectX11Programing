@@ -145,7 +145,7 @@ namespace js
 			float powerDirZ = powerDir.z;
 			powerDir.Normalize();
 			powerDir.z = powerDirZ;
-			mRigidbody->AddForce(Vector2(powerDir.x, powerDir.y) * 70.0f);
+			mRigidbody->AddForce(Vector2(powerDir.x, powerDir.y) * 30.0f);
 		}
 	}
 	

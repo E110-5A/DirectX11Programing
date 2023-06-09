@@ -113,7 +113,6 @@ namespace js
 
 		// 피격 함수명 적절하게 변경해주기
 		creature->Damaged(this);
-		Disappear();
 	}
 
 	void ProjectileScript::CollisionByWall(Script* target)

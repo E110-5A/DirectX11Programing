@@ -502,6 +502,7 @@ namespace js::renderer
 
 		// TileSet
 		Resources::Load<Texture>(L"HomeTile", L"TileSet\\HomeTile.png");
+		Resources::Load<Texture>(L"HomeTile64", L"TileSet\\HomeTile64.png");
 		//Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
 		//Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
 		//Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");

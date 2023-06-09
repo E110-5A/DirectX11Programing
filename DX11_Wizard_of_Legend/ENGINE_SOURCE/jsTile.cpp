@@ -34,16 +34,17 @@ namespace js
 		mTileType = eTileCollider::Platform;
 		mLocation = Vector2::Zero;
 
-		mTileSize = Vector2(32.0f, 32.0f);
+		mTileSize = Vector2(64.0f, 64.0f);
 
-		mHomeAtlas = Resources::Find<Texture>(L"HomeTile");
+		mHomeAtlas = Resources::Find<Texture>(L"HomeTile64");
 		mAirAtlas = Resources::Find<Texture>(L"AirTile");
 		mFireAtlas = Resources::Find<Texture>(L"FireTile");
 		mIceAtlas = Resources::Find<Texture>(L"IceTile");
 		InitTileAnimator();
 
 		//mTransform->SetScale(Vector3(1.5f, 1.5f, 1.0f));
-		mCollider->SetSize(Vector2(0.6f, 0.6f));
+		mCollider->SetSize(Vector2(1.0f, 1.0f));
+		mAnimator->Play(L"Home00", false);
 	}
 	void Tile::Update()
 	{
@@ -59,6 +60,7 @@ namespace js
 	}
 	void Tile::EditTile(eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex)
 	{
+		SetColliderType(tileCollider);
 
 		std::wstring animatoinName;
 
@@ -91,8 +93,427 @@ namespace js
 		animatoinName += std::to_wstring((int)tileIndex.x);
 		animatoinName += std::to_wstring((int)tileIndex.y);
 
-		SetColliderType(tileCollider);
 		mAnimator->Play(animatoinName, false);
+	}
+
+	void Tile::EditRoomTileLB(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+			break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+			break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+			break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+			break;
+		}
+	}
+
+	void Tile::EditRoomTileRB(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home14", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditRoomTileLT(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home05", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditRoomTileRT(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home15", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTrackTileLB(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home12", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTrackTileRB(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home02", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTrackTileLT(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home30", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTrackTileRT(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home20", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTileB(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home03", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTileT(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home13", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTileL(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home01", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditTileR(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home11", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}	
+
+	void Tile::EditWallUpTile(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Wall);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home21", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditWallDownTile(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Platform);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home22", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
+	}
+
+	void Tile::EditCenterTile(eTileSet tileSet)
+	{
+		SetColliderType(eTileCollider::Platform);
+		switch (tileSet)
+		{
+		case js::eTileSet::Home:
+		{
+			mAnimator->Play(L"Home10", false);
+		}
+		break;
+		case js::eTileSet::Air:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Fire:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		case js::eTileSet::Ice:
+		{
+			mAnimator->Play(L"Home04", false);
+		}
+		break;
+		}
 	}
 
 	void Tile::SetLocation(Vector2 location)
@@ -103,78 +524,37 @@ namespace js
 	}
 
 	void Tile::InitTileAnimator()
-	{				
-		
+	{		
 		{
-			mAnimator->Create(L"Home00", mHomeAtlas, Vector2(0.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home10", mHomeAtlas, Vector2(32.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home20", mHomeAtlas, Vector2(64.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home30", mHomeAtlas, Vector2(96.0f, 0.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home40", mHomeAtlas, Vector2(128.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home50", mHomeAtlas, Vector2(160.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home00", mHomeAtlas, Vector2(0.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home10", mHomeAtlas, Vector2(64.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home20", mHomeAtlas, Vector2(128.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home30", mHomeAtlas, Vector2(192.0f, 0.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
 
-			mAnimator->Create(L"Home01", mHomeAtlas, Vector2(0.0f, 32.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home11", mHomeAtlas, Vector2(32.0f, 32.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home21", mHomeAtlas, Vector2(64.0f, 32.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home31", mHomeAtlas, Vector2(96.0f, 32.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home41", mHomeAtlas, Vector2(128.0f, 32.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home51", mHomeAtlas, Vector2(160.0f, 32.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home01", mHomeAtlas, Vector2(0.0f, 64.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home11", mHomeAtlas, Vector2(64.0f, 64.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home21", mHomeAtlas, Vector2(128.0f, 64.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home31", mHomeAtlas, Vector2(192.0f, 64.0f), mTileSize, Vector2::Zero, 1, 0.1f);
 
-			mAnimator->Create(L"Home02", mHomeAtlas, Vector2(0.0f, 64.0f)		, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home12", mHomeAtlas, Vector2(32.0f, 64.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home22", mHomeAtlas, Vector2(64.0f, 64.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home32", mHomeAtlas, Vector2(96.0f, 64.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home42", mHomeAtlas, Vector2(128.0f, 64.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home52", mHomeAtlas, Vector2(160.0f, 64.0f)	, mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home02", mHomeAtlas, Vector2(0.0f, 128.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home12", mHomeAtlas, Vector2(64.0f, 128.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home22", mHomeAtlas, Vector2(128.0f, 128.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home32", mHomeAtlas, Vector2(192.0f, 128.0f), mTileSize, Vector2::Zero, 1, 0.1f);
 
-			mAnimator->Create(L"Home03", mHomeAtlas, Vector2(0.0f, 96.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home13", mHomeAtlas, Vector2(32.0f, 96.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home23", mHomeAtlas, Vector2(64.0f, 96.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home33", mHomeAtlas, Vector2(96.0f, 96.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home43", mHomeAtlas, Vector2(128.0f, 96.0f), mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home53", mHomeAtlas, Vector2(160.0f, 96.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home03", mHomeAtlas, Vector2(0.0f, 192.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home13", mHomeAtlas, Vector2(64.0f, 192.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home23", mHomeAtlas, Vector2(128.0f, 192.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home33", mHomeAtlas, Vector2(192.0f, 192.0f), mTileSize, Vector2::Zero, 1, 0.1f);
 
-			mAnimator->Create(L"Home04", mHomeAtlas, Vector2(0.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home14", mHomeAtlas, Vector2(32.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home24", mHomeAtlas, Vector2(64.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home34", mHomeAtlas, Vector2(96.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home44", mHomeAtlas, Vector2(128.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home54", mHomeAtlas, Vector2(160.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home04", mHomeAtlas, Vector2(0.0f, 256.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home14", mHomeAtlas, Vector2(64.0f, 256.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home24", mHomeAtlas, Vector2(128.0f, 256.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home34", mHomeAtlas, Vector2(192.0f, 256.0f), mTileSize, Vector2::Zero, 1, 0.1f);
 
-			mAnimator->Create(L"Home05", mHomeAtlas, Vector2(0.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home15", mHomeAtlas, Vector2(32.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home25", mHomeAtlas, Vector2(64.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home35", mHomeAtlas, Vector2(96.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home45", mHomeAtlas, Vector2(128.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home55", mHomeAtlas, Vector2(160.0f, 128.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-
-			mAnimator->Create(L"Home06", mHomeAtlas, Vector2(0.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home16", mHomeAtlas, Vector2(32.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home26", mHomeAtlas, Vector2(64.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home36", mHomeAtlas, Vector2(96.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home46", mHomeAtlas, Vector2(128.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home56", mHomeAtlas, Vector2(160.0f, 160.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-
-			mAnimator->Create(L"Home07", mHomeAtlas, Vector2(0.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home17", mHomeAtlas, Vector2(32.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home27", mHomeAtlas, Vector2(64.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home37", mHomeAtlas, Vector2(96.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home47", mHomeAtlas, Vector2(128.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home57", mHomeAtlas, Vector2(160.0f, 192.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-
-			mAnimator->Create(L"Home08", mHomeAtlas, Vector2(0.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home18", mHomeAtlas, Vector2(32.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home28", mHomeAtlas, Vector2(64.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home38", mHomeAtlas, Vector2(96.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home48", mHomeAtlas, Vector2(128.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home58", mHomeAtlas, Vector2(160.0f, 224.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-
-			mAnimator->Create(L"Home09", mHomeAtlas, Vector2(0.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home19", mHomeAtlas, Vector2(32.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home29", mHomeAtlas, Vector2(64.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home39", mHomeAtlas, Vector2(96.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home49", mHomeAtlas, Vector2(128.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
-			mAnimator->Create(L"Home59", mHomeAtlas, Vector2(160.0f, 256.0f)	,  mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home05", mHomeAtlas, Vector2(0.0f, 320.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home15", mHomeAtlas, Vector2(64.0f, 320.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home25", mHomeAtlas, Vector2(128.0f, 320.0f), mTileSize, Vector2::Zero, 1, 0.1f);
+			mAnimator->Create(L"Home35", mHomeAtlas, Vector2(192.0f, 320.0f), mTileSize, Vector2::Zero, 1, 0.1f);
 		}
 	}
 }

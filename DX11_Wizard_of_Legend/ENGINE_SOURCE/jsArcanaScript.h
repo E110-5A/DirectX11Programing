@@ -40,6 +40,9 @@ namespace js
 		void ActiveArcana(Arcana* arcana, bool isRight);
 	private:
 		void playAnimation();
+
+		void calculateRotateValue();
+
 #pragma endregion
 	private:
 		void projectileProcess();
@@ -65,6 +68,9 @@ namespace js
 		Vector3 mStartPos;
 		float mPower;
 
-		float mRotateValue;
+		float mRotateValue;	// 회전 시간값
+		int	mRotationDir;	// 회전 방향
+		int mRotational;	// 회전 속도
+		int mLambda;		// 진폭
 	};
 }

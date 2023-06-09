@@ -30,7 +30,7 @@ namespace js
 	}
 
 	void ArcanaScript::Update()
-	{
+	{		
 		projectileProcess();
 	}
 	void ArcanaScript::FixedUpdate()
@@ -112,6 +112,8 @@ namespace js
 		mProjectileStat = *mArcana->projectileStat;
 		GetOwner()->OnActive();
 		playAnimation();
+		mRotationDir++;
+		calculateRotateValue();
 	}
 	void ArcanaScript::playAnimation()
 	{
@@ -127,6 +129,17 @@ namespace js
 			else
 				mAnimator->Play(L"DragonArcLeft");
 		}
+	}
+	void ArcanaScript::calculateRotateValue()
+	{
+		srand((unsigned int)time(NULL));
+
+		int rotational = rand();
+		mRotational = 9 + (rotational % 10);
+		int lambda = rand();
+		mLambda = 40 + (lambda % 30);
+		if (1 == mRotationDir % 2)
+			mLambda *= -1;
 	}
 #pragma endregion
 
@@ -158,10 +171,9 @@ namespace js
 			pos += mTransform->Up() * mArcana->projectileStat->speed * Time::DeltaTime();
 			mTransform->SetPosition(pos);
 			// cos 방향 기믹 추가하기
-			mRotateValue += Time::DeltaTime();
-			Vector3 rotate = mTransform->GetRotation();
-			//							  회전주기 / 회전범위
-			rotate.z += cos(mRotateValue * 12.0f) / 120.0f;
+			mRotateValue += Time::DeltaTime();			
+			Vector3 rotate = mTransform->GetRotation();			
+			rotate.z += cos((mRotateValue * 1.5f) * mRotational) / mLambda;			
 			mTransform->SetRotation(rotate);			
 		}
 	}
@@ -222,9 +234,10 @@ namespace js
 
 		// 피격 함수명 적절하게 변경해주기
 		creature->Damaged(this);
-		if (eArcanaCategory::Melee != mArcana->arcanaInfo->category)
+
+		/*if (eArcanaCategory::Melee != mArcana->arcanaInfo->category)
 		{
 			Disappear();
-		}
+		}*/
 	}
 }

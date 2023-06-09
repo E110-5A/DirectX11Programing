@@ -24,6 +24,10 @@ namespace js
 		static void SetMapSize(eSceneType sceneType, Vector2 mapSize, Scene* scene);
 		// 0,0 = Left_Bottom
 		static void EditTile(eSceneType sceneType, Vector2 v1, Vector2 v2, eTileCollider tileCollider, Vector2 tileIndex);
+		static void EditTileToRoom(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+		static void EditTileToHorizonTrack(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+		static void EditTileToVerticalTrack(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet);
+
 #pragma endregion
 
 #pragma region GameObject

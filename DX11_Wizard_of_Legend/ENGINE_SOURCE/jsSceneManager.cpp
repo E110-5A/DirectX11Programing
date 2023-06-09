@@ -147,5 +147,20 @@ namespace js
 			break;
 		}
 	}
+
+	void SceneManager::EditTileToRoom(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		mTileMaps[(UINT)sceneType]->EditTileToRoom(ltLocation, size, tileSet);
+	}
+
+	void SceneManager::EditTileToHorizonTrack(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		mTileMaps[(UINT)sceneType]->EditTileToHorizonTrack(ltLocation, size, tileSet);
+	}
+
+	void SceneManager::EditTileToVerticalTrack(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	{
+		mTileMaps[(UINT)sceneType]->EditTileToVerticalTrack(ltLocation, size, tileSet);
+	}
 	
 }

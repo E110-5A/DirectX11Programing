@@ -314,7 +314,7 @@ namespace js
 			tempConditionValue->complete = false;
 			tempConditionValue->cooldownTime = 2.5f;
 			tempConditionValue->currentCooldownTime = 0.0f;
-			tempConditionValue->delayTime = 0.2f;
+			tempConditionValue->delayTime = 0.07f;
 			tempConditionValue->currentDelayTime = 0.0f;
 			tempConditionValue->maxCount = 6;
 			tempConditionValue->curCount = 0;
@@ -322,8 +322,8 @@ namespace js
 			ProjectileStat* tempStat = new ProjectileStat();
 			tempStat->damage = 11.0f;
 			tempStat->stagger = 3.0f;
-			tempStat->speed = 8.75f;
-			tempStat->range = 7.2f;
+			tempStat->speed = 12.75f;
+			tempStat->range = 8.2f;
 
 			mInventory.arcanaStandardA->arcanaInfo = tempInfo;
 			mInventory.arcanaStandardA->projectileStat = tempStat;

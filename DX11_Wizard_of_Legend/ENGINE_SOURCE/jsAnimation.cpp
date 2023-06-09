@@ -73,8 +73,8 @@ namespace js
 			sprite.spriteSize = Vector2(spriteSize.x / width, spriteSize.y / height);
 			sprite.offset = offset;
 			sprite.duration = duration;
-			// 텍스쳐 크기 비율 조절
-			sprite.atlasSize = Vector2(50.0f / width, 50.0f / height);
+			// 텍스쳐 크기 비율 조절 (스프라이트 텍스쳐 한개의 크기를 64픽셀로 잡았음)
+			sprite.atlasSize = Vector2(64.0f / width, 64.0f / height);
 
 			mSpriteSheet.push_back(sprite);
 		}

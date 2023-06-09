@@ -22,13 +22,33 @@ namespace js
 
 		void EditTile(eTileSet tileSet, eTileCollider tileCollider, Vector2 tileIndex);
 
+	public:
+		void EditRoomTileLB(eTileSet tileSet);
+		void EditRoomTileRB(eTileSet tileSet);
+		void EditRoomTileLT(eTileSet tileSet);
+		void EditRoomTileRT(eTileSet tileSet);
+
+		void EditTrackTileLB(eTileSet tileSet);
+		void EditTrackTileRB(eTileSet tileSet);
+		void EditTrackTileLT(eTileSet tileSet);
+		void EditTrackTileRT(eTileSet tileSet);
+
+		void EditTileB(eTileSet tileSet);
+		void EditTileT(eTileSet tileSet);
+		void EditTileL(eTileSet tileSet);
+		void EditTileR(eTileSet tileSet);
+
+		void EditWallUpTile(eTileSet tileSet);
+		void EditWallDownTile(eTileSet tileSet);
+		void EditCenterTile(eTileSet tileSet);
+
+	public:
 		void SetColliderType(eTileCollider type) { mTileType = type; }
 		void SetTileIndex(Vector2 index) { mTileSetIndex = index; }
 		void SetLocation(Vector2 location);
 
 		eTileCollider GetTileColliderType() { return mTileType; }
 		
-
 	public:
 		void InitTileAnimator();
 

@@ -43,48 +43,188 @@ namespace js
 		}
 	}
 
-	void TileMap::EditTileToRoom(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	void TileMap::EditTileToRoom(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
 			{
-				// lb,  rb 찾기
-				// b, t 찾기
-				// l, r 찾기
-				// lt,  rt 찾기
-
-				// center 찾기
+				// b, t 찾기 y 축
+				if (y == lbLocation.y)
+				{
+					if (x == lbLocation.x) // LB
+					{
+						tiles[y][x]->EditRoomTileLB(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RB
+					{
+						tiles[y][x]->EditRoomTileRB(tileSet);
+					}
+					else // B
+					{
+						tiles[y][x]->EditTileB(tileSet);
+					}
+				}
+				else if (y == lbLocation.y + size.y)
+				{
+					if (x == lbLocation.x) // LT
+					{
+						tiles[y][x]->EditRoomTileLT(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RT
+					{
+						tiles[y][x]->EditRoomTileRT(tileSet);
+					}
+					else // T Top은 조금 특수함
+					{
+						tiles[y][x]->EditTileT(tileSet);
+					}
+				}
+				else
+				{
+					if (x == lbLocation.x) // L
+					{
+						tiles[y][x]->EditTileL(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // R
+					{
+						tiles[y][x]->EditTileR(tileSet);
+					}
+					else // Center
+					{
+						// 위에서 3칸 예외처리
+						if (y == lbLocation.y + size.y - 1)
+							tiles[y][x]->EditWallUpTile(tileSet);
+						else if (y == lbLocation.y + size.y - 2)
+							tiles[y][x]->EditWallDownTile(tileSet);
+						else
+							tiles[y][x]->EditCenterTile(tileSet);
+					}
+				}
 			}
 		}
 	}
 
-	void TileMap::EditTileToHorizonTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	void TileMap::EditTileToHorizonTrack(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
 			{
-				// lb,  rb 찾기
-				// b, t 찾기
-				// lt, rt 찾기
-
-				// center 찾기
+				// b, t 찾기 y 축
+				if (y == lbLocation.y)
+				{
+					if (x == lbLocation.x) // LB
+					{
+						tiles[y][x]->EditTrackTileLB(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RB
+					{
+						tiles[y][x]->EditTrackTileRB(tileSet);
+					}
+					else // B
+					{
+						tiles[y][x]->EditTileB(tileSet);
+					}
+				}
+				else if (y == lbLocation.y + size.y)
+				{
+					if (x == lbLocation.x) // LT
+					{
+						tiles[y][x]->EditTrackTileLT(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RT
+					{
+						tiles[y][x]->EditTrackTileRT(tileSet);
+					}
+					else // T
+					{
+						tiles[y][x]->EditTileT(tileSet);
+					}
+				}
+				else
+				{
+					if (x == lbLocation.x) // L
+					{
+						tiles[y][x]->EditCenterTile(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // R
+					{
+						tiles[y][x]->EditCenterTile(tileSet);
+					}
+					else // Center
+					{
+						// 위에서 3칸 예외처리
+						if (y == lbLocation.y + size.y - 1)
+							tiles[y][x]->EditWallUpTile(tileSet);
+						else if (y == lbLocation.y + size.y - 2)
+							tiles[y][x]->EditWallDownTile(tileSet);
+						else
+							tiles[y][x]->EditCenterTile(tileSet);
+					}
+				}
 			}
 		}
 	}
 
-	void TileMap::EditTileToVerticalTrack(Vector2 ltLocation, Vector2 size, eTileSet tileSet)
+	void TileMap::EditTileToVerticalTrack(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)ltLocation.y; y <= (int)ltLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)ltLocation.x; x <= (int)ltLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
 			{
-				// lb, rb 찾기
-				// l, r 찾기
-				// lt, rt 찾기
-
-				// center 찾기
+				// b, t 찾기 y 축
+				if (y == lbLocation.y)
+				{
+					if (x == lbLocation.x) // LB
+					{
+						tiles[y][x]->EditTrackTileLB(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RB
+					{
+						tiles[y][x]->EditTrackTileRB(tileSet);
+					}
+					else // B
+					{
+						tiles[y][x]->EditCenterTile(tileSet);
+					}
+				}
+				else if (y == lbLocation.y + size.y)
+				{
+					if (x == lbLocation.x) // LT
+					{
+						tiles[y][x]->EditTrackTileLT(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // RT
+					{
+						tiles[y][x]->EditTrackTileRT(tileSet);
+					}
+					else // T
+					{
+						tiles[y][x]->EditCenterTile(tileSet);
+					}
+				}
+				else
+				{
+					if (x == lbLocation.x) // L
+					{
+						tiles[y][x]->EditTileL(tileSet);
+					}
+					else if (x == lbLocation.x + size.x) // R
+					{
+						tiles[y][x]->EditTileR(tileSet);
+					}
+					else // Center
+					{
+						// 위에서 3칸 예외처리
+						if (y == lbLocation.y + size.y - 1)
+							tiles[y][x]->EditWallUpTile(tileSet);
+						else if (y == lbLocation.y + size.y - 2)
+							tiles[y][x]->EditWallDownTile(tileSet);
+						else
+							tiles[y][x]->EditCenterTile(tileSet);
+					}
+				}
 			}
 		}
 	}
