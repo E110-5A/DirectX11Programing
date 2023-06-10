@@ -9,6 +9,10 @@ namespace js
 	TileMap::~TileMap()
 	{
 	}
+	Tile* TileMap::GetTile(Vector2 location)
+	{		
+		return tiles[location.y][location.x];
+	}
 	void TileMap::SetMapSize(Vector2 mapSize, Scene* scene)
 	{
 		tiles.clear();
@@ -45,9 +49,9 @@ namespace js
 
 	void TileMap::EditTileToRoom(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y < (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x < (int)lbLocation.x + size.x; ++x)
 			{
 				// b, t 찾기 y 축
 				if (y == lbLocation.y)
@@ -56,7 +60,7 @@ namespace js
 					{
 						tiles[y][x]->EditRoomTileLB(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RB
+					else if (x == lbLocation.x + size.x - 1) // RB
 					{
 						tiles[y][x]->EditRoomTileRB(tileSet);
 					}
@@ -65,13 +69,13 @@ namespace js
 						tiles[y][x]->EditTileB(tileSet);
 					}
 				}
-				else if (y == lbLocation.y + size.y)
+				else if (y == lbLocation.y + size.y - 1)
 				{
 					if (x == lbLocation.x) // LT
 					{
 						tiles[y][x]->EditRoomTileLT(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RT
+					else if (x == lbLocation.x + size.x - 1) // RT
 					{
 						tiles[y][x]->EditRoomTileRT(tileSet);
 					}
@@ -86,16 +90,16 @@ namespace js
 					{
 						tiles[y][x]->EditTileL(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // R
+					else if (x == lbLocation.x + size.x - 1) // R
 					{
 						tiles[y][x]->EditTileR(tileSet);
 					}
 					else // Center
 					{
 						// 위에서 3칸 예외처리
-						if (y == lbLocation.y + size.y - 1)
+						if (y == lbLocation.y + size.y - 2)
 							tiles[y][x]->EditWallUpTile(tileSet);
-						else if (y == lbLocation.y + size.y - 2)
+						else if (y == lbLocation.y + size.y - 3)
 							tiles[y][x]->EditWallDownTile(tileSet);
 						else
 							tiles[y][x]->EditCenterTile(tileSet);
@@ -107,9 +111,9 @@ namespace js
 
 	void TileMap::EditTileToHorizonTrack(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y < (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x < (int)lbLocation.x + size.x; ++x)
 			{
 				// b, t 찾기 y 축
 				if (y == lbLocation.y)
@@ -118,7 +122,7 @@ namespace js
 					{
 						tiles[y][x]->EditTrackTileLB(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RB
+					else if (x == lbLocation.x + size.x - 1) // RB
 					{
 						tiles[y][x]->EditTrackTileRB(tileSet);
 					}
@@ -127,13 +131,13 @@ namespace js
 						tiles[y][x]->EditTileB(tileSet);
 					}
 				}
-				else if (y == lbLocation.y + size.y)
+				else if (y == lbLocation.y + size.y - 1)
 				{
 					if (x == lbLocation.x) // LT
 					{
 						tiles[y][x]->EditTrackTileLT(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RT
+					else if (x == lbLocation.x + size.x - 1) // RT
 					{
 						tiles[y][x]->EditTrackTileRT(tileSet);
 					}
@@ -148,16 +152,16 @@ namespace js
 					{
 						tiles[y][x]->EditCenterTile(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // R
+					else if (x == lbLocation.x + size.x - 1) // R
 					{
 						tiles[y][x]->EditCenterTile(tileSet);
 					}
 					else // Center
 					{
 						// 위에서 3칸 예외처리
-						if (y == lbLocation.y + size.y - 1)
+						if (y == lbLocation.y + size.y - 2)
 							tiles[y][x]->EditWallUpTile(tileSet);
-						else if (y == lbLocation.y + size.y - 2)
+						else if (y == lbLocation.y + size.y - 3)
 							tiles[y][x]->EditWallDownTile(tileSet);
 						else
 							tiles[y][x]->EditCenterTile(tileSet);
@@ -169,18 +173,18 @@ namespace js
 
 	void TileMap::EditTileToVerticalTrack(Vector2 lbLocation, Vector2 size, eTileSet tileSet)
 	{
-		for (int y = (int)lbLocation.y; y <= (int)lbLocation.y + size.y; ++y)
+		for (int y = (int)lbLocation.y; y < (int)lbLocation.y + size.y; ++y)
 		{
-			for (int x = (int)lbLocation.x; x <= (int)lbLocation.x + size.x; ++x)
+			for (int x = (int)lbLocation.x; x < (int)lbLocation.x + size.x; ++x)
 			{
-				// b, t 찾기 y 축
+				// LB, RB, B
 				if (y == lbLocation.y)
 				{
 					if (x == lbLocation.x) // LB
 					{
 						tiles[y][x]->EditTrackTileLB(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RB
+					else if (x == lbLocation.x + size.x -1) // RB
 					{
 						tiles[y][x]->EditTrackTileRB(tileSet);
 					}
@@ -189,13 +193,14 @@ namespace js
 						tiles[y][x]->EditCenterTile(tileSet);
 					}
 				}
-				else if (y == lbLocation.y + size.y)
+				// LT, RT, T
+				else if (y == lbLocation.y + size.y - 1)
 				{
 					if (x == lbLocation.x) // LT
 					{
 						tiles[y][x]->EditTrackTileLT(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // RT
+					else if (x == lbLocation.x + size.x - 1) // RT
 					{
 						tiles[y][x]->EditTrackTileRT(tileSet);
 					}
@@ -204,29 +209,40 @@ namespace js
 						tiles[y][x]->EditCenterTile(tileSet);
 					}
 				}
-				else
+				// L, R, Centor
+				else 
 				{
 					if (x == lbLocation.x) // L
 					{
 						tiles[y][x]->EditTileL(tileSet);
 					}
-					else if (x == lbLocation.x + size.x) // R
+					else if (x == lbLocation.x + size.x - 1) // R
 					{
 						tiles[y][x]->EditTileR(tileSet);
 					}
 					else // Center
 					{
 						// 위에서 3칸 예외처리
-						if (y == lbLocation.y + size.y - 1)
+						/*if (y == lbLocation.y + size.y - 2)
 							tiles[y][x]->EditWallUpTile(tileSet);
-						else if (y == lbLocation.y + size.y - 2)
+						else if (y == lbLocation.y + size.y - 3)
 							tiles[y][x]->EditWallDownTile(tileSet);
-						else
+						else*/
 							tiles[y][x]->EditCenterTile(tileSet);
 					}
 				}
 			}
 		}
+		// 아래로 일반타일 깔기
+		for (int x = (int)lbLocation.x; x < (int)lbLocation.x + size.x; ++x)
+		{
+			// LB, RB 피하기
+			if ( !(x == lbLocation.x || x == lbLocation.x + size.x - 1) )
+			{
+				tiles[lbLocation.y - 1][x]->EditCenterTile(tileSet);
+				tiles[lbLocation.y - 2][x]->EditCenterTile(tileSet);
+			}
+		}		
 	}
 
 	void TileMap::ClearTiles()

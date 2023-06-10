@@ -14,6 +14,8 @@ namespace js
 		TileMap();
 		virtual ~TileMap();
 
+		Tile* GetTile(Vector2 location);
+
 		void SetMapSize(Vector2 mapSize, Scene* scene);
 		void EditTile(Vector2 v1, Vector2 v2, eTileSet tileSet, eTileCollider tileCollider, Vector2 tileSetIndex);
 

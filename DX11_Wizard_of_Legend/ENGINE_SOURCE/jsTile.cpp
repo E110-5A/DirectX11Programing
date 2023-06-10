@@ -215,7 +215,7 @@ namespace js
 		{
 		case js::eTileSet::Home:
 		{
-			mAnimator->Play(L"Home12", false);
+			mAnimator->Play(L"Home30", false); 
 		}
 		break;
 		case js::eTileSet::Air:
@@ -243,7 +243,7 @@ namespace js
 		{
 		case js::eTileSet::Home:
 		{
-			mAnimator->Play(L"Home02", false);
+			mAnimator->Play(L"Home20", false);
 		}
 		break;
 		case js::eTileSet::Air:
@@ -271,7 +271,7 @@ namespace js
 		{
 		case js::eTileSet::Home:
 		{
-			mAnimator->Play(L"Home30", false);
+			mAnimator->Play(L"Home12", false);
 		}
 		break;
 		case js::eTileSet::Air:
@@ -299,7 +299,7 @@ namespace js
 		{
 		case js::eTileSet::Home:
 		{
-			mAnimator->Play(L"Home20", false);
+			mAnimator->Play(L"Home02", false); 
 		}
 		break;
 		case js::eTileSet::Air:

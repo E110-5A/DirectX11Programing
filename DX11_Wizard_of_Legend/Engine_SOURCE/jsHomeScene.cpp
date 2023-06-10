@@ -44,6 +44,8 @@ namespace js
 			
 			objTr->SetScale(Vector3(2.0f, 2.0f, 1.0f));
 
+			SceneManager::SetPlayer(obj);
+
 			// 카메라 관련 예외처리
 			PlayerScript* playerScript = obj->AddComponent<PlayerScript>();
 			renderer::player = playerScript;
@@ -141,8 +143,11 @@ namespace js
 			light->SetAmbient(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 		}
 
-		SceneManager::SetMapSize(eSceneType::Home, Vector2(14.0f, 16.0f), this);
-		SceneManager::EditTileToRoom(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(14.0f, 9.0f), eTileSet::Home);
+		SceneManager::SetMapSize( eSceneType::Home, Vector2(14.0f, 16.0f), this );
+		SceneManager::EditTileToRoom( eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(14.0f, 9.0f), eTileSet::Home );
+		SceneManager::EditTileToSpawnPoint( eSceneType::Home, Vector2(3.0f, 3.0f) );
+		SceneManager::EditTileToRoom(eSceneType::Home, Vector2(4.0f, 10.0f), Vector2(7.0f, 6.0f), eTileSet::Home);
+		SceneManager::EditTileToVerticalTrack(eSceneType::Home, Vector2(5.0f, 8.0f), Vector2(5.0f, 3.0f), eTileSet::Home);
 
 		//{
 		//	// left

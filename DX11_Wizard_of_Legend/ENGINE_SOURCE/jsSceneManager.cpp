@@ -147,7 +147,7 @@ namespace js
 			break;
 		}
 	}
-
+	
 	void SceneManager::EditTileToRoom(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet)
 	{
 		mTileMaps[(UINT)sceneType]->EditTileToRoom(ltLocation, size, tileSet);
@@ -161,6 +161,13 @@ namespace js
 	void SceneManager::EditTileToVerticalTrack(eSceneType sceneType, Vector2 ltLocation, Vector2 size, eTileSet tileSet)
 	{
 		mTileMaps[(UINT)sceneType]->EditTileToVerticalTrack(ltLocation, size, tileSet);
+	}
+
+	void SceneManager::EditTileToSpawnPoint(eSceneType sceneType, Vector2 ltLocation)
+	{
+		Transform* playerTransform = mPlayer->GetComponent<Transform>();
+		Transform* targetTransfrom = mTileMaps[(UINT)sceneType]->GetTile(ltLocation)->GetComponent<Transform>();
+		playerTransform->SetPosition( targetTransfrom->GetPosition() );
 	}
 	
 }
