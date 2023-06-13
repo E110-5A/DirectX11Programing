@@ -164,16 +164,33 @@ namespace js
 
 		// 크리쳐가 충돌중인 벽 방향 구하기
 		Vector3 wallLocationDir = myPos - tilePos;
+		Vector2 backwardDir(wallLocationDir.x, wallLocationDir.y);
 		// 해당 방향 속도 제거하기
 		mRigidbody->EraseVelocity(wallLocationDir, mRigidbody->GetVelocity());
 
 		// 들어간 부분만큼 다시 나오게 만들기
 		// 상대 충돌체 위치와 내 충돌체 위치 구하기
+		Vector2 v2TilePos(tilePos.x, tilePos.y);
+		Vector2 v2myPos(myPos.x, myPos.y);
+
+		float distance = Vector2::Distance(v2myPos, v2TilePos);
 
 		// 상대 충돌체 크기와 내 충돌체 크기 구하기
-
+		Vector2 tileSize = target->GetComponent<Collider2D>()->GetSize();
+		Vector2 mySize = mCollider->GetSize();
+		float tileLength = tileSize.Length();
+		float myLength = mySize.Length();
+		float collisionLength = tileLength - myLength;
 		// 두 충돌체 사이의 거리가 두 충돌체 크기의 합보다 적을경우 그 차이만큼 내 위치를 이동시키기
-
+		float difference = distance - collisionLength;
+		Vector3 myTrPos = mTransform->GetPosition();
+		if (0 <= difference)
+		{
+			backwardDir.Normalize();
+			myTrPos.x += backwardDir.x * difference;
+			myTrPos.y += backwardDir.y * difference;
+			mTransform->SetPosition(myTrPos);
+		}
 	}
 	void CreatureScript::ExitBlock(Script* target)
 	{
