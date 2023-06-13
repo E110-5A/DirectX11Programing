@@ -94,7 +94,48 @@ namespace js::enums
 		End,
 	};
 
+	// UI enum
+	enum class eUIType
+	{
+		// ¾À ¹öÆ°
+		PlayBtn,
 
+		// PlayerHUD
+		PlayerHealth,
+		PlayerHp,
+		PlayerMp,
+
+		PlayerSkill,
+		PlayerInventory,
+
+		PlayerBasic,
+		PlayerStandardA,
+		PlayerStandardB,
+		PlayerStandardC,
+		PlayerSignature,
+		PlayerDash,
+
+		ArcanaSwapPanel,
+		
+		PriceTag,
+		PlayerGold,
+
+		// Monster HUD
+		MonsterHp,
+		MonsterHpBar,
+		BossHp,
+		BossHpBar,
+
+		END,
+	};
+	enum class eBtnType
+	{
+		GoToSelectScene,
+		GoToOption,
+		GoToPlayScene,
+		GoToTitleScene,
+		End,
+	};
 
 
 	

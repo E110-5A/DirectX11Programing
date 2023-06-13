@@ -168,6 +168,7 @@
     <ClInclude Include="jsApplication.h" />
     <ClInclude Include="jsArcanaScript.h" />
     <ClInclude Include="jsBaseRenderer.h" />
+    <ClInclude Include="jsButton.h" />
     <ClInclude Include="jsButtonScript.h" />
     <ClInclude Include="jsCamera.h" />
     <ClInclude Include="jsCameraScript.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="jsGraphicDevice_DX11.h" />
     <ClInclude Include="jsGraphics.h" />
     <ClInclude Include="jsGridScript.h" />
+    <ClInclude Include="jsHUD.h" />
     <ClInclude Include="jsInput.h" />
     <ClInclude Include="jsLayer.h" />
     <ClInclude Include="jsLight.h" />
@@ -201,6 +203,7 @@
     <ClInclude Include="jsMouseScript.h" />
     <ClInclude Include="jsObject.h" />
     <ClInclude Include="jsPaintShader.h" />
+    <ClInclude Include="jsPanel.h" />
     <ClInclude Include="jsParticleShader.h" />
     <ClInclude Include="jsParticleSystem.h" />
     <ClInclude Include="jsPlayer.h" />
@@ -230,6 +233,8 @@
     <ClInclude Include="jsTitleScene.h" />
     <ClInclude Include="jsTransform.h" />
     <ClInclude Include="jsContents.h" />
+    <ClInclude Include="jsUIBase.h" />
+    <ClInclude Include="jsUIManager.h" />
     <ClInclude Include="TileStruct.h" />
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +243,7 @@
     <ClCompile Include="jsApplication.cpp" />
     <ClCompile Include="jsArcanaScript.cpp" />
     <ClCompile Include="jsBaseRenderer.cpp" />
+    <ClCompile Include="jsButton.cpp" />
     <ClCompile Include="jsButtonScript.cpp" />
     <ClCompile Include="jsCamera.cpp" />
     <ClCompile Include="jsCameraScript.cpp" />
@@ -255,6 +261,7 @@
     <ClCompile Include="jsGameObject.cpp" />
     <ClCompile Include="jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="jsGridScript.cpp" />
+    <ClCompile Include="jsHUD.cpp" />
     <ClCompile Include="jsInput.cpp" />
     <ClCompile Include="jsLayer.cpp" />
     <ClCompile Include="jsLight.cpp" />
@@ -267,6 +274,7 @@
     <ClCompile Include="jsMonsterScript.cpp" />
     <ClCompile Include="jsMouseScript.cpp" />
     <ClCompile Include="jsPaintShader.cpp" />
+    <ClCompile Include="jsPanel.cpp" />
     <ClCompile Include="jsParticleShader.cpp" />
     <ClCompile Include="jsParticleSystem.cpp" />
     <ClCompile Include="jsPlayer.cpp" />
@@ -295,6 +303,8 @@
     <ClCompile Include="jsTime.cpp" />
     <ClCompile Include="jsTitleScene.cpp" />
     <ClCompile Include="jsTransform.cpp" />
+    <ClCompile Include="jsUIBase.cpp" />
+    <ClCompile Include="jsUIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="jsMath.inl" />

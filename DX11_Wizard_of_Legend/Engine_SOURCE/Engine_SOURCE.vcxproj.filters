@@ -154,6 +154,24 @@
     <Filter Include="Content\Objects &amp; Scripts\Projectile\Arcana">
       <UniqueIdentifier>{5dbaf26a-1399-4334-ae63-2181fdcd2ee7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="API\UI">
+      <UniqueIdentifier>{51ea784c-d97c-44a4-8ff6-6a699e274cd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\UI\Button">
+      <UniqueIdentifier>{d712ff13-7b3e-4dde-8ba1-eede8ed5d923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\UI\Base">
+      <UniqueIdentifier>{9d25afde-fb4a-40aa-8095-336e1c5e3926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\UI\HUD">
+      <UniqueIdentifier>{16bdf935-79e1-4491-a1da-7bb80fd88233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\UI\Manager">
+      <UniqueIdentifier>{8b638fcf-ca89-400a-af5e-eae0a3388883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API\UI\Panel">
+      <UniqueIdentifier>{9dcd53aa-5b3a-4143-a06a-f1353f238367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jsApplication.cpp">
@@ -341,6 +359,21 @@
     </ClCompile>
     <ClCompile Include="jsTileRenderer.cpp">
       <Filter>Content\Objects &amp; Scripts\Tile &amp; ENV</Filter>
+    </ClCompile>
+    <ClCompile Include="jsButton.cpp">
+      <Filter>API\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="jsUIManager.cpp">
+      <Filter>API\UI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="jsUIBase.cpp">
+      <Filter>API\UI\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="jsHUD.cpp">
+      <Filter>API\UI\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="jsPanel.cpp">
+      <Filter>API\UI\Panel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +592,21 @@
     </ClInclude>
     <ClInclude Include="BasicScripts.h">
       <Filter>API\Common\IncludeHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="jsButton.h">
+      <Filter>API\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="jsUIManager.h">
+      <Filter>API\UI\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="jsUIBase.h">
+      <Filter>API\UI\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="jsHUD.h">
+      <Filter>API\UI\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="jsPanel.h">
+      <Filter>API\UI\Panel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
