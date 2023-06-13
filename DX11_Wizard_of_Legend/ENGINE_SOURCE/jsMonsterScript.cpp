@@ -41,6 +41,7 @@ namespace js
 	{
 		// 누구인지 확인하기
 		eLayerType targetType = collider->GetOwner()->GetLayerType();
+		GameObject* targetObject = collider->GetOwner();
 		std::vector<Script*> targetScript = collider->GetOwner()->GetScripts();
 
 		if (eLayerType::PlayerProjectile == targetType)
@@ -51,7 +52,7 @@ namespace js
 		if (eLayerType::Wall == targetType
 			|| eLayerType::FallArea == targetType)
 		{
-			CreatureScript::Blocked(targetScript[0]);
+			CreatureScript::Blocked(targetObject);
 		}
 	}
 	void MonsterScript::OnCollisionStay(Collider2D* collider)

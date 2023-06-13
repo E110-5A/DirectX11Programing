@@ -149,25 +149,6 @@ namespace js
 		SceneManager::EditTileToRoom(eSceneType::Home, Vector2(4.0f, 10.0f), Vector2(7.0f, 6.0f), eTileSet::Home);
 		SceneManager::EditTileToVerticalTrack(eSceneType::Home, Vector2(5.0f, 8.0f), Vector2(5.0f, 3.0f), eTileSet::Home);
 
-		//{
-		//	// left
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 3.0f), Vector2(0.0f, 3.0f), eTileCollider::Wall, Vector2(0.0f, 5.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 2.0f), Vector2(0.0f, 2.0f), eTileCollider::Wall, Vector2(0.0f, 1.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 1.0f), Vector2(0.0f, 1.0f), eTileCollider::Wall, Vector2(0.0f, 1.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(0.0f, 0.0f), Vector2(0.0f, 0.0f), eTileCollider::Wall, Vector2(0.0f, 4.0f));
-
-		//	// middle
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 3.0f), Vector2(1.0f, 3.0f), eTileCollider::Wall, Vector2(1.0f, 3.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 2.0f), Vector2(1.0f, 2.0f), eTileCollider::Wall, Vector2(2.0f, 1.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 1.0f), Vector2(1.0f, 1.0f), eTileCollider::Platform, Vector2(2.0f, 4.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(1.0f, 0.0f), Vector2(1.0f, 0.0f), eTileCollider::Wall, Vector2(0.0f, 3.0f));
-
-		//	// right
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(2.0f, 3.0f), Vector2(2.0f, 3.0f), eTileCollider::Wall, Vector2(1.0f, 5.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(2.0f, 2.0f), Vector2(2.0f, 2.0f), eTileCollider::Wall, Vector2(1.0f, 1.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(2.0f, 1.0f), Vector2(2.0f, 1.0f), eTileCollider::Wall, Vector2(1.0f, 1.0f));
-		//	SceneManager::EditTile(eSceneType::Home, Vector2(2.0f, 0.0f), Vector2(2.0f, 0.0f), eTileCollider::Wall, Vector2(1.0f, 4.0f));
-		//}
 	}
 
 	void HomeScene::Update()
@@ -204,6 +185,9 @@ namespace js
 		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::PlayerProjectile);
 		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::MonsterProjectile);
 		CollisionManager::CollisionLayerCheck(eLayerType::PlayerProjectile, eLayerType::MonsterProjectile);
+
+		CollisionManager::CollisionLayerCheck(eLayerType::Monster, eLayerType::Tile);
+		CollisionManager::CollisionLayerCheck(eLayerType::Player, eLayerType::Tile);
 		renderer::player->GetOwner()->OnActive();
 	}
 

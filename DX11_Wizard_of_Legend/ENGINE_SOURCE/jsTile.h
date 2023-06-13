@@ -47,7 +47,7 @@ namespace js
 		void SetTileIndex(Vector2 index) { mTileSetIndex = index; }
 		void SetLocation(Vector2 location);
 
-		eTileCollider GetTileColliderType() { return mTileType; }
+		eTileCollider GetTileCollisionType() { return mTileType; }
 		
 	public:
 		void InitTileAnimator();

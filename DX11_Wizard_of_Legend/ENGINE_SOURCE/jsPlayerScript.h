@@ -66,6 +66,7 @@ namespace js
 
 #pragma region Physical Func
 		void physicalProcess();
+		void moveInput();
 #pragma endregion
 
 #pragma region Skill Func
@@ -127,7 +128,6 @@ namespace js
 		Vector2		mCurrentDirection;
 		eAxisValue	mYDir;
 		eAxisValue	mXDir;
-
 	private:
 		std::vector<ArcanaScript*> mProjectiles;
 		Inventory mInventory;
@@ -145,5 +145,7 @@ namespace js
 		float		mSprintCheck;
 		float		mSprintSpeed;
 
+	private:
+		bool		mIsBlocked;
 	};
 }

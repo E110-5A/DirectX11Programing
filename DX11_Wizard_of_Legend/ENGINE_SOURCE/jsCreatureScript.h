@@ -68,7 +68,6 @@ namespace js
 
 	protected:
 #pragma region Object State Func
-		// 이건 미완
 		virtual void StunStateCheck();
 		virtual void KnocbackResistance();
 
@@ -78,21 +77,20 @@ namespace js
 #pragma region Object Collision Func
 	public:
 		virtual void FindTargetType(Collider2D* collider);
-		virtual void CollisionOther(Script* target);
+		virtual void CollisionOther(GameObject* target);
 
-		virtual void CollisionByWall(Script* target);
-		virtual void CollisionByENV(Script* target);
-		virtual void CollisionByTrap(Script* target);
+		virtual void CollisionByTile(GameObject* target);
+		virtual void CollisionByENV(GameObject* target);
+		virtual void CollisionByTrap(GameObject* target);
 		
 		virtual void Damaged(ProjectileScript* target);
 	protected:
 		virtual void TakeDamage(ProjectileScript* target);
 		virtual void Knockback(ProjectileScript* target);
+		
+		virtual void Blocked(GameObject* target);
+		virtual void ExitBlock(Script* target);
 
-		
-		
-		// 벽이나 낭떠러지? 인 경우 움직임을 막음
-		virtual void Blocked(Script* target);
 		// 추락함
 		virtual void Fall(Script* target);
 
@@ -122,5 +120,6 @@ namespace js
 		float	mKnockbackCheckCurrentTime;
 
 		bool	mKnockbacked;
+		bool	mBlocked;
 	};
 }

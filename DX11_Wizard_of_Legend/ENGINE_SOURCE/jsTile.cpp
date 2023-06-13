@@ -123,7 +123,6 @@ namespace js
 			break;
 		}
 	}
-
 	void Tile::EditRoomTileRB(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -151,7 +150,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditRoomTileLT(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -179,7 +177,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditRoomTileRT(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -207,7 +204,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTrackTileLB(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -235,7 +231,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTrackTileRB(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -263,7 +258,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTrackTileLT(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -291,7 +285,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTrackTileRT(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -319,7 +312,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTileB(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -347,7 +339,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTileT(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -375,7 +366,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTileL(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -403,7 +393,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditTileR(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Wall);
@@ -459,7 +448,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditWallDownTile(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Platform);
@@ -487,7 +475,6 @@ namespace js
 		break;
 		}
 	}
-
 	void Tile::EditCenterTile(eTileSet tileSet)
 	{
 		SetColliderType(eTileCollider::Platform);

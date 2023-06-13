@@ -419,13 +419,17 @@ namespace js
 #pragma region 충돌 및 이벤트
 	void PlayerScript::OnCollisionEnter(Collider2D* collider)
 	{
-		FindTargetType(collider);		
+		FindTargetType(collider);
 	}
 	void PlayerScript::OnCollisionStay(Collider2D* collider)
 	{		
+		GameObject* tileObject = collider->GetOwner();
+		if (eLayerType::Tile == tileObject->GetLayerType())
+			CollisionByTile(tileObject);
 	}
 	void PlayerScript::OnCollisionExit(Collider2D* collider)
 	{
+		FindTargetType(collider);
 	}
 
 	void PlayerScript::Start()
@@ -581,46 +585,23 @@ namespace js
 		if (false == mArcanaUsing)
 		{
 			if (Input::GetKey(eKeyCode::S))
-			{
-				Vector3 pos = mTransform->GetPosition();
-				if (true == mSprintReady)
-					pos += -mTransform->Up() * mSprintSpeed * Time::DeltaTime();
-				else
-					pos += -mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-
-				mTransform->SetPosition(pos);
+			{				
+				moveInput();
 				changePlayerDirection(eAxisValue::Down, true, false);
 			}
 			if (Input::GetKey(eKeyCode::D))
 			{
-				Vector3 pos = mTransform->GetPosition();
-				if (true == mSprintReady)
-					pos += mTransform->Right() * mSprintSpeed * Time::DeltaTime();
-				else
-				pos += mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-				mTransform->SetPosition(pos);
+				moveInput();
 				changePlayerDirection(eAxisValue::Up, false, false);
 			}
 			if (Input::GetKey(eKeyCode::A))
 			{
-				Vector3 pos = mTransform->GetPosition();
-				if (true == mSprintReady)
-					pos += -mTransform->Right() * mSprintSpeed * Time::DeltaTime();
-				else
-					pos += -mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
-				
-				mTransform->SetPosition(pos);
+				moveInput();
 				changePlayerDirection(eAxisValue::Down, false, false);
 			}
 			if (Input::GetKey(eKeyCode::W))
 			{
-				Vector3 pos = mTransform->GetPosition();
-				if (true == mSprintReady)
-					pos += mTransform->Up() * mSprintSpeed * Time::DeltaTime();
-				else
-					pos += mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
-				
-				mTransform->SetPosition(pos);
+				moveInput();
 				changePlayerDirection(eAxisValue::Up, true, false);
 			}
 
@@ -729,7 +710,7 @@ namespace js
 		}
 
 		// 방향 전환
-		if (Input::GetKeyUp(eKeyCode::S))
+		if (Input::GetKeyUp(eKeyCode::S))			
 			changePlayerDirection(eAxisValue::Down, true, true);
 		if (Input::GetKeyUp(eKeyCode::D))
 			changePlayerDirection(eAxisValue::Up, false, true);
@@ -788,9 +769,44 @@ namespace js
 			if (mSprintCheck >= mSprintTime)
 			{
 				mSprintReady = true;
-				mSprintSpeed = mHealthStat.moveSpeed * 1.4f;
+				mSprintSpeed = mHealthStat.moveSpeed * 1.25f;
 			}			
 		}		
+	}
+
+	void PlayerScript::moveInput()
+	{
+		// Tr을 직접 이동시키는 방식
+		/*{
+			Vector3 pos = mTransform->GetPosition();
+			if (true == isYAxis)
+			{
+				if (true == mSprintReady)
+					pos += isFront * mTransform->Up() * mSprintSpeed * Time::DeltaTime();
+				else
+					pos += isFront * mTransform->Up() * mHealthStat.moveSpeed * Time::DeltaTime();
+			}
+			else
+			{
+				if (true == mSprintReady)
+					pos += isFront * mTransform->Right() * mSprintSpeed * Time::DeltaTime();
+				else
+					pos += isFront * mTransform->Right() * mHealthStat.moveSpeed * Time::DeltaTime();
+			}
+			mTransform->SetPosition(pos);
+		}*/
+
+		// Rigidbody로 이동하는 방식
+		{
+			// 이동 방향 구하기
+			Vector2 moveVelocity;
+			if (true == mSprintReady)
+				moveVelocity = mCurrentDirection * mSprintSpeed * 2.5;
+			else
+				moveVelocity = mCurrentDirection * mHealthStat.moveSpeed * 2.5;
+						
+			mRigidbody->SetVelocity(moveVelocity);
+		}
 	}
 
 	void PlayerScript::skillProcess()

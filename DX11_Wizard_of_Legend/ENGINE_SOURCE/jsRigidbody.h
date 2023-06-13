@@ -25,7 +25,9 @@ namespace js
 
 	public:
 		// 벽충돌 기능 unit : 속도 통제 방향, inner : 현재 속도
-		void EraseVelocity(Vector2 unit, Vector2 inner);
+		void EraseVelocity(Vector2 dir, Vector2 velocity);
+		void EraseVelocity(Vector3 dir, Vector3 velocity);
+		void EraseVelocity(Vector3 dir, Vector2 velocity);
 
 	private:
 		float	mMass;		// 질량

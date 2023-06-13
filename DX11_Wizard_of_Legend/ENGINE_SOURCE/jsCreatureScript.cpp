@@ -29,7 +29,7 @@ namespace js
 		mAnimator	= GetOwner()->AddComponent<Animator>();
 		mCollider	= GetOwner()->AddComponent<Collider2D>();
 		mRigidbody	= GetOwner()->AddComponent<Rigidbody>();
-		mKnockbackCheckTime = 0.15f;
+		mKnockbackCheckTime = 0.3f;
 	}
 	void CreatureScript::Update()
 	{
@@ -86,34 +86,42 @@ namespace js
 	}
 	void CreatureScript::FindTargetType(Collider2D* collider)
 	{
-		std::vector<Script*> scripts = collider->GetOwner()->GetScripts();
-		Script* colliderScript = dynamic_cast<Script*>(scripts[0]);
+		GameObject* object = collider->GetOwner();		
 
-		CollisionOther(colliderScript);
+		CollisionOther(object);
 	}
-	void CreatureScript::CollisionOther(Script* target)
+	void CreatureScript::CollisionOther(GameObject* target)
 	{
-
-		if (eLayerType::Wall == target->GetOwner()->GetLayerType())
-			CollisionByWall(target);
-		if (eLayerType::ENV == target->GetOwner()->GetLayerType())
+		if (nullptr == target)
+			return;
+		if (eLayerType::Tile == target->GetLayerType())
+			CollisionByTile(target);
+		if (eLayerType::ENV == target->GetLayerType())
 			CollisionByENV(target);
-		if (eLayerType::Trap == target->GetOwner()->GetLayerType())
+		if (eLayerType::Trap == target->GetLayerType())
 			CollisionByTrap(target);
 	}
 
 
-	void CreatureScript::CollisionByWall(Script* target)
+	void CreatureScript::CollisionByTile(GameObject* target)
 	{
-		Blocked(target);
+		if (nullptr == target)
+			return;
+		eTileCollider type = dynamic_cast<Tile*>(target)->GetTileCollisionType();
+		// 이동 가능한 예외처리를 추가해야함 (대시라던가, 넉백이라던가)
+		if (eTileCollider::Wall == type || eTileCollider::FallArea == type)
+			Blocked(target);
 	}
-	void CreatureScript::CollisionByENV(Script* target)
+	void CreatureScript::CollisionByENV(GameObject* target)
 	{
-		ENVScript* envScript = dynamic_cast<ENVScript*>(target);
-		envScript->DestroyObj();
+		std::vector<Script*> scripts = target->GetScripts();
+		Script* colliderScript = dynamic_cast<Script*>(scripts[0]);
+		dynamic_cast<ENVScript*>(colliderScript)->DestroyObj();		
 	}
-	void CreatureScript::CollisionByTrap(Script* target)
+	void CreatureScript::CollisionByTrap(GameObject* target)
 	{
+		std::vector<Script*> scripts = target->GetScripts();
+		Script* colliderScript = dynamic_cast<Script*>(scripts[0]);
 		Damaged(dynamic_cast<ProjectileScript*>(target));
 	}
 
@@ -145,19 +153,30 @@ namespace js
 			float powerDirZ = powerDir.z;
 			powerDir.Normalize();
 			powerDir.z = powerDirZ;
-			mRigidbody->AddForce(Vector2(powerDir.x, powerDir.y) * 30.0f);
+			mRigidbody->SetVelocity(Vector2(powerDir.x, powerDir.y) * 30.0f);
 		}
 	}
 	
-	void CreatureScript::Blocked(Script* target)
+	void CreatureScript::Blocked(GameObject* target)
 	{
-		// 사실 조건은 외부에서 치고 들어가야함
-		if (eLayerType::Wall == target->GetOwner()->GetLayerType()
-			|| eLayerType::FallArea == target->GetOwner()->GetLayerType())
-		{
-			// 플레이어의 움직임 방향을 확인하고, 벽과 충돌중이면 이동을 멈추게?하기? 잘모르겠네
-			// rigidbody라ㅣ면 구현할만할탠데 아마 다르게 생각해야할듯
-		}
+		Vector3 tilePos = target->GetComponent<Collider2D>()->GetPosition();
+		Vector3 myPos = mCollider->GetPosition();
+
+		// 크리쳐가 충돌중인 벽 방향 구하기
+		Vector3 wallLocationDir = myPos - tilePos;
+		// 해당 방향 속도 제거하기
+		mRigidbody->EraseVelocity(wallLocationDir, mRigidbody->GetVelocity());
+
+		// 들어간 부분만큼 다시 나오게 만들기
+		// 상대 충돌체 위치와 내 충돌체 위치 구하기
+
+		// 상대 충돌체 크기와 내 충돌체 크기 구하기
+
+		// 두 충돌체 사이의 거리가 두 충돌체 크기의 합보다 적을경우 그 차이만큼 내 위치를 이동시키기
+
+	}
+	void CreatureScript::ExitBlock(Script* target)
+	{
 	}
 	void CreatureScript::Fall(Script* target)
 	{
