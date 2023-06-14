@@ -33,7 +33,7 @@ namespace js
 
 #pragma region GameObject
 		static void SetPlayer(Player* player) { mPlayer = player; }
-		static Player* SetPlayer() { return mPlayer; }
+		static Player* GetPlayer() { return mPlayer; }
 #pragma endregion
 
 	private:
@@ -41,6 +41,5 @@ namespace js
 		static std::vector<TileMap*>	mTileMaps;
 		static Scene*					mActiveScene;
 		static Player*					mPlayer;
-
 	};
 }

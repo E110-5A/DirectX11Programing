@@ -484,28 +484,30 @@ namespace js::renderer
 		Resources::Load<Texture>(L"HomeStage", L"homeStage.png");
 		// LogoScene
 		Resources::Load<Texture>(L"LogoTexture", L"BackGround\\Logo.png");
-		Resources::Load<Texture>(L"MousePointer", L"Crosshair.png");
+		Resources::Load<Texture>(L"MousePointer", L"ETC\\Crosshair.png");
 		// TitleScene
 		Resources::Load<Texture>(L"TitleTexture", L"BackGround\\TitleLogo.png");
 		Resources::Load<Texture>(L"TitleBackGround", L"BackGround\\TitleBackground.png");
-		// PlayScene
-		Resources::Load<Texture>(L"PlayBackGround", L"testBackground.png");
+
 		// HUD
-		Resources::Load<Texture>(L"HealthHUD", L"UI\\HealthHUD.bmp");
-		Resources::Load<Texture>(L"SkillHUD", L"UI\\SkillHUD.bmp");
+		Resources::Load<Texture>(L"PlayerInfoPanel", L"UI\\PlayerInfoPanel.png");
+		Resources::Load<Texture>(L"PlayerSkillPanel", L"UI\\PlayerSkillPanel.png");
+		Resources::Load<Texture>(L"HPBar", L"UI\\HPBar.png");
+		Resources::Load<Texture>(L"MPBar", L"UI\\MPBar.png");
+
+		
 		// Object
 
 		// Projectile
 		Resources::Load<Texture>(L"WindSlash", L"Player\\Arcana\\WindSlash.png");
 		Resources::Load<Texture>(L"FireArrow", L"Player\\Arcana\\FireArrow.png");
 		Resources::Load<Texture>(L"DragonArc", L"Player\\Arcana\\DragonArc.png");
+		Resources::Load<Texture>(L"FireBall", L"Player\\Arcana\\FireBall.png");
+		Resources::Load<Texture>(L"ShearingChainIcon", L"Player\\Arcana\\ShearingChainIcon.png");
 
-		// TileSet
-		Resources::Load<Texture>(L"HomeTile", L"TileSet\\HomeTile.png");
+		// TileSet		
 		Resources::Load<Texture>(L"HomeTile64", L"TileSet\\HomeTile64.png");
-		//Resources::Load<Texture>(L"AirTile",	L"TileSet\\AirTile.png");
-		//Resources::Load<Texture>(L"FireTile",	L"TileSet\\FireTile.png");
-		//Resources::Load<Texture>(L"IceTile",	L"TileSet\\IceTile.png");
+
 #pragma endregion
 	}
 

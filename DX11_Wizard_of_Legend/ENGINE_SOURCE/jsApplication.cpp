@@ -5,6 +5,7 @@
 #include "jsSceneManager.h"
 #include "jsResources.h"
 #include "jsCollisionManager.h"
+
 namespace js
 {
 	using namespace graphics;

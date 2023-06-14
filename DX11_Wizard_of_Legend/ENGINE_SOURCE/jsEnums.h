@@ -127,16 +127,5 @@ namespace js::enums
 		BossHpBar,
 
 		END,
-	};
-	enum class eBtnType
-	{
-		GoToSelectScene,
-		GoToOption,
-		GoToPlayScene,
-		GoToTitleScene,
-		End,
-	};
-
-
-	
+	};		
 }
